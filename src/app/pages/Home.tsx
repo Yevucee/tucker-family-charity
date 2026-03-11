@@ -3,6 +3,7 @@ import { Footer } from "../components/Footer";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Link } from "react-router";
 import { BookOpen, Utensils, Building2, Users, Calendar, MapPin, Instagram } from "lucide-react";
+import { INSTAGRAM_WIDGET_URL } from "@/config";
 import logo from "@/assets/4920ca320ce31a579ec4c3d0fcc360b4528a2024.png";
 import schoolGrounds from "@/assets/0cac28478cd9e148e19e33753c2ce2b1507d4676.png";
 import computerLab from "@/assets/d5c30ac405997a9f47bb022e66f8a25896a2b859.png";
@@ -265,20 +266,41 @@ export function Home() {
             </p>
           </div>
 
-          {/* Instagram Embed - Configure at lightwidget.com and update the widget ID */}
+          {/* Instagram Embed - Set VITE_INSTAGRAM_WIDGET_URL in .env to show your feed */}
           <div className="max-w-4xl mx-auto">
-            <div className="aspect-video bg-neutral-100 rounded-lg flex items-center justify-center">
-              <a
-                href="https://instagram.com/tuckerfamilycharity"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-neutral-500 hover:text-orange-600 transition-colors text-center p-8"
-              >
-                <Instagram className="w-16 h-16 mx-auto mb-4 opacity-50" />
-                <p className="font-semibold">View our Instagram feed</p>
-                <p className="text-sm mt-2">Follow @tuckerfamilycharity and check back soon for updates</p>
-              </a>
-            </div>
+            {INSTAGRAM_WIDGET_URL ? (
+              <iframe
+                src={INSTAGRAM_WIDGET_URL}
+                title="Instagram feed"
+                className="w-full border-0 rounded-lg overflow-hidden"
+                style={{ minHeight: "400px" }}
+              />
+            ) : (
+              <div className="bg-neutral-100 rounded-lg p-8 text-center">
+                <a
+                  href="https://stormlikes.com/embed-instagram-feed"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-orange-600 hover:text-orange-700 font-semibold underline"
+                >
+                  Get a free Instagram feed embed
+                </a>
+                <p className="text-neutral-600 mt-4 text-sm max-w-md mx-auto">
+                  Stormlikes (no signup) or EmbedSocial: enter &quot;tuckerfamilycharity&quot;, get the embed code, copy the iframe src URL, then add{" "}
+                  <code className="bg-neutral-200 px-1 rounded">VITE_INSTAGRAM_WIDGET_URL=your_url</code> to a{" "}
+                  <code className="bg-neutral-200 px-1 rounded">.env</code> file in the project root.
+                </p>
+                <a
+                  href="https://instagram.com/tuckerfamilycharity"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 mt-6 text-neutral-500 hover:text-orange-600 transition-colors"
+                >
+                  <Instagram className="w-5 h-5" />
+                  Follow @tuckerfamilycharity on Instagram
+                </a>
+              </div>
+            )}
           </div>
 
           <div className="text-center mt-8">
