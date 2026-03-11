@@ -16,7 +16,7 @@ export function About() {
       <Header />
 
       {/* Hero */}
-      <section className="relative h-[500px] bg-neutral-800 overflow-hidden">
+      <section className="relative h-[500px] bg-amber-50 overflow-hidden">
         {/* Tucker Family Photo - object-contain shows full image, no cropping */}
         <div className="absolute inset-0 flex items-center justify-center">
           <img
