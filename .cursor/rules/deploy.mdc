@@ -5,10 +5,14 @@ alwaysApply: true
 
 # Deployment
 
-After making changes to the Tucker Family Charity website:
+After making changes to the Tucker Family Charity website, commit and push to trigger GitHub Pages deployment.
 
-1. Stage all changes: `git add .`
-2. Commit with a descriptive message: `git commit -m "Description of changes"`
-3. Push to trigger deployment: `git push`
+**Steps:**
+1. Stage: `git add .`
+2. Commit: `git commit -m "Description of changes"`
+3. Push: `git push`
 
-Use `git_write` and `network` permissions when running these commands. The GitHub Actions workflow will build and deploy to https://Yevucee.github.io/tucker-family-charity/
+Use `git_write` permission for commit. Push requires the user's GitHub auth (token or SSH) and may need to be run by the user in their terminal if automated push fails.
+
+**Remote:** `origin` → https://github.com/Yevucee/tucker-family-charity.git  
+**Site:** https://Yevucee.github.io/tucker-family-charity/
