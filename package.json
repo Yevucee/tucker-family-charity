@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "type": "module",
-  "homepage": "https://tucker-family-charity.github.io/tucker-family-charity",
+  "homepage": "https://Yevucee.github.io/tucker-family-charity",
   "scripts": {
     "build": "vite build && cp dist/index.html dist/404.html",
     "dev": "vite"
