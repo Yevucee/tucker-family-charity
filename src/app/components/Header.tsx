@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
 import { Heart, Menu, X } from "lucide-react";
 import { useState } from "react";
 import logo from "@/assets/4920ca320ce31a579ec4c3d0fcc360b4528a2024.png";
@@ -17,24 +17,44 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            <Link to="/" className="text-neutral-700 hover:text-orange-600 transition-colors">
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+              }
+            >
               Home
-            </Link>
-            <Link to="/about" className="text-neutral-700 hover:text-orange-600 transition-colors">
+            </NavLink>
+            <NavLink
+              to="/about"
+              className={({ isActive }) =>
+                isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+              }
+            >
               About
-            </Link>
-            <Link to="/events" className="text-neutral-700 hover:text-orange-600 transition-colors">
+            </NavLink>
+            <NavLink
+              to="/events"
+              className={({ isActive }) =>
+                isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+              }
+            >
               Events
-            </Link>
-            <Link to="/shop" className="text-neutral-700 hover:text-orange-600 transition-colors">
+            </NavLink>
+            <NavLink
+              to="/shop"
+              className={({ isActive }) =>
+                isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+              }
+            >
               Shop
-            </Link>
-            <a
-              href="#support"
+            </NavLink>
+            <Link
+              to="/#support"
               className="bg-orange-600 text-white px-5 py-2 rounded-full hover:bg-orange-700 transition-colors"
             >
               Support Us
-            </a>
+            </Link>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -50,41 +70,49 @@ export function Header() {
         {isMenuOpen && (
           <nav className="md:hidden py-4 border-t border-neutral-200">
             <div className="flex flex-col gap-4">
-              <Link
+              <NavLink
                 to="/"
-                className="text-neutral-700 hover:text-orange-600 transition-colors"
+                className={({ isActive }) =>
+                  isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+                }
                 onClick={() => setIsMenuOpen(false)}
               >
                 Home
-              </Link>
-              <Link
+              </NavLink>
+              <NavLink
                 to="/about"
-                className="text-neutral-700 hover:text-orange-600 transition-colors"
+                className={({ isActive }) =>
+                  isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+                }
                 onClick={() => setIsMenuOpen(false)}
               >
                 About
-              </Link>
-              <Link
+              </NavLink>
+              <NavLink
                 to="/events"
-                className="text-neutral-700 hover:text-orange-600 transition-colors"
+                className={({ isActive }) =>
+                  isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+                }
                 onClick={() => setIsMenuOpen(false)}
               >
                 Events
-              </Link>
-              <Link
+              </NavLink>
+              <NavLink
                 to="/shop"
-                className="text-neutral-700 hover:text-orange-600 transition-colors"
+                className={({ isActive }) =>
+                  isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+                }
                 onClick={() => setIsMenuOpen(false)}
               >
                 Shop
-              </Link>
-              <a
-                href="#support"
+              </NavLink>
+              <Link
+                to="/#support"
                 className="bg-orange-600 text-white px-5 py-2 rounded-full hover:bg-orange-700 transition-colors text-center"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Support Us
-              </a>
+              </Link>
             </div>
           </nav>
         )}

@@ -30,12 +30,12 @@ export function Home() {
                 Tucker Family Charity raises funds to support Oliver's Village, a community education centre helping children and families build a better future.
               </p>
               <div className="flex flex-wrap gap-4">
-                <a
-                  href="#support"
+                <Link
+                  to="/#support"
                   className="bg-orange-600 text-white px-8 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold"
                 >
                   Support the Charity
-                </a>
+                </Link>
                 <Link
                   to="/about"
                   className="bg-white text-neutral-900 px-8 py-3 rounded-full hover:bg-neutral-100 transition-colors font-semibold"
@@ -209,7 +209,7 @@ export function Home() {
                   <span>The Vineyard, Constantia</span>
                 </div>
                 <p className="text-neutral-600 mb-4">
-                  Sample exquisite South African wines while supporting a great cause. All proceeds benefit Olivers Village.
+                  Sample exquisite South African wines while supporting a great cause. All proceeds benefit Oliver's Village.
                 </p>
               </div>
             </div>
@@ -231,7 +231,7 @@ export function Home() {
                 <h3 className="text-xl font-semibold mb-2 text-neutral-900">School Visit Day</h3>
                 <div className="flex items-center gap-2 text-neutral-600 text-sm mb-4">
                   <MapPin className="w-4 h-4" />
-                  <span>Olivers Village, Johannesburg</span>
+                  <span>Oliver's Village, Johannesburg</span>
                 </div>
                 <p className="text-neutral-600 mb-4">
                   Meet the students and teachers, tour the facilities, and see firsthand the impact of your support.
@@ -264,16 +264,20 @@ export function Home() {
             </p>
           </div>
 
-          {/* Instagram Embed Widget */}
+          {/* Instagram Embed - Configure at lightwidget.com and update the widget ID */}
           <div className="max-w-4xl mx-auto">
-            <script src="https://cdn.lightwidget.com/widgets/lightwidget.js"></script>
-            <iframe 
-              src="https://cdn.lightwidget.com/widgets/e3c4d5f6a7b84c9d8e1f2a3b4c5d6e7f.html" 
-              scrolling="no" 
-              allowTransparency={true}
-              className="lightwidget-widget w-full border-0"
-              style={{ width: '100%', border: 0, overflow: 'hidden' }}
-            ></iframe>
+            <div className="aspect-video bg-neutral-100 rounded-lg flex items-center justify-center">
+              <a
+                href="https://instagram.com/tuckerfamilycharity"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-neutral-500 hover:text-orange-600 transition-colors text-center p-8"
+              >
+                <Instagram className="w-16 h-16 mx-auto mb-4 opacity-50" />
+                <p className="font-semibold">View our Instagram feed</p>
+                <p className="text-sm mt-2">Follow @tuckerfamilycharity and check back soon for updates</p>
+              </a>
+            </div>
           </div>
 
           <div className="text-center mt-8">
@@ -298,7 +302,7 @@ export function Home() {
               Support Through Merchandise
             </h2>
             <p className="text-lg text-neutral-600">
-              Every purchase directly supports Olivers Village students
+              Every purchase directly supports Oliver's Village students
             </p>
           </div>
 
@@ -318,9 +322,12 @@ export function Home() {
                 <p className="text-neutral-600 mb-6">
                   High-quality cap featuring the Tucker Family Charity logo. Comfortable, stylish, and supports education.
                 </p>
-                <button className="w-full bg-orange-600 text-white px-6 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold">
+                <Link
+                  to="/shop"
+                  className="block w-full bg-orange-600 text-white px-6 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold text-center"
+                >
                   Support the Charity
-                </button>
+                </Link>
               </div>
             </div>
 
@@ -339,9 +346,12 @@ export function Home() {
                 <p className="text-neutral-600 mb-6">
                   Premium South African red wine. Enjoy a bottle and know you're making a difference in children's lives.
                 </p>
-                <button className="w-full bg-orange-600 text-white px-6 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold">
+                <Link
+                  to="/shop"
+                  className="block w-full bg-orange-600 text-white px-6 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold text-center"
+                >
                   Support the Charity
-                </button>
+                </Link>
               </div>
             </div>
           </div>

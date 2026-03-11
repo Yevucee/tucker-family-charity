@@ -1,6 +1,7 @@
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import { Link } from "react-router";
 import { ShoppingBag, Mail, Phone } from "lucide-react";
 
 export function Shop() {
@@ -76,9 +77,12 @@ export function Shop() {
                   </ul>
                 </div>
 
-                <button className="w-full bg-amber-700 text-white py-3 rounded-lg hover:bg-amber-800 transition-colors font-semibold">
+                <a
+                  href="mailto:info@tuckerfamilycharity.org?subject=Wine Enquiry"
+                  className="block w-full bg-amber-700 text-white py-3 rounded-lg hover:bg-amber-800 transition-colors font-semibold text-center"
+                >
                   Enquire About Wine
-                </button>
+                </a>
               </div>
             </div>
 
@@ -119,9 +123,12 @@ export function Shop() {
                   </ul>
                 </div>
 
-                <button className="w-full bg-amber-700 text-white py-3 rounded-lg hover:bg-amber-800 transition-colors font-semibold">
+                <a
+                  href="mailto:info@tuckerfamilycharity.org?subject=Caps Order"
+                  className="block w-full bg-amber-700 text-white py-3 rounded-lg hover:bg-amber-800 transition-colors font-semibold text-center"
+                >
                   Order Caps
-                </button>
+                </a>
               </div>
             </div>
 
@@ -183,13 +190,10 @@ export function Shop() {
                 <span className="text-lg text-neutral-900">info@tuckerfamilycharity.org</span>
               </a>
               
-              <a 
-                href="tel:+27123456789" 
-                className="flex items-center justify-center gap-3 p-4 bg-amber-50 rounded-lg hover:bg-amber-100 transition-colors"
-              >
+              <div className="flex items-center justify-center gap-3 p-4 bg-amber-50 rounded-lg">
                 <Phone className="w-6 h-6 text-amber-700" />
-                <span className="text-lg text-neutral-900">+27 12 345 6789</span>
-              </a>
+                <span className="text-lg text-neutral-900">Contact via email for phone number</span>
+              </div>
             </div>
 
             <p className="text-center text-neutral-600 mt-6">
@@ -210,11 +214,12 @@ export function Shop() {
             Every cap and bottle of wine helps provide education, meals, and opportunities for children in need.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <a
-              href="/about"
-              className="bg-white text-stone-700 px-8 py-3 rounded-full hover:bg-stone-50 transition-colors font-semibold">
+            <Link
+              to="/about"
+              className="bg-white text-stone-700 px-8 py-3 rounded-full hover:bg-stone-50 transition-colors font-semibold"
+            >
               Learn More About Our Work
-            </a>
+            </Link>
           </div>
         </div>
       </section>

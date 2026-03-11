@@ -1,6 +1,7 @@
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import { Link } from "react-router";
 import { Calendar, MapPin, Clock, Users } from "lucide-react";
 
 export function Events() {
@@ -11,9 +12,9 @@ export function Events() {
       date: "April 15, 2026",
       time: "6:00 PM - 10:00 PM",
       location: "Johannesburg Community Center",
-      address: "123 Main Street, Johannesburg",
+      address: "Venue TBC — check back for details",
       image: "https://images.unsplash.com/photo-1768776179834-93e6cafc6d97?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21tdW5pdHklMjBldmVudCUyMG91dGRvb3IlMjBwZW9wbGV8ZW58MXx8fHwxNzczMTMyMzA1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      description: "Join us for an unforgettable evening of music, food, and community as we celebrate the collective impact we're making on education at Olivers Village. Enjoy live performances, a silent auction, and networking with fellow supporters.",
+      description: "Join us for an unforgettable evening of music, food, and community as we celebrate the collective impact we're making on education at Oliver's Village. Enjoy live performances, a silent auction, and networking with fellow supporters.",
       attendees: "150+ expected",
       category: "Fundraiser"
     },
@@ -25,7 +26,7 @@ export function Events() {
       location: "The Vineyard, Constantia",
       address: "Wine Route, Constantia Valley",
       image: "https://images.unsplash.com/photo-1771924368588-507c6a048363?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21tdW5pdHklMjBnYXRoZXJpbmclMjBjZWxlYnJhdGlvbnxlbnwxfHx8fDE3NzMwNDU0Nzl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      description: "Sample exquisite South African wines in a beautiful vineyard setting while supporting a great cause. All proceeds benefit Olivers Village students. Wine expert presentations and gourmet pairings included.",
+      description: "Sample exquisite South African wines in a beautiful vineyard setting while supporting a great cause. All proceeds benefit Oliver's Village students. Wine expert presentations and gourmet pairings included.",
       attendees: "80+ expected",
       category: "Fundraiser"
     },
@@ -34,10 +35,10 @@ export function Events() {
       title: "School Visit Day",
       date: "June 10, 2026",
       time: "9:00 AM - 2:00 PM",
-      location: "Olivers Village",
-      address: "Olivers Village School, Johannesburg",
+      location: "Oliver's Village",
+      address: "Oliver's Village School, Johannesburg",
       image: "https://images.unsplash.com/photo-1666281269793-da06484657e8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxBZnJpY2FuJTIwc2Nob29sJTIwZWR1Y2F0aW9uJTIwYm9va3N8ZW58MXx8fHwxNzczMTMyMzA0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      description: "Experience the magic of Olivers Village firsthand! Meet the students and teachers, tour the facilities, participate in classroom activities, and see the direct impact of your support. Lunch provided.",
+      description: "Experience the magic of Oliver's Village firsthand! Meet the students and teachers, tour the facilities, participate in classroom activities, and see the direct impact of your support. Lunch provided.",
       attendees: "40+ expected",
       category: "Community"
     },
@@ -71,7 +72,7 @@ export function Events() {
       date: "September 15, 2026",
       time: "10:00 AM - 4:00 PM",
       location: "Multiple Locations",
-      address: "See website for drop-off points",
+      address: "Drop-off points TBC — contact us for details",
       image: "https://images.unsplash.com/photo-1683879025805-a268b690613e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzY2hvb2wlMjBzdXBwbGllcyUyMHBlbmNpbHMlMjBib29rc3xlbnwxfHx8fDE3NzMxMzIzMDZ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       description: "Help us prepare students for a successful school year! Donate school supplies, books, backpacks, and uniforms. Drop-off locations across Johannesburg. Every item makes a difference.",
       attendees: "Community-wide",
@@ -104,7 +105,7 @@ export function Events() {
       <section className="py-12 bg-amber-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-lg text-neutral-700">
-            Throughout the year, we host a variety of events that bring our community together while raising vital funds for Olivers Village. From elegant galas to fun runs, wine tastings to school visits—there's something for everyone. We'd love to see you there!
+            Throughout the year, we host a variety of events that bring our community together while raising vital funds for Oliver's Village. From elegant galas to fun runs, wine tastings to school visits—there's something for everyone. We'd love to see you there!
           </p>
         </div>
       </section>
@@ -166,9 +167,12 @@ export function Events() {
                     {event.description}
                   </p>
 
-                  <button className="bg-orange-600 text-white px-8 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold">
+                  <a
+                    href={`mailto:info@tuckerfamilycharity.org?subject=Event Registration: ${encodeURIComponent(event.title)}`}
+                    className="inline-block bg-orange-600 text-white px-8 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold"
+                  >
                     Register for Event
-                  </button>
+                  </a>
                 </div>
               </div>
             ))}
@@ -183,21 +187,21 @@ export function Events() {
             Can't Attend an Event?
           </h2>
           <p className="text-xl mb-8 text-orange-100">
-            You can still support Olivers Village through direct donations or by purchasing our charity merchandise
+            You can still support Oliver's Village through direct donations or by purchasing our charity merchandise
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <a
-              href="#support"
+            <Link
+              to="/#support"
               className="bg-white text-orange-600 px-8 py-3 rounded-full hover:bg-neutral-100 transition-colors font-semibold"
             >
               Make a Donation
-            </a>
-            <a
-              href="/#support"
+            </Link>
+            <Link
+              to="/shop"
               className="bg-orange-700 text-white px-8 py-3 rounded-full hover:bg-orange-800 transition-colors font-semibold border-2 border-white"
             >
               Shop Merchandise
-            </a>
+            </Link>
           </div>
         </div>
       </section>
