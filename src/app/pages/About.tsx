@@ -22,7 +22,7 @@ export function About() {
           <img
             src={tuckerFamily}
             alt="The Tucker Family"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-top"
           />
         </div>
         
