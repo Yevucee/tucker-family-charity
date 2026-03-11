@@ -3,10 +3,10 @@ import { Footer } from "../components/Footer";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Link } from "react-router";
 import { BookOpen, Utensils, Building2, Users, Calendar, MapPin, Instagram } from "lucide-react";
-import logo from "@/assets/logo.svg";
-import schoolGrounds from "@/assets/school-grounds.svg";
-import computerLab from "@/assets/computer-lab.svg";
-import gardenArea from "@/assets/garden-area.svg";
+import logo from "@/assets/4920ca320ce31a579ec4c3d0fcc360b4528a2024.png";
+import schoolGrounds from "@/assets/0cac28478cd9e148e19e33753c2ce2b1507d4676.png";
+import computerLab from "@/assets/d5c30ac405997a9f47bb022e66f8a25896a2b859.png";
+import gardenArea from "@/assets/f0dd27edb7bda065be4dd5f0f576138f64514baf.png";
 
 export function Home() {
   return (

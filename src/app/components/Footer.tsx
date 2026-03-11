@@ -1,7 +1,7 @@
 import { Heart, Instagram, MapPin } from "lucide-react";
 import { Link } from "react-router";
 import { Facebook } from "lucide-react";
-import logo from "@/assets/logo.svg";
+import logo from "@/assets/4920ca320ce31a579ec4c3d0fcc360b4528a2024.png";
 
 export function Footer() {
   return (

@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import { Heart, Menu, X } from "lucide-react";
 import { useState } from "react";
-import logo from "@/assets/logo.svg";
+import logo from "@/assets/4920ca320ce31a579ec4c3d0fcc360b4528a2024.png";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

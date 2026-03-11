@@ -2,13 +2,13 @@ import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Heart, Target, Users, Award } from "lucide-react";
-import schoolGrounds from "@/assets/school-grounds.svg";
-import computerLab from "@/assets/computer-lab.svg";
-import gardenArea from "@/assets/garden-area.svg";
-import gardenBeds from "@/assets/garden-beds.svg";
-import kitchenArea from "@/assets/kitchen-area.svg";
-import diningArea from "@/assets/dining-area.svg";
-import tuckerFamily from "@/assets/tucker-family.svg";
+import schoolGrounds from "@/assets/0cac28478cd9e148e19e33753c2ce2b1507d4676.png";
+import computerLab from "@/assets/d5c30ac405997a9f47bb022e66f8a25896a2b859.png";
+import gardenArea from "@/assets/f0dd27edb7bda065be4dd5f0f576138f64514baf.png";
+import gardenBeds from "@/assets/7b52c9c4cb4c502f6ea99c7fce5fe04da5995174.png";
+import kitchenArea from "@/assets/8d8da24d7e2cba1694663d3735775c2318c86b68.png";
+import diningArea from "@/assets/8e268001b9e0fd2784e0fabc8aa1f352deb6f3d2.png";
+import tuckerFamily from "@/assets/708f3b7edb5dbc413e39e442a736f205e2c35b56.png";
 
 export function About() {
   return (
