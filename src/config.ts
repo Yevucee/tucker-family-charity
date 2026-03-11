@@ -1,7 +1,9 @@
 /**
- * Instagram feed embed URL (iframe src from Elfsight or similar).
- * Get a free embed at https://elfsight.com/instagram-feed-instashow/create/
- * For GitHub Pages: add INSTAGRAM_WIDGET_URL as a repo secret.
- * Leave empty to show the "Follow us" placeholder.
+ * Instagram feed embed.
+ * Elfsight (script+div): use VITE_INSTAGRAM_ELFSIGHT_APP_ID
+ * Other (iframe): use VITE_INSTAGRAM_WIDGET_URL
+ * For GitHub Pages: add matching repo secrets.
  */
+export const INSTAGRAM_ELFSIGHT_APP_ID =
+  import.meta.env.VITE_INSTAGRAM_ELFSIGHT_APP_ID ?? "e05226db-b1eb-4e28-a8a8-95389431627a";
 export const INSTAGRAM_WIDGET_URL = import.meta.env.VITE_INSTAGRAM_WIDGET_URL ?? "";

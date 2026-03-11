@@ -3,7 +3,8 @@ import { Footer } from "../components/Footer";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Link } from "react-router";
 import { BookOpen, Utensils, Building2, Users, Calendar, MapPin, Instagram } from "lucide-react";
-import { INSTAGRAM_WIDGET_URL } from "@/config";
+import { INSTAGRAM_ELFSIGHT_APP_ID, INSTAGRAM_WIDGET_URL } from "@/config";
+import { InstagramEmbed } from "@/app/components/InstagramEmbed";
 import logo from "@/assets/4920ca320ce31a579ec4c3d0fcc360b4528a2024.png";
 import schoolGrounds from "@/assets/0cac28478cd9e148e19e33753c2ce2b1507d4676.png";
 import computerLab from "@/assets/d5c30ac405997a9f47bb022e66f8a25896a2b859.png";
@@ -266,14 +267,12 @@ export function Home() {
             </p>
           </div>
 
-          {/* Instagram Embed - Set VITE_INSTAGRAM_WIDGET_URL in .env to show your feed */}
+          {/* Instagram Embed - Elfsight app ID or iframe URL */}
           <div className="max-w-4xl mx-auto">
-            {INSTAGRAM_WIDGET_URL ? (
-              <iframe
-                src={INSTAGRAM_WIDGET_URL}
-                title="Instagram feed"
-                className="w-full border-0 rounded-lg overflow-hidden"
-                style={{ minHeight: "400px" }}
+            {INSTAGRAM_ELFSIGHT_APP_ID || INSTAGRAM_WIDGET_URL ? (
+              <InstagramEmbed
+                elfsightAppId={INSTAGRAM_ELFSIGHT_APP_ID}
+                widgetUrl={INSTAGRAM_WIDGET_URL}
               />
             ) : (
               <div className="bg-neutral-100 rounded-lg p-8 text-center">
@@ -288,9 +287,9 @@ export function Home() {
                 <ol className="text-neutral-600 mt-4 text-sm max-w-lg mx-auto text-left list-decimal list-inside space-y-2">
                   <li>Sign up at Elfsight (free, no card)</li>
                   <li>Connect <strong>@tuckerfamilycharity</strong>, pick a template</li>
-                  <li>Click &quot;Add to website&quot; and copy the iframe embed</li>
-                  <li>Extract the <code className="bg-neutral-200 px-1 rounded">src</code> URL from the iframe</li>
-                  <li>Add repo secret <code className="bg-neutral-200 px-1 rounded">INSTAGRAM_WIDGET_URL</code> in GitHub Settings → Secrets</li>
+                  <li>Click &quot;Add to website&quot; and copy the embed code</li>
+                  <li>Extract the app ID from the div class (e.g. <code className="bg-neutral-200 px-1 rounded">elfsight-app-xxxxx</code>)</li>
+                  <li>Add repo secret <code className="bg-neutral-200 px-1 rounded">INSTAGRAM_ELFSIGHT_APP_ID</code> in GitHub Settings → Secrets</li>
                 </ol>
                 <a
                   href="https://instagram.com/tuckerfamilycharity"

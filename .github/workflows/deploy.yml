@@ -28,6 +28,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
+          VITE_INSTAGRAM_ELFSIGHT_APP_ID: ${{ secrets.INSTAGRAM_ELFSIGHT_APP_ID }}
           VITE_INSTAGRAM_WIDGET_URL: ${{ secrets.INSTAGRAM_WIDGET_URL }}
 
       - name: Upload artifact
