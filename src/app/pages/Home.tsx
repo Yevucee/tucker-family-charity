@@ -18,15 +18,16 @@ export function Home() {
         <img
           src={schoolGrounds}
           alt="Oliver's Village school grounds"
-          className="absolute inset-0 w-full h-full object-cover opacity-70"
+          className="absolute inset-0 w-full h-full object-cover opacity-60"
         />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/35 to-transparent" />
         <div className="relative z-10 h-full flex items-center">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
             <div className="max-w-2xl">
               <h1 className="text-5xl md:text-6xl font-bold mb-6">
                 Supporting Education and Opportunity in Johannesburg
               </h1>
-              <p className="text-xl mb-8 text-neutral-200">
+              <p className="text-xl mb-8 text-white [text-shadow:0_1px_6px_rgba(0,0,0,0.7)]">
                 Tucker Family Charity raises funds to support Oliver's Village, a community education centre helping children and families build a better future.
               </p>
               <div className="flex flex-wrap gap-4">
