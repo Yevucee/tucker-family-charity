@@ -24,16 +24,16 @@ export function Home() {
           className="absolute inset-0 w-full h-full object-cover opacity-50"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/30" />
-        <div className="relative z-10 h-full flex items-center justify-center">
+        <div className="relative z-10 h-full flex items-center justify-start">
           <div className="max-w-7xl w-full px-4 sm:px-6 lg:px-8 text-white">
-            <div className="max-w-2xl mx-auto text-center">
+            <div className="max-w-2xl">
               <h1 className="text-5xl md:text-6xl font-bold mb-6 [text-shadow:0_2px_12px_rgba(0,0,0,0.9)]">
                 Supporting Education and Opportunity in Johannesburg
               </h1>
               <p className="text-xl mb-8 text-white [text-shadow:0_2px_12px_rgba(0,0,0,0.9)]">
                 Tucker Family Charity raises funds to support Oliver's Village, a community education centre helping children and families build a better future.
               </p>
-              <div className="flex flex-wrap gap-4 justify-center">
+              <div className="flex flex-wrap gap-4">
                 <Link
                   to="/#support"
                   className="bg-orange-600 text-white px-8 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold"
