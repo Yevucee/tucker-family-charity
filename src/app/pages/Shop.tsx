@@ -2,7 +2,8 @@ import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Link } from "react-router";
-import { ShoppingBag, Mail, Phone } from "lucide-react";
+import { ShoppingBag, Mail, Phone, Palette, ExternalLink } from "lucide-react";
+import auctionArtwork from "@/assets/auction-fred-schimmel-abstract.png";
 
 export function Shop() {
   return (
@@ -17,6 +18,64 @@ export function Shop() {
             <p className="text-xl text-amber-100">
               Support Oliver's Village through our quality products
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Art Auction Section */}
+      <section className="py-16 md:py-24 bg-amber-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div className="order-2 lg:order-1">
+              <div className="inline-flex items-center gap-2 text-amber-700 font-semibold mb-4">
+                <Palette className="w-5 h-5" />
+                <span>In partnership with Dale Sargent Fine Art</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-6">
+                Art That Makes a Difference
+              </h2>
+              <p className="text-lg text-neutral-700 mb-6">
+                We're excited to begin a monthly art auction in partnership with Dale Sargent Fine Art, running until the end of the year. Each month we'll share a special piece of art, giving you the chance to own something beautiful while helping support a meaningful cause.
+              </p>
+              <p className="text-neutral-700 mb-6">
+                This month's artwork is <strong>Fred Schimmel, Abstract</strong>. Mixed media on paper, 65cm × 52cm (framed 83cm × 72cm), signed.
+              </p>
+              <p className="text-neutral-700 mb-6">
+                This is a silent auction, so your name and bid amount remain completely private. Only you know what you've bid.
+              </p>
+              <p className="text-neutral-700 mb-6">
+                If you'd like to place a bid, check the link below.
+              </p>
+              <p className="text-neutral-700 mb-8">
+                All proceeds above the base price go directly to Oliver's Village, helping support the incredible work they do with children and families.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <a
+                  href="https://www.giftsbyyou.com/product-page/fred-schimmel-abstract"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 bg-amber-600 text-white px-8 py-4 rounded-lg hover:bg-amber-700 transition-colors font-semibold"
+                >
+                  Place a Bid
+                  <ExternalLink className="w-4 h-4" />
+                </a>
+                <span className="text-sm text-neutral-600 self-center">
+                  Bidding closes end of March 2026
+                </span>
+              </div>
+              <p className="text-amber-800 font-medium mt-6">
+                Every bid helps make a difference.
+              </p>
+            </div>
+            <div className="order-1 lg:order-2">
+              <div className="rounded-xl overflow-hidden shadow-2xl bg-white">
+                <img
+                  src={auctionArtwork}
+                  alt="Fred Schimmel, Abstract - Mixed media on paper, 65cm x 52cm"
+                  className="w-full h-auto object-contain"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
