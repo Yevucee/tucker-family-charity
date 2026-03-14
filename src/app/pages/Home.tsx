@@ -2,13 +2,14 @@ import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Link } from "react-router";
-import { BookOpen, Utensils, Building2, Users, Calendar, MapPin, Instagram } from "lucide-react";
+import { BookOpen, Utensils, Building2, Users, Calendar, MapPin, Instagram, Palette } from "lucide-react";
 import { INSTAGRAM_ELFSIGHT_APP_ID, INSTAGRAM_WIDGET_URL } from "@/config";
 import { InstagramEmbed } from "@/app/components/InstagramEmbed";
 import logo from "@/assets/4920ca320ce31a579ec4c3d0fcc360b4528a2024.png";
 import schoolGrounds from "@/assets/0cac28478cd9e148e19e33753c2ce2b1507d4676.png";
 import computerLab from "@/assets/d5c30ac405997a9f47bb022e66f8a25896a2b859.png";
 import gardenArea from "@/assets/f0dd27edb7bda065be4dd5f0f576138f64514baf.png";
+import auctionArtwork from "@/assets/auction-fred-schimmel-abstract.png";
 
 export function Home() {
   return (
@@ -318,19 +319,49 @@ export function Home() {
         </div>
       </section>
 
-      {/* Merch Preview */}
+      {/* Shop & Auction */}
       <section id="support" className="py-20 bg-amber-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4 text-neutral-900">
-              Support Through Merchandise
+              Support Through Shop
             </h2>
             <p className="text-lg text-neutral-600">
-              Every purchase directly supports Oliver's Village students
+              Every purchase and every bid directly supports Oliver's Village students
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {/* Art Auction */}
+            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
+              <div className="relative h-80 bg-amber-100">
+                <img
+                  src={auctionArtwork}
+                  alt="Fred Schimmel, Abstract - Monthly art auction"
+                  className="absolute inset-0 w-full h-full object-contain p-2"
+                />
+              </div>
+              <div className="p-6">
+                <div className="flex items-center gap-2 text-amber-700 font-semibold mb-2">
+                  <Palette className="w-4 h-4" />
+                  <span>Art Auction</span>
+                </div>
+                <h3 className="text-2xl font-semibold mb-2 text-neutral-900">Fred Schimmel, Abstract</h3>
+                <p className="text-orange-600 font-bold text-xl mb-4">Reserve R25 000</p>
+                <p className="text-neutral-600 mb-6">
+                  Monthly fine art auction with Dale Sargent Fine Art. Bid on beautiful pieces and support Oliver's Village.
+                </p>
+                <a
+                  href="https://www.giftsbyyou.com/product-page/fred-schimmel-abstract"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full bg-orange-600 text-white px-6 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold text-center"
+                >
+                  Place a Bid
+                </a>
+              </div>
+            </div>
+
             {/* Charity Hat */}
             <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
               <div className="relative h-80">
