@@ -324,7 +324,7 @@ export function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4 text-neutral-900">
-              Support Through Shop
+              Ways to Support
             </h2>
             <p className="text-lg text-neutral-600">
               Every purchase and every bid directly supports Oliver's Village students
@@ -333,29 +333,29 @@ export function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* Art Auction */}
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
-              <div className="relative h-80 bg-amber-100">
+            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow flex flex-col">
+              <div className="relative h-80 bg-amber-100 flex-shrink-0">
                 <img
                   src={auctionArtwork}
                   alt="Fred Schimmel, Abstract - Monthly art auction"
                   className="absolute inset-0 w-full h-full object-contain p-2"
                 />
               </div>
-              <div className="p-6">
+              <div className="p-6 flex flex-col flex-1 min-h-0">
                 <div className="flex items-center gap-2 text-amber-700 font-semibold mb-2">
                   <Palette className="w-4 h-4" />
                   <span>Art Auction</span>
                 </div>
                 <h3 className="text-2xl font-semibold mb-2 text-neutral-900">Fred Schimmel, Abstract</h3>
                 <p className="text-orange-600 font-bold text-xl mb-4">Reserve R25 000</p>
-                <p className="text-neutral-600 mb-6">
+                <p className="text-neutral-600 mb-6 flex-1">
                   Monthly fine art auction with Dale Sargent Fine Art. Bid on beautiful pieces and support Oliver's Village.
                 </p>
                 <a
                   href="https://www.giftsbyyou.com/product-page/fred-schimmel-abstract"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-full bg-orange-600 text-white px-6 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold text-center"
+                  className="block w-full bg-orange-600 text-white px-6 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold text-center mt-auto"
                 >
                   Place a Bid
                 </a>
@@ -363,23 +363,23 @@ export function Home() {
             </div>
 
             {/* Charity Hat */}
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
-              <div className="relative h-80">
+            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow flex flex-col">
+              <div className="relative h-80 flex-shrink-0">
                 <ImageWithFallback
                   src="https://images.unsplash.com/photo-1663280426478-9294cf296749?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaGFyaXR5JTIwYmFzZWJhbGwlMjBjYXAlMjBoYXR8ZW58MXx8fHwxNzczMTMyMzA1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
                   alt="Tucker Family Charity hat"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               </div>
-              <div className="p-6">
+              <div className="p-6 flex flex-col flex-1 min-h-0">
                 <h3 className="text-2xl font-semibold mb-2 text-neutral-900">Charity Hat</h3>
                 <p className="text-orange-600 font-bold text-xl mb-4">R250</p>
-                <p className="text-neutral-600 mb-6">
+                <p className="text-neutral-600 mb-6 flex-1">
                   High-quality cap featuring the Tucker Family Charity logo. Comfortable, stylish, and supports education.
                 </p>
                 <Link
                   to="/shop"
-                  className="block w-full bg-orange-600 text-white px-6 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold text-center"
+                  className="block w-full bg-orange-600 text-white px-6 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold text-center mt-auto"
                 >
                   Support the Charity
                 </Link>
@@ -387,23 +387,23 @@ export function Home() {
             </div>
 
             {/* Charity Wine */}
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
-              <div className="relative h-80">
+            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow flex flex-col">
+              <div className="relative h-80 flex-shrink-0">
                 <ImageWithFallback
                   src="https://images.unsplash.com/photo-1733248113910-400496b9a544?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aW5lJTIwYm90dGxlJTIwcmVkfGVufDF8fHx8MTc3MzEzMjMwNXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
                   alt="Tucker Family Charity wine"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               </div>
-              <div className="p-6">
+              <div className="p-6 flex flex-col flex-1 min-h-0">
                 <h3 className="text-2xl font-semibold mb-2 text-neutral-900">Charity Wine</h3>
                 <p className="text-orange-600 font-bold text-xl mb-4">R180</p>
-                <p className="text-neutral-600 mb-6">
+                <p className="text-neutral-600 mb-6 flex-1">
                   Premium South African red wine. Enjoy a bottle and know you're making a difference in children's lives.
                 </p>
                 <Link
                   to="/shop"
-                  className="block w-full bg-orange-600 text-white px-6 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold text-center"
+                  className="block w-full bg-orange-600 text-white px-6 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold text-center mt-auto"
                 >
                   Support the Charity
                 </Link>
