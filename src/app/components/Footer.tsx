@@ -31,9 +31,9 @@ export function Footer() {
               <Link to="/events" className="text-neutral-400 hover:text-orange-500 transition-colors">
                 Events
               </Link>
-              <Link to="/#support" className="text-neutral-400 hover:text-orange-500 transition-colors">
+              <a href="#support" className="text-neutral-400 hover:text-orange-500 transition-colors">
                 Donate
-              </Link>
+              </a>
             </div>
           </div>
 
