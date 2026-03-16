@@ -3,6 +3,7 @@ import { Footer } from "../components/Footer";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Link } from "react-router";
 import { BookOpen, Utensils, Building2, Users, Calendar, MapPin, Instagram, Palette } from "lucide-react";
+import { partners } from "@/data/partners";
 import { INSTAGRAM_ELFSIGHT_APP_ID, INSTAGRAM_WIDGET_URL } from "@/config";
 import { InstagramEmbed } from "@/app/components/InstagramEmbed";
 import logo from "@/assets/4920ca320ce31a579ec4c3d0fcc360b4528a2024.png";
@@ -35,7 +36,7 @@ export function Home() {
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link
-                  to="/#support"
+                  to="/donate"
                   className="bg-orange-600 text-white px-8 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold"
                 >
                   Support the Charity
@@ -73,13 +74,44 @@ export function Home() {
                 Read our full story →
               </Link>
             </div>
-            <div className="relative h-[400px] rounded-lg overflow-hidden shadow-xl">
+            <div className="relative h-[400px] rounded-lg overflow-hidden shadow-xl group">
               <img
                 src={computerLab}
                 alt="Computer lab at Oliver's Village"
-                className="absolute inset-0 w-full h-full object-cover"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                loading="lazy"
               />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Partners Strip */}
+      <section className="py-16 bg-white border-y border-amber-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-center text-lg font-semibold text-neutral-600 mb-10">
+            Supported by our partners
+          </h2>
+          <div className="flex flex-wrap justify-center items-center gap-12 md:gap-16">
+            {partners.map((partner) => (
+              <Link
+                key={partner.id}
+                to="/partners"
+                className="flex items-center justify-center h-16 grayscale hover:grayscale-0 opacity-80 hover:opacity-100 transition-all duration-300"
+              >
+                {partner.logo ? (
+                  <img
+                    src={partner.logo}
+                    alt={partner.name}
+                    className="max-h-12 w-auto object-contain"
+                  />
+                ) : (
+                  <span className="text-xl font-semibold text-amber-700 px-6 py-2 bg-amber-50 rounded-lg">
+                    {partner.name}
+                  </span>
+                )}
+              </Link>
+            ))}
           </div>
         </div>
       </section>
@@ -169,12 +201,13 @@ export function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Event 1 */}
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
-              <div className="relative h-48">
+            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+              <div className="relative h-48 group overflow-hidden">
                 <ImageWithFallback
                   src="https://images.unsplash.com/photo-1768776179834-93e6cafc6d97?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21tdW5pdHklMjBldmVudCUyMG91dGRvb3IlMjBwZW9wbGV8ZW58MXx8fHwxNzczMTMyMzA1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
                   alt="Community fundraiser"
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
                 />
               </div>
               <div className="p-6">
@@ -194,12 +227,13 @@ export function Home() {
             </div>
 
             {/* Event 2 */}
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
-              <div className="relative h-48">
+            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+              <div className="relative h-48 group overflow-hidden">
                 <ImageWithFallback
                   src="https://images.unsplash.com/photo-1771924368588-507c6a048363?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21tdW5pdHklMjBnYXRoZXJpbmclMjBjZWxlYnJhdGlvbnxlbnwxfHx8fDE3NzMwNDU0Nzl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
                   alt="Wine tasting event"
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
                 />
               </div>
               <div className="p-6">
@@ -219,12 +253,13 @@ export function Home() {
             </div>
 
             {/* Event 3 */}
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
-              <div className="relative h-48">
+            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+              <div className="relative h-48 group overflow-hidden">
                 <ImageWithFallback
                   src="https://images.unsplash.com/photo-1666281269793-da06484657e8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxBZnJpY2FuJTIwc2Nob29sJTIwZWR1Y2F0aW9uJTIwYm9va3N8ZW58MXx8fHwxNzczMTMyMzA0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
                   alt="School visit"
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
                 />
               </div>
               <div className="p-6">
@@ -334,11 +369,12 @@ export function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* Art Auction */}
             <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow flex flex-col">
-              <div className="relative h-80 bg-amber-100 flex-shrink-0">
+              <div className="relative h-80 bg-amber-100 flex-shrink-0 group overflow-hidden">
                 <img
                   src={auctionArtwork}
                   alt="Fred Schimmel, Abstract - Monthly art auction"
-                  className="absolute inset-0 w-full h-full object-contain p-2"
+                  className="absolute inset-0 w-full h-full object-contain p-2 transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
                 />
               </div>
               <div className="p-6 flex flex-col flex-1 min-h-0">
@@ -364,11 +400,12 @@ export function Home() {
 
             {/* Charity Hat */}
             <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow flex flex-col">
-              <div className="relative h-80 flex-shrink-0">
+              <div className="relative h-80 flex-shrink-0 group overflow-hidden">
                 <ImageWithFallback
                   src="https://images.unsplash.com/photo-1663280426478-9294cf296749?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaGFyaXR5JTIwYmFzZWJhbGwlMjBjYXAlMjBoYXR8ZW58MXx8fHwxNzczMTMyMzA1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
                   alt="Tucker Family Charity hat"
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
                 />
               </div>
               <div className="p-6 flex flex-col flex-1 min-h-0">
@@ -388,11 +425,12 @@ export function Home() {
 
             {/* Charity Wine */}
             <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow flex flex-col">
-              <div className="relative h-80 flex-shrink-0">
+              <div className="relative h-80 flex-shrink-0 group overflow-hidden">
                 <ImageWithFallback
                   src="https://images.unsplash.com/photo-1733248113910-400496b9a544?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aW5lJTIwYm90dGxlJTIwcmVkfGVufDF8fHx8MTc3MzEzMjMwNXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
                   alt="Tucker Family Charity wine"
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
                 />
               </div>
               <div className="p-6 flex flex-col flex-1 min-h-0">

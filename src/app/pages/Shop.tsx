@@ -4,8 +4,26 @@ import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Link } from "react-router";
 import { ShoppingBag, Mail, Phone, Palette, ExternalLink } from "lucide-react";
 import auctionArtwork from "@/assets/auction-fred-schimmel-abstract.png";
+import { auctionItems, shopProducts } from "@/data/shopProducts";
+
+// PAYMENT: Replace product paymentLink in src/data/shopProducts.ts with Yoco, PayFast, or external URL
 
 export function Shop() {
+  const featuredAuction = auctionItems.find((a) => a.featured) ?? auctionItems[0];
+
+  const getProductLink = (product: (typeof shopProducts)[0]) => {
+    if (product.paymentLink && product.paymentLink !== "#") {
+      return { href: product.paymentLink, external: true };
+    }
+    if (product.id === "wine") {
+      return { href: "mailto:info@tuckerfamilycharity.org?subject=Wine Enquiry", external: false };
+    }
+    if (product.id === "clothing") {
+      return { href: "mailto:info@tuckerfamilycharity.org?subject=Caps Order", external: false };
+    }
+    return { href: "mailto:info@tuckerfamilycharity.org?subject=Shop Enquiry", external: false };
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -22,36 +40,33 @@ export function Shop() {
         </div>
       </section>
 
-      {/* Art Auction Section */}
+      {/* Silent Auction - Top, most prominent */}
       <section className="py-16 md:py-24 bg-amber-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div className="order-2 lg:order-1">
               <div className="inline-flex items-center gap-2 text-amber-700 font-semibold mb-4">
                 <Palette className="w-5 h-5" />
-                <span>In partnership with Dale Sargent Fine Art</span>
+                <span>In partnership with {featuredAuction.donor}</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-6">
                 Art That Makes a Difference
               </h2>
               <p className="text-lg text-neutral-700 mb-6">
-                We're excited to begin a monthly art auction in partnership with Dale Sargent Fine Art, running until the end of the year. Each month we'll share a special piece of art, giving you the chance to own something beautiful while helping support a meaningful cause.
+                We're excited to begin a monthly art auction in partnership with Dale Sargent Fine Art. Each month we'll share a special piece of art, giving you the chance to own something beautiful while helping support a meaningful cause.
               </p>
               <p className="text-neutral-700 mb-6">
-                This month's artwork is <strong>Fred Schimmel, Abstract</strong>. Mixed media on paper, 65cm × 52cm (framed 83cm × 72cm), signed.
+                This month's artwork is <strong>{featuredAuction.title}</strong>. {featuredAuction.description}
               </p>
-              <p className="text-neutral-700 mb-6">
-                This is a silent auction, so your name and bid amount remain completely private. Only you know what you've bid.
-              </p>
-              <p className="text-neutral-700 mb-6">
-                If you'd like to place a bid, check the link below.
-              </p>
+              {featuredAuction.reserve && (
+                <p className="text-orange-600 font-bold text-xl mb-6">Reserve {featuredAuction.reserve}</p>
+              )}
               <p className="text-neutral-700 mb-8">
-                All proceeds above the base price go directly to Oliver's Village, helping support the incredible work they do with children and families.
+                All proceeds above the base price go directly to Oliver's Village. This is a silent auction—your bid remains private.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <a
-                  href="https://www.giftsbyyou.com/product-page/fred-schimmel-abstract"
+                  href={featuredAuction.bidLink}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 bg-amber-600 text-white px-8 py-4 rounded-lg hover:bg-amber-700 transition-colors font-semibold"
@@ -63,15 +78,12 @@ export function Shop() {
                   Bidding closes end of March 2026
                 </span>
               </div>
-              <p className="text-amber-800 font-medium mt-6">
-                Every bid helps make a difference.
-              </p>
             </div>
             <div className="order-1 lg:order-2">
-              <div className="rounded-xl overflow-hidden shadow-2xl bg-white">
+              <div className="rounded-xl overflow-hidden shadow-2xl bg-white transition-transform duration-300 hover:scale-[1.02]">
                 <img
                   src={auctionArtwork}
-                  alt="Fred Schimmel, Abstract - Mixed media on paper, 65cm x 52cm"
+                  alt={`${featuredAuction.title} - Mixed media on paper`}
                   className="w-full h-auto object-contain"
                 />
               </div>
@@ -80,117 +92,48 @@ export function Shop() {
         </div>
       </section>
 
-      {/* Intro Section */}
-      <section className="py-16 bg-amber-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <ShoppingBag className="w-16 h-16 text-amber-700 mx-auto mb-6" />
-          <h2 className="text-3xl font-bold mb-4 text-neutral-900">
-            Shop with Purpose
-          </h2>
-          <p className="text-lg text-neutral-700">
-            Every purchase goes directly to supporting the students and programs at Oliver's Village. 
-            Buy our carefully selected wine or branded caps and make a tangible difference in children's lives.
-          </p>
-        </div>
-      </section>
-
-      {/* Products */}
+      {/* Shop - Product cards below */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            
-            {/* Wine */}
-            <div className="bg-white rounded-lg overflow-hidden shadow-xl">
-              <div className="relative h-96">
-                <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1601506340309-07309cf0c4a0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aW5lJTIwYm90dGxlcyUyMHJlZCUyMHdoaXRlfGVufDF8fHx8MTc3MzE0NzQ5MXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                  alt="Tucker Family Charity Wine"
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-8">
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h3 className="text-2xl font-bold text-neutral-900 mb-2">
-                      Tucker Family Charity Wine
-                    </h3>
-                    <p className="text-amber-700 font-semibold text-lg">
-                      Available in Red & White
-                    </p>
+          <div className="text-center mb-12">
+            <ShoppingBag className="w-16 h-16 text-amber-700 mx-auto mb-4" />
+            <h2 className="text-3xl font-bold mb-4 text-neutral-900">Shop with Purpose</h2>
+            <p className="text-lg text-neutral-700 max-w-2xl mx-auto">
+              Every purchase goes directly to supporting the students and programs at Oliver's Village.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {shopProducts.map((product) => {
+              const link = getProductLink(product);
+              return (
+                <div
+                  key={product.id}
+                  className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col"
+                >
+                  <div className="relative h-48 flex-shrink-0 group overflow-hidden">
+                    <ImageWithFallback
+                      src={product.image}
+                      alt={product.title}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="p-6 flex flex-col flex-1 min-h-0">
+                    <h3 className="text-xl font-bold text-neutral-900 mb-2">{product.title}</h3>
+                    <p className="text-neutral-600 mb-4 flex-1">{product.shortDescription}</p>
+                    <a
+                      href={link.href}
+                      target={link.external ? "_blank" : undefined}
+                      rel={link.external ? "noopener noreferrer" : undefined}
+                      className="block w-full bg-amber-600 text-white py-3 rounded-lg hover:bg-amber-700 transition-colors font-semibold text-center"
+                    >
+                      {product.ctaLabel}
+                    </a>
                   </div>
                 </div>
-                
-                <p className="text-neutral-700 mb-6">
-                  Premium quality South African wine selected to represent the spirit of our charity. 
-                  Each bottle sold contributes directly to Oliver's Village programs. Perfect for gifting 
-                  or enjoying while supporting a great cause.
-                </p>
-
-                <div className="bg-amber-50 p-4 rounded-lg mb-6">
-                  <h4 className="font-semibold text-neutral-900 mb-2">What's Included:</h4>
-                  <ul className="space-y-1 text-neutral-700">
-                    <li>• Premium South African varietals</li>
-                    <li>• Custom Tucker Family Charity labels</li>
-                    <li>• 100% of proceeds to Oliver's Village</li>
-                    <li>• Available in cases or individual bottles</li>
-                  </ul>
-                </div>
-
-                <a
-                  href="mailto:info@tuckerfamilycharity.org?subject=Wine Enquiry"
-                  className="block w-full bg-amber-700 text-white py-3 rounded-lg hover:bg-amber-800 transition-colors font-semibold text-center"
-                >
-                  Enquire About Wine
-                </a>
-              </div>
-            </div>
-
-            {/* Caps */}
-            <div className="bg-white rounded-lg overflow-hidden shadow-xl">
-              <div className="relative h-96">
-                <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1577379655310-bcee476e7c01?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiYXNlYmFsbCUyMGNhcCUyMGhhdHxlbnwxfHx8fDE3NzMxNDAwMTR8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                  alt="Tucker Family Charity Caps"
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-8">
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h3 className="text-2xl font-bold text-neutral-900 mb-2">
-                      Tucker Family Charity Caps
-                    </h3>
-                    <p className="text-amber-700 font-semibold text-lg">
-                      One Size Fits All
-                    </p>
-                  </div>
-                </div>
-                
-                <p className="text-neutral-700 mb-6">
-                  High-quality branded caps featuring the Tucker Family Charity logo. Wear your support 
-                  with pride and start conversations about Oliver's Village wherever you go. Durable, 
-                  comfortable, and stylish.
-                </p>
-
-                <div className="bg-amber-50 p-4 rounded-lg mb-6">
-                  <h4 className="font-semibold text-neutral-900 mb-2">Features:</h4>
-                  <ul className="space-y-1 text-neutral-700">
-                    <li>• Premium quality fabric</li>
-                    <li>• Embroidered Tucker Family Charity logo</li>
-                    <li>• Adjustable strap for perfect fit</li>
-                    <li>• Available in multiple colors</li>
-                  </ul>
-                </div>
-
-                <a
-                  href="mailto:info@tuckerfamilycharity.org?subject=Caps Order"
-                  className="block w-full bg-amber-700 text-white py-3 rounded-lg hover:bg-amber-800 transition-colors font-semibold text-center"
-                >
-                  Order Caps
-                </a>
-              </div>
-            </div>
-
+              );
+            })}
           </div>
         </div>
       </section>
@@ -234,27 +177,23 @@ export function Shop() {
             </div>
           </div>
 
-          {/* Contact Information */}
           <div className="bg-white rounded-lg shadow-lg p-8">
             <h3 className="text-2xl font-bold mb-6 text-center text-neutral-900">
               Contact Us to Order
             </h3>
-            
             <div className="space-y-4">
-              <a 
-                href="mailto:info@tuckerfamilycharity.org" 
+              <a
+                href="mailto:info@tuckerfamilycharity.org"
                 className="flex items-center justify-center gap-3 p-4 bg-amber-50 rounded-lg hover:bg-amber-100 transition-colors"
               >
                 <Mail className="w-6 h-6 text-amber-700" />
                 <span className="text-lg text-neutral-900">info@tuckerfamilycharity.org</span>
               </a>
-              
               <div className="flex items-center justify-center gap-3 p-4 bg-amber-50 rounded-lg">
                 <Phone className="w-6 h-6 text-amber-700" />
                 <span className="text-lg text-neutral-900">Contact via email for phone number</span>
               </div>
             </div>
-
             <p className="text-center text-neutral-600 mt-6">
               We typically respond within 24 hours. All proceeds support Oliver's Village.
             </p>
@@ -265,21 +204,17 @@ export function Shop() {
       {/* Impact Statement */}
       <section className="py-20 bg-stone-700 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-6">
-            Your Purchase Makes an Impact
-          </h2>
+          <h2 className="text-4xl font-bold mb-6">Your Purchase Makes an Impact</h2>
           <p className="text-xl text-stone-100 mb-8">
-            100% of merchandise profits go directly to supporting students at Oliver's Village. 
+            100% of merchandise profits go directly to supporting students at Oliver's Village.
             Every cap and bottle of wine helps provide education, meals, and opportunities for children in need.
           </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Link
-              to="/about"
-              className="bg-white text-stone-700 px-8 py-3 rounded-full hover:bg-stone-50 transition-colors font-semibold"
-            >
-              Learn More About Our Work
-            </Link>
-          </div>
+          <Link
+            to="/about"
+            className="bg-white text-stone-700 px-8 py-3 rounded-full hover:bg-stone-50 transition-colors font-semibold"
+          >
+            Learn More About Our Work
+          </Link>
         </div>
       </section>
 

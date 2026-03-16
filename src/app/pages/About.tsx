@@ -64,11 +64,12 @@ export function About() {
             </div>
 
             {/* Computer Lab Image */}
-            <div className="relative h-[500px] rounded-lg overflow-hidden shadow-xl">
+            <div className="relative h-[500px] rounded-lg overflow-hidden shadow-xl group">
               <img
                 src={computerLab}
                 alt="Computer lab at Oliver's Village"
-                className="absolute inset-0 w-full h-full object-cover"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                loading="lazy"
               />
             </div>
           </div>
@@ -128,11 +129,12 @@ export function About() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="relative h-[500px] rounded-lg overflow-hidden shadow-xl">
+            <div className="relative h-[500px] rounded-lg overflow-hidden shadow-xl group">
               <img
                 src={gardenBeds}
                 alt="Vegetable gardens at Oliver's Village"
-                className="absolute inset-0 w-full h-full object-cover"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                loading="lazy"
               />
             </div>
             
@@ -168,12 +170,13 @@ export function About() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Computer Lab */}
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
-              <div className="relative h-64">
+            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+              <div className="relative h-64 group overflow-hidden">
                 <img
                   src={computerLab}
                   alt="Computer lab at Oliver's Village"
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
                 />
               </div>
               <div className="p-6">
@@ -185,12 +188,13 @@ export function About() {
             </div>
 
             {/* Garden Beds */}
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
-              <div className="relative h-64">
+            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+              <div className="relative h-64 group overflow-hidden">
                 <img
                   src={gardenBeds}
                   alt="Vegetable gardens at Oliver's Village"
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
                 />
               </div>
               <div className="p-6">
@@ -202,12 +206,13 @@ export function About() {
             </div>
 
             {/* Kitchen */}
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
-              <div className="relative h-64">
+            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+              <div className="relative h-64 group overflow-hidden">
                 <img
                   src={kitchenArea}
                   alt="Community kitchen at Oliver's Village"
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
                 />
               </div>
               <div className="p-6">
@@ -219,12 +224,13 @@ export function About() {
             </div>
 
             {/* Dining Area */}
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
-              <div className="relative h-64">
+            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+              <div className="relative h-64 group overflow-hidden">
                 <img
                   src={diningArea}
                   alt="Community dining area at Oliver's Village"
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
                 />
               </div>
               <div className="p-6">
@@ -236,12 +242,13 @@ export function About() {
             </div>
 
             {/* Garden Program */}
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
-              <div className="relative h-64">
+            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+              <div className="relative h-64 group overflow-hidden">
                 <img
                   src={gardenArea}
                   alt="Garden program at Oliver's Village"
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
                 />
               </div>
               <div className="p-6">
@@ -253,12 +260,13 @@ export function About() {
             </div>
 
             {/* School Grounds */}
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
-              <div className="relative h-64">
+            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+              <div className="relative h-64 group overflow-hidden">
                 <img
                   src={schoolGrounds}
                   alt="Oliver's Village school campus"
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
                 />
               </div>
               <div className="p-6">

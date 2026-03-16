@@ -1,84 +1,13 @@
+import { useState } from "react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Link } from "react-router";
-import { Calendar, MapPin, Clock, Users } from "lucide-react";
+import { Calendar, MapPin, Clock, Users, ExternalLink, X } from "lucide-react";
+import { upcomingEvents, pastEvents } from "@/data/events";
 
 export function Events() {
-  const events = [
-    {
-      id: 1,
-      title: "Spring Fundraiser Gala",
-      date: "April 15, 2026",
-      time: "6:00 PM - 10:00 PM",
-      location: "Johannesburg Community Center",
-      address: "Venue TBC — check back for details",
-      image: "https://images.unsplash.com/photo-1768776179834-93e6cafc6d97?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21tdW5pdHklMjBldmVudCUyMG91dGRvb3IlMjBwZW9wbGV8ZW58MXx8fHwxNzczMTMyMzA1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      description: "Join us for an unforgettable evening of music, food, and community as we celebrate the collective impact we're making on education at Oliver's Village. Enjoy live performances, a silent auction, and networking with fellow supporters.",
-      attendees: "150+ expected",
-      category: "Fundraiser"
-    },
-    {
-      id: 2,
-      title: "Charity Wine Tasting",
-      date: "May 22, 2026",
-      time: "5:00 PM - 8:00 PM",
-      location: "The Vineyard, Constantia",
-      address: "Wine Route, Constantia Valley",
-      image: "https://images.unsplash.com/photo-1771924368588-507c6a048363?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21tdW5pdHklMjBnYXRoZXJpbmclMjBjZWxlYnJhdGlvbnxlbnwxfHx8fDE3NzMwNDU0Nzl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      description: "Sample exquisite South African wines in a beautiful vineyard setting while supporting a great cause. All proceeds benefit Oliver's Village students. Wine expert presentations and gourmet pairings included.",
-      attendees: "80+ expected",
-      category: "Fundraiser"
-    },
-    {
-      id: 3,
-      title: "School Visit Day",
-      date: "June 10, 2026",
-      time: "9:00 AM - 2:00 PM",
-      location: "Oliver's Village",
-      address: "Oliver's Village School, Johannesburg",
-      image: "https://images.unsplash.com/photo-1666281269793-da06484657e8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxBZnJpY2FuJTIwc2Nob29sJTIwZWR1Y2F0aW9uJTIwYm9va3N8ZW58MXx8fHwxNzczMTMyMzA0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      description: "Experience the magic of Oliver's Village firsthand! Meet the students and teachers, tour the facilities, participate in classroom activities, and see the direct impact of your support. Lunch provided.",
-      attendees: "40+ expected",
-      category: "Community"
-    },
-    {
-      id: 4,
-      title: "Summer Fun Run",
-      date: "July 20, 2026",
-      time: "7:00 AM - 11:00 AM",
-      location: "Delta Park",
-      address: "Victory Park, Johannesburg",
-      image: "https://images.unsplash.com/photo-1770842655322-bcfd1c4be229?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxBZnJpY2FuJTIwY2hpbGRyZW4lMjBjb21tdW5pdHklMjBzbWlsaW5nJTIwaGFwcHl8ZW58MXx8fHwxNzczMTMyMzA0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      description: "Run, walk, or jog for education! 5K and 10K routes available for all fitness levels. Registration includes a charity T-shirt, refreshments, and the satisfaction of supporting a great cause. Family-friendly event.",
-      attendees: "200+ expected",
-      category: "Fundraiser"
-    },
-    {
-      id: 5,
-      title: "Annual Charity Auction",
-      date: "August 30, 2026",
-      time: "6:30 PM - 10:00 PM",
-      location: "The Grand Hall",
-      address: "Sandton Convention Centre, Johannesburg",
-      image: "https://images.unsplash.com/photo-1706323625335-dad461b68fe5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzY2hvb2wlMjBidWlsZGluZyUyMGltcHJvdmVtZW50fGVufDF8fHx8MTc3MzEzMjMwOXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      description: "Our biggest fundraiser of the year! Bid on incredible items including art, experiences, vacations, and exclusive packages. Cocktails, dinner, and live entertainment. Black-tie optional.",
-      attendees: "250+ expected",
-      category: "Fundraiser"
-    },
-    {
-      id: 6,
-      title: "Back-to-School Supply Drive",
-      date: "September 15, 2026",
-      time: "10:00 AM - 4:00 PM",
-      location: "Multiple Locations",
-      address: "Drop-off points TBC — contact us for details",
-      image: "https://images.unsplash.com/photo-1683879025805-a268b690613e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzY2hvb2wlMjBzdXBwbGllcyUyMHBlbmNpbHMlMjBib29rc3xlbnwxfHx8fDE3NzMxMzIzMDZ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      description: "Help us prepare students for a successful school year! Donate school supplies, books, backpacks, and uniforms. Drop-off locations across Johannesburg. Every item makes a difference.",
-      attendees: "Community-wide",
-      category: "Drive"
-    }
-  ];
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
 
   return (
     <div className="min-h-screen bg-white">
@@ -110,68 +39,41 @@ export function Events() {
         </div>
       </section>
 
-      {/* Events Grid */}
+      {/* Upcoming Events */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="space-y-12">
-            {events.map((event, index) => (
+          <h2 className="text-3xl font-bold mb-12 text-neutral-900">Upcoming Events</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {upcomingEvents.map((event) => (
               <div
                 key={event.id}
-                className={`grid grid-cols-1 lg:grid-cols-2 gap-8 items-center ${
-                  index % 2 === 1 ? 'lg:grid-flow-dense' : ''
-                }`}
+                className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col"
               >
-                {/* Image */}
-                <div className={`relative h-[400px] rounded-lg overflow-hidden shadow-xl ${
-                  index % 2 === 1 ? 'lg:col-start-2' : ''
-                }`}>
+                <div className="relative h-48 flex-shrink-0">
                   <ImageWithFallback
                     src={event.image}
                     alt={event.title}
                     className="absolute inset-0 w-full h-full object-cover"
+                    loading="lazy"
                   />
-                  <div className="absolute top-4 left-4 bg-orange-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                  <div className="absolute top-4 left-4 bg-orange-600 text-white px-3 py-1.5 rounded-full text-sm font-semibold">
                     {event.category}
                   </div>
                 </div>
-
-                {/* Content */}
-                <div className={index % 2 === 1 ? 'lg:col-start-1 lg:row-start-1' : ''}>
-                  <h2 className="text-3xl font-bold mb-4 text-neutral-900">
-                    {event.title}
-                  </h2>
-                  
-                  <div className="space-y-3 mb-6">
-                    <div className="flex items-center gap-3 text-neutral-700">
-                      <Calendar className="w-5 h-5 text-orange-600 flex-shrink-0" />
-                      <span className="font-semibold">{event.date}</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-neutral-700">
-                      <Clock className="w-5 h-5 text-orange-600 flex-shrink-0" />
-                      <span>{event.time}</span>
-                    </div>
-                    <div className="flex items-start gap-3 text-neutral-700">
-                      <MapPin className="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" />
-                      <div>
-                        <div className="font-semibold">{event.location}</div>
-                        <div className="text-sm text-neutral-600">{event.address}</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3 text-neutral-700">
-                      <Users className="w-5 h-5 text-orange-600 flex-shrink-0" />
-                      <span>{event.attendees}</span>
-                    </div>
+                <div className="p-6 flex flex-col flex-1 min-h-0">
+                  <h3 className="text-xl font-bold mb-2 text-neutral-900">{event.title}</h3>
+                  <div className="flex items-center gap-2 text-orange-600 font-semibold mb-2">
+                    <Calendar className="w-4 h-4 flex-shrink-0" />
+                    {event.date}
                   </div>
-
-                  <p className="text-neutral-700 mb-6">
-                    {event.description}
-                  </p>
-
+                  <p className="text-neutral-600 mb-4 flex-1 line-clamp-3">{event.description}</p>
                   <a
-                    href={`mailto:info@tuckerfamilycharity.org?subject=Event Registration: ${encodeURIComponent(event.title)}`}
-                    className="inline-block bg-orange-600 text-white px-8 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold"
+                    href={event.ctaLink}
+                    target={event.ctaType === "external" ? "_blank" : undefined}
+                    rel={event.ctaType === "external" ? "noopener noreferrer" : undefined}
+                    className="block w-full bg-orange-600 text-white px-6 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold text-center"
                   >
-                    Register for Event
+                    {event.ctaLabel}
                   </a>
                 </div>
               </div>
@@ -180,18 +82,86 @@ export function Events() {
         </div>
       </section>
 
+      {/* Past Events */}
+      <section className="py-20 bg-amber-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold mb-12 text-neutral-900">Past Events</h2>
+          <div className="space-y-16">
+            {pastEvents.map((event) => (
+              <div key={event.id} className="bg-white rounded-lg overflow-hidden shadow-lg p-8">
+                <h3 className="text-2xl font-bold mb-4 text-neutral-900">{event.title}</h3>
+                <p className="text-neutral-700 mb-8 max-w-3xl">{event.shortDescription}</p>
+
+                {/* Gallery grid - 4-6 photos, equal height */}
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+                  {event.photos.map((photo, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => setLightboxImage(photo)}
+                      className="relative aspect-[4/3] rounded-lg overflow-hidden focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 group"
+                    >
+                      <ImageWithFallback
+                        src={photo}
+                        alt={`${event.title} photo ${i + 1}`}
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                    </button>
+                  ))}
+                </div>
+
+                <a
+                  href={event.albumLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-orange-600 text-white px-6 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold"
+                >
+                  View Full Gallery
+                  <ExternalLink className="w-4 h-4" />
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Lightbox */}
+      {lightboxImage && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Image lightbox"
+          className="fixed inset-0 z-50 w-full h-full bg-black/90 flex items-center justify-center p-4"
+          onClick={() => setLightboxImage(null)}
+        >
+          <button
+            type="button"
+            onClick={() => setLightboxImage(null)}
+            className="absolute top-4 right-4 text-white p-2 hover:bg-white/10 rounded-full transition-colors"
+            aria-label="Close"
+          >
+            <X className="w-8 h-8" />
+          </button>
+          <img
+            src={lightboxImage}
+            alt="Enlarged view"
+            className="max-w-full max-h-[90vh] object-contain rounded-lg"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
+
       {/* CTA Section */}
       <section className="py-20 bg-orange-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-6">
-            Can't Attend an Event?
-          </h2>
+          <h2 className="text-4xl font-bold mb-6">Can't Attend an Event?</h2>
           <p className="text-xl mb-8 text-orange-100">
             You can still support Oliver's Village through direct donations or by purchasing our charity merchandise
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
-              to="/#support"
+              to="/donate"
               className="bg-white text-orange-600 px-8 py-3 rounded-full hover:bg-neutral-100 transition-colors font-semibold"
             >
               Make a Donation

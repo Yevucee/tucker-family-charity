@@ -1,7 +1,8 @@
-import { Heart, Instagram, MapPin } from "lucide-react";
 import { Link } from "react-router";
+import { Instagram, MapPin } from "lucide-react";
 import { Facebook } from "lucide-react";
 import logo from "@/assets/4920ca320ce31a579ec4c3d0fcc360b4528a2024.png";
+import { partners } from "@/data/partners";
 
 export function Footer() {
   return (
@@ -31,9 +32,18 @@ export function Footer() {
               <Link to="/events" className="text-neutral-400 hover:text-orange-500 transition-colors">
                 Events
               </Link>
-              <a href="#support" className="text-neutral-400 hover:text-orange-500 transition-colors">
+              <Link to="/shop" className="text-neutral-400 hover:text-orange-500 transition-colors">
+                Shop
+              </Link>
+              <Link to="/donate" className="text-neutral-400 hover:text-orange-500 transition-colors">
                 Donate
-              </a>
+              </Link>
+              <Link to="/partners" className="text-neutral-400 hover:text-orange-500 transition-colors">
+                Partners
+              </Link>
+              <Link to="/keep-it-in-the-family" className="text-neutral-400 hover:text-orange-500 transition-colors">
+                Keep It In The Family
+              </Link>
             </div>
           </div>
 
@@ -64,6 +74,32 @@ export function Footer() {
                 <span>Johannesburg, South Africa</span>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Partner logos */}
+        <div className="border-t border-neutral-800 mt-8 pt-8">
+          <p className="text-neutral-500 text-sm mb-4">Supported by</p>
+          <div className="flex flex-wrap gap-6 items-center">
+            {partners.map((partner) => (
+              <Link
+                key={partner.id}
+                to="/partners"
+                className="opacity-70 hover:opacity-100 transition-opacity"
+              >
+                {partner.logo ? (
+                  <img
+                    src={partner.logo}
+                    alt={partner.name}
+                    className="h-8 w-auto object-contain brightness-0 invert"
+                  />
+                ) : (
+                  <span className="text-sm text-neutral-500 hover:text-neutral-300 transition-colors">
+                    {partner.name}
+                  </span>
+                )}
+              </Link>
+            ))}
           </div>
         </div>
 

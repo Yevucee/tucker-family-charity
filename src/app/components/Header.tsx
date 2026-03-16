@@ -49,11 +49,19 @@ export function Header() {
             >
               Shop
             </NavLink>
+            <NavLink
+              to="/partners"
+              className={({ isActive }) =>
+                isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+              }
+            >
+              Partners
+            </NavLink>
             <Link
-              to="/#support"
+              to="/donate"
               className="bg-orange-600 text-white px-5 py-2 rounded-full hover:bg-orange-700 transition-colors"
             >
-              Support Us
+              Donate
             </Link>
           </nav>
 
@@ -106,12 +114,21 @@ export function Header() {
               >
                 Shop
               </NavLink>
+              <NavLink
+                to="/partners"
+                className={({ isActive }) =>
+                  isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+                }
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Partners
+              </NavLink>
               <Link
-                to="/#support"
+                to="/donate"
                 className="bg-orange-600 text-white px-5 py-2 rounded-full hover:bg-orange-700 transition-colors text-center"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Support Us
+                Donate
               </Link>
             </div>
           </nav>
