@@ -61,7 +61,7 @@ export function Header() {
               to="/donate"
               className="bg-orange-600 text-white px-5 py-2 rounded-full hover:bg-orange-700 transition-colors"
             >
-              Donate
+              Support Us
             </Link>
           </nav>
 
@@ -128,7 +128,7 @@ export function Header() {
                 className="bg-orange-600 text-white px-5 py-2 rounded-full hover:bg-orange-700 transition-colors text-center"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Donate
+                Support Us
               </Link>
             </div>
           </nav>

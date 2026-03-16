@@ -36,7 +36,7 @@ export function Footer() {
                 Shop
               </Link>
               <Link to="/donate" className="text-neutral-400 hover:text-orange-500 transition-colors">
-                Donate
+                Support Us
               </Link>
               <Link to="/partners" className="text-neutral-400 hover:text-orange-500 transition-colors">
                 Partners
