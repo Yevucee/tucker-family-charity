@@ -57,6 +57,14 @@ export function Header() {
             >
               Partners
             </NavLink>
+            <NavLink
+              to="/keep-it-in-the-family"
+              className={({ isActive }) =>
+                isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+              }
+            >
+              Keep It In The Family
+            </NavLink>
             <Link
               to="/donate"
               className="bg-orange-600 text-white px-5 py-2 rounded-full hover:bg-orange-700 transition-colors"
@@ -122,6 +130,15 @@ export function Header() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Partners
+              </NavLink>
+              <NavLink
+                to="/keep-it-in-the-family"
+                className={({ isActive }) =>
+                  isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+                }
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Keep It In The Family
               </NavLink>
               <Link
                 to="/donate"

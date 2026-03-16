@@ -64,8 +64,11 @@ export function Home() {
               <p className="text-lg text-neutral-700 mb-6">
                 Tucker Family Charity is a small family-led initiative based in Johannesburg. The charity was created to support Oliver's Village, a community project that provides education, meals and training to children and families from nearby communities.
               </p>
+              <p className="text-lg text-neutral-700 mb-4">
+                Through events, fundraising and merchandise sales, we help provide practical support where it matters most. We also maintain a trusted directory of local tradespeople and services recommended by our community—<Link to="/keep-it-in-the-family" className="text-orange-600 hover:text-orange-700 font-semibold">Keep It In The Family</Link>.
+              </p>
               <p className="text-lg text-neutral-700 mb-8">
-                Through events, fundraising and merchandise sales, we help provide practical support where it matters most. We're proud to be part of Oliver's Village's journey, and we invite you to join us.
+                We're proud to be part of Oliver's Village's journey, and we invite you to join us.
               </p>
               <Link
                 to="/about"
