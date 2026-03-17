@@ -181,7 +181,7 @@ export function KeepItInTheFamily() {
       <Header />
 
       {/* Hero + Tabs (orange banner – title, subtitle, tabs centred) */}
-      <section className="sticky top-0 z-20 bg-gradient-to-r from-amber-600 to-amber-800 py-16 md:py-20">
+      <section className="bg-gradient-to-r from-amber-600 to-amber-800 py-16 md:py-20">
         <div className="relative z-10 flex flex-col items-center justify-center min-h-[280px] px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto w-full text-center text-white">
             <h1 className="text-5xl md:text-6xl font-bold mb-4">Keep It In The Family</h1>
