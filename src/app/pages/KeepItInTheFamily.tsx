@@ -180,8 +180,8 @@ export function KeepItInTheFamily() {
     <div className="min-h-screen bg-white">
       <Header />
 
-      {/* Hero + Tabs */}
-      <section className="sticky top-0 z-20 bg-gradient-to-r from-amber-600 to-amber-800 pb-20 md:pb-24">
+      {/* Hero + Tabs + Tab intro (orange banner extends to here) */}
+      <section className="sticky top-0 z-20 bg-gradient-to-r from-amber-600 to-amber-800 pb-12">
         <div className="relative z-10 flex flex-col items-center px-4 sm:px-6 lg:px-8 pt-8 pb-4">
           <div className="max-w-7xl mx-auto w-full text-center text-white">
             <h1 className="text-5xl md:text-6xl font-bold mb-4">Keep It In The Family</h1>
@@ -190,7 +190,7 @@ export function KeepItInTheFamily() {
               place.
             </p>
           </div>
-          <div className="w-full flex justify-center">
+          <div className="w-full flex justify-center mb-10 mt-6">
             <div className="bg-white/20 backdrop-blur-sm rounded-xl p-1.5 border border-white/30 inline-flex gap-1">
               <button
                 onClick={() => setActiveTab("services")}
@@ -216,23 +216,34 @@ export function KeepItInTheFamily() {
               </button>
             </div>
           </div>
+          {/* Tab-specific intro inside orange banner */}
+          <div className="max-w-4xl mx-auto w-full text-center text-white">
+            {activeTab === "services" && (
+              <>
+                <h2 className="text-2xl font-bold mb-2">Find Trusted Professionals</h2>
+                <p className="text-lg text-amber-100">
+                  Search by name or sector. Plumbers, electricians, accountants, builders—people
+                  recommended by our community. Free to view.
+                </p>
+              </>
+            )}
+            {activeTab === "networking" && (
+              <>
+                <h2 className="text-2xl font-bold mb-2">Business Networking</h2>
+                <p className="text-lg text-amber-100">
+                  Directory of business owners and shareholders. Expand your network through trusted
+                  introductions.
+                </p>
+              </>
+            )}
+          </div>
         </div>
       </section>
 
       {/* Services tab */}
       {activeTab === "services" && (
         <>
-          <section className="py-12 bg-amber-50">
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-              <h2 className="text-2xl font-bold text-neutral-900 mb-2">Find Trusted Professionals</h2>
-              <p className="text-lg text-neutral-700">
-                Search by name or sector. Plumbers, electricians, accountants, builders—people
-                recommended by our community. Free to view.
-              </p>
-            </div>
-          </section>
-
-          <section className="py-8">
+          <section className="py-8 bg-amber-50">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="relative flex-1">
@@ -323,11 +334,6 @@ export function KeepItInTheFamily() {
         <>
           <section className="py-12 bg-amber-50">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-              <h2 className="text-2xl font-bold text-neutral-900 mb-2">Business Networking</h2>
-              <p className="text-lg text-neutral-700 mb-6">
-                Directory of business owners and shareholders. Expand your network through trusted
-                introductions.
-              </p>
               <div className="bg-white rounded-lg p-6 text-left max-w-xl mx-auto border border-amber-200">
                 <p className="font-semibold text-neutral-900 mb-2">Membership</p>
                 <p className="text-neutral-700">
