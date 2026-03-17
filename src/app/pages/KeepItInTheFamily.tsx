@@ -180,45 +180,41 @@ export function KeepItInTheFamily() {
     <div className="min-h-screen bg-white">
       <Header />
 
-      {/* Hero */}
-      <section className="relative h-[300px] bg-gradient-to-r from-amber-600 to-amber-800">
-        <div className="relative z-10 h-full flex items-center">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
+      {/* Hero + Tabs */}
+      <section className="sticky top-0 z-20 bg-gradient-to-r from-amber-600 to-amber-800 pb-8">
+        <div className="relative z-10 flex flex-col items-center px-4 sm:px-6 lg:px-8 pt-8 pb-4">
+          <div className="max-w-7xl mx-auto w-full text-center text-white">
             <h1 className="text-5xl md:text-6xl font-bold mb-4">Keep It In The Family</h1>
-            <p className="text-xl text-amber-100">
+            <p className="text-xl text-amber-100 mb-8">
               Support family and friends in business—trusted professionals and networking, all in one
               place.
             </p>
           </div>
-        </div>
-      </section>
-
-      {/* Tabs */}
-      <section className="sticky top-0 z-20 bg-amber-50/80 backdrop-blur-sm border-b border-amber-200/60 shadow-md">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="bg-white rounded-xl p-1.5 shadow-inner border border-amber-100 inline-flex gap-1 w-full sm:w-auto">
-            <button
-              onClick={() => setActiveTab("services")}
-              className={`flex-1 sm:flex-initial flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-lg font-semibold text-base transition-all duration-200 ${
-                activeTab === "services"
-                  ? "bg-orange-600 text-white shadow-md shadow-orange-600/25"
-                  : "text-neutral-600 hover:bg-amber-50 hover:text-neutral-900"
-              }`}
-            >
-              <Briefcase className="w-5 h-5 text-current shrink-0" />
-              Services
-            </button>
-            <button
-              onClick={() => setActiveTab("networking")}
-              className={`flex-1 sm:flex-initial flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-lg font-semibold text-base transition-all duration-200 ${
-                activeTab === "networking"
-                  ? "bg-orange-600 text-white shadow-md shadow-orange-600/25"
-                  : "text-neutral-600 hover:bg-amber-50 hover:text-neutral-900"
-              }`}
-            >
-              <Users className="w-5 h-5 text-current shrink-0" />
-              Networking
-            </button>
+          <div className="w-full flex justify-center">
+            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-1.5 border border-white/30 inline-flex gap-1">
+              <button
+                onClick={() => setActiveTab("services")}
+                className={`flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-lg font-semibold text-base transition-all duration-200 ${
+                  activeTab === "services"
+                    ? "bg-white text-amber-800 shadow-md"
+                    : "text-white/90 hover:bg-white/20 hover:text-white"
+                }`}
+              >
+                <Briefcase className="w-5 h-5 text-current shrink-0" />
+                Services
+              </button>
+              <button
+                onClick={() => setActiveTab("networking")}
+                className={`flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-lg font-semibold text-base transition-all duration-200 ${
+                  activeTab === "networking"
+                    ? "bg-white text-amber-800 shadow-md"
+                    : "text-white/90 hover:bg-white/20 hover:text-white"
+                }`}
+              >
+                <Users className="w-5 h-5 text-current shrink-0" />
+                Networking
+              </button>
+            </div>
           </div>
         </div>
       </section>
