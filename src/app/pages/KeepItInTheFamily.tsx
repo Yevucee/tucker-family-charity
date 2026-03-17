@@ -181,7 +181,7 @@ export function KeepItInTheFamily() {
       <Header />
 
       {/* Hero + Tabs */}
-      <section className="sticky top-0 z-20 bg-gradient-to-r from-amber-600 to-amber-800 pb-8">
+      <section className="sticky top-0 z-20 bg-gradient-to-r from-amber-600 to-amber-800 pb-12">
         <div className="relative z-10 flex flex-col items-center px-4 sm:px-6 lg:px-8 pt-8 pb-4">
           <div className="max-w-7xl mx-auto w-full text-center text-white">
             <h1 className="text-5xl md:text-6xl font-bold mb-4">Keep It In The Family</h1>
