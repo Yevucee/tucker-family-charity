@@ -12,7 +12,7 @@ export function Footer() {
           {/* Logo and Mission */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-6">
-              <img src={logo} alt="Tucker Family Charity" className="h-20 md:h-24 w-auto brightness-0 invert" />
+              <img src={logo} alt="Tucker Family Charity" className="h-20 md:h-24 w-auto invert opacity-90" />
             </div>
             <p className="text-neutral-400 max-w-md text-lg">
               Supporting Oliver's Village in Johannesburg — raising funds to provide education, meals and training to children and families.
@@ -103,8 +103,17 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-neutral-800 mt-8 pt-8 text-center text-neutral-400 text-sm">
-          <p>&copy; {new Date().getFullYear()} Tucker Family Charity. All rights reserved.</p>
+        <div className="border-t border-neutral-800 mt-8 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <Link to="/" className="flex items-center shrink-0">
+            <img
+              src={logo}
+              alt="Tucker Family Charity"
+              className="h-12 md:h-14 w-auto invert opacity-90 hover:opacity-100 transition-opacity"
+            />
+          </Link>
+          <p className="text-neutral-400 text-sm text-center sm:text-right">
+            &copy; {new Date().getFullYear()} Tucker Family Charity. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
