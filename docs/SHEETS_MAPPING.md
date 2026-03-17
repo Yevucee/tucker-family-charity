@@ -1,6 +1,6 @@
 # Keep It In The Family – Spreadsheet Mapping
 
-Two separate Google Sheets power the two tabs. **Note:** Networking data is fetched at build time—push a commit to rebuild after adding entries to the sheet. Make sure each sheet is connected to the correct tab.
+Two separate Google Sheets power the two tabs. Both are fetched at runtime—updates to the sheets appear on the next page refresh. Make sure each sheet is connected to the correct tab.
 
 ---
 
@@ -28,7 +28,7 @@ Two separate Google Sheets power the two tabs. **Note:** Networking data is fetc
 
 **Current default Sheet ID:** `1z37lsb3N9VAqIxgRMdPYrqVOm61bt6KltjJpsD_FIrw`
 
-**Data flow:** Fetched at build time (GitHub Actions), written to `networking-directory.json`. Sheet ID never appears in the built site.
+**Data flow:** Fetched at runtime from opensheet API (same as Services). Updates appear on refresh.
 
 ---
 

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
-import { Search, Phone, Filter, Mail, Globe } from "lucide-react";
-import { DIRECTORY_SHEET_ID } from "@/config";
+import { Search, Phone, Filter, Mail, Globe, Briefcase, Users } from "lucide-react";
+import { DIRECTORY_SHEET_ID, NETWORKING_SHEET_ID } from "@/config";
 
 interface ServicesEntry {
   name: string;
@@ -85,13 +85,38 @@ export function KeepItInTheFamily() {
   }, []);
 
   useEffect(() => {
+    const normalizeRow = (row: Record<string, unknown>): NetworkingEntry => {
+      const get = (...keys: string[]) => {
+        const key = keys.find((k) => row[k] != null && String(row[k]).trim() !== "");
+        return key != null ? String(row[key]).trim() : "";
+      };
+      return {
+        name: get("name", "Name"),
+        company: get("company", "Company"),
+        sectors: get("sectors", "Sectors"),
+        business_interests: get("business_interests", "Business Interest"),
+        phone: get("phone", "Phone"),
+        email: get("email", "Email"),
+        area: get("area", "Area"),
+        website: get("website", "Website"),
+      };
+    };
+
     const fetchNetworking = async () => {
+      if (!NETWORKING_SHEET_ID || NETWORKING_SHEET_ID === "YOUR_SHEET_ID") {
+        setNetworkingEntries([]);
+        setNetworkingLoading(false);
+        return;
+      }
       try {
-        const base = import.meta.env.BASE_URL || "/";
-        const url = `${base}networking-directory.json`;
+        const url = `https://opensheet.elk.sh/${NETWORKING_SHEET_ID}/Sheet1`;
         const res = await fetch(url);
-        const data = await res.json();
-        setNetworkingEntries(Array.isArray(data) ? data : []);
+        const raw = await res.json();
+        const rows = Array.isArray(raw) ? raw : [];
+        const normalized = rows
+          .map((r: Record<string, unknown>) => normalizeRow(r))
+          .filter((r) => r.name || r.company);
+        setNetworkingEntries(normalized);
       } catch {
         setNetworkingEntries([]);
       } finally {
@@ -169,27 +194,29 @@ export function KeepItInTheFamily() {
       </section>
 
       {/* Tabs */}
-      <section className="sticky top-0 z-20 bg-white border-b border-neutral-200 shadow-sm">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex gap-1">
+      <section className="sticky top-0 z-20 bg-amber-50/80 backdrop-blur-sm border-b border-amber-200/60 shadow-md">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="bg-white rounded-xl p-1.5 shadow-inner border border-amber-100 inline-flex gap-1 w-full sm:w-auto">
             <button
               onClick={() => setActiveTab("services")}
-              className={`px-6 py-4 font-semibold transition-colors ${
+              className={`flex-1 sm:flex-initial flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-lg font-semibold text-base transition-all duration-200 ${
                 activeTab === "services"
-                  ? "text-orange-600 border-b-2 border-orange-600"
-                  : "text-neutral-500 hover:text-neutral-700"
+                  ? "bg-orange-600 text-white shadow-md shadow-orange-600/25"
+                  : "text-neutral-600 hover:bg-amber-50 hover:text-neutral-900"
               }`}
             >
+              <Briefcase className="w-5 h-5 text-current shrink-0" />
               Services
             </button>
             <button
               onClick={() => setActiveTab("networking")}
-              className={`px-6 py-4 font-semibold transition-colors ${
+              className={`flex-1 sm:flex-initial flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-lg font-semibold text-base transition-all duration-200 ${
                 activeTab === "networking"
-                  ? "text-orange-600 border-b-2 border-orange-600"
-                  : "text-neutral-500 hover:text-neutral-700"
+                  ? "bg-orange-600 text-white shadow-md shadow-orange-600/25"
+                  : "text-neutral-600 hover:bg-amber-50 hover:text-neutral-900"
               }`}
             >
+              <Users className="w-5 h-5 text-current shrink-0" />
               Networking
             </button>
           </div>

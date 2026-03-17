@@ -5,8 +5,6 @@
   "type": "module",
   "homepage": "https://Yevucee.github.io/tucker-family-charity",
   "scripts": {
-    "prebuild": "node scripts/fetch-networking-directory.js",
-    "predev": "node scripts/fetch-networking-directory.js",
     "build": "vite build && cp dist/index.html dist/404.html",
     "dev": "vite"
   },
