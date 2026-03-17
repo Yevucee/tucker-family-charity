@@ -14,16 +14,16 @@ export function Events() {
       <Header />
 
       {/* Hero */}
-      <section className="relative h-[400px] bg-neutral-900">
+      <section className="relative min-h-[400px] bg-neutral-900 flex items-center">
         <ImageWithFallback
           src="https://images.unsplash.com/photo-1771924368588-507c6a048363?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21tdW5pdHklMjBnYXRoZXJpbmclMjBjZWxlYnJhdGlvbnxlbnwxfHx8fDE3NzMwNDU0Nzl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
           alt="Community events"
           className="absolute inset-0 w-full h-full object-cover opacity-50"
         />
-        <div className="relative z-10 h-full flex items-center">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
-            <h1 className="text-5xl md:text-6xl font-bold">Events & Activities</h1>
-            <p className="text-xl mt-4 text-neutral-200">
+        <div className="relative z-10 w-full py-16 md:py-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+            <h1 className="text-5xl md:text-6xl font-bold mb-4">Events & Activities</h1>
+            <p className="text-xl text-neutral-200">
               Join us and be part of our community making a difference
             </p>
           </div>

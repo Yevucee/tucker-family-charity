@@ -18,7 +18,7 @@ export function Home() {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative h-[600px] bg-neutral-900">
+      <section className="relative min-h-[400px] py-16 md:py-20 flex items-center bg-neutral-900">
         <img
           src={schoolGrounds}
           alt="Oliver's Village school grounds"
@@ -28,7 +28,7 @@ export function Home() {
         <div className="relative z-10 h-full flex items-center justify-center">
           <div className="max-w-7xl w-full px-4 sm:px-6 lg:px-8 text-white">
             <div className="max-w-2xl mx-auto ml-12 md:ml-20">
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 [text-shadow:0_2px_12px_rgba(0,0,0,0.9)]">
+              <h1 className="text-5xl md:text-6xl font-bold mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.9)]">
                 Supporting Education and Opportunity in Johannesburg
               </h1>
               <p className="text-xl mb-8 text-white [text-shadow:0_2px_12px_rgba(0,0,0,0.9)]">
