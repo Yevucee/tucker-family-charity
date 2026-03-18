@@ -142,7 +142,7 @@ export function Header() {
               </NavLink>
               <Link
                 to="/donate"
-                className="bg-orange-600 text-white px-5 py-2 rounded-full hover:bg-orange-700 transition-colors text-center"
+                className="flex items-center justify-center min-h-[44px] bg-orange-600 text-white px-5 py-3 rounded-full hover:bg-orange-700 transition-colors text-center"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Support Us

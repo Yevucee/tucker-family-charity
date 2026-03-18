@@ -14,7 +14,7 @@ export function Footer() {
             <div className="flex items-center gap-3 mb-6">
               <img src={logo} alt="Tucker Family Charity" className="h-20 md:h-24 w-auto invert opacity-90" />
             </div>
-            <p className="text-neutral-400 max-w-md text-lg">
+            <p className="text-neutral-400 max-w-md text-base md:text-lg">
               Supporting Oliver's Village in Johannesburg — raising funds to provide education, meals and training to children and families.
             </p>
           </div>

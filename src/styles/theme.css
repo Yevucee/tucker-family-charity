@@ -131,6 +131,7 @@
     @apply bg-background text-foreground font-sans;
   }
 
+
   h1, h2, h3, h4 {
     font-family: var(--font-heading);
   }
@@ -142,6 +143,7 @@
 
   html {
     font-size: var(--font-size);
+    overflow-x: hidden;
   }
 
   h1 {

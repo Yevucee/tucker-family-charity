@@ -190,11 +190,11 @@ export function KeepItInTheFamily() {
               place.
             </p>
           </div>
-          <div className="w-full flex justify-center">
-            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-1.5 border border-white/30 inline-flex gap-1">
+          <div className="w-full flex justify-center px-2">
+            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-1.5 border border-white/30 flex flex-wrap justify-center gap-1 w-full sm:w-auto">
               <button
                 onClick={() => setActiveTab("services")}
-                className={`flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-lg font-semibold text-base transition-all duration-200 ${
+                className={`flex flex-1 sm:flex-initial items-center justify-center gap-2 min-h-[44px] px-6 py-3.5 rounded-lg font-semibold text-base transition-all duration-200 ${
                   activeTab === "services"
                     ? "bg-white text-amber-800 shadow-md"
                     : "text-white/90 hover:bg-white/20 hover:text-white"
@@ -205,7 +205,7 @@ export function KeepItInTheFamily() {
               </button>
               <button
                 onClick={() => setActiveTab("networking")}
-                className={`flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-lg font-semibold text-base transition-all duration-200 ${
+                className={`flex flex-1 sm:flex-initial items-center justify-center gap-2 min-h-[44px] px-6 py-3.5 rounded-lg font-semibold text-base transition-all duration-200 ${
                   activeTab === "networking"
                     ? "bg-white text-amber-800 shadow-md"
                     : "text-white/90 hover:bg-white/20 hover:text-white"
@@ -274,7 +274,7 @@ export function KeepItInTheFamily() {
                   {filteredServices.map((entry, i) => (
                     <div
                       key={i}
-                      className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-neutral-100"
+                      className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 sm:p-6 border border-neutral-100"
                     >
                       <h3 className="text-xl font-bold text-neutral-900 mb-1">{entry.name}</h3>
                       <p className="text-orange-600 font-semibold mb-2">
@@ -379,7 +379,7 @@ export function KeepItInTheFamily() {
                   {filteredNetworking.map((entry, i) => (
                     <div
                       key={i}
-                      className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-neutral-100"
+                      className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 sm:p-6 border border-neutral-100"
                     >
                       <h3 className="text-xl font-bold text-neutral-900 mb-1">{entry.name}</h3>
                       {entry.company && (

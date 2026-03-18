@@ -27,7 +27,7 @@ export function Home() {
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/30" />
         <div className="relative z-10 h-full flex items-center justify-center">
           <div className="max-w-7xl w-full px-4 sm:px-6 lg:px-8 text-white">
-            <div className="max-w-2xl mx-auto ml-12 md:ml-20">
+            <div className="max-w-2xl mx-auto ml-4 md:ml-12 lg:ml-20">
               <h1 className="text-5xl md:text-6xl font-bold mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.9)]">
                 Supporting Education and Opportunity in Johannesburg
               </h1>
@@ -77,7 +77,7 @@ export function Home() {
                 Read our full story →
               </Link>
             </div>
-            <div className="relative h-[400px] rounded-lg overflow-hidden shadow-xl group">
+            <div className="relative h-[280px] sm:h-[350px] md:h-[400px] rounded-lg overflow-hidden shadow-xl group">
               <img
                 src={computerLab}
                 alt="Computer lab at Oliver's Village"
