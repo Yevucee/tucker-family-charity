@@ -13,6 +13,8 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { golfProgrammePartners } from "@/data/golfProgrammePartners";
+import zimbaliGolf from "@/assets/golf/zimbali-golf-course.jpg";
+import pezulaGolf from "@/assets/golf/pezula-golf-course.jpg";
 
 const GOLF_ENQUIRY_MAILTO =
   "mailto:info@tuckerfamilycharity.org?subject=Golf%20Learnership%20Programme%20-%20Partner%20Enquiry";
@@ -68,7 +70,13 @@ export function GolfLearnershipProgramme() {
       <Header />
 
       {/* 1. Hero */}
-      <section className="bg-gradient-to-r from-amber-600 to-amber-800 py-16 md:py-20">
+      <section className="relative py-16 md:py-20 overflow-hidden">
+        <img
+          src={zimbaliGolf}
+          alt="Golf course in South Africa"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-amber-900/85 via-amber-800/80 to-amber-900/85" />
         <div className="relative z-10 flex flex-col items-center justify-center min-h-[280px] px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto w-full text-center text-white">
             <h1 className="text-5xl md:text-6xl font-bold mb-4">Golf Learnership Programme</h1>
@@ -126,6 +134,37 @@ export function GolfLearnershipProgramme() {
                 )}
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 2b. Golf course imagery - South Africa */}
+      <section className="py-12 md:py-16 bg-neutral-100">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <p className="text-center text-sm font-medium text-neutral-500 uppercase tracking-wider mb-8">
+            Golf courses across South Africa
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+            <div className="rounded-lg overflow-hidden shadow-md">
+              <img
+                src={zimbaliGolf}
+                alt="Zimbali Golf Course, KwaZulu-Natal, South Africa"
+                className="w-full h-56 md:h-72 object-cover"
+              />
+              <p className="bg-white px-4 py-3 text-sm text-neutral-600">
+                Zimbali Golf Course, KwaZulu-Natal
+              </p>
+            </div>
+            <div className="rounded-lg overflow-hidden shadow-md">
+              <img
+                src={pezulaGolf}
+                alt="Pezula Golf Course, Knysna, South Africa"
+                className="w-full h-56 md:h-72 object-cover"
+              />
+              <p className="bg-white px-4 py-3 text-sm text-neutral-600">
+                Pezula Golf Course, Knysna
+              </p>
+            </div>
           </div>
         </div>
       </section>
