@@ -6,6 +6,7 @@ import { Shop } from "./pages/Shop";
 import { Partners } from "./pages/Partners";
 import { Donate } from "./pages/Donate";
 import { KeepItInTheFamily } from "./pages/KeepItInTheFamily";
+import { GolfLearnershipProgramme } from "./pages/GolfLearnershipProgramme";
 
 export const router = createBrowserRouter(
   [
@@ -36,6 +37,10 @@ export const router = createBrowserRouter(
     {
       path: "/keep-it-in-the-family",
       Component: KeepItInTheFamily,
+    },
+    {
+      path: "/golf-learnership-programme",
+      Component: GolfLearnershipProgramme,
     },
     {
       path: "/merch",

@@ -41,6 +41,9 @@ export function Footer() {
               <Link to="/partners" className="text-neutral-400 hover:text-orange-500 transition-colors">
                 Partners
               </Link>
+              <Link to="/golf-learnership-programme" className="text-neutral-400 hover:text-orange-500 transition-colors">
+                Golf Learnership
+              </Link>
               <Link to="/keep-it-in-the-family" className="text-neutral-400 hover:text-orange-500 transition-colors">
                 Keep It In The Family
               </Link>

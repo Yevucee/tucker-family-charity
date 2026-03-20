@@ -1,10 +1,20 @@
-import { Link, NavLink } from "react-router";
-import { Heart, Menu, X } from "lucide-react";
+import { Link, NavLink, useLocation } from "react-router";
+import { ChevronDown, Menu, X } from "lucide-react";
 import { useState } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
 import logo from "@/assets/4920ca320ce31a579ec4c3d0fcc360b4528a2024.png";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [programmesOpen, setProgrammesOpen] = useState(false);
+  const location = useLocation();
+  const isProgrammesActive = location.pathname.startsWith("/golf-learnership-programme");
 
   return (
     <header className="bg-white border-b border-neutral-200 sticky top-0 z-50">
@@ -57,6 +67,23 @@ export function Header() {
             >
               Partners
             </NavLink>
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                className={`flex items-center gap-1 transition-colors ${
+                  isProgrammesActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600"
+                }`}
+              >
+                Programmes
+                <ChevronDown className="w-4 h-4" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start">
+                <DropdownMenuItem asChild>
+                  <Link to="/golf-learnership-programme" className="cursor-pointer">
+                    Golf Learnership Programme
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <NavLink
               to="/keep-it-in-the-family"
               className={({ isActive }) =>
@@ -131,6 +158,32 @@ export function Header() {
               >
                 Partners
               </NavLink>
+              <Collapsible open={programmesOpen} onOpenChange={setProgrammesOpen}>
+                <CollapsibleTrigger
+                  className={`flex items-center justify-between w-full py-2 ${
+                    isProgrammesActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+                  }`}
+                >
+                  Programmes
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform ${programmesOpen ? "rotate-180" : ""}`}
+                  />
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <div className="pl-4 py-2">
+                    <Link
+                      to="/golf-learnership-programme"
+                      className="text-neutral-700 hover:text-orange-600 transition-colors block py-2"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        setProgrammesOpen(false);
+                      }}
+                    >
+                      Golf Learnership Programme
+                    </Link>
+                  </div>
+                </CollapsibleContent>
+              </Collapsible>
               <NavLink
                 to="/keep-it-in-the-family"
                 className={({ isActive }) =>
