@@ -14,7 +14,6 @@ import {
 } from "lucide-react";
 import { golfProgrammePartners } from "@/data/golfProgrammePartners";
 import zimbaliGolf from "@/assets/golf/zimbali-golf-course.jpg";
-import pezulaGolf from "@/assets/golf/pezula-golf-course.jpg";
 
 const GOLF_ENQUIRY_MAILTO =
   "mailto:info@tuckerfamilycharity.org?subject=Golf%20Learnership%20Programme%20-%20Partner%20Enquiry";
@@ -76,7 +75,7 @@ export function GolfLearnershipProgramme() {
           alt="Golf course in South Africa"
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-amber-900/85 via-amber-800/80 to-amber-900/85" />
+        <div className="absolute inset-0 bg-gradient-to-r from-amber-900/85 via-amber-700/80 to-amber-900/85" />
         <div className="relative z-10 flex flex-col items-center justify-center min-h-[280px] px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto w-full text-center text-white">
             <h1 className="text-5xl md:text-6xl font-bold mb-4">Golf Learnership Programme</h1>
@@ -93,7 +92,7 @@ export function GolfLearnershipProgramme() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href={GOLF_ENQUIRY_MAILTO}
-                className="inline-flex items-center justify-center gap-2 bg-white text-orange-600 px-8 py-3 rounded-full hover:bg-amber-50 transition-colors font-semibold"
+                className="inline-flex items-center justify-center gap-2 bg-white text-amber-700 px-8 py-3 rounded-full hover:bg-amber-50 transition-colors font-semibold"
               >
                 Partner With Us
                 <ArrowRight className="w-4 h-4" />
@@ -110,16 +109,16 @@ export function GolfLearnershipProgramme() {
       </section>
 
       {/* 2. Equal partner strip */}
-      <section className="py-16 bg-white border-y border-amber-100">
+      <section className="py-16 bg-amber-50/50 border-y border-amber-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-lg font-semibold text-neutral-600 mb-10">
+          <p className="text-center text-lg font-semibold text-amber-900/80 mb-10">
             Delivered through a shared commitment from three partner organisations
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
             {golfProgrammePartners.map((partner) => (
               <div
                 key={partner.id}
-                className="flex flex-col items-center justify-center min-h-[120px] bg-amber-50 rounded-lg p-8 border border-amber-200"
+                className="flex flex-col items-center justify-center min-h-[120px] bg-amber-100/80 rounded-lg p-8 border border-amber-300 shadow-sm"
               >
                 {partner.logo ? (
                   <img
@@ -128,7 +127,7 @@ export function GolfLearnershipProgramme() {
                     className="max-h-16 w-auto object-contain mb-4"
                   />
                 ) : (
-                  <span className="text-lg font-semibold text-neutral-800 text-center">
+                  <span className="text-lg font-semibold text-amber-950 text-center">
                     {partner.name}
                   </span>
                 )}
@@ -138,39 +137,8 @@ export function GolfLearnershipProgramme() {
         </div>
       </section>
 
-      {/* 2b. Golf course imagery - South Africa */}
-      <section className="py-12 md:py-16 bg-neutral-100">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-sm font-medium text-neutral-500 uppercase tracking-wider mb-8">
-            Golf courses across South Africa
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-            <div className="rounded-lg overflow-hidden shadow-md">
-              <img
-                src={zimbaliGolf}
-                alt="Zimbali Golf Course, KwaZulu-Natal, South Africa"
-                className="w-full h-56 md:h-72 object-cover"
-              />
-              <p className="bg-white px-4 py-3 text-sm text-neutral-600">
-                Zimbali Golf Course, KwaZulu-Natal
-              </p>
-            </div>
-            <div className="rounded-lg overflow-hidden shadow-md">
-              <img
-                src={pezulaGolf}
-                alt="Pezula Golf Course, Knysna, South Africa"
-                className="w-full h-56 md:h-72 object-cover"
-              />
-              <p className="bg-white px-4 py-3 text-sm text-neutral-600">
-                Pezula Golf Course, Knysna
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* 3. Programme overview */}
-      <section className="py-20 bg-amber-50">
+      <section className="py-20 bg-amber-50/70">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold mb-8 text-neutral-900">
             A structured pathway, not just a one-off initiative
@@ -189,7 +157,7 @@ export function GolfLearnershipProgramme() {
       </section>
 
       {/* 4. Why it matters */}
-      <section className="py-20">
+      <section className="py-20 bg-amber-50/30">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold mb-8 text-neutral-900">Why this matters</h2>
           <p className="text-lg text-neutral-700 mb-6">
@@ -208,7 +176,7 @@ export function GolfLearnershipProgramme() {
       </section>
 
       {/* 5. How the programme works */}
-      <section className="py-20 bg-amber-50">
+      <section className="py-20 bg-amber-50/70">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold mb-4 text-neutral-900">How the programme works</h2>
           <p className="text-lg text-neutral-700 mb-12">
@@ -220,10 +188,10 @@ export function GolfLearnershipProgramme() {
               return (
               <div
                 key={i}
-                className="flex flex-col md:flex-row gap-6 items-start bg-white rounded-lg p-6 border border-amber-100 shadow-sm"
+                className="flex flex-col md:flex-row gap-6 items-start bg-amber-50/50 rounded-lg p-6 border border-amber-200 shadow-sm"
               >
-                <div className="flex-shrink-0 w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center">
-                  <Icon className="w-8 h-8 text-orange-600" />
+                <div className="flex-shrink-0 w-16 h-16 rounded-full bg-amber-200 flex items-center justify-center">
+                  <Icon className="w-8 h-8 text-amber-700" />
                 </div>
                 <div className="flex-1">
                   <h3 className="text-xl font-bold mb-2 text-neutral-900">{step.title}</h3>
@@ -237,7 +205,7 @@ export function GolfLearnershipProgramme() {
       </section>
 
       {/* 6. More than golf */}
-      <section className="py-20">
+      <section className="py-20 bg-amber-50/30">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold mb-8 text-neutral-900">More than golf</h2>
           <p className="text-lg text-neutral-700 mb-6">
@@ -254,9 +222,9 @@ export function GolfLearnershipProgramme() {
             {MORE_THAN_GOLF_ITEMS.map((item) => (
               <div
                 key={item}
-                className="flex items-center gap-3 bg-amber-50 rounded-lg p-4 border border-amber-200"
+                className="flex items-center gap-3 bg-amber-100/80 rounded-lg p-4 border border-amber-300"
               >
-                <Zap className="w-5 h-5 text-orange-600 flex-shrink-0" />
+                <Zap className="w-5 h-5 text-amber-600 flex-shrink-0" />
                 <span className="font-medium text-neutral-800">{item}</span>
               </div>
             ))}
@@ -265,7 +233,7 @@ export function GolfLearnershipProgramme() {
       </section>
 
       {/* 7. Built through partnership */}
-      <section className="py-20 bg-amber-50">
+      <section className="py-20 bg-amber-50/70">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold mb-8 text-neutral-900">Built through collaboration</h2>
           <p className="text-lg text-neutral-700 mb-6">
@@ -282,11 +250,11 @@ export function GolfLearnershipProgramme() {
       </section>
 
       {/* 8. Accountability and impact */}
-      <section className="py-20">
+      <section className="py-20 bg-amber-50/30">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row gap-8 items-start">
-            <div className="flex-shrink-0 w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center">
-              <Shield className="w-8 h-8 text-orange-600" />
+            <div className="flex-shrink-0 w-16 h-16 rounded-full bg-amber-200 flex items-center justify-center">
+              <Shield className="w-8 h-8 text-amber-700" />
             </div>
             <div className="flex-1">
               <h2 className="text-4xl font-bold mb-8 text-neutral-900">
@@ -309,14 +277,14 @@ export function GolfLearnershipProgramme() {
       </section>
 
       {/* 9. Final CTA */}
-      <section className="py-20 bg-orange-600 text-white">
+      <section className="py-20 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold mb-6">Help create pathways that matter</h2>
-          <p className="text-xl text-orange-100 mb-10">
+          <p className="text-xl text-amber-100 mb-10">
             We welcome interest from organisations, partners and supporters who would like to be
             part of this journey.
           </p>
-          <p className="text-lg text-orange-100/90 mb-10 max-w-2xl mx-auto">
+          <p className="text-lg text-amber-100/90 mb-10 max-w-2xl mx-auto">
             Whether through sponsorship, collaboration, implementation support or strategic
             partnership, there are meaningful ways to contribute to the growth of this programme and
             the opportunities it can create.
@@ -324,7 +292,7 @@ export function GolfLearnershipProgramme() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href={GOLF_ENQUIRY_MAILTO}
-              className="inline-flex items-center justify-center gap-2 bg-white text-orange-600 px-8 py-3 rounded-full hover:bg-amber-50 transition-colors font-semibold"
+                className="inline-flex items-center justify-center gap-2 bg-white text-amber-700 px-8 py-3 rounded-full hover:bg-amber-50 transition-colors font-semibold"
             >
               Become a Partner
               <Handshake className="w-4 h-4" />
