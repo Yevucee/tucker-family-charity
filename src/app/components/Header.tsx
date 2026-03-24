@@ -14,7 +14,9 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [programmesOpen, setProgrammesOpen] = useState(false);
   const location = useLocation();
-  const isProgrammesActive = location.pathname.startsWith("/golf-learnership-programme");
+  const isProgrammesActive =
+    location.pathname.startsWith("/golf-learnership-programme") ||
+    location.pathname.startsWith("/olivers-village");
 
   return (
     <header className="bg-white border-b border-neutral-200 sticky top-0 z-50">
@@ -42,14 +44,6 @@ export function Header() {
               }
             >
               About
-            </NavLink>
-            <NavLink
-              to="/olivers-village"
-              className={({ isActive }) =>
-                isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
-              }
-            >
-              Oliver&apos;s Village
             </NavLink>
             <NavLink
               to="/events"
@@ -85,6 +79,11 @@ export function Header() {
                 <ChevronDown className="w-4 h-4" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start">
+                <DropdownMenuItem asChild>
+                  <Link to="/olivers-village" className="cursor-pointer">
+                    Oliver&apos;s Village
+                  </Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link to="/golf-learnership-programme" className="cursor-pointer">
                     Golf Learnership Programme
@@ -140,15 +139,6 @@ export function Header() {
                 About
               </NavLink>
               <NavLink
-                to="/olivers-village"
-                className={({ isActive }) =>
-                  isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
-                }
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Oliver&apos;s Village
-              </NavLink>
-              <NavLink
                 to="/events"
                 className={({ isActive }) =>
                   isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
@@ -187,7 +177,17 @@ export function Header() {
                   />
                 </CollapsibleTrigger>
                 <CollapsibleContent>
-                  <div className="pl-4 py-2">
+                  <div className="pl-4 py-2 flex flex-col">
+                    <Link
+                      to="/olivers-village"
+                      className="text-neutral-700 hover:text-orange-600 transition-colors block py-2"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        setProgrammesOpen(false);
+                      }}
+                    >
+                      Oliver&apos;s Village
+                    </Link>
                     <Link
                       to="/golf-learnership-programme"
                       className="text-neutral-700 hover:text-orange-600 transition-colors block py-2"
