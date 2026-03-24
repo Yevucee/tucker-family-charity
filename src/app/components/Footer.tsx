@@ -29,6 +29,9 @@ export function Footer() {
               <Link to="/about" className="text-neutral-400 hover:text-orange-500 transition-colors">
                 About Us
               </Link>
+              <Link to="/olivers-village" className="text-neutral-400 hover:text-orange-500 transition-colors">
+                Oliver&apos;s Village
+              </Link>
               <Link to="/events" className="text-neutral-400 hover:text-orange-500 transition-colors">
                 Events
               </Link>

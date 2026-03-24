@@ -44,6 +44,14 @@ export function Header() {
               About
             </NavLink>
             <NavLink
+              to="/olivers-village"
+              className={({ isActive }) =>
+                isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+              }
+            >
+              Oliver&apos;s Village
+            </NavLink>
+            <NavLink
               to="/events"
               className={({ isActive }) =>
                 isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
@@ -130,6 +138,15 @@ export function Header() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 About
+              </NavLink>
+              <NavLink
+                to="/olivers-village"
+                className={({ isActive }) =>
+                  isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+                }
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Oliver&apos;s Village
               </NavLink>
               <NavLink
                 to="/events"

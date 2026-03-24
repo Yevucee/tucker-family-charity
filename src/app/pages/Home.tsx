@@ -50,14 +50,12 @@ export function Home() {
                 >
                   Our Story
                 </Link>
-                <a
-                  href="https://oliversvillage.co.za/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-white text-neutral-900 px-8 py-3 rounded-full hover:bg-neutral-100 transition-colors font-semibold"
+                <Link
+                  to="/olivers-village"
+                  className="bg-white text-neutral-900 px-8 py-3 rounded-full hover:bg-neutral-100 transition-colors font-semibold text-center"
                 >
-                  Learn About Oliver's Village
-                </a>
+                  Oliver&apos;s Village
+                </Link>
               </div>
             </div>
           </div>
@@ -171,10 +169,10 @@ export function Home() {
 
           <div className="text-center mt-12">
             <Link
-              to="/about"
+              to="/olivers-village"
               className="inline-block bg-orange-600 text-white px-8 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold"
             >
-              See the Impact
+              See the impact
             </Link>
           </div>
         </div>

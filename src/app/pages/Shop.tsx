@@ -210,10 +210,10 @@ export function Shop() {
             Every cap and bottle of wine helps provide education, meals, and opportunities for children in need.
           </p>
           <Link
-            to="/about"
+            to="/olivers-village"
             className="bg-white text-stone-700 px-8 py-3 rounded-full hover:bg-stone-50 transition-colors font-semibold"
           >
-            Learn More About Our Work
+            Learn more about Oliver&apos;s Village
           </Link>
         </div>
       </section>
