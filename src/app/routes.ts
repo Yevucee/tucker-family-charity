@@ -1,5 +1,9 @@
 import { createBrowserRouter, redirect } from "react-router";
 import { Home } from "./pages/Home";
+
+/** React Router expects basename without a trailing slash; Vite BASE_URL includes one. */
+const routerBasename =
+  import.meta.env.BASE_URL.replace(/\/$/, "") || "/";
 import { About } from "./pages/About";
 import { Events } from "./pages/Events";
 import { Shop } from "./pages/Shop";
@@ -51,5 +55,5 @@ export const router = createBrowserRouter(
       loader: () => redirect("/"),
     },
   ],
-  { basename: import.meta.env.BASE_URL }
+  { basename: routerBasename }
 );
