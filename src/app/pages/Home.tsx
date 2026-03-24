@@ -2,7 +2,16 @@ import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Link } from "react-router";
-import { BookOpen, Utensils, Building2, Users, Calendar, MapPin, Instagram, Palette } from "lucide-react";
+import {
+  PartyPopper,
+  HeartHandshake,
+  Briefcase,
+  Handshake,
+  Calendar,
+  MapPin,
+  Instagram,
+  Palette,
+} from "lucide-react";
 import { PartnerAutoScrollStrip } from "../components/PartnerAutoScrollStrip";
 import { INSTAGRAM_ELFSIGHT_APP_ID, INSTAGRAM_WIDGET_URL } from "@/config";
 import { InstagramEmbed } from "@/app/components/InstagramEmbed";
@@ -104,62 +113,58 @@ export function Home() {
         </div>
       </section>
 
-      {/* Impact Section */}
+      {/* How we create impact — four pillars */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4 text-neutral-900">Where the Money Goes</h2>
+            <h2 className="text-4xl font-bold mb-4 text-neutral-900">How We Create Impact</h2>
             <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
-              Every contribution helps provide essential support for children and families at Oliver's Village
+              Through events, partnerships, employment connections and long-term support for the causes we believe in.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-amber-50 p-8 rounded-lg">
-              <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                <BookOpen className="w-8 h-8 text-orange-600" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch">
+            <div className="bg-amber-50 p-8 md:p-9 rounded-lg flex flex-col h-full min-h-[280px]">
+              <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mb-5 shrink-0">
+                <PartyPopper className="w-8 h-8 text-orange-600" aria-hidden />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-neutral-900">
-                Early Childhood Education
-              </h3>
-              <p className="text-neutral-700">
-                Funding helps provide a safe learning environment, teachers and classroom materials for young children.
+              <h3 className="text-xl font-semibold mb-3 text-neutral-900">Community Events</h3>
+              <p className="text-neutral-700 text-base leading-relaxed flex-1">
+                Padel, concerts, black tie evenings, golf days and community gatherings that bring people together and
+                generate support for meaningful causes.
               </p>
             </div>
 
-            <div className="bg-amber-50 p-8 rounded-lg">
-              <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                <Utensils className="w-8 h-8 text-orange-600" />
+            <div className="bg-amber-50 p-8 md:p-9 rounded-lg flex flex-col h-full min-h-[280px]">
+              <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mb-5 shrink-0">
+                <HeartHandshake className="w-8 h-8 text-orange-600" aria-hidden />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-neutral-900">
-                Meals and Nutrition
-              </h3>
-              <p className="text-neutral-700">
-                Donations support daily meals for children attending the centre and food support for vulnerable families.
+              <h3 className="text-xl font-semibold mb-3 text-neutral-900">Projects We Support</h3>
+              <p className="text-neutral-700 text-base leading-relaxed flex-1">
+                Supporting initiatives such as Oliver's Village through financial support, awareness and long-term
+                partnership.
               </p>
             </div>
 
-            <div className="bg-amber-50 p-8 rounded-lg">
-              <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                <Building2 className="w-8 h-8 text-orange-600" />
+            <div className="bg-amber-50 p-8 md:p-9 rounded-lg flex flex-col h-full min-h-[280px]">
+              <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mb-5 shrink-0">
+                <Briefcase className="w-8 h-8 text-orange-600" aria-hidden />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-neutral-900">
-                Computer and Skills Training
-              </h3>
-              <p className="text-neutral-700">
-                Funds help maintain computer facilities that provide digital skills training for young people and adults.
+              <h3 className="text-xl font-semibold mb-3 text-neutral-900">Opportunity and Employment</h3>
+              <p className="text-neutral-700 text-base leading-relaxed flex-1">
+                Helping connect people to work opportunities, trusted networks and practical support that can improve
+                lives.
               </p>
             </div>
 
-            <div className="bg-amber-50 p-8 rounded-lg">
-              <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                <Users className="w-8 h-8 text-orange-600" />
+            <div className="bg-amber-50 p-8 md:p-9 rounded-lg flex flex-col h-full min-h-[280px]">
+              <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mb-5 shrink-0">
+                <Handshake className="w-8 h-8 text-orange-600" aria-hidden />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-neutral-900">
-                Community Support
-              </h3>
-              <p className="text-neutral-700">
-                Support also helps maintain the facilities and programmes that benefit the wider community.
+              <h3 className="text-xl font-semibold mb-3 text-neutral-900">Community Partnerships</h3>
+              <p className="text-neutral-700 text-base leading-relaxed flex-1">
+                Working with local businesses, partners and supporters to create practical impact across different
+                sectors.
               </p>
             </div>
           </div>
