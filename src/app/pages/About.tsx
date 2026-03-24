@@ -1,6 +1,5 @@
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
-import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Heart, Target, Users, Award } from "lucide-react";
 import schoolGrounds from "@/assets/0cac28478cd9e148e19e33753c2ce2b1507d4676.png";
 import computerLab from "@/assets/d5c30ac405997a9f47bb022e66f8a25896a2b859.png";
@@ -29,42 +28,76 @@ export function About() {
         {/* Text Overlay */}
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent py-16 md:py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-            <h1 className="text-5xl md:text-6xl font-bold mb-4">The Heart Behind Our Mission</h1>
-            <p className="text-xl text-neutral-200">
-              Meet the Tucker Family—dedicated to transforming lives at Oliver's Village
+            <h1 className="text-5xl md:text-6xl font-bold mb-4">Our Story</h1>
+            <p className="text-xl text-neutral-200 max-w-2xl mx-auto">
+              The Tucker Family Charity began with a moment of reflection in 2009.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Our Story with Tucker Family Photo */}
+      {/* Our Story */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-4xl font-bold mb-8 text-neutral-900">Our Story</h2>
-              
-              <div className="prose prose-lg max-w-none">
-                <p className="text-lg text-neutral-700 mb-6">
-                  Tucker Family Charity began with a simple idea: to support a community project doing important work.
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            <div className="max-w-none lg:max-w-xl mx-auto lg:mx-0">
+              <div className="relative h-[280px] sm:h-[340px] rounded-lg overflow-hidden shadow-xl group mb-10 lg:hidden">
+                <img
+                  src={computerLab}
+                  alt="Computer lab at Oliver's Village"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+              <div className="space-y-6 text-lg text-neutral-700">
+                <p>
+                  As Brett and Kelly waited for the arrival of their first daughter, Madison, due on 13 August that year, they found themselves thinking deeply about the future. Like many soon-to-be parents, they were filled with excitement, but also with a growing awareness of responsibility. Not only for the life they were about to welcome into the world, but for the wider world she would grow up in.
                 </p>
-                
-                <p className="text-lg text-neutral-700 mb-6">
-                  The charity was created by friends and family who wanted to help Oliver's Village continue its programmes for children and families in the area. After witnessing firsthand the dedication of teachers, the enthusiasm of students, and the potential waiting to be unlocked, we knew we had to act.
+                <p>
+                  That period prompted them to look back on their own lives and the opportunities they had been fortunate to experience. They had attended excellent schools and universities, travelled both within South Africa and abroad, and benefited greatly from sport. Sport had opened doors, created friendships, and offered experiences that shaped who they became, from school tours to provincial and national representation.
                 </p>
-                
-                <p className="text-lg text-neutral-700 mb-6">
-                  We're not a large corporate foundation—we're neighbors, friends, colleagues, and family members who believe in the power of grassroots action. Through fundraising events, donations and merchandise sales, the charity raises funds that go directly towards supporting the centre.
+                <p>
+                  What stood out most was how naturally many of those opportunities had come. They had often simply said yes when opportunities appeared, without ever having to question whether access would be possible.
                 </p>
-                
-                <p className="text-lg text-neutral-700">
-                  Our approach is simple: build genuine relationships, listen to what the school community needs, and work together to make it happen. We're proud to be part of Oliver's Village's journey, and we invite you to join us.
+                <p>
+                  At the same time, they became increasingly aware that for many children in South Africa, that is not the reality. Talent, determination and ambition are often present, but opportunity is not. For many young people, the starting point is very different.
+                </p>
+                <p>
+                  Before Madison was even born, they made a decision as a family: that in whatever way they could, they would try to make a difference.
+                </p>
+                <p className="font-semibold text-neutral-900">
+                  That decision became the Tucker Family Charity.
+                </p>
+                <p>
+                  In the beginning, the charity was small and practical, supporting a number of initiatives while learning where meaningful impact could be made. In 2010, they were introduced to Oliver's Village, a community project whose focus on education, feeding schemes and wider community care strongly aligned with what they believed in.
+                </p>
+                <p>
+                  What began as support for one project quickly grew into something much broader.
+                </p>
+                <p>
+                  The charity's first fundraising event reflected that spirit from the very beginning. A Father & Son Golf Day was held at Parkview Golf Club, followed by a gathering at the family home that brought together more than 200 guests, including golfers, partners and children. Kelly, eight months pregnant at the time, helped host the day, creating an atmosphere of warmth and generosity that would come to define the charity's character.
+                </p>
+                <p>
+                  That first event captured something important: the belief that community, hospitality and shared effort can create real impact.
+                </p>
+                <p>
+                  Over time, through the support of family, friends, business relationships and sporting networks, the Tucker Family Charity has grown into a wider platform for community engagement. Today its work includes fundraising events, partnerships, support for local initiatives, employment ideas, trusted networks and projects that aim to create practical opportunity.
+                </p>
+                <p>
+                  Although the work has grown, the original purpose remains unchanged.
+                </p>
+                <div className="space-y-2 text-neutral-900 font-medium pt-2">
+                  <p>It is still rooted in gratitude.</p>
+                  <p>It is still driven by opportunity.</p>
+                  <p>And it is still about doing what is possible, with the people around you, to help build a better future for others.</p>
+                </div>
+                <p className="pt-4 text-neutral-800">
+                  In many ways, it all began with the arrival of a little girl who reminded a family what truly matters.
                 </p>
               </div>
             </div>
 
-            {/* Computer Lab Image */}
-            <div className="relative h-[500px] rounded-lg overflow-hidden shadow-xl group">
+            <div className="hidden lg:block relative h-[min(90vh,920px)] min-h-[500px] rounded-lg overflow-hidden shadow-xl group lg:sticky lg:top-24">
               <img
                 src={computerLab}
                 alt="Computer lab at Oliver's Village"
