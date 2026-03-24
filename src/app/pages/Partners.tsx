@@ -2,11 +2,7 @@ import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { Link } from "react-router";
 import { partners } from "@/data/partners";
-
-const PLACEHOLDER_LOGOS: Record<string, string> = {
-  metawell: `${import.meta.env.BASE_URL}partners/metawell-placeholder.svg`,
-  "norman-good-fellas": `${import.meta.env.BASE_URL}partners/norman-good-fellas-placeholder.svg`,
-};
+import { PartnerLogoSlot } from "../components/PartnerLogoSlot";
 
 export function Partners() {
   return (
@@ -32,22 +28,10 @@ export function Partners() {
             {partners.map((partner) => (
               <div
                 key={partner.id}
-                className="flex flex-col md:flex-row gap-8 items-center md:items-start"
+                className="flex flex-col md:flex-row gap-8 items-center md:items-start group"
               >
-                <div className="flex-shrink-0 w-40 h-24 flex items-center justify-center bg-amber-50 rounded-lg">
-                  {partner.logo ? (
-                    <img
-                      src={partner.logo}
-                      alt={partner.name}
-                      className="max-h-16 w-auto object-contain"
-                    />
-                  ) : (
-                    <img
-                      src={PLACEHOLDER_LOGOS[partner.id]}
-                      alt={partner.name}
-                      className="max-h-12 w-auto object-contain"
-                    />
-                  )}
+                <div className="flex-shrink-0 w-44">
+                  <PartnerLogoSlot name={partner.name} logo={partner.logo} />
                 </div>
                 <div className="flex-1 text-center md:text-left">
                   <h2 className="text-2xl font-bold text-neutral-900 mb-4">{partner.name}</h2>

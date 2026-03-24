@@ -83,12 +83,12 @@ export function Footer() {
         {/* Partner logos */}
         <div className="border-t border-neutral-800 mt-8 pt-8">
           <p className="text-neutral-500 text-sm mb-4">Supported by</p>
-          <div className="flex flex-wrap gap-6 items-center">
+          <div className="flex gap-5 sm:gap-6 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 [scrollbar-width:thin] [scrollbar-color:theme(colors.neutral.600)_theme(colors.neutral.800)]">
             {partners.map((partner) => (
               <Link
                 key={partner.id}
                 to="/partners"
-                className="opacity-70 hover:opacity-100 transition-opacity"
+                className="opacity-70 hover:opacity-100 transition-opacity shrink-0 whitespace-nowrap"
               >
                 {partner.logo ? (
                   <img
