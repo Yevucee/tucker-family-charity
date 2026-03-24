@@ -36,17 +36,19 @@ export function Home() {
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link
-                  to="/donate"
+                  to="/about"
                   className="bg-orange-600 text-white px-8 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold"
                 >
-                  Support the Charity
+                  Our Story
                 </Link>
-                <Link
-                  to="/about"
+                <a
+                  href="https://oliversvillage.co.za/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="bg-white text-neutral-900 px-8 py-3 rounded-full hover:bg-neutral-100 transition-colors font-semibold"
                 >
                   Learn About Oliver's Village
-                </Link>
+                </a>
               </div>
             </div>
           </div>
