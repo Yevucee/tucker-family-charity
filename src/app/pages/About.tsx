@@ -36,50 +36,40 @@ export function About() {
           </p>
           <div className="space-y-6 text-lg text-neutral-700">
             <p>
-              As Kelly and I waited for the arrival of our first daughter, Madison, due on 13 August 2009, we found ourselves in a moment of deep reflection. Like many soon-to-be parents, we were filled with excitement — but also a growing sense of responsibility. Not just for the life we were bringing into the world, but for the world she would grow up in.
+              As we waited for the arrival of our first daughter, Madison, due on 13 August 2009, we found ourselves in a moment of deep reflection. Like many soon-to-be parents, we were filled with excitement, but also a growing sense of responsibility. Not just for the life we were bringing into the world, but for the world she would grow up in.
             </p>
             <p className="font-semibold text-neutral-900">We began to reflect on our own journeys.</p>
             <p>
-              We had been incredibly fortunate. We had attended great schools and universities. We had travelled, both locally and abroad. Sport had given us opportunities to see the world, to compete, to grow — from school tours to provincial and national representation. Our parents had said yes to every opportunity, often without ever having to question whether it was possible.
+              We had been incredibly fortunate. We had attended great schools and universities. We had travelled, both locally and abroad. Sport had given us opportunities to see the world, to compete, to grow, from school tours to provincial and national representation. Our parents had said yes to every opportunity, often without ever having to question whether it was possible.
             </p>
             <p>
               <span className="font-semibold text-neutral-900">And in that moment, it hit us: not everyone has that chance.</span>{" "}
-              There are so many children in South Africa who will never experience those same opportunities — not because they lack talent, heart, or ambition, but simply because they were not given the same starting point.
+              There are so many children in South Africa who will never experience those same opportunities, not because they lack talent, heart, or ambition, but simply because they were not given the same starting point.
             </p>
             <p className="font-medium text-neutral-900">We couldn't ignore that.</p>
             <p>
-              And so, before Madison was even born, we made a decision — that as a family, we would try, in whatever way we could, to make a difference.
+              And so, before Madison was even born, we made a decision, that as a family, we would try, in whatever way we could, to make a difference.
             </p>
             <p className="font-semibold text-neutral-900">
               That decision became the Tucker Family Charity.
             </p>
             <p>
-              In the early days, it was small and simple. We supported a few initiatives, learning as we went, trying to understand where we could make the most meaningful impact. Then, in 2010, we found Oliver's Village — and everything aligned.
+              In the early days, it was small and simple. We supported a few initiatives, learning as we went, trying to understand where we could make the most meaningful impact. Then, in 2010, we found Oliver's Village, and everything aligned.
             </p>
             <p>
-              What drew us in was their belief in education as the foundation for change. Not just education in the classroom, but holistic care — including daily feeding schemes that support not only the children, but the wider community. It was real, it was tangible, and it was making a difference where it mattered most.
+              What drew us in was their belief in education as the foundation for change. Not just education in the classroom, but holistic care, including daily feeding schemes that support not only the children, but the wider community. It was real, it was tangible, and it was making a difference where it mattered most.
             </p>
             <p>
-              What started as a partnership quickly became something much deeper — a shared purpose.
+              What started as a partnership quickly became something much deeper, a shared purpose.
             </p>
             <p>
-              Our very first fundraising effort was a Father &amp; Son Golf Day at Parkview Golf Club in 2009. That same afternoon, we opened up our home and hosted over 200 people — golfers, partners, and children — for a function that brought everyone together. Kelly was eight months pregnant at the time, welcoming guests with incredible warmth and energy, which made the occasion even more special and meaningful.
+              Our very first fundraising effort was a Father &amp; Son Golf Day at Parkview Golf Club in 2009. That same afternoon, we opened up our home and hosted over 200 people, golfers, partners, and children, for a function that brought everyone together. Kelly was eight months pregnant at the time, welcoming guests with incredible warmth and energy, which made the occasion even more special and meaningful.
             </p>
             <p>
               It was a moment that captured everything the charity would come to represent: generosity, community, and a willingness to give, even when life was already full.
             </p>
-            <p className="font-semibold text-neutral-900">From those humble beginnings, something powerful started to grow.</p>
-            <p>
-              Through the unwavering support of our family, our friends, and the broader communities we are part of — in business and in sport — the Tucker Family Charity has evolved into something far greater than we could have imagined in those early days.
-            </p>
-            <p className="font-semibold text-neutral-900">But at its heart, nothing has changed.</p>
-            <div className="space-y-2 text-neutral-900 font-medium pt-2">
-              <p>It is still about gratitude.</p>
-              <p>It is still about opportunity.</p>
-              <p>And it is still about doing our small part to help create a better future for others.</p>
-            </div>
-            <p className="pt-4 text-neutral-800">
-              All sparked by the arrival of a little girl who reminded us what truly matters.
+            <p className="font-semibold text-neutral-900">
+              From those humble beginnings, something powerful started to grow.
             </p>
           </div>
 

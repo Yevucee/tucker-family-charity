@@ -3,8 +3,7 @@ import { Footer } from "../components/Footer";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Link } from "react-router";
 import { BookOpen, Utensils, Building2, Users, Calendar, MapPin, Instagram, Palette } from "lucide-react";
-import { partners } from "@/data/partners";
-import { PartnerScrollCard } from "../components/PartnerLogoSlot";
+import { PartnerAutoScrollStrip } from "../components/PartnerAutoScrollStrip";
 import { INSTAGRAM_ELFSIGHT_APP_ID, INSTAGRAM_WIDGET_URL } from "@/config";
 import { InstagramEmbed } from "@/app/components/InstagramEmbed";
 import logo from "@/assets/4920ca320ce31a579ec4c3d0fcc360b4528a2024.png";
@@ -99,18 +98,9 @@ export function Home() {
             Supported by our partners
           </h2>
           <p className="text-center text-sm text-neutral-500 mb-8 max-w-xl mx-auto">
-            Scroll sideways to see everyone who stands with us
+            Partners scroll automatically — hover or tap to pause
           </p>
-          <div
-            className="flex gap-5 sm:gap-6 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scroll-pl-2 scroll-pr-2 sm:scroll-pl-0 sm:scroll-pr-0 -mx-4 px-4 sm:mx-0 sm:px-0 [scrollbar-width:thin] [scrollbar-color:theme(colors.amber.400)_theme(colors.neutral.100)]"
-            style={{
-              WebkitOverflowScrolling: "touch",
-            }}
-          >
-            {partners.map((partner) => (
-              <PartnerScrollCard key={partner.id} name={partner.name} logo={partner.logo} />
-            ))}
-          </div>
+          <PartnerAutoScrollStrip />
         </div>
       </section>
 
