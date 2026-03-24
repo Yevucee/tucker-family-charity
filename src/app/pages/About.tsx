@@ -28,9 +28,11 @@ export function About() {
         {/* Text Overlay */}
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent py-16 md:py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-            <h1 className="text-5xl md:text-6xl font-bold mb-4">Our Story</h1>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 max-w-4xl mx-auto leading-tight">
+              The Story of the Tucker Family Charity
+            </h1>
             <p className="text-xl text-neutral-200 max-w-2xl mx-auto">
-              The Tucker Family Charity began with a moment of reflection in 2009.
+              In 2009, everything changed for us.
             </p>
           </div>
         </div>
@@ -51,48 +53,50 @@ export function About() {
               </div>
               <div className="space-y-6 text-lg text-neutral-700">
                 <p>
-                  As Brett and Kelly waited for the arrival of their first daughter, Madison, due on 13 August that year, they found themselves thinking deeply about the future. Like many soon-to-be parents, they were filled with excitement, but also with a growing awareness of responsibility. Not only for the life they were about to welcome into the world, but for the wider world she would grow up in.
+                  As Kelly and I waited for the arrival of our first daughter, Madison, due on 13 August 2009, we found ourselves in a moment of deep reflection. Like many soon-to-be parents, we were filled with excitement — but also a growing sense of responsibility. Not just for the life we were bringing into the world, but for the world she would grow up in.
+                </p>
+                <p className="font-semibold text-neutral-900">We began to reflect on our own journeys.</p>
+                <p>
+                  We had been incredibly fortunate. We had attended great schools and universities. We had travelled, both locally and abroad. Sport had given us opportunities to see the world, to compete, to grow — from school tours to provincial and national representation. Our parents had said yes to every opportunity, often without ever having to question whether it was possible.
                 </p>
                 <p>
-                  That period prompted them to look back on their own lives and the opportunities they had been fortunate to experience. They had attended excellent schools and universities, travelled both within South Africa and abroad, and benefited greatly from sport. Sport had opened doors, created friendships, and offered experiences that shaped who they became, from school tours to provincial and national representation.
+                  <span className="font-semibold text-neutral-900">And in that moment, it hit us: not everyone has that chance.</span>{" "}
+                  There are so many children in South Africa who will never experience those same opportunities — not because they lack talent, heart, or ambition, but simply because they were not given the same starting point.
                 </p>
+                <p className="font-medium text-neutral-900">We couldn't ignore that.</p>
                 <p>
-                  What stood out most was how naturally many of those opportunities had come. They had often simply said yes when opportunities appeared, without ever having to question whether access would be possible.
-                </p>
-                <p>
-                  At the same time, they became increasingly aware that for many children in South Africa, that is not the reality. Talent, determination and ambition are often present, but opportunity is not. For many young people, the starting point is very different.
-                </p>
-                <p>
-                  Before Madison was even born, they made a decision as a family: that in whatever way they could, they would try to make a difference.
+                  And so, before Madison was even born, we made a decision — that as a family, we would try, in whatever way we could, to make a difference.
                 </p>
                 <p className="font-semibold text-neutral-900">
                   That decision became the Tucker Family Charity.
                 </p>
                 <p>
-                  In the beginning, the charity was small and practical, supporting a number of initiatives while learning where meaningful impact could be made. In 2010, they were introduced to Oliver's Village, a community project whose focus on education, feeding schemes and wider community care strongly aligned with what they believed in.
+                  In the early days, it was small and simple. We supported a few initiatives, learning as we went, trying to understand where we could make the most meaningful impact. Then, in 2010, we found Oliver's Village — and everything aligned.
                 </p>
                 <p>
-                  What began as support for one project quickly grew into something much broader.
+                  What drew us in was their belief in education as the foundation for change. Not just education in the classroom, but holistic care — including daily feeding schemes that support not only the children, but the wider community. It was real, it was tangible, and it was making a difference where it mattered most.
                 </p>
                 <p>
-                  The charity's first fundraising event reflected that spirit from the very beginning. A Father & Son Golf Day was held at Parkview Golf Club, followed by a gathering at the family home that brought together more than 200 guests, including golfers, partners and children. Kelly, eight months pregnant at the time, helped host the day, creating an atmosphere of warmth and generosity that would come to define the charity's character.
+                  What started as a partnership quickly became something much deeper — a shared purpose.
                 </p>
                 <p>
-                  That first event captured something important: the belief that community, hospitality and shared effort can create real impact.
+                  Our very first fundraising effort was a Father &amp; Son Golf Day at Parkview Golf Club in 2009. That same afternoon, we opened up our home and hosted over 200 people — golfers, partners, and children — for a function that brought everyone together. Kelly was eight months pregnant at the time, welcoming guests with incredible warmth and energy, which made the occasion even more special and meaningful.
                 </p>
                 <p>
-                  Over time, through the support of family, friends, business relationships and sporting networks, the Tucker Family Charity has grown into a wider platform for community engagement. Today its work includes fundraising events, partnerships, support for local initiatives, employment ideas, trusted networks and projects that aim to create practical opportunity.
+                  It was a moment that captured everything the charity would come to represent: generosity, community, and a willingness to give, even when life was already full.
                 </p>
+                <p className="font-semibold text-neutral-900">From those humble beginnings, something powerful started to grow.</p>
                 <p>
-                  Although the work has grown, the original purpose remains unchanged.
+                  Through the unwavering support of our family, our friends, and the broader communities we are part of — in business and in sport — the Tucker Family Charity has evolved into something far greater than we could have imagined in those early days.
                 </p>
+                <p className="font-semibold text-neutral-900">But at its heart, nothing has changed.</p>
                 <div className="space-y-2 text-neutral-900 font-medium pt-2">
-                  <p>It is still rooted in gratitude.</p>
-                  <p>It is still driven by opportunity.</p>
-                  <p>And it is still about doing what is possible, with the people around you, to help build a better future for others.</p>
+                  <p>It is still about gratitude.</p>
+                  <p>It is still about opportunity.</p>
+                  <p>And it is still about doing our small part to help create a better future for others.</p>
                 </div>
                 <p className="pt-4 text-neutral-800">
-                  In many ways, it all began with the arrival of a little girl who reminded a family what truly matters.
+                  All sparked by the arrival of a little girl who reminded us what truly matters.
                 </p>
               </div>
             </div>
