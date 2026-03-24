@@ -27,12 +27,12 @@ export function Home() {
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/30" />
         <div className="relative z-10 h-full flex items-center justify-center">
           <div className="max-w-7xl w-full px-4 sm:px-6 lg:px-8 text-white">
-            <div className="max-w-2xl mx-auto ml-4 md:ml-12 lg:ml-20">
-              <h1 className="text-5xl md:text-6xl font-bold mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.9)]">
-                Supporting Education and Opportunity in Johannesburg
+            <div className="max-w-3xl mx-auto ml-4 md:ml-12 lg:ml-20">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight [text-shadow:0_2px_12px_rgba(0,0,0,0.9)]">
+                Connecting People. Creating Opportunity. Uplifting Communities.
               </h1>
-              <p className="text-xl mb-8 text-white [text-shadow:0_2px_12px_rgba(0,0,0,0.9)]">
-                Tucker Family Charity raises funds to support Oliver's Village, a community education centre helping children and families build a better future.
+              <p className="text-lg sm:text-xl mb-8 text-white [text-shadow:0_2px_12px_rgba(0,0,0,0.9)]">
+                As a family-led charity, through education, community events, and powerful partnerships, we create opportunities, support local businesses, and drive meaningful impact — from Oliver's Village to the broader community.
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link
