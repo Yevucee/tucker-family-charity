@@ -1,6 +1,7 @@
 import { Children, useCallback, useEffect, useRef, useState } from "react";
 
-const AUTO_ADVANCE_MS = 6000;
+/** Time between automatic slide changes */
+const AUTO_ADVANCE_MS = 5000;
 
 type FeaturedMonthCarouselProps = {
   /** When false or only one child, no auto-scroll and no snap strip */
@@ -10,11 +11,11 @@ type FeaturedMonthCarouselProps = {
 
 /**
  * Horizontal featured strip: one slide visible; auto-advances when `enableCarousel` and 2+ slides.
- * Pauses while hovered/focused inside; respects prefers-reduced-motion.
+ * Pauses while hovered/focused on the scroll strip only; respects prefers-reduced-motion.
  */
 export function FeaturedMonthCarousel({ enableCarousel, children }: FeaturedMonthCarouselProps) {
   const scrollerRef = useRef<HTMLDivElement>(null);
-  const slideCount = Children.count(children);
+  const slideCount = Children.toArray(children).length;
   const [active, setActive] = useState(0);
   const activeRef = useRef(0);
   const pausedRef = useRef(false);
@@ -42,8 +43,9 @@ export function FeaturedMonthCarousel({ enableCarousel, children }: FeaturedMont
 
     const tick = () => {
       if (pausedRef.current || !el) return;
-      const next = (activeRef.current + 1) % slideCount;
       const w = el.clientWidth;
+      if (w <= 0) return;
+      const next = (activeRef.current + 1) % slideCount;
       activeRef.current = next;
       setActive(next);
       el.scrollTo({ left: next * w, behavior: "smooth" });
@@ -53,10 +55,11 @@ export function FeaturedMonthCarousel({ enableCarousel, children }: FeaturedMont
     return () => window.clearInterval(id);
   }, [enableCarousel, slideCount]);
 
-  const onMouseEnter = () => {
+  /** Only pause auto-scroll while pointer/focus is on the swipe strip (not the whole page width). */
+  const pauseStripEnter = () => {
     pausedRef.current = true;
   };
-  const onMouseLeave = () => {
+  const pauseStripLeave = () => {
     pausedRef.current = false;
   };
 
@@ -65,7 +68,7 @@ export function FeaturedMonthCarousel({ enableCarousel, children }: FeaturedMont
   }
 
   return (
-    <div className="relative" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+    <div className="relative">
       <div
         ref={scrollerRef}
         className={[
@@ -73,6 +76,8 @@ export function FeaturedMonthCarousel({ enableCarousel, children }: FeaturedMont
           "[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
         ].join(" ")}
         tabIndex={0}
+        onMouseEnter={pauseStripEnter}
+        onMouseLeave={pauseStripLeave}
         onFocus={() => {
           pausedRef.current = true;
         }}
