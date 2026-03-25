@@ -4,7 +4,7 @@
  * 1. Create a new Apps Script project bound to the spreadsheet OR standalone.
  * 2. Paste this file, set DIRECTORY_SPREADSHEET_ID (and optional SCRIPT_SECRET).
  * 3. Deploy → New deployment → Web app: Execute as you, Who has access: Anyone (or Anyone with Google account).
- * 4. Copy the Web app URL into VITE_KITF_SUBMIT_URL (and match SCRIPT_SECRET to VITE_KITF_SUBMIT_SECRET if used).
+ * 4. Copy the Web app URL (/exec) into VITE_KITF_SUBMIT_URL only. Put SCRIPT_SECRET in VITE_KITF_SUBMIT_SECRET — never swap these.
  *
  * Expected Sheet1 column order: name, profession, area, phone, endorsed_by, notes, website
  */
