@@ -16,9 +16,14 @@ const shellStrip =
 const shellDetail =
   "flex h-[152px] w-full items-center justify-center rounded-xl bg-gradient-to-b from-amber-50/95 to-white p-4 shadow-none transition-shadow hover:shadow-md sm:h-[168px]";
 
-const imgStrip = "max-h-[85%] max-w-[90%] object-contain";
+/**
+ * Single normalized canvas for all external/local logos so any aspect ratio
+ * or intrinsic pixel size reads the same on home and on the Partners page.
+ */
+const LOGO_FRAME =
+  "mx-auto flex h-20 w-[152px] max-w-[min(100%,152px)] shrink-0 items-center justify-center sm:h-[88px] sm:w-[160px] sm:max-w-[min(100%,160px)]";
 
-const imgDetail = "max-h-[78%] max-w-[82%] object-contain";
+const imgNormalized = "block max-h-full max-w-full object-contain object-center";
 
 /**
  * Logo area; favicon URLs may fail—onError falls back to text.
@@ -27,17 +32,18 @@ const imgDetail = "max-h-[78%] max-w-[82%] object-contain";
 export function PartnerLogoSlot({ name, logo, variant = "strip" }: PartnerLogoSlotProps) {
   const [failed, setFailed] = useState(false);
   const shell = variant === "detail" ? shellDetail : shellStrip;
-  const imgClass = variant === "detail" ? imgDetail : imgStrip;
 
   return (
     <div className={shell}>
       {logo && !failed ? (
-        <img
-          src={logo}
-          alt={`${name} logo`}
-          className={imgClass}
-          onError={() => setFailed(true)}
-        />
+        <div className={LOGO_FRAME}>
+          <img
+            src={logo}
+            alt={`${name} logo`}
+            className={imgNormalized}
+            onError={() => setFailed(true)}
+          />
+        </div>
       ) : (
         <span
           className={
