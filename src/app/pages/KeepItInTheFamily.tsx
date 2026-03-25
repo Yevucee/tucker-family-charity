@@ -2,7 +2,12 @@ import { useState, useEffect } from "react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { Search, Phone, Filter, Globe, Briefcase, UserPlus } from "lucide-react";
-import { DIRECTORY_SHEET_ID, KITF_SUBMIT_URL, KITF_SUBMIT_SECRET } from "@/config";
+import {
+  DIRECTORY_SHEET_ID,
+  KITF_SUBMIT_URL,
+  KITF_SUBMIT_URL_REJECTED,
+  KITF_SUBMIT_SECRET,
+} from "@/config";
 import { KITF_OTHER_CATEGORY, SERVICE_CATEGORIES } from "@/data/kitfCategories";
 
 interface ServicesEntry {
@@ -475,7 +480,19 @@ export function KeepItInTheFamily() {
                 />
               </div>
 
-              {!KITF_SUBMIT_URL && (
+              {KITF_SUBMIT_URL_REJECTED && (
+                <p className="text-sm text-red-900 bg-red-50 border border-red-200 rounded-lg px-4 py-3">
+                  This site build has an invalid submission URL. In GitHub → Settings → Secrets,
+                  put your Apps Script <strong>web app</strong> link (starts with{" "}
+                  <code className="text-xs bg-white px-1 rounded">https://script.google.com/macros/s/</code>{" "}
+                  and ends with <code className="text-xs bg-white px-1 rounded">/exec</code>) in{" "}
+                  <code className="text-xs bg-white px-1 rounded">VITE_KITF_SUBMIT_URL</code>. Do not
+                  put the shared secret there—that belongs only in{" "}
+                  <code className="text-xs bg-white px-1 rounded">VITE_KITF_SUBMIT_SECRET</code>.
+                  Redeploy Pages after fixing.
+                </p>
+              )}
+              {!KITF_SUBMIT_URL && !KITF_SUBMIT_URL_REJECTED && (
                 <p className="text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3">
                   The submission link is not configured on this build. Add{" "}
                   <code className="text-xs bg-white px-1 rounded">VITE_KITF_SUBMIT_URL</code> for

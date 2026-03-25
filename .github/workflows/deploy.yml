@@ -33,6 +33,7 @@ jobs:
           VITE_DIRECTORY_SHEET_ID: ${{ secrets.VITE_DIRECTORY_SHEET_ID }}
           VITE_SERVICES_SHEET_ID: ${{ secrets.VITE_SERVICES_SHEET_ID }}
           VITE_NETWORKING_SHEET_ID: ${{ secrets.VITE_NETWORKING_SHEET_ID || '1z37lsb3N9VAqIxgRMdPYrqVOm61bt6KltjJpsD_FIrw' }}
+          # URL = Apps Script web app /exec link; secret = optional password — do not use the same value for both
           VITE_KITF_SUBMIT_URL: ${{ secrets.VITE_KITF_SUBMIT_URL }}
           VITE_KITF_SUBMIT_SECRET: ${{ secrets.VITE_KITF_SUBMIT_SECRET }}
 
