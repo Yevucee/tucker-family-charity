@@ -8,7 +8,7 @@ const SCROLL_SPEED = 0.55;
 function PartnerScrollCard({ partner }: { partner: Partner }) {
   const logo = partnerDisplayLogo(partner);
   const baseClass =
-    "flex flex-col items-center gap-3 w-[148px] sm:w-[160px] shrink-0 snap-start group";
+    "flex flex-col items-center gap-3 w-[160px] shrink-0 snap-start group";
 
   const inner = (
     <>
