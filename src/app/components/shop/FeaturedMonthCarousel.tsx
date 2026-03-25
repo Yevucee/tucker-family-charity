@@ -122,10 +122,23 @@ export function FeaturedMonthCarousel({ enableCarousel, children }: FeaturedMont
   );
 }
 
+type SlidePadding = "default" | "none";
+
 /** Wrapper width for each slide inside the carousel scroller */
-export function FeaturedCarouselSlide({ children }: { children: React.ReactNode }) {
+export function FeaturedCarouselSlide({
+  children,
+  slidePadding = "default",
+}: {
+  children: React.ReactNode;
+  /** `none` = full-width slide (e.g. Home featured strip) */
+  slidePadding?: SlidePadding;
+}) {
+  const pad =
+    slidePadding === "none"
+      ? "px-0"
+      : "px-1 sm:px-1.5";
   return (
-    <div className="min-w-full shrink-0 snap-start snap-always box-border px-1 sm:px-1.5">
+    <div className={`min-w-full shrink-0 snap-start snap-always box-border ${pad}`}>
       {children}
     </div>
   );

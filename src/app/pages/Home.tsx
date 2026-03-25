@@ -31,7 +31,7 @@ import { buildFeaturedMonthSlides } from "../components/shop/featuredMonthSlides
 export function Home() {
   const featuredAuction = auctionItems.find((a) => a.featured) ?? auctionItems[0];
   const homeFeaturedSlides = useMemo(
-    () => buildFeaturedMonthSlides(featuredAuction, shopCatalog.featuredThisMonth, "compact"),
+    () => buildFeaturedMonthSlides(featuredAuction, shopCatalog.featuredThisMonth, "home"),
     [featuredAuction, shopCatalog.featuredThisMonth]
   );
   const homeFeaturedUseCarousel = homeFeaturedSlides.length > 1;
@@ -123,9 +123,9 @@ export function Home() {
             </p>
           </div>
 
-          {/* Featured This Month — distinct from pathway cards below */}
-          <div className="max-w-3xl mx-auto">
-            <div className="rounded-2xl bg-gradient-to-b from-amber-200/90 via-amber-100/85 to-amber-50 p-6 sm:p-8 md:p-9 shadow-md ring-2 ring-amber-300/60">
+          {/* Featured This Month — full content width inside section; slides show full text + image per screen */}
+          <div className="w-full">
+            <div className="rounded-2xl bg-gradient-to-b from-amber-200/90 via-amber-100/85 to-amber-50 p-6 sm:p-8 md:p-10 shadow-md ring-2 ring-amber-300/60">
               <div className="mb-5">
                 <h3 className="text-xl md:text-2xl font-bold text-neutral-900 flex items-center gap-2 mb-3">
                   <Sparkles className="w-6 h-6 text-orange-600 shrink-0" aria-hidden />
