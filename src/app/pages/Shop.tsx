@@ -1,14 +1,14 @@
-import { useMemo, useState, type ReactElement } from "react";
+import { useMemo, useState } from "react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Link } from "react-router";
-import { Sparkles, ShoppingBag, HeartHandshake, ChevronDown, ExternalLink } from "lucide-react";
-import auctionArtwork from "@/assets/auction-fred-schimmel-abstract.png";
+import { Sparkles, ShoppingBag, HeartHandshake, ChevronDown } from "lucide-react";
 import { auctionItems } from "@/data/shopProducts";
 import { shopCatalog } from "@/data/shopCatalog";
 import { PartnerExitModal } from "../components/shop/PartnerExitModal";
-import { FeaturedCarouselSlide, FeaturedMonthCarousel } from "../components/shop/FeaturedMonthCarousel";
+import { FeaturedMonthCarousel } from "../components/shop/FeaturedMonthCarousel";
+import { buildFeaturedMonthSlides } from "../components/shop/featuredMonthSlides";
 import type { TuckerCatalogProduct, PartnerCatalogOffer } from "@/data/shopCatalog";
 
 type PartnerModalState = { url: string; code?: string } | null;
@@ -35,118 +35,10 @@ export function Shop() {
     });
   };
 
-  const featuredSlides = useMemo(() => {
-    const slides: ReactElement[] = [];
-    if (featuredAuction) {
-      slides.push(
-        <FeaturedCarouselSlide key="auction">
-          <div className="rounded-2xl overflow-hidden shadow-xl border border-amber-200/80 bg-white h-full">
-            <div className="flex flex-col md:flex-row md:min-h-[260px] md:max-h-[340px]">
-              <div className="relative w-full aspect-[16/10] md:aspect-auto md:w-[42%] md:min-h-[240px] shrink-0 bg-neutral-100">
-                <img
-                  src={auctionArtwork}
-                  alt={`${featuredAuction.title} — silent auction for Oliver's Village`}
-                  className="absolute inset-0 w-full h-full object-cover md:object-contain bg-white"
-                />
-              </div>
-              <div className="flex-1 p-5 md:p-7 flex flex-col justify-center min-w-0">
-                <p className="text-xs font-semibold uppercase tracking-wider text-amber-800 mb-2">
-                  Special · Silent auction
-                </p>
-                <p className="text-lg font-bold text-neutral-900 mb-1">Art that makes a difference</p>
-                <p className="text-sm text-neutral-600 mb-3 line-clamp-2">
-                  <strong>{featuredAuction.title}</strong>
-                  {featuredAuction.reserve ? ` · Reserve ${featuredAuction.reserve}` : ""}
-                </p>
-                <p className="text-sm text-neutral-700 mb-5 line-clamp-3 leading-relaxed">
-                  In partnership with {featuredAuction.donor}. {featuredAuction.description}
-                </p>
-                <a
-                  href={featuredAuction.bidLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 bg-amber-600 text-white px-6 py-3 rounded-xl hover:bg-amber-700 transition-colors font-semibold text-sm sm:text-base w-fit"
-                >
-                  Place a bid
-                  <ExternalLink className="w-4 h-4 shrink-0" />
-                </a>
-                <p className="text-xs text-neutral-500 mt-3">Bidding closes end of March 2026</p>
-              </div>
-            </div>
-          </div>
-        </FeaturedCarouselSlide>
-      );
-    }
-    slides.push(
-      <FeaturedCarouselSlide key={featuredThisMonth.main.id}>
-        <div className="rounded-2xl overflow-hidden shadow-xl border border-amber-200/80 bg-white h-full">
-          <div className="flex flex-col md:flex-row md:min-h-[260px] md:max-h-[340px]">
-            <div className="relative w-full aspect-[16/10] md:aspect-auto md:w-[42%] md:min-h-[240px] shrink-0">
-              <ImageWithFallback
-                src={featuredThisMonth.main.image}
-                alt={featuredThisMonth.main.title}
-                className="absolute inset-0 w-full h-full object-cover"
-                loading="eager"
-              />
-            </div>
-            <div className="flex-1 p-5 md:p-7 flex flex-col justify-center min-w-0 bg-gradient-to-br from-white to-amber-50/40">
-              <p className="text-xs font-semibold uppercase tracking-wider text-amber-700 mb-2">
-                Our spotlight
-              </p>
-              <h3 className="text-xl md:text-2xl font-bold text-neutral-900 mb-3 leading-tight">
-                {featuredThisMonth.main.title}
-              </h3>
-              <p className="text-sm md:text-base text-neutral-700 mb-6 line-clamp-4 leading-relaxed">
-                {featuredThisMonth.main.shortDescription}
-              </p>
-              <a
-                href={featuredThisMonth.main.ctaHref}
-                target={featuredThisMonth.main.ctaOpensNewTab ? "_blank" : undefined}
-                rel={featuredThisMonth.main.ctaOpensNewTab ? "noopener noreferrer" : undefined}
-                className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-colors w-fit text-sm sm:text-base"
-              >
-                {featuredThisMonth.main.ctaLabel}
-              </a>
-            </div>
-          </div>
-        </div>
-      </FeaturedCarouselSlide>
-    );
-    for (const item of featuredThisMonth.supporting ?? []) {
-      slides.push(
-        <FeaturedCarouselSlide key={item.id}>
-          <div className="rounded-2xl overflow-hidden shadow-xl border border-amber-200/80 bg-white h-full">
-            <div className="flex flex-col md:flex-row md:min-h-[220px] md:max-h-[300px]">
-              <div className="relative w-full aspect-[16/10] md:aspect-auto md:w-[38%] md:min-h-[220px] shrink-0">
-                <ImageWithFallback
-                  src={item.image}
-                  alt={item.title}
-                  className="absolute inset-0 w-full h-full object-cover"
-                  loading="lazy"
-                />
-              </div>
-              <div className="flex-1 p-5 md:p-6 flex flex-col justify-center min-w-0">
-                <p className="text-xs font-semibold uppercase tracking-wider text-amber-700 mb-2">
-                  Also featuring
-                </p>
-                <h3 className="text-lg md:text-xl font-bold text-neutral-900 mb-2">{item.title}</h3>
-                <p className="text-sm text-neutral-600 mb-4 line-clamp-3 leading-relaxed">
-                  {item.shortDescription}
-                </p>
-                <a
-                  href={item.ctaHref}
-                  className="inline-flex text-sm font-semibold text-amber-700 hover:text-amber-800 w-fit"
-                >
-                  {item.ctaLabel} →
-                </a>
-              </div>
-            </div>
-          </div>
-        </FeaturedCarouselSlide>
-      );
-    }
-    return slides;
-  }, [featuredAuction, featuredThisMonth]);
+  const featuredSlides = useMemo(
+    () => buildFeaturedMonthSlides(featuredAuction, featuredThisMonth, "full"),
+    [featuredAuction, featuredThisMonth]
+  );
 
   const useFeaturedCarousel = featuredSlides.length > 1;
 
@@ -199,12 +91,6 @@ export function Shop() {
             <Sparkles className="w-7 h-7 text-amber-600 shrink-0" aria-hidden />
             {featuredThisMonth.sectionTitle}
           </h2>
-          {useFeaturedCarousel && (
-            <p className="text-center text-sm text-neutral-600 mb-4 max-w-xl mx-auto">
-              Swipe or use the dots—shows rotate automatically.
-            </p>
-          )}
-
           {/* FEATURED SLIDES: auction (shopProducts), main + supporting (shopCatalog / CMS) */}
           <FeaturedMonthCarousel enableCarousel={useFeaturedCarousel}>
             {featuredSlides}

@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
@@ -11,6 +12,7 @@ import {
   MapPin,
   Instagram,
   Palette,
+  Sparkles,
 } from "lucide-react";
 import { PartnerAutoScrollStrip } from "../components/PartnerAutoScrollStrip";
 import { INSTAGRAM_ELFSIGHT_APP_ID, INSTAGRAM_WIDGET_URL } from "@/config";
@@ -20,8 +22,19 @@ import schoolGrounds from "@/assets/0cac28478cd9e148e19e33753c2ce2b1507d4676.png
 import computerLab from "@/assets/d5c30ac405997a9f47bb022e66f8a25896a2b859.png";
 import gardenArea from "@/assets/f0dd27edb7bda065be4dd5f0f576138f64514baf.png";
 import auctionArtwork from "@/assets/auction-fred-schimmel-abstract.png";
+import { shopCatalog } from "@/data/shopCatalog";
+import { auctionItems } from "@/data/shopProducts";
+import { FeaturedMonthCarousel } from "../components/shop/FeaturedMonthCarousel";
+import { buildFeaturedMonthSlides } from "../components/shop/featuredMonthSlides";
 
 export function Home() {
+  const featuredAuction = auctionItems.find((a) => a.featured) ?? auctionItems[0];
+  const homeFeaturedSlides = useMemo(
+    () => buildFeaturedMonthSlides(featuredAuction, shopCatalog.featuredThisMonth, "compact"),
+    [featuredAuction, shopCatalog.featuredThisMonth]
+  );
+  const homeFeaturedUseCarousel = homeFeaturedSlides.length > 1;
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -355,6 +368,25 @@ export function Home() {
             <p className="text-lg text-neutral-600">
               Every purchase and every bid directly supports Oliver's Village students
             </p>
+          </div>
+
+          {/* Same rotating specials as Shop — compact; data: shopCatalog + auctionItems */}
+          <div className="max-w-3xl mx-auto mb-12 md:mb-14">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4 px-1">
+              <h3 className="text-lg md:text-xl font-bold text-neutral-900 flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-amber-600 shrink-0" aria-hidden />
+                {shopCatalog.featuredThisMonth.sectionTitle}
+              </h3>
+              <Link
+                to="/shop#featured-this-month"
+                className="text-sm font-semibold text-orange-600 hover:text-orange-700 whitespace-nowrap"
+              >
+                Full shop &amp; offers →
+              </Link>
+            </div>
+            <FeaturedMonthCarousel enableCarousel={homeFeaturedUseCarousel}>
+              {homeFeaturedSlides}
+            </FeaturedMonthCarousel>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
