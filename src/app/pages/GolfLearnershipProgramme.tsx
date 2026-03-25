@@ -144,10 +144,6 @@ export function GolfLearnershipProgramme() {
               </Fragment>
             ))}
           </div>
-          <p className="text-center text-sm text-neutral-600 max-w-xl mx-auto mt-10 leading-relaxed">
-            <span className="font-semibold text-neutral-700">Operational note:</span> Vice provides
-            behind-the-scenes support, helping manage programme structures and coordination.
-          </p>
         </div>
       </section>
 
@@ -275,11 +271,9 @@ export function GolfLearnershipProgramme() {
               </h2>
               <p className="text-lg text-neutral-700 mb-6">
                 The programme is designed not only to create opportunity, but to do so in a way that
-                is coordinated, measurable and responsible. Through collaboration between Tucker
-                Family Foundation and Afrika Tikkun—and with Vice supporting programme structures
-                behind the scenes—the initiative is intended to support implementation, learner
-                development,
-                stakeholder engagement and transparent reporting over time.
+                is coordinated, measurable and responsible. Through collaboration between Tucker Family
+                Foundation and Afrika Tikkun, the initiative is intended to support implementation,
+                learner development, stakeholder engagement and transparent reporting over time.
               </p>
               <p className="text-lg text-neutral-700">
                 Our aim is not only to run a meaningful programme, but to do so in a way that
