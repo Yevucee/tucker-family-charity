@@ -14,7 +14,7 @@ import {
   Palette,
   Sparkles,
 } from "lucide-react";
-import { PartnerAutoScrollStrip } from "../components/PartnerAutoScrollStrip";
+import { PartnerGrid } from "../components/PartnerGrid";
 import { INSTAGRAM_ELFSIGHT_APP_ID, INSTAGRAM_WIDGET_URL } from "@/config";
 import { InstagramEmbed } from "@/app/components/InstagramEmbed";
 import logo from "@/assets/4920ca320ce31a579ec4c3d0fcc360b4528a2024.png";
@@ -111,16 +111,17 @@ export function Home() {
         </div>
       </section>
 
-      {/* Partners — horizontal scroll with logo placeholders */}
+      {/* Partners — grid; logos from each site favicon unless overridden in data/partners.ts */}
       <section className="py-16 bg-white border-y border-amber-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-center text-lg font-semibold text-neutral-600 mb-3">
+          <h2 className="text-center text-2xl font-bold text-neutral-900 mb-2">
             Supported by our partners
           </h2>
-          <p className="text-center text-sm text-neutral-500 mb-8 max-w-xl mx-auto">
-            Partners scroll automatically — hover or tap to pause
+          <p className="text-center text-neutral-600 mb-10 max-w-2xl mx-auto">
+            Tap a logo to visit their website. Partners without a confirmed link go to our partners
+            page.
           </p>
-          <PartnerAutoScrollStrip />
+          <PartnerGrid />
         </div>
       </section>
 
