@@ -163,10 +163,11 @@ export function KeepItInTheFamily() {
 
     setSubmitState("loading");
     try {
+      // text/plain avoids a CORS preflight that Google Apps Script often answers with 405 for OPTIONS
       const res = await fetch(KITF_SUBMIT_URL, {
         method: "POST",
         mode: "cors",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify(payload),
       });
       let data: { ok?: boolean; error?: string } = {};
