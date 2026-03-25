@@ -124,25 +124,40 @@ export function Home() {
           </div>
 
           {/* Same rotating specials as Shop — compact; data: shopCatalog + auctionItems */}
-          <div className="max-w-3xl mx-auto mb-12 md:mb-14">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4 px-1">
-              <h3 className="text-lg md:text-xl font-bold text-neutral-900 flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-amber-600 shrink-0" aria-hidden />
-                {shopCatalog.featuredThisMonth.sectionTitle}
-              </h3>
-              <Link
-                to="/shop#featured-this-month"
-                className="text-sm font-semibold text-orange-600 hover:text-orange-700 whitespace-nowrap"
-              >
-                Full shop &amp; offers →
-              </Link>
+          <div className="max-w-3xl mx-auto">
+            <div className="rounded-2xl bg-gradient-to-b from-amber-100/80 via-amber-50/90 to-amber-50 p-5 sm:p-6 md:p-7 shadow-sm ring-1 ring-amber-200/55">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+                <h3 className="text-lg md:text-xl font-bold text-neutral-900 flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-amber-600 shrink-0" aria-hidden />
+                  {shopCatalog.featuredThisMonth.sectionTitle}
+                </h3>
+                <Link
+                  to="/shop#featured-this-month"
+                  className="text-sm font-semibold text-orange-600 hover:text-orange-700 whitespace-nowrap"
+                >
+                  Full shop &amp; offers →
+                </Link>
+              </div>
+              <FeaturedMonthCarousel enableCarousel={homeFeaturedUseCarousel}>
+                {homeFeaturedSlides}
+              </FeaturedMonthCarousel>
             </div>
-            <FeaturedMonthCarousel enableCarousel={homeFeaturedUseCarousel}>
-              {homeFeaturedSlides}
-            </FeaturedMonthCarousel>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="max-w-6xl mx-auto mt-12 md:mt-16 pt-10 md:pt-12 border-t border-amber-200/80">
+            <div className="text-center mb-10 max-w-2xl mx-auto px-2">
+              <p className="text-xs font-semibold uppercase tracking-widest text-amber-800/90 mb-2">
+                Year-round
+              </p>
+              <h3 className="text-2xl md:text-3xl font-bold text-neutral-900 mb-3">
+                Shop, bid &amp; wear
+              </h3>
+              <p className="text-neutral-600 leading-relaxed">
+                These favourites are always available—the carousel above highlights what we&apos;re featuring right
+                now.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Art Auction */}
             <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow flex flex-col">
               <div className="relative h-80 bg-amber-100 flex-shrink-0 group overflow-hidden">
@@ -223,6 +238,7 @@ export function Home() {
                 </Link>
               </div>
             </div>
+          </div>
           </div>
         </div>
       </section>
