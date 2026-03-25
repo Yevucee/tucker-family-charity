@@ -12,7 +12,7 @@ function PartnerScrollCard({ partner }: { partner: Partner }) {
 
   const inner = (
     <>
-      <PartnerLogoSlot name={partner.name} logo={logo} />
+      <PartnerLogoSlot variant="strip" name={partner.name} logo={logo} />
       <span className="text-xs font-semibold text-neutral-800 text-center leading-tight px-1">
         {partner.name}
       </span>

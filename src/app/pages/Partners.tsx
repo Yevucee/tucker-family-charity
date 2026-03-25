@@ -37,8 +37,12 @@ export function Partners() {
                     rel="noopener noreferrer"
                     className="group flex flex-col gap-4"
                   >
-                    <div className="w-full max-w-[200px] mx-auto sm:mx-0">
-                      <PartnerLogoSlot name={partner.name} logo={partnerDisplayLogo(partner)} />
+                    <div className="w-full">
+                      <PartnerLogoSlot
+                        variant="detail"
+                        name={partner.name}
+                        logo={partnerDisplayLogo(partner)}
+                      />
                     </div>
                     <div>
                       <h2 className="text-xl font-bold text-neutral-900 group-hover:text-orange-600 flex items-center gap-2 flex-wrap">
@@ -50,8 +54,12 @@ export function Partners() {
                   </a>
                 ) : (
                   <div className="flex flex-col gap-4">
-                    <div className="w-full max-w-[200px] mx-auto sm:mx-0">
-                      <PartnerLogoSlot name={partner.name} logo={partnerDisplayLogo(partner)} />
+                    <div className="w-full">
+                      <PartnerLogoSlot
+                        variant="detail"
+                        name={partner.name}
+                        logo={partnerDisplayLogo(partner)}
+                      />
                     </div>
                     <div>
                       <h2 className="text-xl font-bold text-neutral-900">{partner.name}</h2>
