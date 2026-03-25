@@ -162,17 +162,17 @@ export function KeepItInTheFamily() {
     };
 
     setSubmitState("loading");
+    const formBody = new URLSearchParams({ json: JSON.stringify(payload) }).toString();
+    const postInit = {
+      method: "POST" as const,
+      cache: "no-store" as const,
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: formBody,
+    };
+
     try {
-      // Must be CORS-"simple": type exactly `application/x-www-form-urlencoded` (no charset param) or
-      // browsers send OPTIONS; script.google.com often responds 405 to OPTIONS.
-      const formBody = new URLSearchParams({ json: JSON.stringify(payload) }).toString();
-      const res = await fetch(KITF_SUBMIT_URL, {
-        method: "POST",
-        mode: "cors",
-        cache: "no-store",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: formBody,
-      });
+      // CORS-"simple": type exactly `application/x-www-form-urlencoded` (no charset) or browsers send OPTIONS.
+      const res = await fetch(KITF_SUBMIT_URL, { ...postInit, mode: "cors" });
       let data: { ok?: boolean; error?: string } = {};
       try {
         data = (await res.json()) as { ok?: boolean; error?: string };
@@ -187,8 +187,18 @@ export function KeepItInTheFamily() {
       setSubmitState("success");
       resetForm();
     } catch {
-      setSubmitState("error");
-      setSubmitError("Network error. Check your connection and try again.");
+      // GAS often 302s; some browsers treat the chain as a CORS failure and reject cors fetch —
+      // "Network error" even though the server is reachable. no-cors still sends the POST body.
+      try {
+        await fetch(KITF_SUBMIT_URL, { ...postInit, mode: "no-cors" });
+        setSubmitState("success");
+        resetForm();
+      } catch {
+        setSubmitState("error");
+        setSubmitError(
+          "Network error. Check your connection and try again. If it persists, try another browser or network."
+        );
+      }
     }
   };
 
