@@ -19,9 +19,20 @@ export const DIRECTORY_SHEET_ID =
   import.meta.env.VITE_SERVICES_SHEET_ID ||
   "1tC3IcX81_tdA2_UHTjT2JEIG-i9hr_ovgCQS5fJV7tw";
 
-// Optional: Google Apps Script web app URL for “Add your service” form (POST JSON body).
+/**
+ * GAS URL must be absolute (https://…). If the secret omits the scheme, fetch would POST to
+ * GitHub Pages instead → 405 Method Not Allowed from the static host.
+ */
+function normalizeKitfSubmitUrl(raw: string | undefined): string {
+  const t = String(raw ?? "").trim();
+  if (!t) return "";
+  if (/^https?:\/\//i.test(t)) return t;
+  return `https://${t.replace(/^\/+/, "")}`;
+}
+
+// Optional: Google Apps Script web app URL for “Add your service” form (POST, form-urlencoded).
 // Set VITE_KITF_SUBMIT_URL in .env locally and as a GitHub Actions secret for Pages builds.
-export const KITF_SUBMIT_URL = import.meta.env.VITE_KITF_SUBMIT_URL ?? "";
+export const KITF_SUBMIT_URL = normalizeKitfSubmitUrl(import.meta.env.VITE_KITF_SUBMIT_URL);
 
 // Optional shared secret checked by Apps Script (same value in script + VITE_KITF_SUBMIT_SECRET).
 export const KITF_SUBMIT_SECRET = import.meta.env.VITE_KITF_SUBMIT_SECRET ?? "";
