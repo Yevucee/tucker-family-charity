@@ -1,41 +1,40 @@
 /**
  * Google Apps Script: append a row to the Keep It In The Family directory sheet.
  *
- * 1. Create a new Apps Script project bound to the spreadsheet OR standalone.
- * 2. Paste this file, set DIRECTORY_SPREADSHEET_ID (and optional SCRIPT_SECRET).
- * 3. Deploy → New deployment → Web app: Execute as you, Who has access: Anyone (or Anyone with Google account).
- * 4. Copy the Web app URL (/exec) into VITE_KITF_SUBMIT_URL only. Put SCRIPT_SECRET in VITE_KITF_SUBMIT_SECRET — never swap these.
+ * 1. Create or open the project (Extensions → Apps Script from the sheet, or script.google.com).
+ * 2. Replace ALL of Code.gs with this file (these vars + functions).
+ * 3. Deploy → New deployment → Web app: Execute as Me, Who has access: Anyone.
+ * 4. Copy Web app URL → GitHub secret VITE_KITF_SUBMIT_URL (not the Library URL).
+ * 5. If SCRIPT_SECRET is non-empty, set the same value in VITE_KITF_SUBMIT_SECRET and redeploy the site.
  *
- * Expected Sheet1 column order: name, profession, area, phone, endorsed_by, notes, website
+ * Sheet tab column order: name, profession, area, phone, endorsed_by, notes, website
  */
-var DIRECTORY_SPREADSHEET_ID = "PASTE_YOUR_DIRECTORY_SHEET_ID";
+
+var DIRECTORY_SPREADSHEET_ID = "1tC3IcX81_tdA2_UHTjT2JEIG-i9hr_ovgCQS5fJV7tw";
 var SHEET_NAME = "Sheet1";
-/** Leave empty to skip checks; otherwise must match VITE_KITF_SUBMIT_SECRET from the site build. */
+/** Empty = no check. If set, must match VITE_KITF_SUBMIT_SECRET on the website build. */
 var SCRIPT_SECRET = "";
 
-/** Opening the Web app URL in a browser uses GET — avoids “doGet not found”. Submissions use POST only. */
 function doGet() {
   return jsonResponse({
     ok: true,
-    message: "KITF directory endpoint is live. Use POST JSON from the website; do not expect a form here.",
+    message:
+      "KITF directory endpoint is live. Submissions from the website use POST only.",
   });
 }
 
 function doPost(e) {
   try {
-    /** Prefer form field `json` (x-www-form-urlencoded from the charity site); fall back to raw JSON body */
-    var body;
-    if (e.parameter && e.parameter.json) {
-      body = JSON.parse(e.parameter.json);
-    } else if (e.postData && e.postData.contents) {
-      body = JSON.parse(e.postData.contents);
-    } else {
+    var body = parseRequestBody_(e);
+    if (!body) {
       return jsonResponse({ ok: false, error: "No body" });
     }
+
     var scriptSecret = readScriptSecret_();
     if (scriptSecret && body.secret !== scriptSecret) {
       return jsonResponse({ ok: false, error: "Unauthorized" });
     }
+
     var name = String(body.name || "").trim();
     var profession = String(body.profession || "").trim();
     var area = String(body.area || "").trim();
@@ -56,12 +55,27 @@ function doPost(e) {
   }
 }
 
+/**
+ * Charity site sends x-www-form-urlencoded with field `json`; other clients may POST raw JSON.
+ */
+function parseRequestBody_(e) {
+  if (e.parameter && e.parameter.json) {
+    return JSON.parse(e.parameter.json);
+  }
+  if (e.postData && e.postData.contents) {
+    return JSON.parse(e.postData.contents);
+  }
+  return null;
+}
+
 function jsonResponse(obj) {
-  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
+  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(
+    ContentService.MimeType.JSON
+  );
 }
 
 /**
- * Avoids ReferenceError if `var SCRIPT_SECRET = ""` was omitted when pasting into Code.gs.
+ * Avoids ReferenceError if SCRIPT_SECRET line was ever removed from the top of this file.
  */
 function readScriptSecret_() {
   try {
