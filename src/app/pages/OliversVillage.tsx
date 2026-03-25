@@ -14,20 +14,6 @@ const OFFICIAL_SITE = "https://oliversvillage.co.za/";
 
 export function OliversVillage() {
   useEffect(() => {
-    // #region agent log
-    fetch("http://127.0.0.1:7279/ingest/dee04ff0-16cf-498c-a83a-f49eff7bef7f", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "9328dc" },
-      body: JSON.stringify({
-        sessionId: "9328dc",
-        hypothesisId: "H3",
-        location: "OliversVillage.tsx:mount",
-        message: "Olivers Village page mounted",
-        data: {},
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-    // #endregion
     document.title = "Oliver's Village | Tucker Family Charity";
   }, []);
 
