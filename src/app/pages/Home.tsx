@@ -11,8 +11,10 @@ import {
   Calendar,
   MapPin,
   Instagram,
-  Palette,
   Sparkles,
+  Banknote,
+  Clock,
+  Package,
 } from "lucide-react";
 import { PartnerAutoScrollStrip } from "../components/PartnerAutoScrollStrip";
 import { INSTAGRAM_ELFSIGHT_APP_ID, INSTAGRAM_WIDGET_URL } from "@/config";
@@ -21,7 +23,6 @@ import logo from "@/assets/4920ca320ce31a579ec4c3d0fcc360b4528a2024.png";
 import schoolGrounds from "@/assets/0cac28478cd9e148e19e33753c2ce2b1507d4676.png";
 import computerLab from "@/assets/d5c30ac405997a9f47bb022e66f8a25896a2b859.png";
 import gardenArea from "@/assets/f0dd27edb7bda065be4dd5f0f576138f64514baf.png";
-import auctionArtwork from "@/assets/auction-fred-schimmel-abstract.png";
 import { shopCatalog } from "@/data/shopCatalog";
 import { auctionItems } from "@/data/shopProducts";
 import { FeaturedMonthCarousel } from "../components/shop/FeaturedMonthCarousel";
@@ -111,134 +112,89 @@ export function Home() {
         </div>
       </section>
 
-      {/* Shop & Auction / Ways to Support */}
+      {/* Ways to Support — preview; full detail on /donate and /shop */}
       <section id="support" className="py-20 bg-amber-50 border-t border-amber-200/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4 text-neutral-900">
-              Ways to Support
-            </h2>
-            <p className="text-lg text-neutral-600">
-              Every purchase and every bid directly supports Oliver's Village students
+          <div className="text-center mb-12 max-w-3xl mx-auto">
+            <h2 className="text-4xl font-bold mb-4 text-neutral-900">Ways to Support</h2>
+            <p className="text-lg text-neutral-600 leading-relaxed">
+              There are many ways to support Tucker Family Charity, from featured monthly offers to practical help that
+              makes a real difference.
             </p>
           </div>
 
-          {/* Same rotating specials as Shop — compact; data: shopCatalog + auctionItems */}
+          {/* Featured This Month — distinct from pathway cards below */}
           <div className="max-w-3xl mx-auto">
-            <div className="rounded-2xl bg-gradient-to-b from-amber-100/80 via-amber-50/90 to-amber-50 p-5 sm:p-6 md:p-7 shadow-sm ring-1 ring-amber-200/55">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
-                <h3 className="text-lg md:text-xl font-bold text-neutral-900 flex items-center gap-2">
-                  <Sparkles className="w-5 h-5 text-amber-600 shrink-0" aria-hidden />
-                  {shopCatalog.featuredThisMonth.sectionTitle}
+            <div className="rounded-2xl bg-gradient-to-b from-amber-200/90 via-amber-100/85 to-amber-50 p-6 sm:p-8 md:p-9 shadow-md ring-2 ring-amber-300/60">
+              <div className="mb-5">
+                <h3 className="text-xl md:text-2xl font-bold text-neutral-900 flex items-center gap-2 mb-3">
+                  <Sparkles className="w-6 h-6 text-orange-600 shrink-0" aria-hidden />
+                  Featured This Month
                 </h3>
-                <Link
-                  to="/shop#featured-this-month"
-                  className="text-sm font-semibold text-orange-600 hover:text-orange-700 whitespace-nowrap"
-                >
-                  Full shop &amp; offers →
-                </Link>
+                <p className="text-neutral-700 leading-relaxed mb-1">
+                  Support this month&apos;s highlighted products, offers and fundraising priorities.
+                </p>
+                {shopCatalog.featuredThisMonth.sectionTitle ? (
+                  <p className="text-sm text-amber-900/80 font-medium mt-2">
+                    {shopCatalog.featuredThisMonth.sectionTitle}
+                  </p>
+                ) : null}
               </div>
               <FeaturedMonthCarousel enableCarousel={homeFeaturedUseCarousel}>
                 {homeFeaturedSlides}
               </FeaturedMonthCarousel>
+              <div className="mt-8 flex justify-center">
+                <Link
+                  to="/shop#featured-this-month"
+                  className="inline-flex items-center justify-center bg-orange-600 text-white px-8 py-3.5 rounded-full hover:bg-orange-700 transition-colors font-semibold text-center"
+                >
+                  Shop This Month&apos;s Offers
+                </Link>
+              </div>
             </div>
           </div>
 
-          <div className="max-w-6xl mx-auto mt-12 md:mt-16 pt-10 md:pt-12 border-t border-amber-200/80">
-            <div className="text-center mb-10 max-w-2xl mx-auto px-2">
-              <p className="text-xs font-semibold uppercase tracking-widest text-amber-800/90 mb-2">
-                Year-round
-              </p>
-              <h3 className="text-2xl md:text-3xl font-bold text-neutral-900 mb-3">
-                Shop, bid &amp; wear
-              </h3>
-              <p className="text-neutral-600 leading-relaxed">
-                These favourites are always available—the carousel above highlights what we&apos;re featuring right
-                now.
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Art Auction */}
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow flex flex-col">
-              <div className="relative h-80 bg-amber-100 flex-shrink-0 group overflow-hidden">
-                <img
-                  src={auctionArtwork}
-                  alt="Fred Schimmel, Abstract - Monthly art auction"
-                  className="absolute inset-0 w-full h-full object-contain p-2 transition-transform duration-300 group-hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-6 flex flex-col flex-1 min-h-0">
-                <div className="flex items-center gap-2 text-amber-700 font-semibold mb-2">
-                  <Palette className="w-4 h-4" />
-                  <span>Art Auction</span>
+          <div className="max-w-6xl mx-auto mt-14 md:mt-20 pt-12 md:pt-14 border-t border-amber-200/80">
+            <h3 className="text-2xl md:text-3xl font-bold text-neutral-900 text-center mb-10">
+              Other Ways to Help
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+              <div className="bg-white rounded-xl p-8 shadow-md border border-amber-100/80 flex flex-col h-full">
+                <div className="w-14 h-14 rounded-full bg-amber-100 flex items-center justify-center mb-5 shrink-0">
+                  <Banknote className="w-7 h-7 text-orange-600" aria-hidden />
                 </div>
-                <h3 className="text-2xl font-semibold mb-2 text-neutral-900">Fred Schimmel, Abstract</h3>
-                <p className="text-orange-600 font-bold text-xl mb-4">Reserve R25 000</p>
-                <p className="text-neutral-600 mb-6 flex-1">
-                  Monthly fine art auction with Dale Sargent Fine Art. Bid on beautiful pieces and support Oliver's Village.
+                <h4 className="text-xl font-bold text-neutral-900 mb-3">Donate Money</h4>
+                <p className="text-neutral-600 leading-relaxed flex-1">
+                  Support our work, events and community projects through direct financial giving.
                 </p>
-                <a
-                  href="https://www.giftsbyyou.com/product-page/fred-schimmel-abstract"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full bg-orange-600 text-white px-6 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold text-center mt-auto"
-                >
-                  Place a Bid
-                </a>
+              </div>
+              <div className="bg-white rounded-xl p-8 shadow-md border border-amber-100/80 flex flex-col h-full">
+                <div className="w-14 h-14 rounded-full bg-amber-100 flex items-center justify-center mb-5 shrink-0">
+                  <Clock className="w-7 h-7 text-orange-600" aria-hidden />
+                </div>
+                <h4 className="text-xl font-bold text-neutral-900 mb-3">Give Your Time</h4>
+                <p className="text-neutral-600 leading-relaxed flex-1">
+                  Volunteer at events, offer practical help, or contribute your skills through community hours.
+                </p>
+              </div>
+              <div className="bg-white rounded-xl p-8 shadow-md border border-amber-100/80 flex flex-col h-full">
+                <div className="w-14 h-14 rounded-full bg-amber-100 flex items-center justify-center mb-5 shrink-0">
+                  <Package className="w-7 h-7 text-orange-600" aria-hidden />
+                </div>
+                <h4 className="text-xl font-bold text-neutral-900 mb-3">Donate Items</h4>
+                <p className="text-neutral-600 leading-relaxed flex-1">
+                  Books, materials and useful goods can all make a meaningful difference.
+                </p>
               </div>
             </div>
-
-            {/* Charity Hat */}
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow flex flex-col">
-              <div className="relative h-80 flex-shrink-0 group overflow-hidden">
-                <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1663280426478-9294cf296749?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaGFyaXR5JTIwYmFzZWJhbGwlMjBjYXAlMjBoYXR8ZW58MXx8fHwxNzczMTMyMzA1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                  alt="Tucker Family Charity hat"
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-6 flex flex-col flex-1 min-h-0">
-                <h3 className="text-2xl font-semibold mb-2 text-neutral-900">Charity Hat</h3>
-                <p className="text-orange-600 font-bold text-xl mb-4">R250</p>
-                <p className="text-neutral-600 mb-6 flex-1">
-                  High-quality cap featuring the Tucker Family Charity logo. Comfortable, stylish, and supports education.
-                </p>
-                <Link
-                  to="/shop"
-                  className="block w-full bg-orange-600 text-white px-6 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold text-center mt-auto"
-                >
-                  Support the Charity
-                </Link>
-              </div>
+            <div className="mt-12 flex justify-center">
+              <Link
+                to="/donate"
+                className="inline-flex items-center justify-center border-2 border-orange-600 text-orange-700 bg-white px-8 py-3.5 rounded-full hover:bg-amber-50 transition-colors font-semibold"
+              >
+                See All Ways to Support
+              </Link>
             </div>
-
-            {/* Charity Wine */}
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow flex flex-col">
-              <div className="relative h-80 flex-shrink-0 group overflow-hidden">
-                <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1733248113910-400496b9a544?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aW5lJTIwYm90dGxlJTIwcmVkfGVufDF8fHx8MTc3MzEzMjMwNXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                  alt="Tucker Family Charity wine"
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-6 flex flex-col flex-1 min-h-0">
-                <h3 className="text-2xl font-semibold mb-2 text-neutral-900">Charity Wine</h3>
-                <p className="text-orange-600 font-bold text-xl mb-4">R180</p>
-                <p className="text-neutral-600 mb-6 flex-1">
-                  Premium South African red wine. Enjoy a bottle and know you're making a difference in children's lives.
-                </p>
-                <Link
-                  to="/shop"
-                  className="block w-full bg-orange-600 text-white px-6 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold text-center mt-auto"
-                >
-                  Support the Charity
-                </Link>
-              </div>
-            </div>
-          </div>
           </div>
         </div>
       </section>

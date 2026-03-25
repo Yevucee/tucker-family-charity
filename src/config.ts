@@ -65,5 +65,14 @@ export const KITF_SUBMIT_SECRET = import.meta.env.VITE_KITF_SUBMIT_SECRET ?? "";
 export const NETWORKING_SHEET_ID =
   import.meta.env.VITE_NETWORKING_SHEET_ID || "1z37lsb3N9VAqIxgRMdPYrqVOm61bt6KltjJpsD_FIrw";
 
-// PAYMENT LINKS: Yoco, PayFast, or custom URLs
+/**
+ * Hosted donation / payment URL (Yoco, PayFast, etc.).
+ * Set VITE_DONATION_LINK in .env or GitHub Actions secret for production.
+ */
 export const DONATION_LINK = import.meta.env.VITE_DONATION_LINK || "#";
+
+/**
+ * Volunteer sign-up (e.g. Google Form). When empty, Support Us page falls back to email.
+ * TODO: set VITE_VOLUNTEER_SIGNUP_URL when the form URL is ready.
+ */
+export const VOLUNTEER_SIGNUP_URL = String(import.meta.env.VITE_VOLUNTEER_SIGNUP_URL ?? "").trim();

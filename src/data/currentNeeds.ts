@@ -1,10 +1,11 @@
 /**
- * Current needs for Oliver's Village.
- * Easy to update manually—add or remove items as needs change.
+ * Current material needs — edit this list as priorities change.
+ * Shown on the Support Us page under Donate Items → Current Needs.
  */
 
 export const currentNeeds: string[] = [
-  "Books (children's and educational)",
-  "Stationery (pens, pencils, notebooks, crayons)",
-  "Classroom support materials",
+  "Books",
+  "Stationery",
+  "Classroom support",
+  "Useful donated materials",
 ];
