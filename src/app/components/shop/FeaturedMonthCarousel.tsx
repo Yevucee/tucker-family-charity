@@ -125,7 +125,7 @@ export function FeaturedMonthCarousel({ enableCarousel, children }: FeaturedMont
 /** Wrapper width for each slide inside the carousel scroller */
 export function FeaturedCarouselSlide({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-w-full shrink-0 snap-start snap-always box-border px-0.5">
+    <div className="min-w-full shrink-0 snap-start snap-always box-border px-1 sm:px-1.5">
       {children}
     </div>
   );

@@ -32,14 +32,14 @@ export function buildFeaturedMonthSlides(
           <div
             className={
               compact
-                ? "flex flex-col sm:flex-row sm:min-h-[160px] sm:max-h-[220px]"
+                ? "flex flex-col sm:flex-row sm:min-h-[160px]"
                 : "flex flex-col md:flex-row md:min-h-[260px] md:max-h-[340px]"
             }
           >
             <div
               className={
                 compact
-                  ? "relative w-full aspect-[5/3] sm:aspect-auto sm:w-[40%] sm:min-h-[140px] shrink-0 bg-neutral-100"
+                  ? "relative w-full aspect-[5/3] sm:aspect-auto sm:w-[40%] sm:min-h-[140px] sm:max-w-[40%] shrink-0 bg-neutral-100"
                   : "relative w-full aspect-[16/10] md:aspect-auto md:w-[42%] md:min-h-[240px] shrink-0 bg-neutral-100"
               }
             >
@@ -52,7 +52,7 @@ export function buildFeaturedMonthSlides(
             <div
               className={
                 compact
-                  ? "flex-1 p-3 sm:p-4 flex flex-col justify-center min-w-0"
+                  ? "flex-1 w-full min-w-0 max-w-full overflow-hidden px-4 py-4 sm:px-5 sm:py-5 flex flex-col justify-center"
                   : "flex-1 p-5 md:p-7 flex flex-col justify-center min-w-0"
               }
             >
@@ -68,7 +68,7 @@ export function buildFeaturedMonthSlides(
               <p
                 className={
                   compact
-                    ? "text-sm sm:text-base font-bold text-neutral-900 mb-1"
+                    ? "text-sm sm:text-base font-bold text-neutral-900 mb-1 break-words min-w-0"
                     : "text-lg font-bold text-neutral-900 mb-1"
                 }
               >
@@ -77,7 +77,7 @@ export function buildFeaturedMonthSlides(
               <p
                 className={
                   compact
-                    ? "text-xs text-neutral-600 mb-2 line-clamp-2"
+                    ? "text-xs text-neutral-600 mb-2 line-clamp-2 break-words min-w-0"
                     : "text-sm text-neutral-600 mb-3 line-clamp-2"
                 }
               >
@@ -87,7 +87,7 @@ export function buildFeaturedMonthSlides(
               <p
                 className={
                   compact
-                    ? "text-xs text-neutral-700 mb-3 line-clamp-2 leading-relaxed"
+                    ? "text-xs text-neutral-700 mb-3 line-clamp-3 leading-relaxed break-words"
                     : "text-sm text-neutral-700 mb-5 line-clamp-3 leading-relaxed"
                 }
               >
@@ -129,14 +129,14 @@ export function buildFeaturedMonthSlides(
         <div
           className={
             compact
-              ? "flex flex-col sm:flex-row sm:min-h-[160px] sm:max-h-[220px]"
+              ? "flex flex-col sm:flex-row sm:min-h-[160px]"
               : "flex flex-col md:flex-row md:min-h-[260px] md:max-h-[340px]"
           }
         >
           <div
             className={
               compact
-                ? "relative w-full aspect-[5/3] sm:aspect-auto sm:w-[40%] sm:min-h-[140px] shrink-0"
+                ? "relative w-full aspect-[5/3] sm:aspect-auto sm:w-[40%] sm:min-h-[140px] sm:max-w-[40%] shrink-0"
                 : "relative w-full aspect-[16/10] md:aspect-auto md:w-[42%] md:min-h-[240px] shrink-0"
             }
           >
@@ -150,14 +150,14 @@ export function buildFeaturedMonthSlides(
           <div
             className={
               compact
-                ? "flex-1 p-3 sm:p-4 flex flex-col justify-center min-w-0 bg-gradient-to-br from-white to-amber-50/40"
+                ? "flex-1 w-full min-w-0 max-w-full overflow-hidden px-4 py-4 sm:px-5 sm:py-5 flex flex-col justify-center bg-gradient-to-br from-white to-amber-50/40"
                 : "flex-1 p-5 md:p-7 flex flex-col justify-center min-w-0 bg-gradient-to-br from-white to-amber-50/40"
             }
           >
             <p
               className={
                 compact
-                  ? "text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-amber-700 mb-1"
+                  ? "text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-amber-700 mb-1 break-words"
                   : "text-xs font-semibold uppercase tracking-wider text-amber-700 mb-2"
               }
             >
@@ -166,7 +166,7 @@ export function buildFeaturedMonthSlides(
             <h3
               className={
                 compact
-                  ? "text-sm sm:text-base font-bold text-neutral-900 mb-2 leading-tight line-clamp-2"
+                  ? "text-sm sm:text-base font-bold text-neutral-900 mb-2 leading-tight line-clamp-2 break-words min-w-0"
                   : "text-xl md:text-2xl font-bold text-neutral-900 mb-3 leading-tight"
               }
             >
@@ -175,7 +175,7 @@ export function buildFeaturedMonthSlides(
             <p
               className={
                 compact
-                  ? "text-xs text-neutral-700 mb-3 line-clamp-2 leading-relaxed"
+                  ? "text-xs text-neutral-700 mb-3 line-clamp-4 leading-relaxed break-words min-w-0"
                   : "text-sm md:text-base text-neutral-700 mb-6 line-clamp-4 leading-relaxed"
               }
             >
@@ -212,14 +212,14 @@ export function buildFeaturedMonthSlides(
           <div
             className={
               compact
-                ? "flex flex-col sm:flex-row sm:min-h-[140px] sm:max-h-[200px]"
+                ? "flex flex-col sm:flex-row sm:min-h-[140px]"
                 : "flex flex-col md:flex-row md:min-h-[220px] md:max-h-[300px]"
             }
           >
             <div
               className={
                 compact
-                  ? "relative w-full aspect-[5/3] sm:aspect-auto sm:w-[38%] sm:min-h-[120px] shrink-0"
+                  ? "relative w-full aspect-[5/3] sm:aspect-auto sm:w-[38%] sm:min-h-[120px] sm:max-w-[38%] shrink-0"
                   : "relative w-full aspect-[16/10] md:aspect-auto md:w-[38%] md:min-h-[220px] shrink-0"
               }
             >
@@ -233,7 +233,7 @@ export function buildFeaturedMonthSlides(
             <div
               className={
                 compact
-                  ? "flex-1 p-3 sm:p-4 flex flex-col justify-center min-w-0"
+                  ? "flex-1 w-full min-w-0 max-w-full overflow-hidden px-4 py-4 sm:px-5 sm:py-4 flex flex-col justify-center"
                   : "flex-1 p-5 md:p-6 flex flex-col justify-center min-w-0"
               }
             >
@@ -249,7 +249,7 @@ export function buildFeaturedMonthSlides(
               <h3
                 className={
                   compact
-                    ? "text-sm font-bold text-neutral-900 mb-1 line-clamp-1"
+                    ? "text-sm font-bold text-neutral-900 mb-1 line-clamp-2 break-words min-w-0"
                     : "text-lg md:text-xl font-bold text-neutral-900 mb-2"
                 }
               >
@@ -258,7 +258,7 @@ export function buildFeaturedMonthSlides(
               <p
                 className={
                   compact
-                    ? "text-xs text-neutral-600 mb-2 line-clamp-2 leading-relaxed"
+                    ? "text-xs text-neutral-600 mb-2 line-clamp-2 leading-relaxed break-words min-w-0"
                     : "text-sm text-neutral-600 mb-4 line-clamp-3 leading-relaxed"
                 }
               >
