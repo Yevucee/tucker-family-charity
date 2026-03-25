@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useMemo, useState, type ReactElement } from "react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Link } from "react-router";
-import { Sparkles, ShoppingBag, HeartHandshake, ChevronDown, Palette, ExternalLink } from "lucide-react";
+import { Sparkles, ShoppingBag, HeartHandshake, ChevronDown, ExternalLink } from "lucide-react";
 import auctionArtwork from "@/assets/auction-fred-schimmel-abstract.png";
 import { auctionItems } from "@/data/shopProducts";
 import { shopCatalog } from "@/data/shopCatalog";
 import { PartnerExitModal } from "../components/shop/PartnerExitModal";
+import { FeaturedCarouselSlide, FeaturedMonthCarousel } from "../components/shop/FeaturedMonthCarousel";
 import type { TuckerCatalogProduct, PartnerCatalogOffer } from "@/data/shopCatalog";
 
 type PartnerModalState = { url: string; code?: string } | null;
@@ -34,6 +35,121 @@ export function Shop() {
     });
   };
 
+  const featuredSlides = useMemo(() => {
+    const slides: ReactElement[] = [];
+    if (featuredAuction) {
+      slides.push(
+        <FeaturedCarouselSlide key="auction">
+          <div className="rounded-2xl overflow-hidden shadow-xl border border-amber-200/80 bg-white h-full">
+            <div className="flex flex-col md:flex-row md:min-h-[260px] md:max-h-[340px]">
+              <div className="relative w-full aspect-[16/10] md:aspect-auto md:w-[42%] md:min-h-[240px] shrink-0 bg-neutral-100">
+                <img
+                  src={auctionArtwork}
+                  alt={`${featuredAuction.title} — silent auction for Oliver's Village`}
+                  className="absolute inset-0 w-full h-full object-cover md:object-contain bg-white"
+                />
+              </div>
+              <div className="flex-1 p-5 md:p-7 flex flex-col justify-center min-w-0">
+                <p className="text-xs font-semibold uppercase tracking-wider text-amber-800 mb-2">
+                  Special · Silent auction
+                </p>
+                <p className="text-lg font-bold text-neutral-900 mb-1">Art that makes a difference</p>
+                <p className="text-sm text-neutral-600 mb-3 line-clamp-2">
+                  <strong>{featuredAuction.title}</strong>
+                  {featuredAuction.reserve ? ` · Reserve ${featuredAuction.reserve}` : ""}
+                </p>
+                <p className="text-sm text-neutral-700 mb-5 line-clamp-3 leading-relaxed">
+                  In partnership with {featuredAuction.donor}. {featuredAuction.description}
+                </p>
+                <a
+                  href={featuredAuction.bidLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 bg-amber-600 text-white px-6 py-3 rounded-xl hover:bg-amber-700 transition-colors font-semibold text-sm sm:text-base w-fit"
+                >
+                  Place a bid
+                  <ExternalLink className="w-4 h-4 shrink-0" />
+                </a>
+                <p className="text-xs text-neutral-500 mt-3">Bidding closes end of March 2026</p>
+              </div>
+            </div>
+          </div>
+        </FeaturedCarouselSlide>
+      );
+    }
+    slides.push(
+      <FeaturedCarouselSlide key={featuredThisMonth.main.id}>
+        <div className="rounded-2xl overflow-hidden shadow-xl border border-amber-200/80 bg-white h-full">
+          <div className="flex flex-col md:flex-row md:min-h-[260px] md:max-h-[340px]">
+            <div className="relative w-full aspect-[16/10] md:aspect-auto md:w-[42%] md:min-h-[240px] shrink-0">
+              <ImageWithFallback
+                src={featuredThisMonth.main.image}
+                alt={featuredThisMonth.main.title}
+                className="absolute inset-0 w-full h-full object-cover"
+                loading="eager"
+              />
+            </div>
+            <div className="flex-1 p-5 md:p-7 flex flex-col justify-center min-w-0 bg-gradient-to-br from-white to-amber-50/40">
+              <p className="text-xs font-semibold uppercase tracking-wider text-amber-700 mb-2">
+                Our spotlight
+              </p>
+              <h3 className="text-xl md:text-2xl font-bold text-neutral-900 mb-3 leading-tight">
+                {featuredThisMonth.main.title}
+              </h3>
+              <p className="text-sm md:text-base text-neutral-700 mb-6 line-clamp-4 leading-relaxed">
+                {featuredThisMonth.main.shortDescription}
+              </p>
+              <a
+                href={featuredThisMonth.main.ctaHref}
+                target={featuredThisMonth.main.ctaOpensNewTab ? "_blank" : undefined}
+                rel={featuredThisMonth.main.ctaOpensNewTab ? "noopener noreferrer" : undefined}
+                className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-colors w-fit text-sm sm:text-base"
+              >
+                {featuredThisMonth.main.ctaLabel}
+              </a>
+            </div>
+          </div>
+        </div>
+      </FeaturedCarouselSlide>
+    );
+    for (const item of featuredThisMonth.supporting ?? []) {
+      slides.push(
+        <FeaturedCarouselSlide key={item.id}>
+          <div className="rounded-2xl overflow-hidden shadow-xl border border-amber-200/80 bg-white h-full">
+            <div className="flex flex-col md:flex-row md:min-h-[220px] md:max-h-[300px]">
+              <div className="relative w-full aspect-[16/10] md:aspect-auto md:w-[38%] md:min-h-[220px] shrink-0">
+                <ImageWithFallback
+                  src={item.image}
+                  alt={item.title}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <div className="flex-1 p-5 md:p-6 flex flex-col justify-center min-w-0">
+                <p className="text-xs font-semibold uppercase tracking-wider text-amber-700 mb-2">
+                  Also featuring
+                </p>
+                <h3 className="text-lg md:text-xl font-bold text-neutral-900 mb-2">{item.title}</h3>
+                <p className="text-sm text-neutral-600 mb-4 line-clamp-3 leading-relaxed">
+                  {item.shortDescription}
+                </p>
+                <a
+                  href={item.ctaHref}
+                  className="inline-flex text-sm font-semibold text-amber-700 hover:text-amber-800 w-fit"
+                >
+                  {item.ctaLabel} →
+                </a>
+              </div>
+            </div>
+          </div>
+        </FeaturedCarouselSlide>
+      );
+    }
+    return slides;
+  }, [featuredAuction, featuredThisMonth]);
+
+  const useFeaturedCarousel = featuredSlides.length > 1;
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -46,154 +162,53 @@ export function Shop() {
             Support Oliver&apos;s Village—browse what we&apos;re featuring, our own products, and
             partner offers that give back.
           </p>
+          <nav
+            className="mt-8 flex flex-wrap justify-center gap-3"
+            aria-label="Jump to shop sections"
+          >
+            <a
+              href="#tucker-products"
+              className="inline-flex items-center gap-2 rounded-full bg-white/15 px-5 py-2.5 text-sm font-semibold text-white ring-1 ring-white/35 hover:bg-white/25 transition-colors"
+            >
+              <ShoppingBag className="w-4 h-4 opacity-90" aria-hidden />
+              Tucker products
+            </a>
+            <a
+              href="#partner-offers"
+              className="inline-flex items-center gap-2 rounded-full bg-white/15 px-5 py-2.5 text-sm font-semibold text-white ring-1 ring-white/35 hover:bg-white/25 transition-colors"
+            >
+              <HeartHandshake className="w-4 h-4 opacity-90" aria-hidden />
+              Partner offers
+            </a>
+          </nav>
         </div>
       </section>
 
       {/* A. Featured This Month — specials (auction + catalog spotlight) */}
       <section
         id="featured-this-month"
-        className="relative py-14 md:py-20 bg-gradient-to-b from-amber-50 via-white to-white overflow-hidden"
+        className="relative py-8 md:py-12 bg-gradient-to-b from-amber-50 via-white to-white overflow-hidden scroll-mt-20"
         aria-labelledby="featured-heading"
       >
         <div className="absolute inset-0 pointer-events-none opacity-[0.07] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-700 via-transparent to-transparent" />
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <h2
             id="featured-heading"
-            className="text-2xl md:text-3xl font-bold text-neutral-900 text-center mb-10 md:mb-12 flex items-center justify-center gap-2"
+            className="text-2xl md:text-3xl font-bold text-neutral-900 text-center mb-6 md:mb-8 flex items-center justify-center gap-2 flex-wrap"
           >
             <Sparkles className="w-7 h-7 text-amber-600 shrink-0" aria-hidden />
             {featuredThisMonth.sectionTitle}
           </h2>
-
-          {/* SPECIALS: silent auction — edit `auctionItems` in src/data/shopProducts.ts */}
-          {featuredAuction && (
-            <div className="mb-12 md:mb-14 rounded-2xl overflow-hidden shadow-2xl border border-amber-200/80 bg-white">
-              <div className="px-6 py-4 md:px-8 md:py-5 border-b border-amber-100 bg-gradient-to-r from-amber-50 to-white">
-                <p className="text-sm font-semibold uppercase tracking-wider text-amber-800 mb-1">
-                  Special
-                </p>
-                <p className="text-lg md:text-xl font-bold text-neutral-900">Silent auction — fine art</p>
-              </div>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center p-6 md:p-10 lg:p-12">
-                <div className="order-2 lg:order-1">
-                  <div className="inline-flex items-center gap-2 text-amber-700 font-semibold mb-4">
-                    <Palette className="w-5 h-5 shrink-0" aria-hidden />
-                    <span>In partnership with {featuredAuction.donor}</span>
-                  </div>
-                  <h3 className="text-2xl md:text-3xl font-bold text-neutral-900 mb-4">
-                    Art that makes a difference
-                  </h3>
-                  <p className="text-lg text-neutral-700 mb-5 leading-relaxed">
-                    We&apos;re excited to run a monthly art auction in partnership with Dale Sargent
-                    Fine Art. Each month we share a special piece—own something beautiful while
-                    supporting a meaningful cause.
-                  </p>
-                  <p className="text-neutral-700 mb-5">
-                    This month&apos;s artwork is <strong>{featuredAuction.title}</strong>.{" "}
-                    {featuredAuction.description}
-                  </p>
-                  {featuredAuction.reserve && (
-                    <p className="text-orange-600 font-bold text-xl mb-5">
-                      Reserve {featuredAuction.reserve}
-                    </p>
-                  )}
-                  <p className="text-neutral-700 mb-8">
-                    All proceeds above the base price go directly to Oliver&apos;s Village. This is a
-                    silent auction—your bid remains private.
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <a
-                      href={featuredAuction.bidLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 bg-amber-600 text-white px-8 py-4 rounded-xl hover:bg-amber-700 transition-colors font-semibold"
-                    >
-                      Place a bid
-                      <ExternalLink className="w-4 h-4 shrink-0" />
-                    </a>
-                    <span className="text-sm text-neutral-600 self-center">
-                      Bidding closes end of March 2026
-                    </span>
-                  </div>
-                </div>
-                <div className="order-1 lg:order-2">
-                  <div className="rounded-xl overflow-hidden shadow-xl bg-white ring-1 ring-neutral-100">
-                    <img
-                      src={auctionArtwork}
-                      alt={`${featuredAuction.title} — artwork supporting Oliver's Village`}
-                      className="w-full h-auto object-contain"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
+          {useFeaturedCarousel && (
+            <p className="text-center text-sm text-neutral-600 mb-4 max-w-xl mx-auto">
+              Swipe or use the dots—shows rotate automatically.
+            </p>
           )}
 
-          {/* FEATURED: swap `main` content monthly or via shopCatalog / future CMS */}
-          <div className="rounded-2xl overflow-hidden shadow-2xl border border-amber-200/80 bg-white">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 lg:gap-0">
-              <div className="relative aspect-[4/3] lg:aspect-auto lg:min-h-[320px]">
-                <ImageWithFallback
-                  src={featuredThisMonth.main.image}
-                  alt={featuredThisMonth.main.title}
-                  className="absolute inset-0 w-full h-full object-cover"
-                  loading="eager"
-                />
-              </div>
-              <div className="p-8 md:p-10 lg:p-12 flex flex-col justify-center bg-gradient-to-br from-white to-amber-50/40">
-                <p className="text-sm font-semibold uppercase tracking-wider text-amber-700 mb-2">
-                  Our spotlight
-                </p>
-                <h3 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-4 leading-tight">
-                  {featuredThisMonth.main.title}
-                </h3>
-                <p className="text-lg text-neutral-700 mb-8 leading-relaxed">
-                  {featuredThisMonth.main.shortDescription}
-                </p>
-                <div className="mt-auto">
-                  <a
-                    href={featuredThisMonth.main.ctaHref}
-                    target={featuredThisMonth.main.ctaOpensNewTab ? "_blank" : undefined}
-                    rel={featuredThisMonth.main.ctaOpensNewTab ? "noopener noreferrer" : undefined}
-                    className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-4 rounded-xl bg-amber-600 text-white font-semibold text-lg shadow-lg hover:bg-amber-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2"
-                  >
-                    {featuredThisMonth.main.ctaLabel}
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Optional supporting featured slots — extend `supporting` in shopCatalog.ts */}
-          {featuredThisMonth.supporting && featuredThisMonth.supporting.length > 0 && (
-            <div className="mt-8 md:mt-10 grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
-              {featuredThisMonth.supporting.map((item) => (
-                <article
-                  key={item.id}
-                  className="flex gap-4 p-4 rounded-xl bg-white border border-neutral-200 shadow-md hover:shadow-lg transition-shadow"
-                >
-                  <div className="w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 rounded-lg overflow-hidden">
-                    <ImageWithFallback
-                      src={item.image}
-                      alt={item.title}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="min-w-0 flex-1 flex flex-col">
-                    <h4 className="font-bold text-neutral-900 mb-1">{item.title}</h4>
-                    <p className="text-sm text-neutral-600 mb-3 line-clamp-2">{item.shortDescription}</p>
-                    <a
-                      href={item.ctaHref}
-                      className="mt-auto text-sm font-semibold text-amber-700 hover:text-amber-800"
-                    >
-                      {item.ctaLabel} →
-                    </a>
-                  </div>
-                </article>
-              ))}
-            </div>
-          )}
+          {/* FEATURED SLIDES: auction (shopProducts), main + supporting (shopCatalog / CMS) */}
+          <FeaturedMonthCarousel enableCarousel={useFeaturedCarousel}>
+            {featuredSlides}
+          </FeaturedMonthCarousel>
         </div>
       </section>
 
@@ -206,15 +221,27 @@ export function Shop() {
         <div className="max-w-2xl mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 mb-2">Shop More</h2>
           <p className="text-neutral-600 mb-6">Discover more products and partner offers below.</p>
-          <a
-            href="#tucker-products"
-            className="inline-flex flex-col items-center gap-1 text-amber-700 font-semibold hover:text-amber-800 transition-colors"
-          >
-            <span className="flex items-center gap-1">
-              Scroll to Tucker products
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-3 sm:gap-4">
+            <a
+              href="#tucker-products"
+              className="inline-flex items-center gap-2 text-amber-800 font-semibold hover:text-amber-900 transition-colors"
+            >
+              <ShoppingBag className="w-4 h-4 shrink-0" aria-hidden />
+              Tucker products
               <ChevronDown className="w-4 h-4" aria-hidden />
+            </a>
+            <span className="hidden sm:inline text-neutral-300" aria-hidden>
+              |
             </span>
-          </a>
+            <a
+              href="#partner-offers"
+              className="inline-flex items-center gap-2 text-amber-800 font-semibold hover:text-amber-900 transition-colors"
+            >
+              <HeartHandshake className="w-4 h-4 shrink-0" aria-hidden />
+              Partner offers
+              <ChevronDown className="w-4 h-4" aria-hidden />
+            </a>
+          </div>
         </div>
       </section>
 
