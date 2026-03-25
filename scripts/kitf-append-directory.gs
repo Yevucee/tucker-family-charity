@@ -32,10 +32,9 @@ function doPost(e) {
     } else {
       return jsonResponse({ ok: false, error: "No body" });
     }
-    if (SCRIPT_SECRET) {
-      if (body.secret !== SCRIPT_SECRET) {
-        return jsonResponse({ ok: false, error: "Unauthorized" });
-      }
+    var scriptSecret = readScriptSecret_();
+    if (scriptSecret && body.secret !== scriptSecret) {
+      return jsonResponse({ ok: false, error: "Unauthorized" });
     }
     var name = String(body.name || "").trim();
     var profession = String(body.profession || "").trim();
@@ -59,4 +58,15 @@ function doPost(e) {
 
 function jsonResponse(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
+}
+
+/**
+ * Avoids ReferenceError if `var SCRIPT_SECRET = ""` was omitted when pasting into Code.gs.
+ */
+function readScriptSecret_() {
+  try {
+    return SCRIPT_SECRET ? String(SCRIPT_SECRET) : "";
+  } catch (e) {
+    return "";
+  }
 }
