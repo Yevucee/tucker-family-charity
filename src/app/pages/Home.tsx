@@ -114,17 +114,9 @@ export function Home() {
       {/* Partners — horizontal scroll; logos from data/partners.ts (asset or favicon) */}
       <section className="py-16 bg-white border-y border-amber-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-center text-lg font-semibold text-neutral-600 mb-3">
+          <h2 className="text-center text-lg font-semibold text-neutral-600 mb-8">
             Supported by our partners
           </h2>
-          <p className="text-center text-sm text-neutral-500 mb-8 max-w-xl mx-auto">
-            Logos load from each partner site when we have a link—hover or tap the strip to pause.
-            Full grid on the{" "}
-            <Link to="/partners" className="text-orange-600 hover:text-orange-700 font-semibold">
-              Partners
-            </Link>{" "}
-            page.
-          </p>
           <PartnerAutoScrollStrip />
         </div>
       </section>
