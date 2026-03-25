@@ -23,10 +23,15 @@ function doGet() {
 
 function doPost(e) {
   try {
-    if (!e.postData || !e.postData.contents) {
+    /** Prefer form field `json` (x-www-form-urlencoded from the charity site); fall back to raw JSON body */
+    var body;
+    if (e.parameter && e.parameter.json) {
+      body = JSON.parse(e.parameter.json);
+    } else if (e.postData && e.postData.contents) {
+      body = JSON.parse(e.postData.contents);
+    } else {
       return jsonResponse({ ok: false, error: "No body" });
     }
-    var body = JSON.parse(e.postData.contents);
     if (SCRIPT_SECRET) {
       if (body.secret !== SCRIPT_SECRET) {
         return jsonResponse({ ok: false, error: "Unauthorized" });

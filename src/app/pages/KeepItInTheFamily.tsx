@@ -163,12 +163,12 @@ export function KeepItInTheFamily() {
 
     setSubmitState("loading");
     try {
-      // text/plain avoids a CORS preflight that Google Apps Script often answers with 405 for OPTIONS
+      // x-www-form-urlencoded is a "simple" request — avoids OPTIONS preflight that often gets 405 from Apps Script
       const res = await fetch(KITF_SUBMIT_URL, {
         method: "POST",
         mode: "cors",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(payload),
+        headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+        body: new URLSearchParams({ json: JSON.stringify(payload) }).toString(),
       });
       let data: { ok?: boolean; error?: string } = {};
       try {
