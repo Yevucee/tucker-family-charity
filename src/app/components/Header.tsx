@@ -1,6 +1,6 @@
 import { Link, NavLink, useLocation } from "react-router";
 import { ChevronDown, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,6 +14,30 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [programmesOpen, setProgrammesOpen] = useState(false);
   const location = useLocation();
+  const headerRenderCount = useRef(0);
+  useLayoutEffect(() => {
+    headerRenderCount.current += 1;
+    // #region agent log
+    fetch("http://127.0.0.1:7279/ingest/dee04ff0-16cf-498c-a83a-f49eff7bef7f", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "9328dc" },
+      body: JSON.stringify({
+        sessionId: "9328dc",
+        runId: "post-fix",
+        hypothesisId: "H2",
+        location: "Header.tsx:afterRender",
+        message: "Header render",
+        data: {
+          renderCount: headerRenderCount.current,
+          pathname: location.pathname,
+          programmesOpen,
+          isMenuOpen,
+        },
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+    // #endregion
+  });
   const isProgrammesActive =
     location.pathname.startsWith("/golf-learnership-programme") ||
     location.pathname.startsWith("/olivers-village");
@@ -69,7 +93,26 @@ export function Header() {
             >
               Partners
             </NavLink>
-            <DropdownMenu>
+            <DropdownMenu
+              modal={false}
+              onOpenChange={(open) => {
+                // #region agent log
+                fetch("http://127.0.0.1:7279/ingest/dee04ff0-16cf-498c-a83a-f49eff7bef7f", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "9328dc" },
+                  body: JSON.stringify({
+                    sessionId: "9328dc",
+                    runId: "post-fix",
+                    hypothesisId: "H1",
+                    location: "Header.tsx:DropdownMenu.onOpenChange",
+                    message: "Programmes desktop dropdown open state",
+                    data: { open, pathname: location.pathname },
+                    timestamp: Date.now(),
+                  }),
+                }).catch(() => {});
+                // #endregion
+              }}
+            >
               <DropdownMenuTrigger
                 className={`flex items-center gap-1 transition-colors ${
                   isProgrammesActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600"
@@ -78,14 +121,55 @@ export function Header() {
                 Programmes
                 <ChevronDown className="w-4 h-4" />
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="start">
+              <DropdownMenuContent
+                align="start"
+                onCloseAutoFocus={(e) => e.preventDefault()}
+              >
                 <DropdownMenuItem asChild>
-                  <Link to="/olivers-village" className="cursor-pointer">
+                  <Link
+                    to="/olivers-village"
+                    className="cursor-pointer"
+                    onClick={() => {
+                      // #region agent log
+                      fetch("http://127.0.0.1:7279/ingest/dee04ff0-16cf-498c-a83a-f49eff7bef7f", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "9328dc" },
+                        body: JSON.stringify({
+                          sessionId: "9328dc",
+                          hypothesisId: "H4",
+                          location: "Header.tsx:programmeLinkClick",
+                          message: "Desktop dropdown programme link click",
+                          data: { to: "/olivers-village" },
+                          timestamp: Date.now(),
+                        }),
+                      }).catch(() => {});
+                      // #endregion
+                    }}
+                  >
                     Oliver&apos;s Village
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link to="/golf-learnership-programme" className="cursor-pointer">
+                  <Link
+                    to="/golf-learnership-programme"
+                    className="cursor-pointer"
+                    onClick={() => {
+                      // #region agent log
+                      fetch("http://127.0.0.1:7279/ingest/dee04ff0-16cf-498c-a83a-f49eff7bef7f", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "9328dc" },
+                        body: JSON.stringify({
+                          sessionId: "9328dc",
+                          hypothesisId: "H4",
+                          location: "Header.tsx:programmeLinkClick",
+                          message: "Desktop dropdown programme link click",
+                          data: { to: "/golf-learnership-programme" },
+                          timestamp: Date.now(),
+                        }),
+                      }).catch(() => {});
+                      // #endregion
+                    }}
+                  >
                     Golf Learnership Programme
                   </Link>
                 </DropdownMenuItem>
@@ -165,7 +249,26 @@ export function Header() {
               >
                 Partners
               </NavLink>
-              <Collapsible open={programmesOpen} onOpenChange={setProgrammesOpen}>
+              <Collapsible
+                open={programmesOpen}
+                onOpenChange={(open) => {
+                  setProgrammesOpen(open);
+                  // #region agent log
+                  fetch("http://127.0.0.1:7279/ingest/dee04ff0-16cf-498c-a83a-f49eff7bef7f", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "9328dc" },
+                    body: JSON.stringify({
+                      sessionId: "9328dc",
+                      hypothesisId: "H5",
+                      location: "Header.tsx:Collapsible.onOpenChange",
+                      message: "Mobile Programmes collapsible",
+                      data: { open, isMenuOpen },
+                      timestamp: Date.now(),
+                    }),
+                  }).catch(() => {});
+                  // #endregion
+                }}
+              >
                 <CollapsibleTrigger
                   className={`flex items-center justify-between w-full py-2 ${
                     isProgrammesActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
