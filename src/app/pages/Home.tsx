@@ -14,7 +14,7 @@ import {
   Palette,
   Sparkles,
 } from "lucide-react";
-import { PartnerGrid } from "../components/PartnerGrid";
+import { PartnerAutoScrollStrip } from "../components/PartnerAutoScrollStrip";
 import { INSTAGRAM_ELFSIGHT_APP_ID, INSTAGRAM_WIDGET_URL } from "@/config";
 import { InstagramEmbed } from "@/app/components/InstagramEmbed";
 import logo from "@/assets/4920ca320ce31a579ec4c3d0fcc360b4528a2024.png";
@@ -111,17 +111,21 @@ export function Home() {
         </div>
       </section>
 
-      {/* Partners — grid; logos from each site favicon unless overridden in data/partners.ts */}
+      {/* Partners — horizontal scroll; logos from data/partners.ts (asset or favicon) */}
       <section className="py-16 bg-white border-y border-amber-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-center text-2xl font-bold text-neutral-900 mb-2">
+          <h2 className="text-center text-lg font-semibold text-neutral-600 mb-3">
             Supported by our partners
           </h2>
-          <p className="text-center text-neutral-600 mb-10 max-w-2xl mx-auto">
-            Tap a logo to visit their website. Partners without a confirmed link go to our partners
+          <p className="text-center text-sm text-neutral-500 mb-8 max-w-xl mx-auto">
+            Logos load from each partner site when we have a link—hover or tap the strip to pause.
+            Full grid on the{" "}
+            <Link to="/partners" className="text-orange-600 hover:text-orange-700 font-semibold">
+              Partners
+            </Link>{" "}
             page.
           </p>
-          <PartnerGrid />
+          <PartnerAutoScrollStrip />
         </div>
       </section>
 

@@ -21,8 +21,8 @@ export function PartnerLogoSlot({ name, logo }: PartnerLogoSlotProps) {
           onError={() => setFailed(true)}
         />
       ) : (
-        <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wide text-amber-600/75 text-center px-1">
-          Logo pending
+        <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wide text-amber-600/75 text-center px-1 leading-tight">
+          {name}
         </span>
       )}
     </div>
