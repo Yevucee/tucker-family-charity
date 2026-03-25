@@ -3,13 +3,12 @@ import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Link } from "react-router";
-import { Sparkles, ShoppingBag, HeartHandshake, ChevronDown } from "lucide-react";
+import { Sparkles, ShoppingBag, HeartHandshake, ChevronDown, Palette, ExternalLink } from "lucide-react";
+import auctionArtwork from "@/assets/auction-fred-schimmel-abstract.png";
+import { auctionItems } from "@/data/shopProducts";
 import { shopCatalog } from "@/data/shopCatalog";
 import { PartnerExitModal } from "../components/shop/PartnerExitModal";
 import type { TuckerCatalogProduct, PartnerCatalogOffer } from "@/data/shopCatalog";
-
-/** CMS / future auction: set true and render `auctionItems` from @/data/shopProducts near the top */
-const SHOW_AUCTION_BANNER = false;
 
 type PartnerModalState = { url: string; code?: string } | null;
 
@@ -25,6 +24,7 @@ function tuckerLinkProps(product: TuckerCatalogProduct) {
 
 export function Shop() {
   const { featuredThisMonth, tuckerProducts, partnerOffers } = shopCatalog;
+  const featuredAuction = auctionItems.find((a) => a.featured) ?? auctionItems[0];
   const [partnerModal, setPartnerModal] = useState<PartnerModalState>(null);
 
   const openPartnerModal = (offer: PartnerCatalogOffer) => {
@@ -49,13 +49,7 @@ export function Shop() {
         </div>
       </section>
 
-      {SHOW_AUCTION_BANNER && (
-        <section className="py-4 bg-amber-100 text-center text-sm text-amber-900">
-          {/* FUTURE: inject featured auction from shopProducts.auctionItems */}
-        </section>
-      )}
-
-      {/* A. Featured This Month — strongest visual block */}
+      {/* A. Featured This Month — specials (auction + catalog spotlight) */}
       <section
         id="featured-this-month"
         className="relative py-14 md:py-20 bg-gradient-to-b from-amber-50 via-white to-white overflow-hidden"
@@ -71,7 +65,71 @@ export function Shop() {
             {featuredThisMonth.sectionTitle}
           </h2>
 
-          {/* FEATURED: swap `main` content monthly or via CMS */}
+          {/* SPECIALS: silent auction — edit `auctionItems` in src/data/shopProducts.ts */}
+          {featuredAuction && (
+            <div className="mb-12 md:mb-14 rounded-2xl overflow-hidden shadow-2xl border border-amber-200/80 bg-white">
+              <div className="px-6 py-4 md:px-8 md:py-5 border-b border-amber-100 bg-gradient-to-r from-amber-50 to-white">
+                <p className="text-sm font-semibold uppercase tracking-wider text-amber-800 mb-1">
+                  Special
+                </p>
+                <p className="text-lg md:text-xl font-bold text-neutral-900">Silent auction — fine art</p>
+              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center p-6 md:p-10 lg:p-12">
+                <div className="order-2 lg:order-1">
+                  <div className="inline-flex items-center gap-2 text-amber-700 font-semibold mb-4">
+                    <Palette className="w-5 h-5 shrink-0" aria-hidden />
+                    <span>In partnership with {featuredAuction.donor}</span>
+                  </div>
+                  <h3 className="text-2xl md:text-3xl font-bold text-neutral-900 mb-4">
+                    Art that makes a difference
+                  </h3>
+                  <p className="text-lg text-neutral-700 mb-5 leading-relaxed">
+                    We&apos;re excited to run a monthly art auction in partnership with Dale Sargent
+                    Fine Art. Each month we share a special piece—own something beautiful while
+                    supporting a meaningful cause.
+                  </p>
+                  <p className="text-neutral-700 mb-5">
+                    This month&apos;s artwork is <strong>{featuredAuction.title}</strong>.{" "}
+                    {featuredAuction.description}
+                  </p>
+                  {featuredAuction.reserve && (
+                    <p className="text-orange-600 font-bold text-xl mb-5">
+                      Reserve {featuredAuction.reserve}
+                    </p>
+                  )}
+                  <p className="text-neutral-700 mb-8">
+                    All proceeds above the base price go directly to Oliver&apos;s Village. This is a
+                    silent auction—your bid remains private.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <a
+                      href={featuredAuction.bidLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 bg-amber-600 text-white px-8 py-4 rounded-xl hover:bg-amber-700 transition-colors font-semibold"
+                    >
+                      Place a bid
+                      <ExternalLink className="w-4 h-4 shrink-0" />
+                    </a>
+                    <span className="text-sm text-neutral-600 self-center">
+                      Bidding closes end of March 2026
+                    </span>
+                  </div>
+                </div>
+                <div className="order-1 lg:order-2">
+                  <div className="rounded-xl overflow-hidden shadow-xl bg-white ring-1 ring-neutral-100">
+                    <img
+                      src={auctionArtwork}
+                      alt={`${featuredAuction.title} — artwork supporting Oliver's Village`}
+                      className="w-full h-auto object-contain"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* FEATURED: swap `main` content monthly or via shopCatalog / future CMS */}
           <div className="rounded-2xl overflow-hidden shadow-2xl border border-amber-200/80 bg-white">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 lg:gap-0">
               <div className="relative aspect-[4/3] lg:aspect-auto lg:min-h-[320px]">

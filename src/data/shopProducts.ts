@@ -1,6 +1,7 @@
 /**
- * Auction items — optional future block on the Shop page (see SHOW_AUCTION_BANNER in Shop.tsx).
- * Bids / payment: configure `bidLink` to your hosted auction or payment page.
+ * Auction items — shown in the Shop page “Featured This Month” specials block.
+ * Update title, copy, reserve, dates in UI (Shop.tsx) or add fields here as needed.
+ * Bids: configure `bidLink` to your hosted auction or payment page.
  */
 
 export interface AuctionItem {
