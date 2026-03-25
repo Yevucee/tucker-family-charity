@@ -13,6 +13,14 @@ var SHEET_NAME = "Sheet1";
 /** Leave empty to skip checks; otherwise must match VITE_KITF_SUBMIT_SECRET from the site build. */
 var SCRIPT_SECRET = "";
 
+/** Opening the Web app URL in a browser uses GET — avoids “doGet not found”. Submissions use POST only. */
+function doGet() {
+  return jsonResponse({
+    ok: true,
+    message: "KITF directory endpoint is live. Use POST JSON from the website; do not expect a form here.",
+  });
+}
+
 function doPost(e) {
   try {
     if (!e.postData || !e.postData.contents) {
