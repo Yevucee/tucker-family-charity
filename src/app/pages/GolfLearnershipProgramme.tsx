@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import {
@@ -61,7 +61,7 @@ const MORE_THAN_GOLF_ITEMS = [
 export function GolfLearnershipProgramme() {
   useEffect(() => {
     document.title =
-      "Golf Learnership Programme | Tucker Family Foundation, Afrika Tikkun and Simunye";
+      "Golf Learnership Programme | Tucker Family Foundation & Afrika Tikkun";
   }, []);
 
   return (
@@ -80,14 +80,14 @@ export function GolfLearnershipProgramme() {
           <div className="max-w-4xl mx-auto w-full text-center text-white">
             <h1 className="text-5xl md:text-6xl font-bold mb-4">Golf Learnership Programme</h1>
             <p className="text-xl text-amber-100 font-medium mb-6">
-              A joint initiative by Tucker Family Foundation, Afrika Tikkun and Simunye
+              A joint initiative by Tucker Family Foundation and Afrika Tikkun
             </p>
             <p className="text-lg text-amber-100/90 mb-10 max-w-3xl mx-auto">
               The Golf Learnership Programme is a collaborative initiative designed to create
               practical pathways for young people through structured opportunity, support, exposure
-              and development. Brought together through the combined efforts of Tucker Family
-              Foundation, Afrika Tikkun and Simunye, the programme uses golf as a platform for
-              building confidence, discipline, work readiness and future opportunity.
+              and development. Led by Tucker Family Foundation and Afrika Tikkun, the programme uses
+              golf as a platform for building confidence, discipline, work readiness and future
+              opportunity.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
@@ -108,32 +108,46 @@ export function GolfLearnershipProgramme() {
         </div>
       </section>
 
-      {/* 2. Equal partner strip */}
+      {/* 2. Lead partner strip — two charitable partners */}
       <section className="py-16 bg-amber-50/50 border-y border-amber-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-lg font-semibold text-amber-900/80 mb-10">
-            Delivered through a shared commitment from three partner organisations
+          <p className="text-center text-lg font-semibold text-amber-900/80 mb-3">
+            Led by two charitable partners
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
-            {golfProgrammePartners.map((partner) => (
-              <div
-                key={partner.id}
-                className="flex flex-col items-center justify-center min-h-[120px] bg-amber-100/80 rounded-lg p-8 border border-amber-300 shadow-sm"
-              >
-                {partner.logo ? (
-                  <img
-                    src={partner.logo}
-                    alt={partner.name}
-                    className="max-h-16 w-auto object-contain mb-4"
-                  />
-                ) : (
-                  <span className="text-lg font-semibold text-amber-950 text-center">
-                    {partner.name}
-                  </span>
+          <p className="text-center text-base text-amber-900/65 max-w-2xl mx-auto mb-10">
+            Tucker Family Foundation and Afrika Tikkun shape and drive the programme together.
+          </p>
+          <div className="flex flex-col md:flex-row md:items-stretch md:justify-center gap-6 md:gap-0 max-w-4xl mx-auto">
+            {golfProgrammePartners.map((partner, index) => (
+              <Fragment key={partner.id}>
+                {index > 0 && (
+                  <div
+                    className="hidden md:flex items-center justify-center px-5 shrink-0 text-amber-700/50"
+                    aria-hidden
+                  >
+                    <span className="text-3xl font-light select-none">&</span>
+                  </div>
                 )}
-              </div>
+                <div className="flex flex-col items-center justify-center flex-1 min-h-[132px] bg-white rounded-xl p-8 border border-amber-300/90 shadow-md md:max-w-[min(100%,340px)]">
+                  {partner.logo ? (
+                    <img
+                      src={partner.logo}
+                      alt={partner.name}
+                      className="max-h-16 w-auto object-contain mb-4"
+                    />
+                  ) : (
+                    <span className="text-lg font-semibold text-amber-950 text-center leading-snug">
+                      {partner.name}
+                    </span>
+                  )}
+                </div>
+              </Fragment>
             ))}
           </div>
+          <p className="text-center text-sm text-neutral-600 max-w-xl mx-auto mt-10 leading-relaxed">
+            <span className="font-semibold text-neutral-700">Operational note:</span> Vice provides
+            behind-the-scenes support, helping manage programme structures and coordination.
+          </p>
         </div>
       </section>
 
@@ -237,14 +251,13 @@ export function GolfLearnershipProgramme() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold mb-8 text-neutral-900">Built through collaboration</h2>
           <p className="text-lg text-neutral-700 mb-6">
-            This programme is the result of a shared effort between Tucker Family Foundation, Afrika
-            Tikkun and Simunye. Each partner brings an important role to the initiative, helping
-            shape a programme that is structured, supportive and designed for meaningful impact.
+            This programme is the result of a shared effort between Tucker Family Foundation and
+            Afrika Tikkun. Both charities bring distinct strengths to the initiative, helping shape a
+            programme that is structured, supportive and designed for meaningful impact.
           </p>
           <p className="text-lg text-neutral-700">
-            By combining experience, networks and implementation support, the partnership aims to
-            create a stronger pathway for young people and a more credible foundation for long-term
-            growth.
+            By combining experience, networks and delivery capacity, the partnership aims to create a
+            stronger pathway for young people and a more credible foundation for long-term growth.
           </p>
         </div>
       </section>
@@ -263,9 +276,10 @@ export function GolfLearnershipProgramme() {
               <p className="text-lg text-neutral-700 mb-6">
                 The programme is designed not only to create opportunity, but to do so in a way that
                 is coordinated, measurable and responsible. Through collaboration between Tucker
-                Family Foundation, Afrika Tikkun and Simunye, the initiative is intended to support
-                implementation, learner development, stakeholder engagement and transparent
-                reporting over time.
+                Family Foundation and Afrika Tikkun—and with Vice supporting programme structures
+                behind the scenes—the initiative is intended to support implementation, learner
+                development,
+                stakeholder engagement and transparent reporting over time.
               </p>
               <p className="text-lg text-neutral-700">
                 Our aim is not only to run a meaningful programme, but to do so in a way that
