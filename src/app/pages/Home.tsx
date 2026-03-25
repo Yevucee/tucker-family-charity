@@ -76,7 +76,7 @@ export function Home() {
       </section>
 
       {/* About Preview Section */}
-      <section className="py-20 bg-amber-50">
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -112,7 +112,7 @@ export function Home() {
       </section>
 
       {/* Shop & Auction / Ways to Support */}
-      <section id="support" className="py-20 bg-amber-50">
+      <section id="support" className="py-20 bg-amber-50 border-t border-amber-200/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4 text-neutral-900">
@@ -244,7 +244,7 @@ export function Home() {
       </section>
 
       {/* How we create impact — four pillars */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white border-t border-amber-200/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-neutral-900">How We Create Impact</h2>
