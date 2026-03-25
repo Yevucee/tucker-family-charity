@@ -12,7 +12,7 @@ export function PartnerLogoSlot({ name, logo }: PartnerLogoSlotProps) {
   const [failed, setFailed] = useState(false);
 
   return (
-    <div className="flex h-[108px] w-full max-w-full cursor-default items-center justify-center rounded-xl bg-gradient-to-b from-amber-50/95 to-white p-3 shadow-none transition-shadow hover:shadow-md sm:h-[120px]">
+    <div className="flex h-[108px] w-full max-w-full items-center justify-center rounded-xl bg-gradient-to-b from-amber-50/95 to-white p-3 shadow-none transition-shadow hover:shadow-md sm:h-[120px]">
       {logo && !failed ? (
         <img
           src={logo}
