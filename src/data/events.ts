@@ -1,6 +1,6 @@
 /**
  * Events data for Tucker Family Charity.
- * GOOGLE PHOTOS: Replace albumLink values with real Google Photos album URLs.
+ * Past events: one cover image on the site; albumLink = Google Photos album or Drive folder (share link).
  */
 
 export interface UpcomingEvent {
@@ -24,7 +24,9 @@ export interface PastEvent {
   title: string;
   slug: string;
   shortDescription: string;
-  photos: string[];
+  /** Single hero image shown on the Events page */
+  coverImage: string;
+  /** Google Photos album or Drive folder share URL for the full gallery */
   albumLink: string;
 }
 
@@ -133,8 +135,7 @@ export const upcomingEvents: UpcomingEvent[] = [
   },
 ];
 
-// GOOGLE PHOTOS: Replace albumLink with real Google Photos album URL for each event
-const unsplash = (id: string, w = 800) =>
+const unsplash = (id: string, w = 1200) =>
   `https://images.unsplash.com/photo-${id}?w=${w}&q=80`;
 
 export const pastEvents: PastEvent[] = [
@@ -144,15 +145,8 @@ export const pastEvents: PastEvent[] = [
     slug: "black-tie-2024",
     shortDescription:
       "An elegant evening of fine dining, live entertainment, and fundraising for Oliver's Village. Our community came together in style to support education and opportunity.",
-    photos: [
-      unsplash("1768776179834-93e6cafc6d97"),
-      unsplash("1771924368588-507c6a048363"),
-      unsplash("1706323625335-dad461b68fe5"),
-      unsplash("1770842655322-bcfd1c4be229"),
-      unsplash("1683879025805-a268b690613e"),
-      unsplash("1666281269793-da06484657e8"),
-    ],
-    albumLink: "https://photos.google.com/", // GOOGLE PHOTOS: Replace with Black Tie 2024 album URL
+    coverImage: unsplash("1768776179834-93e6cafc6d97"),
+    albumLink: "https://photos.google.com/", // Replace with Black Tie 2024 Google album / folder URL
   },
   {
     id: 2,
@@ -160,15 +154,8 @@ export const pastEvents: PastEvent[] = [
     slug: "watershed-2025",
     shortDescription:
       "A memorable day at Watershed with family, friends, and supporters. Great food, beautiful surroundings, and funds raised for Oliver's Village.",
-    photos: [
-      unsplash("1771924368588-507c6a048363"),
-      unsplash("1768776179834-93e6cafc6d97"),
-      unsplash("1666281269793-da06484657e8"),
-      unsplash("1770842655322-bcfd1c4be229"),
-      unsplash("1706323625335-dad461b68fe5"),
-      unsplash("1683879025805-a268b690613e"),
-    ],
-    albumLink: "https://photos.google.com/", // GOOGLE PHOTOS: Replace with Watershed 2025 album URL
+    coverImage: unsplash("1771924368588-507c6a048363"),
+    albumLink: "https://photos.google.com/", // Replace with Watershed 2025 Google album / folder URL
   },
   {
     id: 3,
@@ -176,15 +163,8 @@ export const pastEvents: PastEvent[] = [
     slug: "couples-padel-1-7",
     shortDescription:
       "Seven editions of our popular Couples Padel tournaments. Fun, fitness, and fundraising—all in support of Oliver's Village. Thank you to all participants and sponsors.",
-    photos: [
-      unsplash("1770842655322-bcfd1c4be229"),
-      unsplash("1768776179834-93e6cafc6d97"),
-      unsplash("1771924368588-507c6a048363"),
-      unsplash("1706323625335-dad461b68fe5"),
-      unsplash("1683879025805-a268b690613e"),
-      unsplash("1666281269793-da06484657e8"),
-    ],
-    albumLink: "https://photos.google.com/", // GOOGLE PHOTOS: Replace with Couples Padel album URL
+    coverImage: unsplash("1770842655322-bcfd1c4be229"),
+    albumLink: "https://photos.google.com/", // Replace with Couples Padel Google album / folder URL
   },
   {
     id: 4,
@@ -192,14 +172,7 @@ export const pastEvents: PastEvent[] = [
     slug: "black-tie-2026",
     shortDescription:
       "Our flagship annual gala. An unforgettable night of celebration, auction, and community spirit—all in support of education at Oliver's Village.",
-    photos: [
-      unsplash("1706323625335-dad461b68fe5"),
-      unsplash("1771924368588-507c6a048363"),
-      unsplash("1768776179834-93e6cafc6d97"),
-      unsplash("1683879025805-a268b690613e"),
-      unsplash("1770842655322-bcfd1c4be229"),
-      unsplash("1666281269793-da06484657e8"),
-    ],
-    albumLink: "https://photos.google.com/", // GOOGLE PHOTOS: Replace with Black Tie 2026 album URL
+    coverImage: unsplash("1706323625335-dad461b68fe5"),
+    albumLink: "https://photos.google.com/", // Replace with Black Tie 2026 Google album / folder URL
   },
 ];

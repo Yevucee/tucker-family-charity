@@ -1,14 +1,11 @@
-import { useState } from "react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Link } from "react-router";
-import { Calendar, MapPin, Clock, Users, ExternalLink, X } from "lucide-react";
+import { Calendar, ExternalLink } from "lucide-react";
 import { upcomingEvents, pastEvents } from "@/data/events";
 
 export function Events() {
-  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
-
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -82,75 +79,50 @@ export function Events() {
         </div>
       </section>
 
-      {/* Past Events */}
+      {/* Past Events — centred copy, one hero image, link to Google album / folder */}
       <section className="py-20 bg-amber-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold mb-12 text-neutral-900">Past Events</h2>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold mb-12 text-neutral-900 text-center">Past Events</h2>
           <div className="space-y-16">
             {pastEvents.map((event) => (
-              <div key={event.id} className="bg-white rounded-lg overflow-hidden shadow-lg p-4 md:p-8">
-                <h3 className="text-2xl font-bold mb-4 text-neutral-900">{event.title}</h3>
-                <p className="text-neutral-700 mb-8 max-w-3xl">{event.shortDescription}</p>
-
-                {/* Gallery grid - 4-6 photos, equal height */}
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-                  {event.photos.map((photo, i) => (
-                    <button
-                      key={i}
-                      type="button"
-                      onClick={() => setLightboxImage(photo)}
-                      className="relative aspect-[4/3] rounded-lg overflow-hidden focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 group"
-                    >
-                      <ImageWithFallback
-                        src={photo}
-                        alt={`${event.title} photo ${i + 1}`}
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy"
-                      />
-                    </button>
-                  ))}
+              <article
+                key={event.id}
+                className="bg-white rounded-xl overflow-hidden shadow-lg border border-amber-100/80"
+              >
+                <div className="px-6 pt-8 pb-6 md:px-10 md:pt-10 md:pb-8 text-center">
+                  <h3 className="text-2xl font-bold mb-4 text-neutral-900">{event.title}</h3>
+                  <p className="text-neutral-700 text-lg leading-relaxed max-w-2xl mx-auto">
+                    {event.shortDescription}
+                  </p>
                 </div>
 
-                <a
-                  href={event.albumLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-orange-600 text-white px-6 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold"
-                >
-                  View Full Gallery
-                  <ExternalLink className="w-4 h-4" />
-                </a>
-              </div>
+                <div className="px-6 pb-8 md:px-10">
+                  <div className="relative w-full max-w-3xl mx-auto rounded-xl overflow-hidden shadow-md aspect-[16/10] bg-neutral-100">
+                    <ImageWithFallback
+                      src={event.coverImage}
+                      alt={event.title}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+
+                <div className="px-6 pb-8 md:px-10 flex justify-center">
+                  <a
+                    href={event.albumLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-orange-600 text-white px-8 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold"
+                  >
+                    View Full Gallery
+                    <ExternalLink className="w-4 h-4 shrink-0" />
+                  </a>
+                </div>
+              </article>
             ))}
           </div>
         </div>
       </section>
-
-      {/* Lightbox */}
-      {lightboxImage && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label="Image lightbox"
-          className="fixed inset-0 z-50 w-full h-full bg-black/90 flex items-center justify-center p-4"
-          onClick={() => setLightboxImage(null)}
-        >
-          <button
-            type="button"
-            onClick={() => setLightboxImage(null)}
-            className="absolute top-4 right-4 text-white p-2 hover:bg-white/10 rounded-full transition-colors"
-            aria-label="Close"
-          >
-            <X className="w-8 h-8" />
-          </button>
-          <img
-            src={lightboxImage}
-            alt="Enlarged view"
-            className="max-w-full max-h-[90vh] object-contain rounded-lg"
-            onClick={(e) => e.stopPropagation()}
-          />
-        </div>
-      )}
 
       {/* CTA Section */}
       <section className="py-20 bg-orange-600 text-white">
