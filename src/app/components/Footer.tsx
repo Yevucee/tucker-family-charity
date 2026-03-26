@@ -12,7 +12,12 @@ export function Footer() {
           {/* Logo and Mission */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-6">
-              <img src={logo} alt="Tucker Family Charity" className="h-20 md:h-24 w-auto invert opacity-90" />
+              {/* PNG is black-on-white; multiply drops the white backing on dark footer (transparent look). */}
+              <img
+                src={logo}
+                alt="Tucker Family Charity"
+                className="h-20 md:h-24 w-auto opacity-95 mix-blend-multiply"
+              />
             </div>
             <p className="text-amber-200/90 max-w-md text-base md:text-lg">
               Supporting Oliver's Village in Johannesburg — raising funds to provide education, meals and training to children and families.
@@ -130,7 +135,7 @@ export function Footer() {
             <img
               src={logo}
               alt="Tucker Family Charity"
-              className="h-12 md:h-14 w-auto invert opacity-90 hover:opacity-100 transition-opacity"
+              className="h-12 md:h-14 w-auto opacity-95 mix-blend-multiply hover:opacity-100 transition-opacity"
             />
           </Link>
           <p className="text-amber-200/80 text-sm text-center sm:text-right">
