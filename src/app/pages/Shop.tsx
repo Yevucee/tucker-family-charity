@@ -198,21 +198,21 @@ export function Shop() {
         aria-labelledby="partner-offers-heading"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-10 md:mb-14">
-            <div className="flex items-center gap-2 text-neutral-600 font-semibold mb-2">
-              <HeartHandshake className="w-5 h-5" />
+          <div className="mb-10 md:mb-14 text-center">
+            <div className="flex items-center justify-center gap-2 text-neutral-600 font-semibold mb-2">
+              <HeartHandshake className="w-5 h-5 shrink-0" />
               <span>Friends of the charity</span>
             </div>
             <h2 id="partner-offers-heading" className="text-3xl md:text-4xl font-bold text-neutral-900">
               Partner Offers
             </h2>
-            <p className="mt-3 text-lg text-neutral-600 max-w-2xl">
+            <p className="mt-3 text-lg text-neutral-600 max-w-2xl mx-auto leading-relaxed">
               External partners you can shop with—we may earn a contribution when you use these
               links. You&apos;ll see a short message before leaving our site.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 max-w-6xl mx-auto">
             {partnerOffers.map((offer) => (
               <article
                 key={offer.id}
@@ -226,7 +226,7 @@ export function Shop() {
                     loading="lazy"
                   />
                 </div>
-                <div className="p-6 flex flex-col flex-1 border-t border-neutral-100">
+                <div className="p-6 flex flex-col flex-1 border-t border-neutral-100 text-center">
                   <h3 className="text-xl font-bold text-neutral-900 mb-2">{offer.title}</h3>
                   <p className="text-neutral-600 mb-6 flex-1 leading-relaxed">{offer.shortDescription}</p>
                   {/* PARTNER: `checkoutCode` in shopCatalog.ts feeds the redirect modal */}
