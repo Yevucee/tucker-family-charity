@@ -9,29 +9,33 @@ import { FeaturedCarouselSlide } from "./FeaturedMonthCarousel";
 export type FeaturedSlidesVariant = "full" | "compact" | "home";
 
 /**
- * Fixed split layout (Home + Shop, not `compact`):
- * - Outer white card: **1200×700px** at md+ (same every slide).
- * - Image cell: **700×700px**; any asset is `object-contain` so it fits inside without cropping.
- * - Text column: **500×700px** with vertical scroll if copy is long.
+ * Home + Shop (`split`): horizontal card — 40% width is a square image; 60% is
+ * centred copy that scrolls if needed (no overlap). Same grid structure per slide.
  */
+const SPLIT_CARD_HOME =
+  "w-full max-w-6xl mx-auto min-w-0 rounded-2xl border border-amber-200/80 bg-white shadow-md overflow-hidden grid grid-cols-1 md:grid-cols-[40%_60%] md:items-stretch";
+
+const SPLIT_CARD_SHOP =
+  "w-full max-w-6xl mx-auto min-w-0 rounded-2xl overflow-hidden shadow-xl border border-amber-200/80 bg-white grid grid-cols-1 md:grid-cols-[40%_60%] md:items-stretch";
+
+/** Square fills the 40% column; image covers the square */
 const SPLIT_IMAGE_CELL =
-  "relative shrink-0 bg-white w-full max-w-[700px] aspect-square mx-auto md:mx-0 md:w-[700px] md:h-[700px] md:max-w-none md:flex-none overflow-hidden md:rounded-l-2xl";
+  "relative w-full aspect-square overflow-hidden bg-amber-50 md:rounded-l-2xl";
 
-const SPLIT_IMG_FIT = "absolute inset-0 h-full w-full object-contain object-center bg-white";
+const SPLIT_IMG_COVER = "absolute inset-0 h-full w-full object-cover";
 
-function splitFeaturedOuterClass(isHomePage: boolean): string {
-  return isHomePage
-    ? "w-full max-w-[1200px] mx-auto min-w-0 rounded-2xl border border-amber-200/80 bg-white shadow-md overflow-x-clip md:overflow-hidden flex flex-col md:flex-row md:h-[700px] min-h-0"
-    : "w-full max-w-[1200px] mx-auto rounded-2xl overflow-hidden shadow-xl border border-amber-200/80 bg-white flex flex-col md:flex-row md:h-[700px] min-h-0";
-}
-
-function splitTextCellClass(shopFullCenter: string, extraBgClass: string): string {
-  const bg = extraBgClass ? ` ${extraBgClass}` : "";
-  return `flex w-full min-w-0 md:w-[500px] md:h-[700px] md:flex-none md:shrink-0 p-6 md:p-8 lg:p-10 flex flex-col justify-center [overflow-wrap:anywhere] md:overflow-y-auto md:min-h-0${shopFullCenter}${bg}`;
+function splitTextPaneClass(extraBg: string): string {
+  const bg = extraBg ? ` ${extraBg}` : "";
+  return [
+    "min-w-0 min-h-0 flex flex-col justify-center items-center text-center",
+    "px-6 py-8 md:px-8 md:py-8 lg:px-10",
+    "gap-3 [overflow-wrap:anywhere] overflow-y-auto overscroll-contain",
+    bg,
+  ].join("");
 }
 
 /**
- * Home (`home`) + Shop (`full`): fixed 1200×700 card with 700×700 image + 500px text.
+ * Home (`home`) + Shop (`full`): 40% square image / 60% centred text.
  * `compact` keeps the smaller two-column preview layout.
  */
 export function buildFeaturedMonthSlides(
@@ -41,10 +45,10 @@ export function buildFeaturedMonthSlides(
 ): ReactElement[] {
   const isHome = variant === "home";
   const isCompact = variant === "compact";
-  const split = !isCompact; /* home | full */
+  const split = !isCompact;
   const slidePadding = isHome ? "none" : "default";
-  /** Shop page only: centre headings and body copy in the text column (Home keeps left-aligned). */
-  const shopFullCenter = variant === "full" ? " text-center items-center" : "";
+
+  const splitOuter = isHome ? SPLIT_CARD_HOME : SPLIT_CARD_SHOP;
 
   const slides: ReactElement[] = [];
 
@@ -62,7 +66,7 @@ export function buildFeaturedMonthSlides(
         <div
           className={
             split
-              ? splitFeaturedOuterClass(isHome)
+              ? splitOuter
               : isCompact
                 ? "rounded-xl overflow-hidden border border-amber-200/80 bg-white h-full shadow-md"
                 : "rounded-2xl overflow-hidden shadow-xl border border-amber-200/80 bg-white h-full"
@@ -74,33 +78,33 @@ export function buildFeaturedMonthSlides(
                 <img
                   src={auctionArtwork}
                   alt={`${featuredAuction.title} — silent auction for Oliver's Village`}
-                  className={SPLIT_IMG_FIT}
+                  className={SPLIT_IMG_COVER}
                 />
               </div>
-              <div className={splitTextCellClass(shopFullCenter, "")}>
-                <p className="text-xs font-semibold uppercase tracking-wider text-amber-800 mb-2 break-words">
+              <div className={splitTextPaneClass("")}>
+                <p className="text-xs font-semibold uppercase tracking-wider text-amber-800 shrink-0">
                   Special · Silent auction
                 </p>
-                <p className="text-base md:text-lg font-bold text-neutral-900 mb-2 break-words">
+                <p className="text-base md:text-lg font-bold text-neutral-900 max-w-lg">
                   Art that makes a difference
                 </p>
-                <p className="text-sm text-neutral-600 mb-3 break-words">
+                <p className="text-sm text-neutral-600 max-w-lg">
                   <strong>{featuredAuction.title}</strong>
                   {featuredAuction.reserve ? ` · Reserve ${featuredAuction.reserve}` : ""}
                 </p>
-                <p className="text-sm text-neutral-700 mb-4 leading-relaxed break-words">
+                <p className="text-sm text-neutral-700 leading-relaxed max-w-lg">
                   In partnership with {featuredAuction.donor}. {featuredAuction.description}
                 </p>
                 <a
                   href={featuredAuction.bidLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 bg-amber-600 text-white px-6 py-3 rounded-xl hover:bg-amber-700 transition-colors font-semibold text-sm w-fit max-w-full shrink"
+                  className="inline-flex items-center justify-center gap-2 bg-amber-600 text-white px-6 py-3 rounded-xl hover:bg-amber-700 transition-colors font-semibold text-sm w-fit max-w-full shrink-0"
                 >
                   Place a bid
                   <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
                 </a>
-                <p className="text-xs text-neutral-500 mt-3 break-words max-w-full">
+                <p className="text-xs text-neutral-500 max-w-lg shrink-0">
                   Bidding closes end of March 2026
                 </p>
               </div>
@@ -185,7 +189,7 @@ export function buildFeaturedMonthSlides(
       <div
         className={
           split
-            ? splitFeaturedOuterClass(isHome)
+            ? splitOuter
             : isCompact
               ? "rounded-xl overflow-hidden border border-amber-200/80 bg-white h-full shadow-md"
               : "rounded-2xl overflow-hidden shadow-xl border border-amber-200/80 bg-white h-full"
@@ -197,30 +201,27 @@ export function buildFeaturedMonthSlides(
               <ImageWithFallback
                 src={main.image}
                 alt={main.title}
-                className={SPLIT_IMG_FIT}
+                className={SPLIT_IMG_COVER}
                 loading="eager"
               />
             </div>
             <div
-              className={splitTextCellClass(
-                shopFullCenter,
-                "bg-gradient-to-br from-white to-amber-50/40"
-              )}
+              className={splitTextPaneClass("bg-gradient-to-br from-white to-amber-50/40 md:rounded-r-2xl")}
             >
-              <p className="text-xs font-semibold uppercase tracking-wider text-amber-700 mb-2 break-words">
+              <p className="text-xs font-semibold uppercase tracking-wider text-amber-700 shrink-0">
                 Our spotlight
               </p>
-              <h3 className="text-lg md:text-xl font-bold text-neutral-900 mb-3 leading-snug break-words">
+              <h3 className="text-lg md:text-xl font-bold text-neutral-900 leading-snug max-w-lg">
                 {main.title}
               </h3>
-              <p className="text-sm md:text-base text-neutral-700 mb-6 leading-relaxed break-words">
+              <p className="text-sm md:text-base text-neutral-700 leading-relaxed max-w-lg">
                 {main.shortDescription}
               </p>
               <a
                 href={main.ctaHref}
                 target={main.ctaOpensNewTab ? "_blank" : undefined}
                 rel={main.ctaOpensNewTab ? "noopener noreferrer" : undefined}
-                className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-colors w-fit max-w-full shrink text-sm text-center"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-colors w-fit max-w-full shrink-0 text-sm"
               >
                 {main.ctaLabel}
               </a>
@@ -307,7 +308,7 @@ export function buildFeaturedMonthSlides(
         <div
           className={
             split
-              ? splitFeaturedOuterClass(isHome)
+              ? splitOuter
               : isCompact
                 ? "rounded-xl overflow-hidden border border-amber-200/80 bg-white h-full shadow-md"
                 : "rounded-2xl overflow-hidden shadow-xl border border-amber-200/80 bg-white h-full"
@@ -319,23 +320,23 @@ export function buildFeaturedMonthSlides(
                 <ImageWithFallback
                   src={item.image}
                   alt={item.title}
-                  className={SPLIT_IMG_FIT}
+                  className={SPLIT_IMG_COVER}
                   loading="lazy"
                 />
               </div>
-              <div className={splitTextCellClass(shopFullCenter, "")}>
-                <p className="text-xs font-semibold uppercase tracking-wider text-amber-700 mb-2 break-words">
+              <div className={splitTextPaneClass("md:rounded-r-2xl")}>
+                <p className="text-xs font-semibold uppercase tracking-wider text-amber-700 shrink-0">
                   Also featuring
                 </p>
-                <h3 className="text-base md:text-lg font-bold text-neutral-900 mb-2 break-words">
+                <h3 className="text-base md:text-lg font-bold text-neutral-900 max-w-lg">
                   {item.title}
                 </h3>
-                <p className="text-sm text-neutral-600 mb-4 leading-relaxed break-words">
+                <p className="text-sm text-neutral-600 leading-relaxed max-w-lg">
                   {item.shortDescription}
                 </p>
                 <a
                   href={item.ctaHref}
-                  className="inline-flex flex-wrap justify-center text-sm font-semibold text-amber-700 hover:text-amber-800 max-w-full min-w-0"
+                  className="inline-flex flex-wrap justify-center text-sm font-semibold text-amber-700 hover:text-amber-800 max-w-full min-w-0 shrink-0"
                 >
                   {item.ctaLabel} →
                 </a>
