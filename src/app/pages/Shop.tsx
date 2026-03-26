@@ -83,7 +83,7 @@ export function Shop() {
         aria-labelledby="featured-heading"
       >
         <div className="absolute inset-0 pointer-events-none opacity-[0.07] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-700 via-transparent to-transparent" />
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <h2
             id="featured-heading"
             className="text-2xl md:text-3xl font-bold text-neutral-900 text-center mb-6 md:mb-8 flex items-center justify-center gap-2 flex-wrap"
