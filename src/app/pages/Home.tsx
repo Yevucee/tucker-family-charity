@@ -41,7 +41,7 @@ export function Home() {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative min-h-[400px] py-16 md:py-20 flex items-center bg-neutral-900">
+      <section className="relative min-h-[400px] py-16 md:py-20 flex items-center bg-amber-950">
         <img
           src={schoolGrounds}
           alt="Oliver's Village school grounds"
@@ -67,7 +67,7 @@ export function Home() {
                 </Link>
                 <Link
                   to="/olivers-village"
-                  className="bg-white text-neutral-900 px-8 py-3 rounded-full hover:bg-neutral-100 transition-colors font-semibold text-center"
+                  className="bg-white text-amber-950 px-8 py-3 rounded-full hover:bg-amber-50 transition-colors font-semibold text-center"
                 >
                   Oliver&apos;s Village
                 </Link>
@@ -78,7 +78,7 @@ export function Home() {
       </section>
 
       {/* About Preview Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white border-t border-amber-100/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -268,7 +268,7 @@ export function Home() {
       </section>
 
       {/* Events Preview */}
-      <section className="py-20 bg-neutral-50">
+      <section className="py-20 bg-amber-50 border-t border-amber-100/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4 text-neutral-900">
@@ -371,7 +371,7 @@ export function Home() {
       </section>
 
       {/* Instagram Feed Preview */}
-      <section className="py-20">
+      <section className="py-20 bg-white border-t border-amber-100/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4 text-neutral-900">
@@ -391,7 +391,7 @@ export function Home() {
                 widgetUrl={INSTAGRAM_WIDGET_URL}
               />
             ) : (
-              <div className="bg-neutral-100 rounded-lg p-8 text-center">
+              <div className="bg-amber-50 rounded-lg p-8 text-center border border-amber-200/60">
                 <a
                   href="https://elfsight.com/instagram-feed-instashow/create/"
                   target="_blank"
@@ -404,14 +404,14 @@ export function Home() {
                   <li>Sign up at Elfsight (free, no card)</li>
                   <li>Connect <strong>@tuckerfamilycharity</strong>, pick a template</li>
                   <li>Click &quot;Add to website&quot; and copy the embed code</li>
-                  <li>Extract the app ID from the div class (e.g. <code className="bg-neutral-200 px-1 rounded">elfsight-app-xxxxx</code>)</li>
-                  <li>Add repo secret <code className="bg-neutral-200 px-1 rounded">INSTAGRAM_ELFSIGHT_APP_ID</code> in GitHub Settings → Secrets</li>
+                  <li>Extract the app ID from the div class (e.g. <code className="bg-amber-200/80 px-1 rounded">elfsight-app-xxxxx</code>)</li>
+                  <li>Add repo secret <code className="bg-amber-200/80 px-1 rounded">INSTAGRAM_ELFSIGHT_APP_ID</code> in GitHub Settings → Secrets</li>
                 </ol>
                 <a
                   href="https://instagram.com/tuckerfamilycharity"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 mt-6 text-neutral-500 hover:text-orange-600 transition-colors"
+                  className="inline-flex items-center gap-2 mt-6 text-amber-800/80 hover:text-orange-600 transition-colors"
                 >
                   <Instagram className="w-5 h-5" />
                   Follow @tuckerfamilycharity on Instagram
@@ -437,7 +437,7 @@ export function Home() {
       {/* Partners — horizontal scroll; logos from data/partners.ts (asset or favicon) */}
       <section className="pt-16 pb-24 md:pb-32 bg-white border-y border-amber-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-center text-lg font-semibold text-neutral-600 mb-8">
+          <h2 className="text-center text-lg font-semibold text-amber-900/80 mb-8">
             Supported by our partners
           </h2>
           <PartnerAutoScrollStrip />

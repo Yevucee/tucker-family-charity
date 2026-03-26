@@ -79,7 +79,7 @@ export function Shop() {
       {/* A. Featured This Month — specials (auction + catalog spotlight) */}
       <section
         id="featured-this-month"
-        className="relative py-8 md:py-12 bg-gradient-to-b from-amber-50 via-white to-white overflow-hidden scroll-mt-20"
+        className="relative py-8 md:py-12 bg-gradient-to-b from-amber-50 via-white to-white overflow-hidden scroll-mt-20 border-t border-amber-100/80"
         aria-labelledby="featured-heading"
       >
         <div className="absolute inset-0 pointer-events-none opacity-[0.07] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-700 via-transparent to-transparent" />
@@ -101,7 +101,7 @@ export function Shop() {
       {/* B. Shop More cue */}
       <section
         id="shop-more"
-        className="py-10 md:py-12 border-y border-amber-100/80 bg-amber-50/30"
+        className="py-10 md:py-12 border-y border-amber-100/80 bg-amber-50"
         aria-label="More below"
       >
         <div className="max-w-2xl mx-auto px-4 text-center">
@@ -116,7 +116,7 @@ export function Shop() {
               Tucker products
               <ChevronDown className="w-4 h-4" aria-hidden />
             </a>
-            <span className="hidden sm:inline text-neutral-300" aria-hidden>
+            <span className="hidden sm:inline text-amber-300" aria-hidden>
               |
             </span>
             <a
@@ -134,7 +134,7 @@ export function Shop() {
       {/* C. Tucker Products */}
       <section
         id="tucker-products"
-        className="py-16 md:py-20 bg-white scroll-mt-20"
+        className="py-16 md:py-20 bg-white border-t border-amber-100/80 scroll-mt-20"
         aria-labelledby="tucker-products-heading"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -192,12 +192,12 @@ export function Shop() {
       {/* D. Partner Offers */}
       <section
         id="partner-offers"
-        className="py-16 md:py-20 bg-neutral-50 scroll-mt-20"
+        className="py-16 md:py-20 bg-amber-50 border-t border-amber-100/80 scroll-mt-20"
         aria-labelledby="partner-offers-heading"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-10 md:mb-14 text-center">
-            <div className="flex items-center justify-center gap-2 text-neutral-600 font-semibold mb-2">
+            <div className="flex items-center justify-center gap-2 text-amber-900/80 font-semibold mb-2">
               <HeartHandshake className="w-5 h-5 shrink-0" />
               <span>Friends of the charity</span>
             </div>
@@ -214,7 +214,7 @@ export function Shop() {
             {partnerOffers.map((offer) => (
               <article
                 key={offer.id}
-                className="flex flex-col rounded-2xl overflow-hidden border border-neutral-200 bg-white shadow-sm hover:shadow-md transition-shadow"
+                className="flex flex-col rounded-2xl overflow-hidden border border-amber-200/80 bg-white shadow-sm hover:shadow-md transition-shadow"
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <ImageWithFallback
@@ -224,14 +224,14 @@ export function Shop() {
                     loading="lazy"
                   />
                 </div>
-                <div className="p-6 flex flex-col flex-1 border-t border-neutral-100 text-center">
+                <div className="p-6 flex flex-col flex-1 border-t border-amber-100/80 text-center">
                   <h3 className="text-xl font-bold text-neutral-900 mb-2">{offer.title}</h3>
                   <p className="text-neutral-600 mb-6 flex-1 leading-relaxed">{offer.shortDescription}</p>
                   {/* PARTNER: `checkoutCode` in shopCatalog.ts feeds the redirect modal */}
                   <button
                     type="button"
                     onClick={() => openPartnerModal(offer)}
-                    className="mt-auto w-full py-3.5 px-4 rounded-xl border-2 border-neutral-800 text-neutral-900 font-semibold hover:bg-neutral-900 hover:text-white transition-colors"
+                    className="mt-auto w-full py-3.5 px-4 rounded-xl border-2 border-amber-900 text-amber-950 font-semibold hover:bg-amber-900 hover:text-white transition-colors"
                   >
                     {offer.ctaLabel}
                   </button>
@@ -243,7 +243,7 @@ export function Shop() {
       </section>
 
       {/* How to Order — condensed */}
-      <section className="py-16 bg-white border-t border-neutral-100">
+      <section className="py-16 bg-white border-t border-amber-100/80">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-2xl font-bold text-neutral-900 mb-3">Questions about an order?</h2>
           <p className="text-neutral-600 mb-6">
@@ -259,16 +259,16 @@ export function Shop() {
       </section>
 
       {/* Impact Statement */}
-      <section className="py-16 md:py-20 bg-stone-700 text-white">
+      <section className="py-16 md:py-20 bg-gradient-to-br from-amber-800 via-amber-900 to-amber-950 text-white border-t border-amber-900/40">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Your purchase makes an impact</h2>
-          <p className="text-lg text-stone-100 mb-8 leading-relaxed">
+          <p className="text-lg text-amber-100 mb-8 leading-relaxed">
             Proceeds from Tucker products and selected partner offers help provide education, meals,
             and opportunity for children at Oliver&apos;s Village.
           </p>
           <Link
             to="/olivers-village"
-            className="inline-block bg-white text-stone-700 px-8 py-3 rounded-full hover:bg-stone-50 transition-colors font-semibold"
+            className="inline-block bg-white text-amber-900 px-8 py-3 rounded-full hover:bg-amber-50 transition-colors font-semibold"
           >
             Learn more about Oliver&apos;s Village
           </Link>

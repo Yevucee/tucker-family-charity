@@ -50,8 +50,8 @@ export function buildFeaturedMonthSlides(
 
   if (featuredAuction) {
     const imgColCompact = isCompact
-      ? "relative w-full aspect-[5/3] sm:aspect-auto sm:w-[40%] sm:min-h-[140px] sm:max-w-[40%] shrink-0 bg-neutral-100"
-      : "relative w-full aspect-[16/10] md:aspect-auto md:w-[40%] md:min-h-[240px] shrink-0 bg-neutral-100";
+      ? "relative w-full aspect-[5/3] sm:aspect-auto sm:w-[40%] sm:min-h-[140px] sm:max-w-[40%] shrink-0 bg-amber-50"
+      : "relative w-full aspect-[16/10] md:aspect-auto md:w-[40%] md:min-h-[240px] shrink-0 bg-amber-50";
 
     const rowCompact = isCompact
       ? "flex flex-col sm:flex-row sm:min-h-[160px]"

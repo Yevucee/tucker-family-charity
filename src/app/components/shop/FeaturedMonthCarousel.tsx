@@ -113,7 +113,7 @@ export function FeaturedMonthCarousel({ enableCarousel, children }: FeaturedMont
             className={
               i === active
                 ? "h-2.5 w-2.5 rounded-full bg-amber-600 ring-2 ring-amber-200"
-                : "h-2.5 w-2.5 rounded-full bg-neutral-300 hover:bg-neutral-400"
+                : "h-2.5 w-2.5 rounded-full bg-amber-300 hover:bg-amber-400"
             }
           />
         ))}

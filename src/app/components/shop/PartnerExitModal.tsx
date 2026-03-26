@@ -64,7 +64,7 @@ export function PartnerExitModal({
       aria-modal="true"
       aria-labelledby="partner-exit-title"
     >
-      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 sm:p-8 border border-neutral-200">
+      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 sm:p-8 border border-amber-200/80">
         <h2 id="partner-exit-title" className="text-xl font-bold text-neutral-900 mb-4">
           Leaving our site
         </h2>
@@ -82,7 +82,7 @@ export function PartnerExitModal({
             You&apos;re being redirected to our partner site.
           </p>
         )}
-        <p className="text-sm text-neutral-500 mb-6">
+        <p className="text-sm text-amber-900/55 mb-6">
           Opening in a new tab automatically in a few seconds, or use the button below.
         </p>
         <div className="flex flex-col sm:flex-row gap-3">
@@ -100,7 +100,7 @@ export function PartnerExitModal({
               clearTimer();
               onClose();
             }}
-            className="flex-1 px-5 py-3 rounded-lg font-semibold text-neutral-700 bg-neutral-100 hover:bg-neutral-200 transition-colors"
+            className="flex-1 px-5 py-3 rounded-lg font-semibold text-amber-950 bg-amber-100 hover:bg-amber-200/80 transition-colors"
           >
             Stay here
           </button>

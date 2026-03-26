@@ -19,7 +19,7 @@ export function Header() {
     location.pathname.startsWith("/olivers-village");
 
   return (
-    <header className="bg-white border-b border-neutral-200 sticky top-0 z-50">
+    <header className="bg-white border-b border-amber-200/80 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20 md:h-24">
           {/* Logo */}
@@ -32,7 +32,7 @@ export function Header() {
             <NavLink
               to="/"
               className={({ isActive }) =>
-                isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+                isActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600 transition-colors"
               }
             >
               Home
@@ -40,7 +40,7 @@ export function Header() {
             <NavLink
               to="/about"
               className={({ isActive }) =>
-                isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+                isActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600 transition-colors"
               }
             >
               About
@@ -48,7 +48,7 @@ export function Header() {
             <NavLink
               to="/events"
               className={({ isActive }) =>
-                isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+                isActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600 transition-colors"
               }
             >
               Events
@@ -56,7 +56,7 @@ export function Header() {
             <NavLink
               to="/shop"
               className={({ isActive }) =>
-                isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+                isActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600 transition-colors"
               }
             >
               Shop
@@ -64,7 +64,7 @@ export function Header() {
             <NavLink
               to="/partners"
               className={({ isActive }) =>
-                isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+                isActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600 transition-colors"
               }
             >
               Partners
@@ -72,7 +72,7 @@ export function Header() {
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger
                 className={`flex items-center gap-1 transition-colors ${
-                  isProgrammesActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600"
+                  isProgrammesActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600"
                 }`}
               >
                 Programmes
@@ -98,7 +98,7 @@ export function Header() {
             <NavLink
               to="/keep-it-in-the-family"
               className={({ isActive }) =>
-                isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+                isActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600 transition-colors"
               }
             >
               Keep It In The Family
@@ -113,7 +113,7 @@ export function Header() {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-neutral-700"
+            className="md:hidden text-amber-950"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -122,12 +122,12 @@ export function Header() {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <nav className="md:hidden py-4 border-t border-neutral-200">
+          <nav className="md:hidden py-4 border-t border-amber-200/80">
             <div className="flex flex-col gap-4">
               <NavLink
                 to="/"
                 className={({ isActive }) =>
-                  isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+                  isActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600 transition-colors"
                 }
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -136,7 +136,7 @@ export function Header() {
               <NavLink
                 to="/about"
                 className={({ isActive }) =>
-                  isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+                  isActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600 transition-colors"
                 }
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -145,7 +145,7 @@ export function Header() {
               <NavLink
                 to="/events"
                 className={({ isActive }) =>
-                  isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+                  isActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600 transition-colors"
                 }
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -154,7 +154,7 @@ export function Header() {
               <NavLink
                 to="/shop"
                 className={({ isActive }) =>
-                  isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+                  isActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600 transition-colors"
                 }
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -163,7 +163,7 @@ export function Header() {
               <NavLink
                 to="/partners"
                 className={({ isActive }) =>
-                  isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+                  isActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600 transition-colors"
                 }
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -172,7 +172,7 @@ export function Header() {
               <Collapsible open={programmesOpen} onOpenChange={setProgrammesOpen}>
                 <CollapsibleTrigger
                   className={`flex items-center justify-between w-full py-2 ${
-                    isProgrammesActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+                    isProgrammesActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600 transition-colors"
                   }`}
                 >
                   Programmes
@@ -184,7 +184,7 @@ export function Header() {
                   <div className="pl-4 py-2 flex flex-col">
                     <Link
                       to="/olivers-village"
-                      className="text-neutral-700 hover:text-orange-600 transition-colors block py-2"
+                      className="text-amber-950 hover:text-orange-600 transition-colors block py-2"
                       onClick={() => {
                         setIsMenuOpen(false);
                         setProgrammesOpen(false);
@@ -194,7 +194,7 @@ export function Header() {
                     </Link>
                     <Link
                       to="/golf-learnership-programme"
-                      className="text-neutral-700 hover:text-orange-600 transition-colors block py-2"
+                      className="text-amber-950 hover:text-orange-600 transition-colors block py-2"
                       onClick={() => {
                         setIsMenuOpen(false);
                         setProgrammesOpen(false);
@@ -208,7 +208,7 @@ export function Header() {
               <NavLink
                 to="/keep-it-in-the-family"
                 className={({ isActive }) =>
-                  isActive ? "text-orange-600 font-semibold" : "text-neutral-700 hover:text-orange-600 transition-colors"
+                  isActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600 transition-colors"
                 }
                 onClick={() => setIsMenuOpen(false)}
               >

@@ -22,7 +22,7 @@ export function About() {
       </section>
 
       {/* Our Story — title and full narrative in the text area only */}
-      <section className="py-16 md:py-20">
+      <section className="py-16 md:py-20 bg-white border-t border-amber-100/80">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl sm:text-5xl font-bold text-neutral-900 mb-6 leading-tight">
             The Story of the Tucker Family Charity
@@ -135,7 +135,7 @@ export function About() {
       </section>
 
       {/* Oliver's Village — full story & photos on dedicated page */}
-      <section className="py-20 bg-amber-50 border-y border-amber-100">
+      <section className="py-20 bg-white border-y border-amber-100/80">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-neutral-900">Oliver&apos;s Village</h2>
           <p className="text-lg text-neutral-700 mb-8">
@@ -153,7 +153,7 @@ export function About() {
       </section>
 
       {/* CTA */}
-      <section className="py-20">
+      <section className="py-20 bg-amber-50 border-t border-amber-100/80">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold mb-6 text-neutral-900">
             Join Our Mission

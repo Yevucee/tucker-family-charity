@@ -50,7 +50,7 @@ export function OliversVillage() {
         </div>
       </section>
 
-      <section className="py-12 md:py-16">
+      <section className="py-12 md:py-16 bg-white border-t border-amber-100/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative h-[min(45vh,420px)] sm:h-[min(50vh,480px)] rounded-xl overflow-hidden shadow-xl">
             <img
@@ -67,7 +67,7 @@ export function OliversVillage() {
         </div>
       </section>
 
-      <section className="py-16 md:py-20">
+      <section className="py-16 md:py-20 bg-amber-50 border-t border-amber-100/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="relative h-[min(400px,55vh)] rounded-lg overflow-hidden shadow-xl group order-2 lg:order-1">
@@ -118,7 +118,7 @@ export function OliversVillage() {
         </div>
       </section>
 
-      <section className="py-16 md:py-20 bg-neutral-50">
+      <section className="py-16 md:py-20 bg-white border-t border-amber-100/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4 text-neutral-900">See the impact of your support</h2>
@@ -128,7 +128,7 @@ export function OliversVillage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-amber-100/80">
               <div className="relative h-64 group overflow-hidden">
                 <img
                   src={computerLab}
@@ -146,7 +146,7 @@ export function OliversVillage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-amber-100/80">
               <div className="relative h-64 group overflow-hidden">
                 <img
                   src={gardenBeds}
@@ -164,7 +164,7 @@ export function OliversVillage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-amber-100/80">
               <div className="relative h-64 group overflow-hidden">
                 <img
                   src={kitchenArea}
@@ -181,7 +181,7 @@ export function OliversVillage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-amber-100/80">
               <div className="relative h-64 group overflow-hidden">
                 <img
                   src={diningArea}
@@ -198,7 +198,7 @@ export function OliversVillage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-amber-100/80">
               <div className="relative h-64 group overflow-hidden">
                 <img
                   src={gardenArea}
@@ -215,7 +215,7 @@ export function OliversVillage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-amber-100/80">
               <div className="relative h-64 group overflow-hidden">
                 <img
                   src={schoolGrounds}
@@ -260,7 +260,7 @@ export function OliversVillage() {
         </div>
       </section>
 
-      <section className="py-16 md:py-20">
+      <section className="py-16 md:py-20 bg-amber-50 border-t border-amber-100/80">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold mb-6 text-neutral-900">Get involved</h2>
           <p className="text-xl text-neutral-600 mb-8">

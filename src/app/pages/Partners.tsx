@@ -22,13 +22,13 @@ export function Partners() {
       </section>
 
       {/* Partners grid */}
-      <section className="py-16 md:py-20">
+      <section className="py-16 md:py-20 bg-amber-50 border-t border-amber-100/80">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
             {partners.map((partner) => (
               <article
                 key={partner.id}
-                className="flex flex-col rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow"
+                className="flex flex-col rounded-2xl border border-amber-200/80 bg-white p-6 shadow-sm hover:shadow-md transition-shadow"
               >
                 {partner.websiteUrl ? (
                   <a
@@ -63,11 +63,11 @@ export function Partners() {
                     </div>
                     <div>
                       <h2 className="text-xl font-bold text-neutral-900">{partner.name}</h2>
-                      <p className="text-sm text-neutral-500 mt-1">Website to be confirmed</p>
+                      <p className="text-sm text-amber-800/70 mt-1">Website to be confirmed</p>
                     </div>
                   </div>
                 )}
-                <p className="text-neutral-700 leading-relaxed mt-4 flex-1 border-t border-neutral-100 pt-4">
+                <p className="text-neutral-700 leading-relaxed mt-4 flex-1 border-t border-amber-100/80 pt-4">
                   {partner.description}
                 </p>
               </article>
@@ -77,7 +77,7 @@ export function Partners() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-amber-50">
+      <section className="py-20 bg-white border-t border-amber-100/80">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold mb-6 text-neutral-900">
             Interested in partnering with us?

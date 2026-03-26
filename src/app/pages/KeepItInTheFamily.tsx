@@ -273,7 +273,7 @@ export function KeepItInTheFamily() {
                     placeholder="Search by name, profession, area..."
                     value={servicesSearch}
                     onChange={(e) => setServicesSearch(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="w-full pl-12 pr-4 py-3 border border-amber-200/90 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                   />
                 </div>
                 <div className="flex items-center gap-2">
@@ -281,7 +281,7 @@ export function KeepItInTheFamily() {
                   <select
                     value={servicesCategory}
                     onChange={(e) => setServicesCategory(e.target.value)}
-                    className="px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="px-4 py-3 border border-amber-200/90 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                   >
                     {servicesCategories.map((cat) => (
                       <option key={cat} value={cat}>
@@ -305,7 +305,7 @@ export function KeepItInTheFamily() {
                   {filteredServices.map((entry, i) => (
                     <div
                       key={i}
-                      className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 sm:p-6 border border-neutral-100"
+                      className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 sm:p-6 border border-amber-100/90"
                     >
                       <h3 className="text-xl font-bold text-neutral-900 mb-1">{entry.name}</h3>
                       <p className="text-orange-600 font-semibold mb-2">
@@ -366,7 +366,7 @@ export function KeepItInTheFamily() {
 
             <form
               onSubmit={handleSubmitListing}
-              className="bg-white rounded-lg shadow-md border border-neutral-200 p-6 sm:p-8 space-y-5"
+              className="bg-white rounded-lg shadow-md border border-amber-200/90 p-6 sm:p-8 space-y-5"
             >
               <div>
                 <label htmlFor="kitf-name" className="block text-sm font-semibold text-neutral-800 mb-1">
@@ -378,7 +378,7 @@ export function KeepItInTheFamily() {
                   required
                   value={formName}
                   onChange={(e) => setFormName(e.target.value)}
-                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  className="w-full px-4 py-3 border border-amber-200/90 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 />
               </div>
 
@@ -390,7 +390,7 @@ export function KeepItInTheFamily() {
                   id="kitf-category"
                   value={formCategory}
                   onChange={(e) => setFormCategory(e.target.value)}
-                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  className="w-full px-4 py-3 border border-amber-200/90 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 >
                   {SERVICE_CATEGORIES.map((c) => (
                     <option key={c} value={c}>
@@ -404,7 +404,7 @@ export function KeepItInTheFamily() {
                     placeholder="Describe your profession"
                     value={formProfessionOther}
                     onChange={(e) => setFormProfessionOther(e.target.value)}
-                    className="mt-2 w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="mt-2 w-full px-4 py-3 border border-amber-200/90 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                   />
                 )}
               </div>
@@ -419,7 +419,7 @@ export function KeepItInTheFamily() {
                   required
                   value={formArea}
                   onChange={(e) => setFormArea(e.target.value)}
-                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  className="w-full px-4 py-3 border border-amber-200/90 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 />
               </div>
 
@@ -433,7 +433,7 @@ export function KeepItInTheFamily() {
                   required
                   value={formPhone}
                   onChange={(e) => setFormPhone(e.target.value)}
-                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  className="w-full px-4 py-3 border border-amber-200/90 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 />
               </div>
 
@@ -448,7 +448,7 @@ export function KeepItInTheFamily() {
                   placeholder="Who recommends you?"
                   value={formEndorsedBy}
                   onChange={(e) => setFormEndorsedBy(e.target.value)}
-                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  className="w-full px-4 py-3 border border-amber-200/90 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 />
               </div>
 
@@ -461,7 +461,7 @@ export function KeepItInTheFamily() {
                   rows={3}
                   value={formNotes}
                   onChange={(e) => setFormNotes(e.target.value)}
-                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-y"
+                  className="w-full px-4 py-3 border border-amber-200/90 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-y"
                 />
               </div>
 
@@ -476,7 +476,7 @@ export function KeepItInTheFamily() {
                   placeholder="https://"
                   value={formWebsite}
                   onChange={(e) => setFormWebsite(e.target.value)}
-                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  className="w-full px-4 py-3 border border-amber-200/90 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 />
               </div>
 

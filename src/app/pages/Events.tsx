@@ -11,7 +11,7 @@ export function Events() {
       <Header />
 
       {/* Hero */}
-      <section className="relative min-h-[400px] bg-neutral-900 flex items-center">
+      <section className="relative min-h-[400px] bg-amber-950 flex items-center">
         <ImageWithFallback
           src="https://images.unsplash.com/photo-1771924368588-507c6a048363?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21tdW5pdHklMjBnYXRoZXJpbmclMjBjZWxlYnJhdGlvbnxlbnwxfHx8fDE3NzMwNDU0Nzl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
           alt="Community events"
@@ -20,7 +20,7 @@ export function Events() {
         <div className="relative z-10 w-full py-16 md:py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
             <h1 className="text-5xl md:text-6xl font-bold mb-4">Events & Activities</h1>
-            <p className="text-xl text-neutral-200">
+            <p className="text-xl text-amber-100/90">
               Join us and be part of our community making a difference
             </p>
           </div>
@@ -28,7 +28,7 @@ export function Events() {
       </section>
 
       {/* Intro */}
-      <section className="py-12 bg-amber-50">
+      <section className="py-12 bg-amber-50 border-t border-amber-100/80">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-lg text-neutral-700">
             Throughout the year, we host a variety of events that bring our community together while raising vital funds for Oliver's Village. From elegant galas to fun runs, wine tastings to school visits—there's something for everyone. We'd love to see you there!
@@ -37,7 +37,7 @@ export function Events() {
       </section>
 
       {/* Upcoming Events */}
-      <section className="py-20">
+      <section className="py-20 bg-white border-t border-amber-100/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold mb-12 text-neutral-900">Upcoming Events</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -80,7 +80,7 @@ export function Events() {
       </section>
 
       {/* Past Events — centred copy, one hero image, link to Google album / folder */}
-      <section className="py-20 bg-amber-50">
+      <section className="py-20 bg-amber-50 border-t border-amber-100/80">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold mb-12 text-neutral-900 text-center">Past Events</h2>
           <div className="space-y-16">
@@ -97,7 +97,7 @@ export function Events() {
                 </div>
 
                 <div className="px-6 pb-8 md:px-10">
-                  <div className="relative w-full max-w-3xl mx-auto rounded-xl overflow-hidden shadow-md aspect-[16/10] bg-neutral-100">
+                  <div className="relative w-full max-w-3xl mx-auto rounded-xl overflow-hidden shadow-md aspect-[16/10] bg-amber-100/60">
                     <ImageWithFallback
                       src={event.coverImage}
                       alt={event.title}
@@ -125,7 +125,7 @@ export function Events() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-orange-600 text-white">
+      <section className="py-20 bg-orange-600 text-white border-t border-orange-700/30">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold mb-6">Can't Attend an Event?</h2>
           <p className="text-xl mb-8 text-orange-100">
@@ -134,7 +134,7 @@ export function Events() {
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
               to="/donate"
-              className="bg-white text-orange-600 px-8 py-3 rounded-full hover:bg-neutral-100 transition-colors font-semibold"
+              className="bg-white text-orange-600 px-8 py-3 rounded-full hover:bg-amber-50 transition-colors font-semibold"
             >
               Make a Donation
             </Link>

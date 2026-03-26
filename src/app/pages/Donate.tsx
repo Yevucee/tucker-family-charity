@@ -35,7 +35,7 @@ export function Donate() {
       </section>
 
       {/* 1. Donate Money */}
-      <section className="py-16 md:py-20">
+      <section className="py-16 md:py-20 bg-white border-t border-amber-100/80">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row gap-8 items-start">
             <div className="flex-shrink-0 w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center">
@@ -75,7 +75,7 @@ export function Donate() {
                 )}
               </div>
               {donationDisabled ? (
-                <p className="text-sm text-neutral-500 mt-3">
+                <p className="text-sm text-amber-900/60 mt-3">
                   Online donation link coming soon — check back or contact us below.
                 </p>
               ) : null}
@@ -116,7 +116,7 @@ export function Donate() {
       </section>
 
       {/* 3. Donate Items */}
-      <section className="py-16 md:py-20">
+      <section className="py-16 md:py-20 bg-white border-t border-amber-100/80">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row gap-8 items-start">
             <div className="flex-shrink-0 w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center">
