@@ -48,8 +48,9 @@ export function Home() {
           className="absolute inset-0 w-full h-full object-cover opacity-50"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/30" />
-        <div className="relative z-10 h-full flex items-center justify-center">
-          <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 text-white">
+        {/* Same shell as About: no inner flex justify-center (that prevented mx-auto column from matching) */}
+        <div className="relative z-10 w-full">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
             <div className="max-w-3xl">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight [text-shadow:0_2px_12px_rgba(0,0,0,0.9)]">
                 Connecting People. Creating Opportunity. Uplifting Communities.
