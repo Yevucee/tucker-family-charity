@@ -68,11 +68,11 @@ export function FeaturedMonthCarousel({ enableCarousel, children }: FeaturedMont
   }
 
   return (
-    <div className="relative">
+    <div className="relative min-w-0 w-full">
       <div
         ref={scrollerRef}
         className={[
-          "flex overflow-x-auto scroll-smooth snap-x snap-mandatory",
+          "flex min-w-0 w-full overflow-x-auto scroll-smooth snap-x snap-mandatory",
           "[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
         ].join(" ")}
         tabIndex={0}

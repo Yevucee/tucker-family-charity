@@ -50,7 +50,7 @@ export function Home() {
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/30" />
         <div className="relative z-10 h-full flex items-center justify-center">
           <div className="max-w-7xl w-full px-4 sm:px-6 lg:px-8 text-white">
-            <div className="max-w-3xl mx-auto ml-4 md:ml-12 lg:ml-20">
+            <div className="max-w-3xl">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight [text-shadow:0_2px_12px_rgba(0,0,0,0.9)]">
                 Connecting People. Creating Opportunity. Uplifting Communities.
               </h1>
@@ -434,7 +434,7 @@ export function Home() {
       </section>
 
       {/* Partners — horizontal scroll; logos from data/partners.ts (asset or favicon) */}
-      <section className="py-16 bg-white border-y border-amber-100">
+      <section className="pt-16 pb-24 md:pb-32 bg-white border-y border-amber-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-center text-lg font-semibold text-neutral-600 mb-8">
             Supported by our partners

@@ -27,7 +27,7 @@ export function buildFeaturedMonthSlides(
         <div
           className={
             isHome
-              ? "rounded-2xl overflow-hidden border border-amber-200/80 bg-white shadow-md"
+              ? "w-full max-w-full min-w-0 rounded-2xl border border-amber-200/80 bg-white shadow-md overflow-x-clip sm:overflow-hidden"
               : isCompact
                 ? "rounded-xl overflow-hidden border border-amber-200/80 bg-white h-full shadow-md"
                 : "rounded-2xl overflow-hidden shadow-xl border border-amber-200/80 bg-white h-full"
@@ -36,7 +36,7 @@ export function buildFeaturedMonthSlides(
           <div
             className={
               isHome
-                ? "flex flex-col sm:flex-row sm:items-stretch"
+                ? "flex w-full max-w-full min-w-0 flex-col sm:flex-row sm:items-stretch"
                 : isCompact
                   ? "flex flex-col sm:flex-row sm:min-h-[160px]"
                   : "flex flex-col md:flex-row md:min-h-[260px] md:max-h-[340px]"
@@ -45,7 +45,7 @@ export function buildFeaturedMonthSlides(
             <div
               className={
                 isHome
-                  ? "relative w-full aspect-[4/3] sm:aspect-auto sm:w-[42%] sm:min-h-[220px] shrink-0 bg-neutral-100"
+                  ? "relative w-full aspect-[4/3] sm:aspect-auto sm:w-[42%] sm:min-h-[220px] sm:max-w-[42%] shrink-0 bg-neutral-100 overflow-hidden sm:rounded-l-2xl"
                   : isCompact
                     ? "relative w-full aspect-[5/3] sm:aspect-auto sm:w-[40%] sm:min-h-[140px] sm:max-w-[40%] shrink-0 bg-neutral-100"
                     : "relative w-full aspect-[16/10] md:aspect-auto md:w-[42%] md:min-h-[240px] shrink-0 bg-neutral-100"
@@ -64,7 +64,7 @@ export function buildFeaturedMonthSlides(
             <div
               className={
                 isHome
-                  ? "flex-1 w-full min-w-0 px-5 py-6 sm:px-8 sm:py-8 flex flex-col justify-center"
+                  ? "flex-1 w-full min-w-0 max-w-full px-5 py-6 sm:px-8 sm:py-8 flex flex-col justify-center [overflow-wrap:anywhere]"
                   : isCompact
                     ? "flex-1 w-full min-w-0 max-w-full overflow-hidden px-4 py-4 sm:px-5 sm:py-5 flex flex-col justify-center"
                     : "flex-1 p-5 md:p-7 flex flex-col justify-center min-w-0"
@@ -73,7 +73,7 @@ export function buildFeaturedMonthSlides(
               <p
                 className={
                   isHome
-                    ? "text-xs font-semibold uppercase tracking-wider text-amber-800 mb-2"
+                    ? "text-xs font-semibold uppercase tracking-wider text-amber-800 mb-2 break-words"
                     : isCompact
                       ? "text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-amber-800 mb-1.5"
                       : "text-xs font-semibold uppercase tracking-wider text-amber-800 mb-2"
@@ -121,7 +121,7 @@ export function buildFeaturedMonthSlides(
                 rel="noopener noreferrer"
                 className={
                   isHome
-                    ? "inline-flex items-center justify-center gap-2 bg-amber-600 text-white px-6 py-3 rounded-xl hover:bg-amber-700 transition-colors font-semibold text-sm w-fit"
+                    ? "inline-flex items-center justify-center gap-2 bg-amber-600 text-white px-6 py-3 rounded-xl hover:bg-amber-700 transition-colors font-semibold text-sm w-fit max-w-full shrink"
                     : isCompact
                       ? "inline-flex items-center justify-center gap-1.5 bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition-colors font-semibold text-xs w-fit"
                       : "inline-flex items-center justify-center gap-2 bg-amber-600 text-white px-6 py-3 rounded-xl hover:bg-amber-700 transition-colors font-semibold text-sm sm:text-base w-fit"
@@ -131,7 +131,9 @@ export function buildFeaturedMonthSlides(
                 <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
               </a>
               {(isHome || !isCompact) && (
-                <p className="text-xs text-neutral-500 mt-3">Bidding closes end of March 2026</p>
+                <p className="text-xs text-neutral-500 mt-3 break-words max-w-full">
+                  Bidding closes end of March 2026
+                </p>
               )}
             </div>
           </div>
@@ -146,7 +148,7 @@ export function buildFeaturedMonthSlides(
       <div
         className={
           isHome
-            ? "rounded-2xl overflow-hidden border border-amber-200/80 bg-white shadow-md"
+            ? "w-full max-w-full min-w-0 rounded-2xl border border-amber-200/80 bg-white shadow-md overflow-x-clip sm:overflow-hidden"
             : isCompact
               ? "rounded-xl overflow-hidden border border-amber-200/80 bg-white h-full shadow-md"
               : "rounded-2xl overflow-hidden shadow-xl border border-amber-200/80 bg-white h-full"
@@ -155,7 +157,7 @@ export function buildFeaturedMonthSlides(
         <div
           className={
             isHome
-              ? "flex flex-col sm:flex-row sm:items-stretch"
+              ? "flex w-full max-w-full min-w-0 flex-col sm:flex-row sm:items-stretch"
               : isCompact
                 ? "flex flex-col sm:flex-row sm:min-h-[160px]"
                 : "flex flex-col md:flex-row md:min-h-[260px] md:max-h-[340px]"
@@ -164,7 +166,7 @@ export function buildFeaturedMonthSlides(
           <div
             className={
               isHome
-                ? "relative w-full aspect-[4/3] sm:aspect-auto sm:w-[42%] sm:min-h-[220px] shrink-0 bg-neutral-50"
+                ? "relative w-full aspect-[4/3] sm:aspect-auto sm:w-[42%] sm:min-h-[220px] sm:max-w-[42%] shrink-0 bg-neutral-50 overflow-hidden sm:rounded-l-2xl"
                 : isCompact
                   ? "relative w-full aspect-[5/3] sm:aspect-auto sm:w-[40%] sm:min-h-[140px] sm:max-w-[40%] shrink-0"
                   : "relative w-full aspect-[16/10] md:aspect-auto md:w-[42%] md:min-h-[240px] shrink-0"
@@ -184,7 +186,7 @@ export function buildFeaturedMonthSlides(
           <div
             className={
               isHome
-                ? "flex-1 w-full min-w-0 px-5 py-6 sm:px-8 sm:py-8 flex flex-col justify-center bg-gradient-to-br from-white to-amber-50/40"
+                ? "flex-1 w-full min-w-0 max-w-full px-5 py-6 sm:px-8 sm:py-8 flex flex-col justify-center bg-gradient-to-br from-white to-amber-50/40 [overflow-wrap:anywhere]"
                 : isCompact
                   ? "flex-1 w-full min-w-0 max-w-full overflow-hidden px-4 py-4 sm:px-5 sm:py-5 flex flex-col justify-center bg-gradient-to-br from-white to-amber-50/40"
                   : "flex-1 p-5 md:p-7 flex flex-col justify-center min-w-0 bg-gradient-to-br from-white to-amber-50/40"
@@ -229,7 +231,7 @@ export function buildFeaturedMonthSlides(
               rel={main.ctaOpensNewTab ? "noopener noreferrer" : undefined}
               className={
                 isHome
-                  ? "inline-flex items-center justify-center px-6 py-3 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-colors w-fit text-sm"
+                  ? "inline-flex items-center justify-center px-6 py-3 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-colors w-fit max-w-full shrink text-sm text-center"
                   : isCompact
                     ? "inline-flex items-center justify-center px-4 py-2 rounded-lg bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-colors w-fit text-xs"
                     : "inline-flex items-center justify-center px-6 py-3 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-colors w-fit text-sm sm:text-base"
@@ -249,7 +251,7 @@ export function buildFeaturedMonthSlides(
         <div
           className={
             isHome
-              ? "rounded-2xl overflow-hidden border border-amber-200/80 bg-white shadow-md"
+              ? "w-full max-w-full min-w-0 rounded-2xl border border-amber-200/80 bg-white shadow-md overflow-x-clip sm:overflow-hidden"
               : isCompact
                 ? "rounded-xl overflow-hidden border border-amber-200/80 bg-white h-full shadow-md"
                 : "rounded-2xl overflow-hidden shadow-xl border border-amber-200/80 bg-white h-full"
@@ -258,7 +260,7 @@ export function buildFeaturedMonthSlides(
           <div
             className={
               isHome
-                ? "flex flex-col sm:flex-row sm:items-stretch"
+                ? "flex w-full max-w-full min-w-0 flex-col sm:flex-row sm:items-stretch"
                 : isCompact
                   ? "flex flex-col sm:flex-row sm:min-h-[140px]"
                   : "flex flex-col md:flex-row md:min-h-[220px] md:max-h-[300px]"
@@ -267,7 +269,7 @@ export function buildFeaturedMonthSlides(
             <div
               className={
                 isHome
-                  ? "relative w-full aspect-[4/3] sm:aspect-auto sm:w-[40%] sm:min-h-[200px] shrink-0 bg-neutral-50"
+                  ? "relative w-full aspect-[4/3] sm:aspect-auto sm:w-[40%] sm:min-h-[200px] sm:max-w-[40%] shrink-0 bg-neutral-50 overflow-hidden sm:rounded-l-2xl"
                   : isCompact
                     ? "relative w-full aspect-[5/3] sm:aspect-auto sm:w-[38%] sm:min-h-[120px] sm:max-w-[38%] shrink-0"
                     : "relative w-full aspect-[16/10] md:aspect-auto md:w-[38%] md:min-h-[220px] shrink-0"
@@ -330,7 +332,7 @@ export function buildFeaturedMonthSlides(
                 href={item.ctaHref}
                 className={
                   isHome
-                    ? "inline-flex text-sm font-semibold text-amber-700 hover:text-amber-800 w-fit"
+                    ? "inline-flex flex-wrap text-sm font-semibold text-amber-700 hover:text-amber-800 w-full max-w-full min-w-0"
                     : isCompact
                       ? "inline-flex text-xs font-semibold text-amber-700 hover:text-amber-800 w-fit"
                       : "inline-flex text-sm font-semibold text-amber-700 hover:text-amber-800 w-fit"
