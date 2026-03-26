@@ -138,23 +138,21 @@ export function Shop() {
         aria-labelledby="tucker-products-heading"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 md:mb-14">
-            <div>
-              <div className="flex items-center gap-2 text-amber-700 font-semibold mb-2">
-                <ShoppingBag className="w-5 h-5" />
-                <span>Our store</span>
-              </div>
-              <h2 id="tucker-products-heading" className="text-3xl md:text-4xl font-bold text-neutral-900">
-                Tucker Products
-              </h2>
-              <p className="mt-3 text-lg text-neutral-600 max-w-2xl">
-                Direct charity items—wine, caps, and Tucker-branded goods. Every purchase supports
-                Oliver&apos;s Village.
-              </p>
+          <div className="mb-10 md:mb-14 text-center">
+            <div className="flex items-center justify-center gap-2 text-amber-700 font-semibold mb-2">
+              <ShoppingBag className="w-5 h-5 shrink-0" />
+              <span>Our store</span>
             </div>
+            <h2 id="tucker-products-heading" className="text-3xl md:text-4xl font-bold text-neutral-900">
+              Tucker Products
+            </h2>
+            <p className="mt-3 text-lg text-neutral-600 max-w-2xl mx-auto leading-relaxed">
+              Direct charity items—wine, caps, and Tucker-branded goods. Every purchase supports
+              Oliver&apos;s Village.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 max-w-6xl mx-auto">
             {tuckerProducts.map((product) => {
               const link = tuckerLinkProps(product);
               return (
@@ -171,7 +169,7 @@ export function Shop() {
                       loading="lazy"
                     />
                   </div>
-                  <div className="p-6 flex flex-col flex-1">
+                  <div className="p-6 flex flex-col flex-1 text-center">
                     <h3 className="text-xl font-bold text-neutral-900 mb-2">{product.title}</h3>
                     {product.priceLabel && (
                       <p className="text-sm font-semibold text-amber-800 mb-2">{product.priceLabel}</p>

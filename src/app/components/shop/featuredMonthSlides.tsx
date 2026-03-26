@@ -21,6 +21,8 @@ export function buildFeaturedMonthSlides(
   const isCompact = variant === "compact";
   const split = !isCompact; /* home | full */
   const slidePadding = isHome ? "none" : "default";
+  /** Shop page only: centre headings and body copy in the text column (Home keeps left-aligned). */
+  const shopFullCenter = variant === "full" ? " text-center items-center" : "";
 
   const rowSplit =
     split
@@ -28,7 +30,7 @@ export function buildFeaturedMonthSlides(
       : "";
 
   const textSplit = split
-    ? "flex w-full min-w-0 max-w-full md:w-[60%] md:flex-[0_0_60%] p-6 md:p-8 lg:p-10 flex flex-col justify-center [overflow-wrap:anywhere]"
+    ? `flex w-full min-w-0 max-w-full md:w-[60%] md:flex-[0_0_60%] p-6 md:p-8 lg:p-10 flex flex-col justify-center [overflow-wrap:anywhere]${shopFullCenter}`
     : "";
 
   const slides: ReactElement[] = [];
