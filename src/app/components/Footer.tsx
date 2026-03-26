@@ -12,11 +12,11 @@ export function Footer() {
           {/* Logo and Mission */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-6">
-              {/* PNG is black-on-white; multiply drops the white backing on dark footer (transparent look). */}
+              {/* Black-on-white PNG: invert → white art + black mat; screen blends the mat away on dark bg. */}
               <img
                 src={logo}
                 alt="Tucker Family Charity"
-                className="h-20 md:h-24 w-auto opacity-95 mix-blend-multiply"
+                className="h-20 md:h-24 w-auto opacity-95 invert mix-blend-screen"
               />
             </div>
             <p className="text-amber-200/90 max-w-md text-base md:text-lg">
@@ -135,7 +135,7 @@ export function Footer() {
             <img
               src={logo}
               alt="Tucker Family Charity"
-              className="h-12 md:h-14 w-auto opacity-95 mix-blend-multiply hover:opacity-100 transition-opacity"
+              className="h-12 md:h-14 w-auto opacity-95 invert mix-blend-screen hover:opacity-100 transition-opacity"
             />
           </Link>
           <p className="text-amber-200/80 text-sm text-center sm:text-right">
