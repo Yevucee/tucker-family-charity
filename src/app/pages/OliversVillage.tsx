@@ -10,6 +10,7 @@ import gardenBeds from "@/assets/7b52c9c4cb4c502f6ea99c7fce5fe04da5995174.png";
 import aerialEcd from "@/assets/OV photo_s for Website/Aerial ECD.jpg";
 import kitchenArea from "@/assets/8d8da24d7e2cba1694663d3735775c2318c86b68.png";
 import diningArea from "@/assets/8e268001b9e0fd2784e0fabc8aa1f352deb6f3d2.png";
+import schoolGrounds from "@/assets/0cac28478cd9e148e19e33753c2ce2b1507d4676.png";
 
 const OFFICIAL_SITE = "https://oliversvillage.co.za/";
 const DONATIONS_PAGE = "https://oliversvillage.co.za/donations-form/";
