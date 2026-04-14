@@ -6,6 +6,7 @@ import { MapPin, ExternalLink } from "lucide-react";
 import aerialTop from "@/assets/OV photo_s for Website/Aerial (1).jpg";
 import computerLab from "@/assets/d5c30ac405997a9f47bb022e66f8a25896a2b859.png";
 import gardenArea from "@/assets/f0dd27edb7bda065be4dd5f0f576138f64514baf.png";
+import gardenBeds from "@/assets/7b52c9c4cb4c502f6ea99c7fce5fe04da5995174.png";
 import aerialEcd from "@/assets/OV photo_s for Website/Aerial ECD.jpg";
 import kitchenArea from "@/assets/8d8da24d7e2cba1694663d3735775c2318c86b68.png";
 import diningArea from "@/assets/8e268001b9e0fd2784e0fabc8aa1f352deb6f3d2.png";
