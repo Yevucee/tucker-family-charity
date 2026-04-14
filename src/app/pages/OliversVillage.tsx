@@ -6,7 +6,8 @@ import { MapPin, ExternalLink } from "lucide-react";
 import aerialTop from "@/assets/OV photo_s for Website/Aerial (1).jpg";
 import computerTraining from "@/assets/OV photo_s for Website/Computer Training 12.jpg";
 import foodGardens from "@/assets/OV photo_s for Website/Food Gardens High-Res (5).jpeg";
-import waterHarvesting from "@/assets/OV photo_s for Website/Water Harvesting.jpeg";
+import agriTraining from "@/assets/OV photo_s for Website/Extra photo 2 (Agri Training Centre).jpeg";
+import educationalGardens from "@/assets/OV photo_s for Website/Extra photo 1 (Food Gardens).jpg";
 import aerialEcd from "@/assets/OV photo_s for Website/Aerial ECD.jpg";
 import soupKitchen from "@/assets/OV photo_s for Website/Soup Kitchen 5.jpg";
 import diningArea from "@/assets/8e268001b9e0fd2784e0fabc8aa1f352deb6f3d2.png";
@@ -213,8 +214,8 @@ export function OliversVillage() {
             <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-amber-100/80">
               <div className="relative h-64 group overflow-hidden">
                 <img
-                  src={waterHarvesting}
-                  alt="Water harvesting at Oliver's Village"
+                  src={educationalGardens}
+                  alt="Educational gardens at Oliver's Village"
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   loading="lazy"
                 />
@@ -231,8 +232,8 @@ export function OliversVillage() {
             <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-amber-100/80">
               <div className="relative h-64 group overflow-hidden">
                 <img
-                  src={schoolGrounds}
-                  alt="Oliver's Village school campus"
+                  src={agriTraining}
+                  alt="Agricultural training at Oliver's Village"
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   loading="lazy"
                 />
