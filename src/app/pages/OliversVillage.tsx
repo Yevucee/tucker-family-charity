@@ -11,6 +11,7 @@ import kitchenArea from "@/assets/8d8da24d7e2cba1694663d3735775c2318c86b68.png";
 import diningArea from "@/assets/8e268001b9e0fd2784e0fabc8aa1f352deb6f3d2.png";
 
 const OFFICIAL_SITE = "https://oliversvillage.co.za/";
+const DONATIONS_PAGE = "https://oliversvillage.co.za/donations-form/";
 
 export function OliversVillage() {
   useEffect(() => {
@@ -26,8 +27,9 @@ export function OliversVillage() {
           <div className="max-w-4xl mx-auto w-full text-center text-white">
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4">Oliver&apos;s Village</h1>
             <p className="text-xl text-amber-100 max-w-2xl mx-auto mb-8">
-              A community education centre near Benoni that Tucker Family Charity is proud to support — education,
-              meals, training and care for children and families.
+              Oliver&apos;s Village is a community education centre in Putfontein, Benoni that Tucker Family Charity is
+              proud to support. It provides education, skills development, early childhood care and food security
+              through a range of community programmes.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
@@ -39,12 +41,14 @@ export function OliversVillage() {
                 Visit oliversvillage.co.za
                 <ExternalLink className="w-4 h-4" />
               </a>
-              <Link
-                to="/donate"
+              <a
+                href={DONATIONS_PAGE}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 bg-white/15 text-white border border-white/40 px-8 py-3 rounded-full hover:bg-white/25 transition-colors font-semibold"
               >
-                Donate via Tucker Family Charity
-              </Link>
+                Support Oliver&apos;s Village
+              </a>
             </div>
           </div>
         </div>
@@ -81,24 +85,28 @@ export function OliversVillage() {
             <div className="order-1 lg:order-2">
               <h2 className="text-4xl font-bold mb-6 text-neutral-900">About Oliver&apos;s Village</h2>
               <p className="text-lg text-neutral-700 mb-6">
-                Oliver&apos;s Village is a community education centre located near Benoni, east of Johannesburg. The
-                organisation works with children and families from nearby communities to provide education, training and
-                practical support.
+                Founded in 2001, Oliver&apos;s Village is a non-profit organisation based in Putfontein, Benoni, serving
+                vulnerable communities in Daveyton, Etwatwa, Wattville and surrounding informal settlements.
               </p>
               <p className="text-lg text-neutral-700 mb-6">
-                The project began as Oliver&apos;s House in 2001 and has grown into a broader community centre supporting
-                hundreds of people. The dedicated staff work tirelessly to ensure every child receives the attention,
-                resources, and encouragement they need to reach their full potential.
+                What began as a small soup kitchen has grown into a place of hope and opportunity. From its base in
+                Putfontein, the organisation now delivers free quality services through its Early Childhood Development
+                Centre, Computer Training Centre, Feeding Programme, Agricultural College and Agricultural Social
+                Enterprise.
               </p>
               <p className="text-lg text-neutral-700 mb-8">
-                Despite limited resources, Oliver&apos;s Village continues to achieve remarkable results thanks to
-                passionate educators, supportive families, and the generous contributions of donors like you. Together,
-                we&apos;re proving that when a community invests in its children, everyone benefits.
+                Each day, Oliver&apos;s Village supports more than 600 beneficiaries, most from previously disadvantaged
+                backgrounds, by meeting immediate needs while also equipping individuals with the skills and support
+                needed to build a better future.
+              </p>
+              <p className="text-lg text-neutral-700 mb-8">
+                Through its holistic approach, Oliver&apos;s Village remains committed to restoring dignity, nurturing
+                potential and creating lasting change.
               </p>
               <div className="flex flex-wrap items-start gap-3 text-neutral-600">
                 <MapPin className="w-5 h-5 text-orange-600 shrink-0 mt-0.5" aria-hidden />
                 <div>
-                  <p className="font-medium text-neutral-800">Putfontein, Benoni area</p>
+                  <p className="font-medium text-neutral-800">Location: Putfontein, Benoni</p>
                   <p className="text-sm mt-1">
                     Full address and contact details are on the{" "}
                     <a
@@ -270,14 +278,8 @@ export function OliversVillage() {
             Every contribution makes a real difference for beneficiaries at Oliver&apos;s Village.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link
-              to="/donate"
-              className="inline-block bg-orange-600 text-white px-8 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold"
-            >
-              Donate via Tucker Family Charity
-            </Link>
             <a
-              href={OFFICIAL_SITE}
+              href={DONATIONS_PAGE}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-white border-2 border-orange-600 text-orange-600 px-8 py-3 rounded-full hover:bg-orange-50 transition-colors font-semibold"
@@ -285,6 +287,12 @@ export function OliversVillage() {
               Support Oliver&apos;s Village
               <ExternalLink className="w-4 h-4" />
             </a>
+            <Link
+              to="/donate"
+              className="inline-block bg-orange-600 text-white px-8 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold"
+            >
+              Donate via Tucker Family Charity
+            </Link>
           </div>
         </div>
       </section>
