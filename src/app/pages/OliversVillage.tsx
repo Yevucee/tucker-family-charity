@@ -6,12 +6,10 @@ import { MapPin, ExternalLink } from "lucide-react";
 import aerialTop from "@/assets/OV photo_s for Website/Aerial (1).jpg";
 import computerTraining from "@/assets/OV photo_s for Website/Computer Training 12.jpg";
 import foodGardens from "@/assets/OV photo_s for Website/Food Gardens High-Res (5).jpeg";
-import agriTraining from "@/assets/OV photo_s for Website/Extra photo 2 (Agri Training Centre).jpeg";
 import educationalGardens from "@/assets/OV photo_s for Website/Extra photo 1 (Food Gardens).jpg";
 import aerialEcd from "@/assets/OV photo_s for Website/Aerial ECD.jpg";
 import soupKitchen from "@/assets/OV photo_s for Website/Soup Kitchen 5.jpg";
 import diningArea from "@/assets/8e268001b9e0fd2784e0fabc8aa1f352deb6f3d2.png";
-import schoolGrounds from "@/assets/0cac28478cd9e148e19e33753c2ce2b1507d4676.png";
 
 const OFFICIAL_SITE = "https://oliversvillage.co.za/";
 const DONATIONS_PAGE = "https://oliversvillage.co.za/donations-form/";
@@ -232,8 +230,8 @@ export function OliversVillage() {
             <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-amber-100/80">
               <div className="relative h-64 group overflow-hidden">
                 <img
-                  src={agriTraining}
-                  alt="Agricultural training at Oliver's Village"
+                  src={aerialTop}
+                  alt="Aerial view of Oliver's Village campus"
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   loading="lazy"
                 />
