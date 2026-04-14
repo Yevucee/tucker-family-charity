@@ -83,8 +83,7 @@ export function Partners() {
             Interested in partnering with us?
           </h2>
           <p className="text-lg text-neutral-700 mb-8">
-            We&apos;re always open to conversations with organisations who want to support Oliver&apos;s
-            Village.
+            We&apos;re always open to conversations with organisations who want to support us in our initiatives.
           </p>
           <a
             href="mailto:info@tuckerfamilycharity.org?subject=Partnership%20Enquiry"

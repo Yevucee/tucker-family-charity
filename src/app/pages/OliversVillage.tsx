@@ -43,7 +43,7 @@ export function OliversVillage() {
                 to="/donate"
                 className="inline-flex items-center justify-center gap-2 bg-white/15 text-white border border-white/40 px-8 py-3 rounded-full hover:bg-white/25 transition-colors font-semibold"
               >
-                Support through the charity
+                Donate via Tucker Family Charity
               </Link>
             </div>
           </div>
@@ -138,7 +138,9 @@ export function OliversVillage() {
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2 text-neutral-900">Computer training</h3>
+                <h3 className="text-xl font-semibold mb-2 text-neutral-900">
+                  Skills Development at Oliver&apos;s Village Computer Training Centre
+                </h3>
                 <p className="text-neutral-600">
                   Computer facilities provide digital skills training for young people and adults, helping them build
                   essential skills for the future.
@@ -158,8 +160,8 @@ export function OliversVillage() {
               <div className="p-6">
                 <h3 className="text-xl font-semibold mb-2 text-neutral-900">Food gardens</h3>
                 <p className="text-neutral-600">
-                  Sustainable vegetable gardens provide fresh produce and teach students about nutrition, agriculture, and
-                  self-sufficiency.
+                  Sustainable vegetable gardens provide fresh produce and teach beneficiaries about nutrition,
+                  agriculture, and self-sufficiency.
                 </p>
               </div>
             </div>
@@ -210,7 +212,8 @@ export function OliversVillage() {
               <div className="p-6">
                 <h3 className="text-xl font-semibold mb-2 text-neutral-900">Educational gardens</h3>
                 <p className="text-neutral-600">
-                  Hands-on learning through gardening helps students develop practical skills and environmental awareness.
+                  Hands-on learning through gardening helps beneficiaries develop practical skills and environmental
+                  awareness.
                 </p>
               </div>
             </div>
@@ -242,7 +245,7 @@ export function OliversVillage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
             <div>
               <div className="text-5xl font-bold mb-2">350+</div>
-              <div className="text-lg text-orange-100">Students supported</div>
+              <div className="text-lg text-orange-100">Beneficiaries supported</div>
             </div>
             <div>
               <div className="text-5xl font-bold mb-2">R450K</div>
@@ -264,7 +267,7 @@ export function OliversVillage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold mb-6 text-neutral-900">Get involved</h2>
           <p className="text-xl text-neutral-600 mb-8">
-            Every contribution makes a real difference in the lives of students at Oliver&apos;s Village.
+            Every contribution makes a real difference for beneficiaries at Oliver&apos;s Village.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
@@ -279,7 +282,7 @@ export function OliversVillage() {
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-white border-2 border-orange-600 text-orange-600 px-8 py-3 rounded-full hover:bg-orange-50 transition-colors font-semibold"
             >
-              Oliver&apos;s Village website
+              Support Oliver&apos;s Village
               <ExternalLink className="w-4 h-4" />
             </a>
           </div>

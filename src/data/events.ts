@@ -58,7 +58,7 @@ export const upcomingEvents: UpcomingEvent[] = [
     image:
       "https://images.unsplash.com/photo-1771924368588-507c6a048363?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21tdW5pdHklMjBnYXRoZXJpbmclMjBjZWxlYnJhdGlvbnxlbnwxfHx8fDE3NzMwNDU0Nzl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     description:
-      "Sample exquisite South African wines in a beautiful vineyard setting while supporting a great cause. All proceeds benefit Oliver's Village students.",
+      "Sample exquisite South African wines in a beautiful vineyard setting while supporting a great cause. All proceeds benefit Oliver's Village beneficiaries.",
     attendees: "80+ expected",
     category: "Fundraiser",
     ctaLabel: "Register for Event",
@@ -75,7 +75,7 @@ export const upcomingEvents: UpcomingEvent[] = [
     image:
       "https://images.unsplash.com/photo-1666281269793-da06484657e8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxBZnJpY2FuJTIwc2Nob29sJTIwZWR1Y2F0aW9uJTIwYm9va3N8ZW58MXx8fHwxNzczMTMyMzA0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     description:
-      "Experience the magic of Oliver's Village firsthand! Meet the students and teachers, tour the facilities, and see the direct impact of your support.",
+      "Experience the magic of Oliver's Village firsthand! Meet the children and teachers, tour the facilities, and see the direct impact of your support.",
     attendees: "40+ expected",
     category: "Community",
     ctaLabel: "Register for Event",
@@ -126,7 +126,7 @@ export const upcomingEvents: UpcomingEvent[] = [
     image:
       "https://images.unsplash.com/photo-1683879025805-a268b690613e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzY2hvb2wlMjBzdXBwbGllcyUyMHBlbmNpbHMlMjBib29rc3xlbnwxfHx8fDE3NzMxMzIzMDZ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     description:
-      "Help us prepare students for a successful school year! Donate school supplies, books, backpacks, and uniforms.",
+      "Help us prepare children for a successful school year! Donate school supplies, books, backpacks, and uniforms.",
     attendees: "Community-wide",
     category: "Drive",
     ctaLabel: "Get Involved",
