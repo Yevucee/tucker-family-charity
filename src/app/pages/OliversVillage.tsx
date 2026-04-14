@@ -3,10 +3,10 @@ import { Link } from "react-router";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { MapPin, ExternalLink } from "lucide-react";
-import schoolGrounds from "@/assets/0cac28478cd9e148e19e33753c2ce2b1507d4676.png";
+import aerialTop from "@/assets/OV photo_s for Website/Aerial (1).jpg";
 import computerLab from "@/assets/d5c30ac405997a9f47bb022e66f8a25896a2b859.png";
 import gardenArea from "@/assets/f0dd27edb7bda065be4dd5f0f576138f64514baf.png";
-import gardenBeds from "@/assets/7b52c9c4cb4c502f6ea99c7fce5fe04da5995174.png";
+import aerialEcd from "@/assets/OV photo_s for Website/Aerial ECD.jpg";
 import kitchenArea from "@/assets/8d8da24d7e2cba1694663d3735775c2318c86b68.png";
 import diningArea from "@/assets/8e268001b9e0fd2784e0fabc8aa1f352deb6f3d2.png";
 
@@ -58,8 +58,8 @@ export function OliversVillage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative h-[min(45vh,420px)] sm:h-[min(50vh,480px)] rounded-xl overflow-hidden shadow-xl">
             <img
-              src={schoolGrounds}
-              alt="Oliver's Village school grounds"
+              src={aerialTop}
+              alt="Aerial view of Oliver's Village"
               className="absolute inset-0 w-full h-full object-cover"
               loading="lazy"
             />
@@ -76,8 +76,8 @@ export function OliversVillage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="relative h-[min(400px,55vh)] rounded-lg overflow-hidden shadow-xl group order-2 lg:order-1">
               <img
-                src={gardenBeds}
-                alt="Vegetable gardens at Oliver's Village"
+                src={aerialEcd}
+                alt="Aerial view of Oliver's Village Early Childhood Development Centre"
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 loading="lazy"
               />
