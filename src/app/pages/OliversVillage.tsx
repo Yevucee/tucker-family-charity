@@ -28,9 +28,9 @@ export function OliversVillage() {
           <div className="max-w-4xl mx-auto w-full text-center text-white">
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4">Oliver&apos;s Village</h1>
             <p className="text-xl text-amber-100 max-w-2xl mx-auto mb-8">
-              Oliver&apos;s Village is a community education centre in Putfontein, Benoni that Tucker Family Charity is
-              proud to support. It provides education, skills development, early childhood care and food security
-              through a range of community programmes.
+              A community education centre in Putfontein Benoni that Tucker Family Charity is proud to support -
+              Oliver&apos;s Village provides various social services such as education, skills development, early
+              childhood care and food security.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
@@ -87,11 +87,11 @@ export function OliversVillage() {
               <h2 className="text-4xl font-bold mb-6 text-neutral-900">About Oliver&apos;s Village</h2>
               <p className="text-lg text-neutral-700 mb-6">
                 Founded in 2001, Oliver&apos;s Village is a non-profit organisation based in Putfontein, Benoni, serving
-                vulnerable communities in Daveyton, Etwatwa, Wattville and surrounding informal settlements.
+                vulnerable communities in Daveyton, Etwatwa, Wattville and surrounding Informal Settlements.
               </p>
               <p className="text-lg text-neutral-700 mb-6">
-                What began as a small soup kitchen has grown into a place of hope and opportunity. From its base in
-                Putfontein, the organisation now delivers free quality services through its Early Childhood Development
+                What began as a small soup kitchen has grown into a place of hope and opportunity. From the village in
+                Putfontein, the organisation delivers free, quality services through its Early Childhood Development
                 Centre, Computer Training Centre, Feeding Programme, Agricultural College and Agricultural Social
                 Enterprise.
               </p>
