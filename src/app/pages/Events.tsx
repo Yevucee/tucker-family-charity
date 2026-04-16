@@ -31,7 +31,8 @@ export function Events() {
       <section className="py-12 bg-amber-50 border-t border-amber-100/80">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-lg text-neutral-700">
-            Throughout the year, we host a variety of events that bring our community together while raising vital funds for Oliver's Village. From elegant galas to fun runs, wine tastings to school visits—there's something for everyone. We'd love to see you there!
+            Throughout the year, we host a variety of events that bring our community together while raising vital funds
+            for Oliver&apos;s Village and other initiatives we support.
           </p>
         </div>
       </section>
@@ -129,7 +130,7 @@ export function Events() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold mb-6">Can't Attend an Event?</h2>
           <p className="text-xl mb-8 text-orange-100">
-            You can still support Oliver's Village through direct donations or by purchasing our charity merchandise
+            You can still support Tucker Family Charity through direct donations or by purchasing our charity merchandise
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link

@@ -6,10 +6,11 @@ import { MapPin, ExternalLink } from "lucide-react";
 import aerialTop from "@/assets/OV photo_s for Website/Aerial (1).jpg";
 import computerTraining from "@/assets/OV photo_s for Website/Computer Training 12.jpg";
 import foodGardens from "@/assets/OV photo_s for Website/Food Gardens High-Res (5).jpeg";
-import educationalGardens from "@/assets/OV photo_s for Website/Extra photo 1 (Food Gardens).jpg";
 import aerialEcd from "@/assets/OV photo_s for Website/Aerial ECD.jpg";
-import soupKitchen from "@/assets/OV photo_s for Website/Soup Kitchen 5.jpg";
-import diningArea from "@/assets/8e268001b9e0fd2784e0fabc8aa1f352deb6f3d2.png";
+import ecdCentre from "@/assets/OV photo_s for Website/ECD Centre (12).jpg";
+import feedingSoupKitchen from "@/assets/OV photo_s for Website/Extra photo 4 (Soup Kitchen).jpg";
+import agriculturalTraining from "@/assets/OV photo_s for Website/Extra photo 2 (Agri Training Centre).jpeg";
+import waterHarvesting from "@/assets/OV photo_s for Website/Water Harvesting.jpeg";
 
 const OFFICIAL_SITE = "https://oliversvillage.co.za/";
 const DONATIONS_PAGE = "https://oliversvillage.co.za/donations-form/";
@@ -132,7 +133,7 @@ export function OliversVillage() {
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4 text-neutral-900">See the impact of your support</h2>
             <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
-              Real facilities and programmes at Oliver&apos;s Village
+              Social Service Programmes at Oliver&apos;s Village
             </p>
           </div>
 
@@ -140,19 +141,75 @@ export function OliversVillage() {
             <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-amber-100/80">
               <div className="relative h-64 group overflow-hidden">
                 <img
-                  src={computerTraining}
-                  alt="Computer training at Oliver's Village"
+                  src={ecdCentre}
+                  alt="Early Childhood Development Centre at Oliver's Village"
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   loading="lazy"
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2 text-neutral-900">
-                  Skills Development at Oliver&apos;s Village Computer Training Centre
-                </h3>
+                <h3 className="text-xl font-semibold mb-2 text-neutral-900">Early Childhood Development Centre</h3>
                 <p className="text-neutral-600">
-                  Computer facilities provide digital skills training for young people and adults, helping them build
-                  essential skills for the future.
+                  The Early Childhood Development Centre at Oliver&apos;s Village nurtures young children with quality
+                  care, early learning, and emotional support. By laying a strong foundation for growth and education, it
+                  empowers children to reach their full potential from the very start.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-amber-100/80">
+              <div className="relative h-64 group overflow-hidden">
+                <img
+                  src={feedingSoupKitchen}
+                  alt="Feeding programme at Oliver's Village"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold mb-2 text-neutral-900">Feeding Programme</h3>
+                <p className="text-neutral-600">
+                  Oliver&apos;s Village&apos;s Feeding Programme provides daily nutritious meals to vulnerable children
+                  and community members, addressing immediate hunger while supporting health and wellbeing. The programme
+                  ensures that beneficiaries have the strength and energy to learn, grow, and thrive.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-amber-100/80">
+              <div className="relative h-64 group overflow-hidden">
+                <img
+                  src={computerTraining}
+                  alt="Computer training centre at Oliver's Village"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold mb-2 text-neutral-900">Computer Training Centre</h3>
+                <p className="text-neutral-600">
+                  Oliver&apos;s Village equips community members with essential digital and internet skills needed to
+                  thrive in a modern world, strengthening communication, supporting entrepreneurship and improving access
+                  to employment opportunities.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-amber-100/80">
+              <div className="relative h-64 group overflow-hidden">
+                <img
+                  src={agriculturalTraining}
+                  alt="Agricultural training college at Oliver's Village"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold mb-2 text-neutral-900">Agricultural Training College</h3>
+                <p className="text-neutral-600">
+                  Equipping individuals with practical farming skills and hands-on experience in sustainable agriculture.
+                  The programme not only supports food security within the community but also empowers beneficiaries to
+                  build livelihoods with confidence and dignity.
                 </p>
               </div>
             </div>
@@ -161,16 +218,18 @@ export function OliversVillage() {
               <div className="relative h-64 group overflow-hidden">
                 <img
                   src={foodGardens}
-                  alt="Vegetable gardens at Oliver's Village"
+                  alt="Agricultural food gardens at Oliver's Village"
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   loading="lazy"
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2 text-neutral-900">Food gardens</h3>
+                <h3 className="text-xl font-semibold mb-2 text-neutral-900">Agricultural Food Gardens</h3>
                 <p className="text-neutral-600">
-                  Sustainable vegetable gardens provide fresh produce and teach beneficiaries about nutrition,
-                  agriculture, and self-sufficiency.
+                  Oliver&apos;s Village&apos;s Agricultural Food Gardens combined with its Social Enterprise, provide
+                  fresh, nutritious produce to the community while creating sustainable livelihoods. The initiative teaches
+                  practical farming skills, promotes food security and generates income, empowering beneficiaries to build
+                  independence and support their families.
                 </p>
               </div>
             </div>
@@ -178,69 +237,18 @@ export function OliversVillage() {
             <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-amber-100/80">
               <div className="relative h-64 group overflow-hidden">
                 <img
-                  src={soupKitchen}
-                  alt="Soup kitchen at Oliver's Village"
+                  src={waterHarvesting}
+                  alt="Sustainability infrastructure at Oliver's Village"
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   loading="lazy"
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2 text-neutral-900">Meals &amp; nutrition</h3>
+                <h3 className="text-xl font-semibold mb-2 text-neutral-900">Sustainability-focused</h3>
                 <p className="text-neutral-600">
-                  A feeding programme ensures children attending the centre receive regular, nutritious meals every day.
-                </p>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-amber-100/80">
-              <div className="relative h-64 group overflow-hidden">
-                <img
-                  src={diningArea}
-                  alt="Community dining area at Oliver's Village"
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2 text-neutral-900">Community space</h3>
-                <p className="text-neutral-600">
-                  Comfortable outdoor spaces where children can eat together, learn, and build community connections.
-                </p>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-amber-100/80">
-              <div className="relative h-64 group overflow-hidden">
-                <img
-                  src={educationalGardens}
-                  alt="Educational gardens at Oliver's Village"
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2 text-neutral-900">Educational gardens</h3>
-                <p className="text-neutral-600">
-                  Hands-on learning through gardening helps beneficiaries develop practical skills and environmental
-                  awareness.
-                </p>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-amber-100/80">
-              <div className="relative h-64 group overflow-hidden">
-                <img
-                  src={aerialTop}
-                  alt="Aerial view of Oliver's Village campus"
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2 text-neutral-900">School campus</h3>
-                <p className="text-neutral-600">
-                  Safe, well-maintained facilities providing a nurturing environment for learning, growth, and
-                  development.
+                  Operating entirely off solar energy and supported by rainwater harvesting and a borehole system. Its
+                  composting, bakery and vegetable gardens supply fresh food to the soup kitchen and Early Childhood
+                  Development Centre, creating a thoughtful, eco-conscious system that nourishes both people and community.
                 </p>
               </div>
             </div>
