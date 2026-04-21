@@ -4,6 +4,7 @@
  */
 
 /** Served from `public/past-events/` so GitHub Pages base path resolves correctly. */
+const pastEventLeopardCreek2025Cover = `${import.meta.env.BASE_URL}past-events/leopard-creek-2025-cover.png`;
 const pastEventWatershed2025Cover = `${import.meta.env.BASE_URL}past-events/watershed-2025-cover.png`;
 
 export interface UpcomingEvent {
@@ -138,38 +139,17 @@ export const upcomingEvents: UpcomingEvent[] = [
   },
 ];
 
-const unsplash = (id: string, w = 1200) =>
-  `https://images.unsplash.com/photo-${id}?w=${w}&q=80`;
-
 export const pastEvents: PastEvent[] = [
   {
-    id: 5,
-    title: "Black Tie 2025",
-    slug: "black-tie-2025",
-    shortDescription:
-      "Our annual Black Tie evening — speeches, celebration, and community fundraising for Oliver's Village. A formal night on stage with family, friends, and supporters.",
-    coverImage: unsplash("1768776179834-93e6cafc6d97"),
-    albumLink: "https://photos.google.com/", // Replace with Black Tie 2025 Google album URL when available
-  },
-  {
-    id: 6,
+    id: 1,
     title: "Leopard Creek 2025",
     slug: "leopard-creek-2025",
     shortDescription:
       "Mark Stevens and Jobby Roos won this Leopard Creek trip at our gala auction — three days of golf, safari, and hospitality. Huge thanks to everyone who welcomed us; all in support of Oliver's Village and the Boucher Legacy.",
-    coverImage: unsplash("1500534314209-a25ddb8bd429"),
+    coverImage: pastEventLeopardCreek2025Cover,
     // Canonical share URL (https://photos.app.goo.gl/QmcteKHwB4Ts584W9 redirects here)
     albumLink:
       "https://photos.google.com/share/AF1QipP2jSO71d5JiElhwRXCoRtNDfZ0-DaVSWT1tNYYbyTbSHPe_Kbo51WnzXeHHieNlA?key=dHJtMlpVdFVpNC1iT1VDTHBRcFdwTWdWMjFmdU1R",
-  },
-  {
-    id: 1,
-    title: "Black Tie 2024",
-    slug: "black-tie-2024",
-    shortDescription:
-      "An elegant evening of fine dining, live entertainment, and fundraising for Oliver's Village. Our community came together in style to support education and opportunity.",
-    coverImage: unsplash("1768776179834-93e6cafc6d97"),
-    albumLink: "https://photos.google.com/", // Replace with Black Tie 2024 Google album / folder URL
   },
   {
     id: 2,
@@ -181,23 +161,5 @@ export const pastEvents: PastEvent[] = [
     // Canonical share URL (https://photos.app.goo.gl/aqxKwwjQbXktW2xB6 redirects here)
     albumLink:
       "https://photos.google.com/share/AF1QipPkXDFc8C1nfztU207u6Gl2fR7gthZ5Y4Y6EHoCBY57RAaNNZmkiaIcAL5g3cMFdQ?key=bU95eDd2MjVxZUlNTk9RdDh0QS1GX3hkV1BSQ0l3",
-  },
-  {
-    id: 3,
-    title: "Couples Padel 1 to 7",
-    slug: "couples-padel-1-7",
-    shortDescription:
-      "Seven editions of our popular Couples Padel tournaments. Fun, fitness, and fundraising—all in support of Oliver's Village. Thank you to all participants and sponsors.",
-    coverImage: unsplash("1770842655322-bcfd1c4be229"),
-    albumLink: "https://photos.google.com/", // Replace with Couples Padel Google album / folder URL
-  },
-  {
-    id: 4,
-    title: "Black Tie 2026",
-    slug: "black-tie-2026",
-    shortDescription:
-      "Our flagship annual gala. An unforgettable night of celebration, auction, and community spirit—all in support of education at Oliver's Village.",
-    coverImage: unsplash("1706323625335-dad461b68fe5"),
-    albumLink: "https://photos.google.com/", // Replace with Black Tie 2026 Google album / folder URL
   },
 ];
