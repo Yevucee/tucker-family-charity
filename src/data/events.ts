@@ -4,7 +4,7 @@
  */
 
 /** Served from `public/past-events/` so GitHub Pages base path resolves correctly. */
-const pastEventBlackTie2025Cover = `${import.meta.env.BASE_URL}past-events/black-tie-2025-cover.png`;
+const pastEventWatershed2025Cover = `${import.meta.env.BASE_URL}past-events/watershed-2025-cover.png`;
 
 export interface UpcomingEvent {
   id: number;
@@ -148,10 +148,8 @@ export const pastEvents: PastEvent[] = [
     slug: "black-tie-2025",
     shortDescription:
       "Our annual Black Tie evening — speeches, celebration, and community fundraising for Oliver's Village. A formal night on stage with family, friends, and supporters.",
-    coverImage: pastEventBlackTie2025Cover,
-    // Canonical share URL (photos.app.goo.gl/… redirects here — use this so the album opens reliably)
-    albumLink:
-      "https://photos.google.com/share/AF1QipPkXDFc8C1nfztU207u6Gl2fR7gthZ5Y4Y6EHoCBY57RAaNNZmkiaIcAL5g3cMFdQ?key=bU95eDd2MjVxZUlNTk9RdDh0QS1GX3hkV1BSQ0l3",
+    coverImage: unsplash("1768776179834-93e6cafc6d97"),
+    albumLink: "https://photos.google.com/", // Replace with Black Tie 2025 Google album URL when available
   },
   {
     id: 1,
@@ -168,8 +166,10 @@ export const pastEvents: PastEvent[] = [
     slug: "watershed-2025",
     shortDescription:
       "A memorable day at Watershed with family, friends, and supporters. Great food, beautiful surroundings, and funds raised for Oliver's Village.",
-    coverImage: unsplash("1771924368588-507c6a048363"),
-    albumLink: "https://photos.google.com/", // Replace with Watershed 2025 Google album / folder URL
+    coverImage: pastEventWatershed2025Cover,
+    // Canonical share URL (https://photos.app.goo.gl/aqxKwwjQbXktW2xB6 redirects here)
+    albumLink:
+      "https://photos.google.com/share/AF1QipPkXDFc8C1nfztU207u6Gl2fR7gthZ5Y4Y6EHoCBY57RAaNNZmkiaIcAL5g3cMFdQ?key=bU95eDd2MjVxZUlNTk9RdDh0QS1GX3hkV1BSQ0l3",
   },
   {
     id: 3,
