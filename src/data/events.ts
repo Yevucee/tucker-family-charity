@@ -152,6 +152,17 @@ export const pastEvents: PastEvent[] = [
     albumLink: "https://photos.google.com/", // Replace with Black Tie 2025 Google album URL when available
   },
   {
+    id: 6,
+    title: "Leopard Creek 2025",
+    slug: "leopard-creek-2025",
+    shortDescription:
+      "Mark Stevens and Jobby Roos won this Leopard Creek trip at our gala auction — three days of golf, safari, and hospitality. Huge thanks to everyone who welcomed us; all in support of Oliver's Village and the Boucher Legacy.",
+    coverImage: unsplash("1500534314209-a25ddb8bd429"),
+    // Canonical share URL (https://photos.app.goo.gl/QmcteKHwB4Ts584W9 redirects here)
+    albumLink:
+      "https://photos.google.com/share/AF1QipP2jSO71d5JiElhwRXCoRtNDfZ0-DaVSWT1tNYYbyTbSHPe_Kbo51WnzXeHHieNlA?key=dHJtMlpVdFVpNC1iT1VDTHBRcFdwTWdWMjFmdU1R",
+  },
+  {
     id: 1,
     title: "Black Tie 2024",
     slug: "black-tie-2024",
