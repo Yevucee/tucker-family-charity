@@ -1,9 +1,10 @@
 /**
  * Events data for Tucker Family Charity.
- * Past events: one cover image on the site; albumLink = Google Photos album or Drive folder (share link).
+ * Past events: one cover image on the site; albumLink = Google Photos shared album URL (use the full photos.google.com/share/… link so “View gallery” opens the album, not the Photos home).
  */
 
-import pastEventBlackTie2025Cover from "@/assets/past-events-black-tie-2025-cover.png";
+/** Served from `public/past-events/` so GitHub Pages base path resolves correctly. */
+const pastEventBlackTie2025Cover = `${import.meta.env.BASE_URL}past-events/black-tie-2025-cover.png`;
 
 export interface UpcomingEvent {
   id: number;
@@ -148,7 +149,9 @@ export const pastEvents: PastEvent[] = [
     shortDescription:
       "Our annual Black Tie evening — speeches, celebration, and community fundraising for Oliver's Village. A formal night on stage with family, friends, and supporters.",
     coverImage: pastEventBlackTie2025Cover,
-    albumLink: "https://photos.app.goo.gl/aqxKwwjQbXktW2xB6",
+    // Canonical share URL (photos.app.goo.gl/… redirects here — use this so the album opens reliably)
+    albumLink:
+      "https://photos.google.com/share/AF1QipPkXDFc8C1nfztU207u6Gl2fR7gthZ5Y4Y6EHoCBY57RAaNNZmkiaIcAL5g3cMFdQ?key=bU95eDd2MjVxZUlNTk9RdDh0QS1GX3hkV1BSQ0l3",
   },
   {
     id: 1,

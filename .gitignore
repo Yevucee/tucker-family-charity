@@ -3,3 +3,4 @@ dist
 .env
 .env.local
 public/networking-directory.json
+.DS_Store
