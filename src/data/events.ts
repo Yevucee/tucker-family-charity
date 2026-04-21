@@ -3,6 +3,8 @@
  * Past events: one cover image on the site; albumLink = Google Photos album or Drive folder (share link).
  */
 
+import pastEventBlackTie2025Cover from "@/assets/past-events-black-tie-2025-cover.png";
+
 export interface UpcomingEvent {
   id: number;
   title: string;
@@ -139,6 +141,15 @@ const unsplash = (id: string, w = 1200) =>
   `https://images.unsplash.com/photo-${id}?w=${w}&q=80`;
 
 export const pastEvents: PastEvent[] = [
+  {
+    id: 5,
+    title: "Black Tie 2025",
+    slug: "black-tie-2025",
+    shortDescription:
+      "Our annual Black Tie evening — speeches, celebration, and community fundraising for Oliver's Village. A formal night on stage with family, friends, and supporters.",
+    coverImage: pastEventBlackTie2025Cover,
+    albumLink: "https://photos.app.goo.gl/aqxKwwjQbXktW2xB6",
+  },
   {
     id: 1,
     title: "Black Tie 2024",
