@@ -51,8 +51,8 @@ export function Shop() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-3">Shop &amp; offers</h1>
           <p className="text-lg sm:text-xl text-amber-100 max-w-2xl mx-auto leading-relaxed">
-            Support Oliver&apos;s Village—browse what we&apos;re featuring, our own products, and
-            partner offers that give back.
+            Show your support by browsing our featured products and partner offers. Every purchase helps support our
+            initiatives.
           </p>
           <nav
             className="mt-8 flex flex-wrap justify-center gap-3"
@@ -147,8 +147,8 @@ export function Shop() {
               Tucker Products
             </h2>
             <p className="mt-3 text-lg text-neutral-600 max-w-2xl mx-auto leading-relaxed">
-              Direct charity items—wine, caps, and Tucker-branded goods. Every purchase supports
-              Oliver&apos;s Village.
+              Tucker Family Charity merchandise and fundraising products. Proceeds from Tucker Family Charity Products
+              and selected partner offers help provide education, daily meals and opportunity for vulnerable communities.
             </p>
           </div>
 
@@ -263,8 +263,8 @@ export function Shop() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Your purchase makes an impact</h2>
           <p className="text-lg text-amber-100 mb-8 leading-relaxed">
-            Proceeds from Tucker products and selected partner offers help provide education, meals,
-            and opportunity for children at Oliver&apos;s Village.
+            Proceeds from Tucker Family Charity Products and selected partner offers help provide education, daily meals
+            and opportunity for vulnerable communities.
           </p>
           <Link
             to="/olivers-village"

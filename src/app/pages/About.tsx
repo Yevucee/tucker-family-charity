@@ -159,14 +159,14 @@ export function About() {
             Join Our Mission
           </h2>
           <p className="text-xl text-neutral-600 mb-8">
-            Every contribution, no matter the size, makes a real difference in the lives of students at Oliver's Village
+            Every contribution, no matter the size, helps us support beneficiaries at Oliver&apos;s Village and across the communities we partner with.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
               to="/donate"
               className="bg-orange-600 text-white px-8 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold"
             >
-              Support the Charity
+              Donate via Tucker Family Charity
             </Link>
             <a
               href="https://instagram.com/tuckerfamilycharity"

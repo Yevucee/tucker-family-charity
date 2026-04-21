@@ -56,7 +56,8 @@ export function Home() {
                 Connecting People. Creating Opportunity. Uplifting Communities.
               </h1>
               <p className="text-lg sm:text-xl mb-8 text-white [text-shadow:0_2px_12px_rgba(0,0,0,0.9)]">
-                As a family-led charity, through education, community events, and powerful partnerships, we create opportunities, support local businesses, and drive meaningful impact — from Oliver's Village to the broader community.
+                A vibrant family-led charity creating practical opportunities and supporting vulnerable communities
+                through partnership, action and shared purpose — from Oliver&apos;s Village to the broader community.
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link
@@ -86,13 +87,15 @@ export function Home() {
                 About the Charity
               </h2>
               <p className="text-lg text-neutral-700 mb-6">
-                Tucker Family Charity is a small family-led initiative based in Johannesburg. The charity was created to support Oliver's Village, a community project that provides education, meals and training to children and families from nearby communities.
+                Tucker Family Charity is a family-led charity based in Johannesburg. We support practical initiatives that
+                uplift vulnerable communities — including Oliver&apos;s Village, a community project providing education,
+                meals and training to children and families from nearby communities.
               </p>
               <p className="text-lg text-neutral-700 mb-4">
                 Through events, fundraising and merchandise sales, we help provide practical support where it matters most. We also maintain a trusted directory of local tradespeople and services recommended by our community—<Link to="/keep-it-in-the-family" className="text-orange-600 hover:text-orange-700 font-semibold">Keep It In The Family</Link>.
               </p>
               <p className="text-lg text-neutral-700 mb-8">
-                We're proud to be part of Oliver's Village's journey, and we invite you to join us.
+                We&apos;re proud to be part of Oliver&apos;s Village&apos;s journey, and we invite you to join us.
               </p>
               <Link
                 to="/about"
@@ -353,7 +356,7 @@ export function Home() {
                   <span>Oliver's Village, Johannesburg</span>
                 </div>
                 <p className="text-neutral-600 mb-4">
-                  Meet the students and teachers, tour the facilities, and see firsthand the impact of your support.
+                  Meet the beneficiaries and teachers, tour the facilities, and see firsthand the impact of your support.
                 </p>
               </div>
             </div>

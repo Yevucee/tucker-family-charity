@@ -27,8 +27,8 @@ export function Donate() {
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight">Support Us</h1>
             <p className="text-lg sm:text-xl text-amber-100 leading-relaxed">
               There are many ways to support Tucker Family Charity. Whether you give financially, offer your time,
-              donate useful items or shop with us, every contribution helps us create practical impact through
-              community, partnerships and shared effort.
+              donate useful items or purchase our charity merchandise, every contribution helps us create practical
+              impact through community, partnerships and shared effort.
             </p>
           </div>
         </div>
@@ -167,8 +167,9 @@ export function Donate() {
             <div className="flex-1 min-w-0">
               <h2 className="text-3xl font-bold mb-4 text-neutral-900">Shop With Us</h2>
               <p className="text-lg text-neutral-700 mb-8 leading-relaxed">
-                You can also support Tucker Family Charity by shopping selected products and partner offers that help
-                raise funds for the charity.
+                You can also support Tucker Family Charity through direct donations or by purchasing our charity
+                merchandise. Proceeds from Tucker Family Charity Products and selected partner offers help provide
+                education, daily meals and opportunity for vulnerable communities.
               </p>
               <Link
                 to="/shop"
@@ -186,8 +187,8 @@ export function Donate() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Every contribution matters</h2>
           <p className="text-lg text-amber-50 leading-relaxed mb-10">
-            Whether you give money, time, materials or shop with us, your support helps Tucker Family Charity turn
-            community into practical action.
+            Whether you give money, time, materials or purchase our charity merchandise, your support helps Tucker
+            Family Charity turn community into practical action.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-stretch sm:items-center">
             <a

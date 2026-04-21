@@ -88,7 +88,7 @@ export const shopCatalog: ShopCatalog = {
       category: "featured",
       title: "Tucker Family Charity Wine",
       shortDescription:
-        "Our white-label wine supports Oliver's Village with every bottle. Perfect for gifting or your own table—this month we're shining a light on community-powered giving.",
+        "Our white-label wine supports Tucker Family Charity with every bottle. Perfect for gifting or your own table—this month we're shining a light on community-powered giving.",
       image:
         "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1200&q=80",
       ctaLabel: "Shop featured wine",
@@ -100,7 +100,8 @@ export const shopCatalog: ShopCatalog = {
         id: "featured-caps",
         category: "featured",
         title: "Tucker caps",
-        shortDescription: "Wear your support—branded caps fund students at Oliver's Village.",
+        shortDescription:
+          "Wear your support—branded caps help fund education, daily meals and opportunity for vulnerable communities.",
         image: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?w=800&q=80",
         ctaLabel: "Order caps",
         ctaHref: "mailto:info@tuckerfamilycharity.org?subject=Cap%20Order",
@@ -112,7 +113,8 @@ export const shopCatalog: ShopCatalog = {
       id: "wine",
       category: "tucker_products",
       title: "Charity wine",
-      shortDescription: "Premium South African red and white. 100% of proceeds to Oliver's Village.",
+      shortDescription:
+        "Premium South African red and white. Proceeds help support Tucker Family Charity’s initiatives.",
       image: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&q=80",
       priceLabel: "Price on enquiry",
       ctaLabel: "Order now",
@@ -123,7 +125,8 @@ export const shopCatalog: ShopCatalog = {
       id: "caps",
       category: "tucker_products",
       title: "Tucker caps",
-      shortDescription: "Branded caps and headwear—every purchase helps kids at Oliver's Village.",
+      shortDescription:
+        "Branded caps and headwear—every purchase helps support Tucker Family Charity’s initiatives.",
       image: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?w=800&q=80",
       priceLabel: "From R199",
       ctaLabel: "Buy now",
@@ -157,7 +160,8 @@ export const shopCatalog: ShopCatalog = {
       id: "puma",
       category: "partner_offers",
       title: "Puma",
-      shortDescription: "Sportswear and gear through our partner link—portion supports Oliver's Village.",
+      shortDescription:
+        "Sportswear and gear through our partner link—proceeds help support Tucker Family Charity’s initiatives.",
       image: "https://images.unsplash.com/photo-1556906781-9a412961c28c?w=800&q=80",
       ctaLabel: "Shop offer",
       externalUrl: "https://www.puma.com",

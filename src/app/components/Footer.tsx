@@ -19,7 +19,8 @@ export function Footer() {
               />
             </div>
             <p className="text-amber-200/90 max-w-md text-base md:text-lg">
-              Supporting Oliver's Village in Johannesburg — raising funds to provide education, meals and training to children and families.
+              A vibrant family-led charity creating practical opportunities and supporting vulnerable communities
+              through partnership, action and shared purpose.
             </p>
           </div>
 
