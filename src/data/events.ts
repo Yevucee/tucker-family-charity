@@ -4,6 +4,7 @@
  */
 
 /** Served from `public/past-events/` so GitHub Pages base path resolves correctly. */
+const pastEventCharityDinner2019Cover = `${import.meta.env.BASE_URL}past-events/charity-dinner-2019-cover.png`;
 const pastEventLeopardCreek2025Cover = `${import.meta.env.BASE_URL}past-events/leopard-creek-2025-cover.png`;
 const pastEventWatershed2025Cover = `${import.meta.env.BASE_URL}past-events/watershed-2025-cover.png`;
 
@@ -154,7 +155,7 @@ export const pastEvents: PastEvent[] = [
     slug: "charity-dinner-2019",
     shortDescription:
       "Our annual charity dinner — an evening of community and fundraising in support of Oliver's Village and our beneficiaries.",
-    coverImage: unsplash("1768776179834-93e6cafc6d97"),
+    coverImage: pastEventCharityDinner2019Cover,
     // https://photos.app.goo.gl/cvowNfCUYC4oapQr9
     albumLink:
       "https://photos.google.com/share/AF1QipNkazJvwoPxkYQrOW6hCnUSUZncKi1mQiETMeyd3_AdK4O8RxpVQRR-cuWLdxNipw?key=akRTU1J5ZjBjRUEwcGVFVGtacjBhOEY1Z1BYUmR3",
