@@ -1,4 +1,4 @@
-import { useMemo, useState, type MouseEvent } from "react";
+import { useEffect, useMemo, useState, type MouseEvent } from "react";
 import { Link } from "react-router";
 import { ArrowLeft, ShoppingBag } from "lucide-react";
 import { Header } from "../components/Header";
@@ -8,6 +8,9 @@ import {
   adultHatColours,
   buildHatOrderMailto,
   HAT_PAYMENT_LINK,
+  HAT_QUANTITY_MAX,
+  HAT_QUANTITY_MIN,
+  HAT_UNIT_PRICE_ZAR,
   hatPageCopy,
   hatVariantImageSrc,
   hatVariantsForFit,
@@ -19,11 +22,26 @@ const fitToggleBtn =
 const fitActive = "bg-amber-600 text-white shadow-sm";
 const fitInactive = "bg-amber-50 text-amber-900 hover:bg-amber-100";
 
+function namesAreComplete(names: string[]): boolean {
+  return names.length > 0 && names.every((n) => n.trim().length > 0);
+}
+
 export function PersonalisedCharityHat() {
   const [fit, setFit] = useState<HatFit>("adult");
   const [selectedSlug, setSelectedSlug] = useState(adultHatColours[0].slug);
-  const [sideName, setSideName] = useState("");
-  const [nameTouched, setNameTouched] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  const [names, setNames] = useState<string[]>([""]);
+  const [namesTouched, setNamesTouched] = useState(false);
+
+  useEffect(() => {
+    setNames((prev) => {
+      if (quantity === prev.length) return prev;
+      if (quantity > prev.length) {
+        return [...prev, ...Array(quantity - prev.length).fill("")];
+      }
+      return prev.slice(0, quantity);
+    });
+  }, [quantity]);
 
   const variants = hatVariantsForFit(fit);
   const selected =
@@ -31,31 +49,44 @@ export function PersonalisedCharityHat() {
   const previewSrc = hatVariantImageSrc(fit, selected.slug);
   const fitLabel = fit === "adult" ? hatPageCopy.fitAdultLabel : hatPageCopy.fitKidsLabel;
 
+  const trimmedNames = useMemo(() => names.map((n) => n.trim()), [names]);
+
   const mailtoHref = useMemo(
     () =>
       buildHatOrderMailto({
         fit,
         colourLabel: selected.label,
-        sideName: sideName.trim(),
+        quantity,
+        names: trimmedNames,
       }),
-    [fit, selected.label, sideName]
+    [fit, selected.label, quantity, trimmedNames]
   );
 
-  const nameInvalid = nameTouched && !sideName.trim();
+  const namesInvalid = namesTouched && !namesAreComplete(names);
   const hasPayment = Boolean(HAT_PAYMENT_LINK?.trim());
+  const lineTotal = HAT_UNIT_PRICE_ZAR * quantity;
 
   const switchFit = (next: HatFit) => {
     setFit(next);
     const nextVariants = hatVariantsForFit(next);
     setSelectedSlug(nextVariants[0]?.slug ?? "aqua");
-    setNameTouched(false);
+    setNamesTouched(false);
   };
 
-  const validateName = (e: MouseEvent<HTMLAnchorElement>) => {
-    if (!sideName.trim()) {
+  const validateNames = (e: MouseEvent<HTMLAnchorElement>) => {
+    if (!namesAreComplete(names)) {
       e.preventDefault();
-      setNameTouched(true);
+      setNamesTouched(true);
     }
+  };
+
+  const setNameAt = (index: number, value: string) => {
+    setNames((prev) => {
+      const next = [...prev];
+      next[index] = value;
+      return next;
+    });
+    if (namesTouched) setNamesTouched(false);
   };
 
   return (
@@ -129,72 +160,94 @@ export function PersonalisedCharityHat() {
               </div>
 
               <div>
-                <p id="colour-label" className="text-sm font-semibold text-neutral-900 mb-3">
+                <label htmlFor="hat-colour" className="text-sm font-semibold text-neutral-900 block mb-2">
                   {hatPageCopy.coloursHeading}
-                </p>
-                <div
-                  className="flex flex-wrap gap-2.5"
-                  role="radiogroup"
-                  aria-labelledby="colour-label"
-                >
-                  {variants.map((v) => {
-                    const isSelected = v.slug === selected.slug;
-                    return (
-                      <button
-                        key={v.slug}
-                        type="button"
-                        role="radio"
-                        aria-checked={isSelected}
-                        onClick={() => setSelectedSlug(v.slug)}
-                        className={[
-                          "group flex items-center gap-2 rounded-full border-2 pl-1 pr-3 py-1 text-left transition-colors",
-                          "focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2",
-                          isSelected
-                            ? "border-amber-600 bg-amber-50 shadow-sm"
-                            : "border-amber-100 bg-white hover:border-amber-200",
-                        ].join(" ")}
-                      >
-                        <span
-                          className="h-8 w-8 rounded-full border border-neutral-200/80 shadow-inner shrink-0"
-                          style={{ backgroundColor: v.swatchHex }}
-                          aria-hidden
-                        />
-                        <span className="text-sm font-medium text-neutral-800 pr-1">{v.label}</span>
-                      </button>
-                    );
-                  })}
+                </label>
+                <div className="flex gap-3 items-center">
+                  <span
+                    className="h-10 w-10 shrink-0 rounded-full border border-neutral-200/80 shadow-inner"
+                    style={{ backgroundColor: selected.swatchHex }}
+                    aria-hidden
+                  />
+                  <select
+                    id="hat-colour"
+                    value={selected.slug}
+                    onChange={(e) => setSelectedSlug(e.target.value)}
+                    className="w-full min-w-0 rounded-xl border border-amber-200 bg-white px-4 py-3 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  >
+                    {variants.map((v) => (
+                      <option key={v.slug} value={v.slug}>
+                        {v.label}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
               <div>
-                <label htmlFor="hat-side-name" className="text-sm font-semibold text-neutral-900 block mb-2">
-                  {hatPageCopy.personalisationLabel}
+                <label htmlFor="hat-quantity" className="text-sm font-semibold text-neutral-900 block mb-2">
+                  {hatPageCopy.quantityLabel}
                 </label>
                 <input
-                  id="hat-side-name"
-                  type="text"
-                  autoComplete="off"
-                  value={sideName}
+                  id="hat-quantity"
+                  type="number"
+                  inputMode="numeric"
+                  min={HAT_QUANTITY_MIN}
+                  max={HAT_QUANTITY_MAX}
+                  value={quantity}
                   onChange={(e) => {
-                    setSideName(e.target.value);
-                    if (nameTouched) setNameTouched(false);
+                    const raw = Number.parseInt(e.target.value, 10);
+                    if (Number.isNaN(raw)) return;
+                    const q = Math.min(HAT_QUANTITY_MAX, Math.max(HAT_QUANTITY_MIN, raw));
+                    setQuantity(q);
                   }}
-                  onBlur={() => setNameTouched(true)}
-                  aria-invalid={nameInvalid}
-                  aria-describedby={nameInvalid ? "hat-name-error" : "hat-name-hint"}
-                  className={[
-                    "w-full rounded-xl border px-4 py-3 text-neutral-900 placeholder:text-neutral-400",
-                    "focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent",
-                    nameInvalid ? "border-red-400" : "border-amber-200",
-                  ].join(" ")}
-                  placeholder="e.g. Oliver"
+                  className="w-full sm:w-32 rounded-xl border border-amber-200 px-4 py-3 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                 />
-                <p id="hat-name-hint" className="mt-2 text-sm text-neutral-600">
-                  {hatPageCopy.personalisationHint}
+                <p className="mt-2 text-sm text-neutral-600">{hatPageCopy.quantityHint}</p>
+              </div>
+
+              <div>
+                <p className="text-sm font-semibold text-neutral-900 mb-2">
+                  {quantity === 1 ? hatPageCopy.personalisationLabel : hatPageCopy.nameEachLabel}
                 </p>
-                {nameInvalid ? (
+                <p id="hat-name-hint" className="text-sm text-neutral-600 mb-3">
+                  {quantity === 1 ? hatPageCopy.nameEachHintSingle : hatPageCopy.nameEachHintMulti}
+                </p>
+                <div className="space-y-3">
+                  {names.map((name, i) => {
+                    const fieldInvalid = namesTouched && !name.trim();
+                    return (
+                      <div key={i}>
+                        {quantity > 1 ? (
+                          <label
+                            htmlFor={`hat-name-${i}`}
+                            className="text-xs font-semibold text-neutral-600 uppercase tracking-wide block mb-1"
+                          >
+                            Hat {i + 1}
+                          </label>
+                        ) : null}
+                        <input
+                          id={`hat-name-${i}`}
+                          type="text"
+                          autoComplete="off"
+                          value={name}
+                          onChange={(e) => setNameAt(i, e.target.value)}
+                          aria-invalid={fieldInvalid}
+                          aria-describedby={namesInvalid ? "hat-name-error" : "hat-name-hint"}
+                          className={[
+                            "w-full rounded-xl border px-4 py-3 text-neutral-900 placeholder:text-neutral-400",
+                            "focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent",
+                            fieldInvalid ? "border-red-400" : "border-amber-200",
+                          ].join(" ")}
+                          placeholder={quantity === 1 ? "e.g. Oliver" : `Name for hat ${i + 1}`}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+                {namesInvalid ? (
                   <p id="hat-name-error" className="mt-2 text-sm font-medium text-red-700" role="alert">
-                    {hatPageCopy.nameRequiredMessage}
+                    {hatPageCopy.namesRequiredMessage}
                   </p>
                 ) : null}
               </div>
@@ -212,7 +265,7 @@ export function PersonalisedCharityHat() {
                     </a>
                     <a
                       href={mailtoHref}
-                      onClick={validateName}
+                      onClick={validateNames}
                       className="inline-flex justify-center items-center py-3.5 px-5 rounded-xl border-2 border-amber-800 text-amber-950 font-semibold hover:bg-amber-50 transition-colors text-center"
                     >
                       {hatPageCopy.orderCtaEmailSecondary}
@@ -221,7 +274,7 @@ export function PersonalisedCharityHat() {
                 ) : (
                   <a
                     href={mailtoHref}
-                    onClick={validateName}
+                    onClick={validateNames}
                     className="inline-flex justify-center items-center py-3.5 px-6 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-colors w-full sm:w-auto text-center"
                   >
                     {hatPageCopy.orderCtaEmail}
@@ -236,15 +289,20 @@ export function PersonalisedCharityHat() {
                   <ImageWithFallback
                     src={previewSrc}
                     alt={`Personalised charity hat, ${fitLabel}, colour ${selected.label}`}
-                    className="absolute inset-0 w-full h-full object-cover"
+                    className="absolute inset-0 w-full h-full object-contain p-4"
                     loading="eager"
                   />
                 </div>
                 <div className="p-4 text-center border-t border-amber-100/80 bg-white/80">
                   <p className="text-sm font-semibold text-neutral-900">{selected.label}</p>
                   <p className="text-xs text-neutral-600 mt-1">
-                    {fit === "adult" ? hatPageCopy.fitAdultLabel : hatPageCopy.fitKidsLabel} ·{" "}
-                    {hatPageCopy.priceLabel}
+                    {fit === "adult" ? hatPageCopy.fitAdultLabel : hatPageCopy.fitKidsLabel}
+                    {quantity > 1 ? ` · ${quantity} hats` : null}
+                  </p>
+                  <p className="text-sm font-semibold text-amber-900 mt-2">
+                    {quantity > 1
+                      ? `${quantity} × R${HAT_UNIT_PRICE_ZAR} = R${lineTotal}`
+                      : hatPageCopy.priceLabel}
                   </p>
                 </div>
               </div>

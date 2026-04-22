@@ -23,26 +23,35 @@ const BASE = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
 
-/** Shared placeholder until `public/shop/hats/{adult|kids}/{slug}.png` exist. */
-export function hatPlaceholderImageSrc(): string {
-  return `${BASE}shop/hats/placeholder.png`;
+/** Per-colour SVG placeholders in `public/shop/hats/{adult|kids}/{slug}.svg` — replace with photos when ready. */
+export function hatVariantImageSrc(fit: HatFit, slug: string): string {
+  return `${BASE}shop/hats/${fit}/${slug}.svg`;
 }
 
-export function hatVariantImageSrc(_fit: HatFit, _slug: string): string {
-  return hatPlaceholderImageSrc();
-}
+export const HAT_UNIT_PRICE_ZAR = 250;
+
+export const HAT_QUANTITY_MIN = 1;
+export const HAT_QUANTITY_MAX = 20;
 
 export const hatPageCopy = {
   title: "Personalised charity hat",
   intro:
     "Grab your customised charity hat—premium washed cotton twill, comfortable unstructured fit, and an adjustable strap with a brass buckle. Designed for everyday wear.",
   priceLabel: "R250 per hat",
+  quantityLabel: "How many hats?",
+  quantityHint:
+    "Same colour for this order. If you need different colours, mention it in your email or send a separate order.",
+  nameEachLabel: "Name on the side of each hat",
+  nameEachHintSingle: "We’ll add this name to the side of your cap—exactly as you type it.",
+  nameEachHintMulti: "Enter the name for every hat—each one can be different.",
+  namesRequiredMessage: "Please enter a name for every hat.",
   impactLine: "100% of profits support Oliver’s Village.",
   tagline: "Stand out. Give back. Wear your impact.",
   features: [
     "Premium washed cotton twill",
     "Comfortable, unstructured fit",
     "Adjustable strap with brass buckle",
+    "Personalised with your name",
     "Designed for everyday wear",
   ],
   coloursHeading: "Choose your colour",
@@ -53,7 +62,6 @@ export const hatPageCopy = {
   orderCtaEmail: "Email to order",
   orderCtaPay: "Pay online",
   orderCtaEmailSecondary: "Or order by email",
-  nameRequiredMessage: "Please enter the name you want on the side of the hat.",
 };
 
 export const adultHatColours: HatColourVariant[] = [
@@ -88,15 +96,20 @@ export function hatVariantsForFit(fit: HatFit): HatColourVariant[] {
 export function buildHatOrderMailto(params: {
   fit: HatFit;
   colourLabel: string;
-  sideName: string;
+  quantity: number;
+  names: string[];
 }): string {
   const subject = encodeURIComponent("Personalised charity hat order");
   const fitLabel = params.fit === "adult" ? "Adult" : "Kids";
+  const lines = params.names.map((n, i) => `Hat ${i + 1}: ${n}`);
+  const total = HAT_UNIT_PRICE_ZAR * params.quantity;
   const body = encodeURIComponent(
-    `I'd like to order a personalised charity hat.\n\n` +
+    `I'd like to order personalised charity hats.\n\n` +
       `Fit: ${fitLabel}\n` +
-      `Colour: ${params.colourLabel}\n` +
-      `Name on side of hat: ${params.sideName}\n\n` +
+      `Colour (all hats in this order): ${params.colourLabel}\n` +
+      `Quantity: ${params.quantity}\n` +
+      `Names on the side:\n${lines.join("\n")}\n\n` +
+      `Indicative total: R${total} (R${HAT_UNIT_PRICE_ZAR} per hat)\n\n` +
       `Happy to complete payment when the checkout link is available.`
   );
   return `mailto:${ORDER_EMAIL}?subject=${subject}&body=${body}`;
