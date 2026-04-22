@@ -16,6 +16,9 @@ const pastEventT20SaVsWestIndiesCover = `${import.meta.env.BASE_URL}past-events/
 const pastEventLeopardCreek2025Cover = `${import.meta.env.BASE_URL}past-events/leopard-creek-2025-cover.png`;
 const pastEventWatershed2025Cover = `${import.meta.env.BASE_URL}past-events/watershed-2025-cover.png`;
 
+/** Upcoming event hero from `public/upcoming/` (GitHub Pages base path). */
+const upcomingRemyMartinDinnerPlaceholder = `${import.meta.env.BASE_URL}upcoming/remy-martin-dinner-placeholder.png`;
+
 export interface UpcomingEvent {
   id: number;
   title: string;
@@ -51,8 +54,7 @@ export const upcomingEvents: UpcomingEvent[] = [
     time: "6:30 PM arrival · 7:00 PM start",
     location: "The Whisky Vault, Illovo",
     address: "Above Norman Goodfellows, Illovo, Johannesburg",
-    image:
-      "https://images.unsplash.com/photo-1771924368588-507c6a048363?w=1200&auto=format&fit=crop&q=80",
+    image: upcomingRemyMartinDinnerPlaceholder,
     description:
       "Intimate cognac and brandy tasting with Rémy Martin — curated canapés, full dinner, and partnership with the Tucker Family Charity. R1,000 per person (tastings and food). Only 17 seats. Includes a lucky draw (Rémy Martin cognac worth R3,000), a silent auction with a bush adventure, and the Dale Sarent fine art collection on display. RSVP: janinebehr1@gmail.com or WhatsApp +27 82 322 6323.",
     attendees: "17 guests (limited)",
