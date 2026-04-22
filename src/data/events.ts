@@ -6,6 +6,7 @@
 /** Served from `public/past-events/` so GitHub Pages base path resolves correctly. */
 const pastEventCharityDinner2019Cover = `${import.meta.env.BASE_URL}past-events/charity-dinner-2019-cover.png`;
 const pastEventCharityDinner2024Cover = `${import.meta.env.BASE_URL}past-events/charity-dinner-2024-cover.png`;
+const pastEventBlaireAthollGolfCover = `${import.meta.env.BASE_URL}past-events/blaire-atholl-golf-cover.png`;
 const pastEventLeopardCreek2025Cover = `${import.meta.env.BASE_URL}past-events/leopard-creek-2025-cover.png`;
 const pastEventWatershed2025Cover = `${import.meta.env.BASE_URL}past-events/watershed-2025-cover.png`;
 
@@ -200,7 +201,7 @@ export const pastEvents: PastEvent[] = [
     slug: "blaire-atholl-golf",
     shortDescription:
       "A day on the course at Blair Atholl — golf, company, and support for education at Oliver's Village.",
-    coverImage: unsplash("1500534314209-a25ddb8bd429"),
+    coverImage: pastEventBlaireAthollGolfCover,
     // https://photos.app.goo.gl/JD7eSGqbYJvmACbG9
     albumLink:
       "https://photos.google.com/share/AF1QipORLSQwV4sbc6UNTLvpKZT_dbh-baLfW_ws8mGV4f7YNMc8WKk433LpAm00L5qDxA?key=ZGxmVXNWTmxlN3I5bXdEd1ZiczViWUJiLWdXRjFn",
