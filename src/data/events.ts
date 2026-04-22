@@ -8,6 +8,7 @@ const pastEventCharityDinner2019Cover = `${import.meta.env.BASE_URL}past-events/
 const pastEventCharityDinner2024Cover = `${import.meta.env.BASE_URL}past-events/charity-dinner-2024-cover.png`;
 const pastEventPadelIiiCover = `${import.meta.env.BASE_URL}past-events/padel-iii-cover.png`;
 const pastEventPadelVCover = `${import.meta.env.BASE_URL}past-events/padel-v-cover.png`;
+const pastEventPadelViCover = `${import.meta.env.BASE_URL}past-events/padel-vi-cover.png`;
 const pastEventBlaireAthollGolfCover = `${import.meta.env.BASE_URL}past-events/blaire-atholl-golf-cover.png`;
 const pastEventRhinoAndLionTaggingCover = `${import.meta.env.BASE_URL}past-events/rhino-and-lion-tagging-cover.png`;
 const pastEventStefTerblancheLawrenceBrittanCover = `${import.meta.env.BASE_URL}past-events/stef-terblanche-lawrence-brittan-cover.png`;
@@ -200,11 +201,11 @@ export const pastEvents: PastEvent[] = [
   },
   {
     id: 5,
-    title: "Padel VI",
+    title: "Couples Padel VI",
     slug: "padel-vi",
     shortDescription:
       "Padel, prizes, and purpose — a brilliant day of sport supporting Oliver's Village.",
-    coverImage: unsplash("1771924368588-507c6a048363"),
+    coverImage: pastEventPadelViCover,
     // https://photos.app.goo.gl/RGfF8Fx2ZfHMB9Wk9
     albumLink:
       "https://photos.google.com/share/AF1QipNiMrl-OtDYFw3s76IPzg5oPWABp-F7EHqITf_LAUohHH3ncFUgDSJM5QaUslBarA?key=V0tSSGJFUGNXTU92VmdOdzZlU2NQcDdLMmtRVHpB",
