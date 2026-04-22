@@ -19,6 +19,7 @@ const pastEventWatershed2025Cover = `${import.meta.env.BASE_URL}past-events/wate
 /** Upcoming event hero from `public/upcoming/` (GitHub Pages base path). */
 const upcomingRemyMartinDinnerPlaceholder = `${import.meta.env.BASE_URL}upcoming/remy-martin-dinner-placeholder.png`;
 const upcomingCouplesPadelViiPlaceholder = `${import.meta.env.BASE_URL}upcoming/couples-padel-vii-placeholder.png`;
+const upcomingAustraliaVsSaCricketPlaceholder = `${import.meta.env.BASE_URL}upcoming/australia-vs-sa-cricket-placeholder.png`;
 
 export interface UpcomingEvent {
   id: number;
@@ -88,8 +89,7 @@ export const upcomingEvents: UpcomingEvent[] = [
     time: "Session TBC",
     location: "Venue TBC (South Africa series)",
     address: "Check CSA fixtures when released",
-    image:
-      "https://images.unsplash.com/photo-1768776179834-93e6cafc6d97?w=1200&auto=format&fit=crop&q=80",
+    image: upcomingAustraliaVsSaCricketPlaceholder,
     description:
       "Join fellow supporters to watch Australia take on the Proteas. A Tucker Family Charity day out for cricket and community. Final venue and format will be confirmed with the season schedule.",
     attendees: "Open to all supporters",
