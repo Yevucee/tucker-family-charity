@@ -9,6 +9,7 @@ const pastEventCharityDinner2024Cover = `${import.meta.env.BASE_URL}past-events/
 const pastEventBlaireAthollGolfCover = `${import.meta.env.BASE_URL}past-events/blaire-atholl-golf-cover.png`;
 const pastEventRhinoAndLionTaggingCover = `${import.meta.env.BASE_URL}past-events/rhino-and-lion-tagging-cover.png`;
 const pastEventStefTerblancheLawrenceBrittanCover = `${import.meta.env.BASE_URL}past-events/stef-terblanche-lawrence-brittan-cover.png`;
+const pastEventT20SaVsWestIndiesCover = `${import.meta.env.BASE_URL}past-events/t20-sa-vs-west-indies-cover.png`;
 const pastEventLeopardCreek2025Cover = `${import.meta.env.BASE_URL}past-events/leopard-creek-2025-cover.png`;
 const pastEventWatershed2025Cover = `${import.meta.env.BASE_URL}past-events/watershed-2025-cover.png`;
 
@@ -236,7 +237,7 @@ export const pastEvents: PastEvent[] = [
     slug: "t20-sa-vs-west-indies",
     shortDescription:
       "T20 action with the Proteas and West Indies — a memorable day at the ground with our charity family.",
-    coverImage: unsplash("1517649763962-0b62306601b7"),
+    coverImage: pastEventT20SaVsWestIndiesCover,
     // https://photos.app.goo.gl/dVbaviioL25wTTCE6
     albumLink:
       "https://photos.google.com/share/AF1QipPcCAQ2KgDjzZAVblyW3tNJXJ-IjsJTqTkYPBVFxNVpbWbtHw8aX1qeQ29avcPPfg?key=U0dEbzh4S2lNWTN6VEFTdVdqRlV1V0JpbW5FYWdR",
