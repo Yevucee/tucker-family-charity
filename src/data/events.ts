@@ -18,6 +18,7 @@ const pastEventWatershed2025Cover = `${import.meta.env.BASE_URL}past-events/wate
 
 /** Upcoming event hero from `public/upcoming/` (GitHub Pages base path). */
 const upcomingRemyMartinDinnerPlaceholder = `${import.meta.env.BASE_URL}upcoming/remy-martin-dinner-placeholder.png`;
+const upcomingCouplesPadelViiPlaceholder = `${import.meta.env.BASE_URL}upcoming/couples-padel-vii-placeholder.png`;
 
 export interface UpcomingEvent {
   id: number;
@@ -71,8 +72,7 @@ export const upcomingEvents: UpcomingEvent[] = [
     time: "Time TBC",
     location: "Venue to be announced",
     address: "Johannesburg area — details to follow",
-    image:
-      "https://images.unsplash.com/photo-1770842655322-bcfd1c4be229?w=1200&auto=format&fit=crop&q=80",
+    image: upcomingCouplesPadelViiPlaceholder,
     description:
       "Our next Couples Padel tournament in the series — same energy, new year. On-court fun and fundraising for Oliver's Village. Save the date; format and sign-up information will be shared closer to the time.",
     attendees: "Couples & supporters",
