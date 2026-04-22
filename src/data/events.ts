@@ -8,6 +8,7 @@ const pastEventCharityDinner2019Cover = `${import.meta.env.BASE_URL}past-events/
 const pastEventCharityDinner2024Cover = `${import.meta.env.BASE_URL}past-events/charity-dinner-2024-cover.png`;
 const pastEventBlaireAthollGolfCover = `${import.meta.env.BASE_URL}past-events/blaire-atholl-golf-cover.png`;
 const pastEventRhinoAndLionTaggingCover = `${import.meta.env.BASE_URL}past-events/rhino-and-lion-tagging-cover.png`;
+const pastEventStefTerblancheLawrenceBrittanCover = `${import.meta.env.BASE_URL}past-events/stef-terblanche-lawrence-brittan-cover.png`;
 const pastEventLeopardCreek2025Cover = `${import.meta.env.BASE_URL}past-events/leopard-creek-2025-cover.png`;
 const pastEventWatershed2025Cover = `${import.meta.env.BASE_URL}past-events/watershed-2025-cover.png`;
 
@@ -220,11 +221,11 @@ export const pastEvents: PastEvent[] = [
   },
   {
     id: 7,
-    title: "Stef Terblanche / Lawrence Brittan",
+    title: "Stef Terblanche / Lawrence Brittan Dinner",
     slug: "stef-terblanche-lawrence-brittan",
     shortDescription:
       "An evening with Stef Terblanche and Lawrence Brittan — great company and support for Oliver's Village.",
-    coverImage: unsplash("1706323625335-dad461b68fe5"),
+    coverImage: pastEventStefTerblancheLawrenceBrittanCover,
     // https://photos.app.goo.gl/eDTwMHRiEvAh5RpM9
     albumLink:
       "https://photos.google.com/share/AF1QipPe_46XZ71hiOp97HX7NAHJuGo8J07Ob0XMZLK3f0t-hPk0gy3x0JKVUXN4bANz3Q?key=b1llRlVTV0EyTFpQYXJ2MC0yN2t3TDhhV3ZEeFlB",
