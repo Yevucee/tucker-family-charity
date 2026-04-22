@@ -25,6 +25,7 @@ import computerLab from "@/assets/d5c30ac405997a9f47bb022e66f8a25896a2b859.png";
 import gardenArea from "@/assets/f0dd27edb7bda065be4dd5f0f576138f64514baf.png";
 import { shopCatalog } from "@/data/shopCatalog";
 import { auctionItems } from "@/data/shopProducts";
+import { upcomingEvents } from "@/data/events";
 import { FeaturedMonthCarousel } from "../components/shop/FeaturedMonthCarousel";
 import { buildFeaturedMonthSlides } from "../components/shop/featuredMonthSlides";
 
@@ -283,83 +284,34 @@ export function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Event 1 */}
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
-              <div className="relative h-48 group overflow-hidden">
-                <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1768776179834-93e6cafc6d97?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21tdW5pdHklMjBldmVudCUyMG91dGRvb3IlMjBwZW9wbGV8ZW58MXx8fHwxNzczMTMyMzA1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                  alt="Community fundraiser"
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-6">
-                <div className="flex items-center gap-2 text-orange-600 mb-2">
-                  <Calendar className="w-4 h-4" />
-                  <span className="text-sm font-semibold">April 15, 2026</span>
+            {upcomingEvents.slice(0, 3).map((event) => (
+              <div
+                key={event.id}
+                className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300"
+              >
+                <div className="relative h-48 group overflow-hidden">
+                  <ImageWithFallback
+                    src={event.image}
+                    alt={event.title}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                  />
                 </div>
-                <h3 className="text-xl font-semibold mb-2 text-neutral-900">Spring Fundraiser Gala</h3>
-                <div className="flex items-center gap-2 text-neutral-600 text-sm mb-4">
-                  <MapPin className="w-4 h-4" />
-                  <span>Johannesburg Community Center</span>
+                <div className="p-6">
+                  <div className="flex items-center gap-2 text-orange-600 mb-1">
+                    <Calendar className="w-4 h-4" />
+                    <span className="text-sm font-semibold">{event.date}</span>
+                  </div>
+                  <p className="text-xs text-neutral-500 mb-2">{event.time}</p>
+                  <h3 className="text-xl font-semibold mb-2 text-neutral-900">{event.title}</h3>
+                  <div className="flex items-center gap-2 text-neutral-600 text-sm mb-3">
+                    <MapPin className="w-4 h-4 shrink-0" />
+                    <span>{event.location}</span>
+                  </div>
+                  <p className="text-neutral-600 line-clamp-3">{event.description}</p>
                 </div>
-                <p className="text-neutral-600 mb-4">
-                  An evening of music, food, and community celebrating our collective impact on education.
-                </p>
               </div>
-            </div>
-
-            {/* Event 2 */}
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
-              <div className="relative h-48 group overflow-hidden">
-                <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1771924368588-507c6a048363?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21tdW5pdHklMjBnYXRoZXJpbmclMjBjZWxlYnJhdGlvbnxlbnwxfHx8fDE3NzMwNDU0Nzl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                  alt="Wine tasting event"
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-6">
-                <div className="flex items-center gap-2 text-orange-600 mb-2">
-                  <Calendar className="w-4 h-4" />
-                  <span className="text-sm font-semibold">May 22, 2026</span>
-                </div>
-                <h3 className="text-xl font-semibold mb-2 text-neutral-900">Charity Wine Tasting</h3>
-                <div className="flex items-center gap-2 text-neutral-600 text-sm mb-4">
-                  <MapPin className="w-4 h-4" />
-                  <span>The Vineyard, Constantia</span>
-                </div>
-                <p className="text-neutral-600 mb-4">
-                  Sample exquisite South African wines while supporting a great cause. All proceeds benefit Oliver's Village.
-                </p>
-              </div>
-            </div>
-
-            {/* Event 3 */}
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
-              <div className="relative h-48 group overflow-hidden">
-                <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1666281269793-da06484657e8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxBZnJpY2FuJTIwc2Nob29sJTIwZWR1Y2F0aW9uJTIwYm9va3N8ZW58MXx8fHwxNzczMTMyMzA0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                  alt="School visit"
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-6">
-                <div className="flex items-center gap-2 text-orange-600 mb-2">
-                  <Calendar className="w-4 h-4" />
-                  <span className="text-sm font-semibold">June 10, 2026</span>
-                </div>
-                <h3 className="text-xl font-semibold mb-2 text-neutral-900">School Visit Day</h3>
-                <div className="flex items-center gap-2 text-neutral-600 text-sm mb-4">
-                  <MapPin className="w-4 h-4" />
-                  <span>Oliver's Village, Johannesburg</span>
-                </div>
-                <p className="text-neutral-600 mb-4">
-                  Meet the beneficiaries and teachers, tour the facilities, and see firsthand the impact of your support.
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
 
           <div className="text-center mt-10">

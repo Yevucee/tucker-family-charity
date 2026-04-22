@@ -60,10 +60,11 @@ export function Events() {
                 </div>
                 <div className="p-6 flex flex-col flex-1 min-h-0">
                   <h3 className="text-xl font-bold mb-2 text-neutral-900">{event.title}</h3>
-                  <div className="flex items-center gap-2 text-orange-600 font-semibold mb-2">
+                  <div className="flex items-center gap-2 text-orange-600 font-semibold mb-1">
                     <Calendar className="w-4 h-4 flex-shrink-0" />
                     {event.date}
                   </div>
+                  <p className="text-sm text-neutral-500 mb-3">{event.time}</p>
                   <p className="text-neutral-600 mb-4 flex-1 line-clamp-3">{event.description}</p>
                   <a
                     href={event.ctaLink}
