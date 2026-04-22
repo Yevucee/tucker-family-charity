@@ -14,8 +14,11 @@ export interface HatColourVariant {
 
 export const ORDER_EMAIL = "info@tuckerfamilycharity.org";
 
-/** Set to a hosted checkout URL when ready; empty keeps mailto as the primary CTA. */
-export const HAT_PAYMENT_LINK = "";
+/**
+ * Hosted checkout (Yoco, PayFast, Stripe, etc.).
+ * Placeholder until the live link is ready — replace with your real payment URL.
+ */
+export const HAT_PAYMENT_LINK = "https://example.com";
 
 export const PERSONALISED_HAT_PATH = "/shop/personalised-hat";
 
@@ -40,7 +43,7 @@ export const hatPageCopy = {
   priceLabel: "R250 per hat",
   quantityLabel: "How many hats?",
   quantityHint:
-    "Same colour for this order. If you need different colours, mention it in your email or send a separate order.",
+    "Same colour for this order. If you need different colours, check out again for each colour or contact us.",
   nameEachLabel: "Name on the side of each hat",
   nameEachHintSingle: "We’ll add this name to the side of your cap—exactly as you type it.",
   nameEachHintMulti: "Enter the name for every hat—each one can be different.",
@@ -59,9 +62,8 @@ export const hatPageCopy = {
   fitKidsLabel: "Kids",
   personalisationLabel: "Name on the side of the hat",
   personalisationHint: "We’ll embroider or print this name on the side of your cap—exactly as you type it.",
-  orderCtaEmail: "Email to order",
-  orderCtaPay: "Pay online",
-  orderCtaEmailSecondary: "Or order by email",
+  orderCtaPayment: "Continue to payment",
+  orderCtaEmailDetails: "Email us these details",
 };
 
 export const adultHatColours: HatColourVariant[] = [
@@ -110,7 +112,7 @@ export function buildHatOrderMailto(params: {
       `Quantity: ${params.quantity}\n` +
       `Names on the side:\n${lines.join("\n")}\n\n` +
       `Indicative total: R${total} (R${HAT_UNIT_PRICE_ZAR} per hat)\n\n` +
-      `Happy to complete payment when the checkout link is available.`
+      `Please confirm next steps for payment and fulfilment.`
   );
   return `mailto:${ORDER_EMAIL}?subject=${subject}&body=${body}`;
 }

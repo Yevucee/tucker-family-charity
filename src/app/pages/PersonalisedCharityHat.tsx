@@ -63,7 +63,6 @@ export function PersonalisedCharityHat() {
   );
 
   const namesInvalid = namesTouched && !namesAreComplete(names);
-  const hasPayment = Boolean(HAT_PAYMENT_LINK?.trim());
   const lineTotal = HAT_UNIT_PRICE_ZAR * quantity;
 
   const switchFit = (next: HatFit) => {
@@ -252,34 +251,26 @@ export function PersonalisedCharityHat() {
                 ) : null}
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                {hasPayment ? (
-                  <>
-                    <a
-                      href={HAT_PAYMENT_LINK}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex justify-center items-center py-3.5 px-5 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-colors text-center"
-                    >
-                      {hatPageCopy.orderCtaPay}
-                    </a>
-                    <a
-                      href={mailtoHref}
-                      onClick={validateNames}
-                      className="inline-flex justify-center items-center py-3.5 px-5 rounded-xl border-2 border-amber-800 text-amber-950 font-semibold hover:bg-amber-50 transition-colors text-center"
-                    >
-                      {hatPageCopy.orderCtaEmailSecondary}
-                    </a>
-                  </>
-                ) : (
+              <div className="flex flex-col gap-3 pt-2">
+                <a
+                  href={HAT_PAYMENT_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={validateNames}
+                  className="inline-flex justify-center items-center py-3.5 px-6 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-colors w-full sm:w-auto text-center"
+                >
+                  {hatPageCopy.orderCtaPayment}
+                </a>
+                <p className="text-sm text-neutral-600 text-center sm:text-left">
                   <a
                     href={mailtoHref}
                     onClick={validateNames}
-                    className="inline-flex justify-center items-center py-3.5 px-6 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-colors w-full sm:w-auto text-center"
+                    className="font-semibold text-amber-800 hover:text-amber-900 underline-offset-2 hover:underline"
                   >
-                    {hatPageCopy.orderCtaEmail}
-                  </a>
-                )}
+                    {hatPageCopy.orderCtaEmailDetails}
+                  </a>{" "}
+                  if you need help completing your order.
+                </p>
               </div>
             </div>
 
