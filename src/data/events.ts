@@ -158,8 +158,8 @@ export const pastEvents: PastEvent[] = [
     shortDescription:
       "A memorable day at Watershed with family, friends, and supporters. Great food, beautiful surroundings, and funds raised for Oliver's Village.",
     coverImage: pastEventWatershed2025Cover,
-    // Canonical share URL (https://photos.app.goo.gl/aqxKwwjQbXktW2xB6 redirects here)
+    // Canonical share URL (https://photos.app.goo.gl/vMYt6QQzYYgf1qYg8 redirects here)
     albumLink:
-      "https://photos.google.com/share/AF1QipPkXDFc8C1nfztU207u6Gl2fR7gthZ5Y4Y6EHoCBY57RAaNNZmkiaIcAL5g3cMFdQ?key=bU95eDd2MjVxZUlNTk9RdDh0QS1GX3hkV1BSQ0l3",
+      "https://photos.google.com/share/AF1QipM1rtvQscLaTpJzDDNeMVVWKJOX56ta170x89ZmMOndyQJiBs2CLfr7Kzu597h3-A?key=WHVYald3c0NqTjlDYmV3NV8teU01MTE5SlU4TTZR",
   },
 ];
