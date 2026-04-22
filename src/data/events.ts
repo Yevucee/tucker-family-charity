@@ -21,6 +21,7 @@ const upcomingRemyMartinDinnerPlaceholder = `${import.meta.env.BASE_URL}upcoming
 const upcomingCouplesPadelViiPlaceholder = `${import.meta.env.BASE_URL}upcoming/couples-padel-vii-placeholder.png`;
 const upcomingAustraliaVsSaCricketPlaceholder = `${import.meta.env.BASE_URL}upcoming/australia-vs-sa-cricket-placeholder.png`;
 const upcomingSaVsBangladeshTestPlaceholder = `${import.meta.env.BASE_URL}upcoming/sa-vs-bangladesh-test-placeholder.png`;
+const upcomingSaVsEnglandTestPlaceholder = `${import.meta.env.BASE_URL}upcoming/sa-vs-england-test-placeholder.png`;
 
 export interface UpcomingEvent {
   id: number;
@@ -122,8 +123,7 @@ export const upcomingEvents: UpcomingEvent[] = [
     time: "Five-day Test · times TBC",
     location: "Venue TBC (South Africa series)",
     address: "Check CSA fixtures when released",
-    image:
-      "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=1200&auto=format&fit=crop&q=80",
+    image: upcomingSaVsEnglandTestPlaceholder,
     description:
       "End the year with red-ball action as England tour South Africa. Plan your Tucker Family Charity get-together around the schedule when stadiums and sessions are finalised.",
     attendees: "Open to all supporters",
