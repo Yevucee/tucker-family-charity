@@ -175,12 +175,21 @@ export function Shop() {
                       <p className="text-sm font-semibold text-amber-800 mb-2">{product.priceLabel}</p>
                     )}
                     <p className="text-neutral-600 mb-6 flex-1 leading-relaxed">{product.shortDescription}</p>
-                    <a
-                      {...link}
-                      className="mt-auto block w-full text-center py-3.5 px-4 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-colors"
-                    >
-                      {product.ctaLabel}
-                    </a>
+                    {product.productDetailPath ? (
+                      <Link
+                        to={product.productDetailPath}
+                        className="mt-auto block w-full text-center py-3.5 px-4 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-colors"
+                      >
+                        {product.ctaLabel}
+                      </Link>
+                    ) : (
+                      <a
+                        {...link}
+                        className="mt-auto block w-full text-center py-3.5 px-4 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-colors"
+                      >
+                        {product.ctaLabel}
+                      </a>
+                    )}
                   </div>
                 </article>
               );

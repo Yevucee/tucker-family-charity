@@ -1,3 +1,5 @@
+import { PERSONALISED_HAT_PATH } from "./personalisedCharityHat";
+
 /**
  * Shop page content — CMS-ready shape.
  *
@@ -57,6 +59,8 @@ export interface TuckerCatalogProduct {
    */
   paymentLink: string;
   ctaOpensNewTab?: boolean;
+  /** When set, the product card CTA uses in-app navigation (e.g. PDP). */
+  productDetailPath?: string;
 }
 
 export interface PartnerCatalogOffer {
@@ -99,12 +103,12 @@ export const shopCatalog: ShopCatalog = {
       {
         id: "featured-caps",
         category: "featured",
-        title: "Tucker caps",
+        title: "Personalised charity hats",
         shortDescription:
-          "Wear your support—branded caps help fund education, daily meals and opportunity for vulnerable communities.",
+          "Custom caps in adult and kids sizes—choose your colour and add a name on the side. Every hat helps Oliver’s Village.",
         image: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?w=800&q=80",
-        ctaLabel: "Order caps",
-        ctaHref: "mailto:info@tuckerfamilycharity.org?subject=Cap%20Order",
+        ctaLabel: "View & order",
+        ctaHref: PERSONALISED_HAT_PATH,
       },
     ],
   },
@@ -124,14 +128,15 @@ export const shopCatalog: ShopCatalog = {
     {
       id: "caps",
       category: "tucker_products",
-      title: "Tucker caps",
+      title: "Personalised charity hat",
       shortDescription:
-        "Branded caps and headwear—every purchase helps support Tucker Family Charity’s initiatives.",
+        "Premium cotton caps—pick your colour, add a name on the side, and support Oliver’s Village. Adult and kids sizes.",
       image: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?w=800&q=80",
-      priceLabel: "From R199",
-      ctaLabel: "Buy now",
+      priceLabel: "R250",
+      ctaLabel: "View & order",
       paymentLink: "mailto:info@tuckerfamilycharity.org?subject=Cap%20Purchase",
       ctaOpensNewTab: false,
+      productDetailPath: PERSONALISED_HAT_PATH,
     },
     {
       id: "apparel",

@@ -1,4 +1,5 @@
-import type { ReactElement } from "react";
+import type { ReactElement, ReactNode } from "react";
+import { Link } from "react-router";
 import { ExternalLink } from "lucide-react";
 import auctionArtwork from "@/assets/auction-fred-schimmel-abstract.png";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
@@ -23,6 +24,36 @@ const SPLIT_IMAGE_CELL =
   "relative w-full aspect-square overflow-hidden bg-amber-50 md:rounded-l-2xl";
 
 const SPLIT_IMG_COVER = "absolute inset-0 h-full w-full object-cover";
+
+function isInternalAppPath(href: string): boolean {
+  return href.startsWith("/") && !href.startsWith("//");
+}
+
+function FeaturedCtaLink(props: {
+  href: string;
+  className: string;
+  children: ReactNode;
+  openInNewTab?: boolean;
+}) {
+  const { href, className, children, openInNewTab } = props;
+  if (isInternalAppPath(href)) {
+    return (
+      <Link to={href} className={className}>
+        {children}
+      </Link>
+    );
+  }
+  return (
+    <a
+      href={href}
+      target={openInNewTab ? "_blank" : undefined}
+      rel={openInNewTab ? "noopener noreferrer" : undefined}
+      className={className}
+    >
+      {children}
+    </a>
+  );
+}
 
 function splitTextPaneClass(extraBg: string): string {
   const bg = extraBg ? ` ${extraBg}` : "";
@@ -217,14 +248,13 @@ export function buildFeaturedMonthSlides(
               <p className="text-sm md:text-base text-neutral-700 leading-relaxed max-w-lg">
                 {main.shortDescription}
               </p>
-              <a
+              <FeaturedCtaLink
                 href={main.ctaHref}
-                target={main.ctaOpensNewTab ? "_blank" : undefined}
-                rel={main.ctaOpensNewTab ? "noopener noreferrer" : undefined}
+                openInNewTab={Boolean(main.ctaOpensNewTab)}
                 className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-colors w-fit max-w-full shrink-0 text-sm"
               >
                 {main.ctaLabel}
-              </a>
+              </FeaturedCtaLink>
             </div>
           </>
         ) : (
@@ -283,10 +313,9 @@ export function buildFeaturedMonthSlides(
               >
                 {main.shortDescription}
               </p>
-              <a
+              <FeaturedCtaLink
                 href={main.ctaHref}
-                target={main.ctaOpensNewTab ? "_blank" : undefined}
-                rel={main.ctaOpensNewTab ? "noopener noreferrer" : undefined}
+                openInNewTab={Boolean(main.ctaOpensNewTab)}
                 className={
                   isCompact
                     ? "inline-flex items-center justify-center px-4 py-2 rounded-lg bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-colors w-fit text-xs"
@@ -294,7 +323,7 @@ export function buildFeaturedMonthSlides(
                 }
               >
                 {main.ctaLabel}
-              </a>
+              </FeaturedCtaLink>
             </div>
           </div>
         )}
@@ -334,12 +363,12 @@ export function buildFeaturedMonthSlides(
                 <p className="text-sm text-neutral-600 leading-relaxed max-w-lg">
                   {item.shortDescription}
                 </p>
-                <a
+                <FeaturedCtaLink
                   href={item.ctaHref}
                   className="inline-flex flex-wrap justify-center text-sm font-semibold text-amber-700 hover:text-amber-800 max-w-full min-w-0 shrink-0"
                 >
                   {item.ctaLabel} →
-                </a>
+                </FeaturedCtaLink>
               </div>
             </>
           ) : (
@@ -398,7 +427,7 @@ export function buildFeaturedMonthSlides(
                 >
                   {item.shortDescription}
                 </p>
-                <a
+                <FeaturedCtaLink
                   href={item.ctaHref}
                   className={
                     isCompact
@@ -407,7 +436,7 @@ export function buildFeaturedMonthSlides(
                   }
                 >
                   {item.ctaLabel} →
-                </a>
+                </FeaturedCtaLink>
               </div>
             </div>
           )}

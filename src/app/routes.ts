@@ -5,6 +5,7 @@ import { About } from "./pages/About";
 import { OliversVillage } from "./pages/OliversVillage";
 import { Events } from "./pages/Events";
 import { Shop } from "./pages/Shop";
+import { PersonalisedCharityHat } from "./pages/PersonalisedCharityHat";
 import { Partners } from "./pages/Partners";
 import { Donate } from "./pages/Donate";
 import { KeepItInTheFamily } from "./pages/KeepItInTheFamily";
@@ -24,6 +25,7 @@ export const router = createBrowserRouter(
         { path: "olivers-village", Component: OliversVillage },
         { path: "events", Component: Events },
         { path: "shop", Component: Shop },
+        { path: "shop/personalised-hat", Component: PersonalisedCharityHat },
         { path: "partners", Component: Partners },
         { path: "donate", Component: Donate },
         { path: "keep-it-in-the-family", Component: KeepItInTheFamily },
