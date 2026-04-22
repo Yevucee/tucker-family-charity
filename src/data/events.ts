@@ -6,6 +6,7 @@
 /** Served from `public/past-events/` so GitHub Pages base path resolves correctly. */
 const pastEventCharityDinner2019Cover = `${import.meta.env.BASE_URL}past-events/charity-dinner-2019-cover.png`;
 const pastEventCharityDinner2024Cover = `${import.meta.env.BASE_URL}past-events/charity-dinner-2024-cover.png`;
+const pastEventPadelIiiCover = `${import.meta.env.BASE_URL}past-events/padel-iii-cover.png`;
 const pastEventBlaireAthollGolfCover = `${import.meta.env.BASE_URL}past-events/blaire-atholl-golf-cover.png`;
 const pastEventRhinoAndLionTaggingCover = `${import.meta.env.BASE_URL}past-events/rhino-and-lion-tagging-cover.png`;
 const pastEventStefTerblancheLawrenceBrittanCover = `${import.meta.env.BASE_URL}past-events/stef-terblanche-lawrence-brittan-cover.png`;
@@ -167,11 +168,11 @@ export const pastEvents: PastEvent[] = [
   },
   {
     id: 2,
-    title: "Padel III",
+    title: "Couples Padel III — Valentines",
     slug: "padel-iii",
     shortDescription:
-      "Couples Padel: fun on court and funds raised for Oliver's Village — thank you to every pair who played.",
-    coverImage: unsplash("1770842655322-bcfd1c4be229"),
+      "Couples Padel — Valentine's edition: fun on court and funds raised for Oliver's Village — thank you to every pair who played.",
+    coverImage: pastEventPadelIiiCover,
     // https://photos.app.goo.gl/g5caZiwTWhMfe3s88
     albumLink:
       "https://photos.google.com/share/AF1QipMsek1ptSkW7x14Qs_6VAr1iWRaT2jBYFtzDBHoPfTscd8W_L6WDoY9qJvkuzXZ3g?key=b0NTeldEYzNYZW9VMEZWeG9MbG1pRXJSZzN2RUhB",
