@@ -7,6 +7,7 @@
 const pastEventCharityDinner2019Cover = `${import.meta.env.BASE_URL}past-events/charity-dinner-2019-cover.png`;
 const pastEventCharityDinner2024Cover = `${import.meta.env.BASE_URL}past-events/charity-dinner-2024-cover.png`;
 const pastEventBlaireAthollGolfCover = `${import.meta.env.BASE_URL}past-events/blaire-atholl-golf-cover.png`;
+const pastEventRhinoAndLionTaggingCover = `${import.meta.env.BASE_URL}past-events/rhino-and-lion-tagging-cover.png`;
 const pastEventLeopardCreek2025Cover = `${import.meta.env.BASE_URL}past-events/leopard-creek-2025-cover.png`;
 const pastEventWatershed2025Cover = `${import.meta.env.BASE_URL}past-events/watershed-2025-cover.png`;
 
@@ -212,7 +213,7 @@ export const pastEvents: PastEvent[] = [
     slug: "rhino-and-lion-tagging",
     shortDescription:
       "A powerful conservation day — rhino and lion tagging, with our community behind Oliver's Village.",
-    coverImage: unsplash("1683879025805-a268b690613e"),
+    coverImage: pastEventRhinoAndLionTaggingCover,
     // https://photos.app.goo.gl/aj67GUQT9AeJhBqG8
     albumLink:
       "https://photos.google.com/share/AF1QipPlFCJ9eX0Wn0gopcbVnhk3cH47ORIzgLb08b4cNil2ZrN7kHGo7qaLWd8z8HzgqA?key=dE80cG9VU1d2STdiNUlaTnVhVVVIWVRrN3JNVm1B",
