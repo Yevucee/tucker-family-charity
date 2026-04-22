@@ -147,9 +147,9 @@ export const pastEvents: PastEvent[] = [
     shortDescription:
       "Mark Stevens and Jobby Roos won this Leopard Creek trip at our gala auction — three days of golf, safari, and hospitality. Huge thanks to everyone who welcomed us; all in support of Oliver's Village and the Boucher Legacy.",
     coverImage: pastEventLeopardCreek2025Cover,
-    // Canonical share URL (https://photos.app.goo.gl/nL3kgCED1sXf8LqX7 redirects here)
+    // Canonical share URL (https://photos.app.goo.gl/FyPwYqpdwxJEDmFW9 redirects here)
     albumLink:
-      "https://photos.google.com/share/AF1QipMaOO_aDuN8YXY2VsxtQk2-dlHXq_B4_dn3omxd023a-66XUrLuO962uncIl1aHzg?key=S2I5N3pRZmVqV0ZaaWNSZV84RC1rYUlrTVpQSmZR",
+      "https://photos.google.com/share/AF1QipNz9c6FqlGq1Q3W_JpMWT_wrnzrOlxaAd75Ttf3GrxVt8M8lUeOQ47nj8x-KVpU8g?key=MFlnSV9Bd3RrbldHMVNXbUdra1kzSjdtb0pBTTN3",
   },
   {
     id: 2,
