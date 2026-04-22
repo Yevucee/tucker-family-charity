@@ -149,64 +149,64 @@ export const upcomingEvents: UpcomingEvent[] = [
 ];
 
 /**
- * Oldest first where the title includes a year. Undated albums sit between
- * Charity Dinner 2019 and Charity Dinner 2024; adjust if you have exact dates.
+ * Newest first (approximate: dated titles and prior oldest-first sequence reversed).
+ * Adjust order if you have exact event dates.
  */
 export const pastEvents: PastEvent[] = [
   {
     id: 1,
-    title: "Charity Dinner 2019",
-    slug: "charity-dinner-2019",
+    title: "Leopard Creek 2025",
+    slug: "leopard-creek-2025",
     shortDescription:
-      "Our annual charity dinner — an evening of community and fundraising in support of Oliver's Village and our beneficiaries.",
-    coverImage: pastEventCharityDinner2019Cover,
-    // https://photos.app.goo.gl/cvowNfCUYC4oapQr9
+      "Mark Stevens and Jobby Roos won this Leopard Creek trip at our gala auction — three days of golf, safari, and hospitality. Huge thanks to everyone who welcomed us; all in support of Oliver's Village and the Boucher Legacy.",
+    coverImage: pastEventLeopardCreek2025Cover,
+    // https://photos.app.goo.gl/FyPwYqpdwxJEDmFW9
     albumLink:
-      "https://photos.google.com/share/AF1QipNkazJvwoPxkYQrOW6hCnUSUZncKi1mQiETMeyd3_AdK4O8RxpVQRR-cuWLdxNipw?key=akRTU1J5ZjBjRUEwcGVFVGtacjBhOEY1Z1BYUmR3",
+      "https://photos.google.com/share/AF1QipNz9c6FqlGq1Q3W_JpMWT_wrnzrOlxaAd75Ttf3GrxVt8M8lUeOQ47nj8x-KVpU8g?key=MFlnSV9Bd3RrbldHMVNXbUdra1kzSjdtb0pBTTN3",
   },
   {
     id: 2,
-    title: "Couples Padel III — Valentines",
-    slug: "padel-iii",
+    title: "Watershed 2025",
+    slug: "watershed-2025",
     shortDescription:
-      "Couples Padel — Valentine's edition: fun on court and funds raised for Oliver's Village — thank you to every pair who played.",
-    coverImage: pastEventPadelIiiCover,
-    // https://photos.app.goo.gl/g5caZiwTWhMfe3s88
+      "A memorable day at Watershed with family, friends, and supporters. Great food, beautiful surroundings, and funds raised for Oliver's Village.",
+    coverImage: pastEventWatershed2025Cover,
+    // https://photos.app.goo.gl/vMYt6QQzYYgf1qYg8
     albumLink:
-      "https://photos.google.com/share/AF1QipMsek1ptSkW7x14Qs_6VAr1iWRaT2jBYFtzDBHoPfTscd8W_L6WDoY9qJvkuzXZ3g?key=b0NTeldEYzNYZW9VMEZWeG9MbG1pRXJSZzN2RUhB",
+      "https://photos.google.com/share/AF1QipM1rtvQscLaTpJzDDNeMVVWKJOX56ta170x89ZmMOndyQJiBs2CLfr7Kzu597h3-A?key=WHVYald3c0NqTjlDYmV3NV8teU01MTE5SlU4TTZR",
   },
   {
     id: 3,
-    title: "Couples Padel IV",
-    slug: "padel-iv",
+    title: "Charity Dinner 2024",
+    slug: "charity-dinner-2024",
     shortDescription:
-      "Another great Couples Padel tournament — fitness, friends, and fundraising for Oliver's Village.",
-    coverImage: pastEventPadelIvCover,
-    // https://photos.app.goo.gl/TY8jbbP1T2SauiyC9
+      "Our annual charity dinner — friends, food, and fundraising to change lives at Oliver's Village.",
+    coverImage: pastEventCharityDinner2024Cover,
+    // https://photos.app.goo.gl/9hqgVm1EX7aHn3r86
     albumLink:
-      "https://photos.google.com/share/AF1QipP70SOGXE6Qg7pfUqp6tz1h3zSWolnDq4ARk9Td1HXOOvCsulhfYmCBGag7XETkqg?key=a1ZNenlHc0hQbGwzUlN2eTR5aDFzQzE1b2tfYjN3",
+      "https://photos.google.com/share/AF1QipNkMeDPJRSwdATzxPiDiACLsbFGfsuP-sBn0E4sVD2T8wEDH-3fcFRdI5uHOBrW3Q?key=VlZjeDJrQzNtdy1VTlJvUXR4SkRURjBtcE5HU3l3",
   },
   {
     id: 4,
-    title: "Couples Padel VI",
-    slug: "padel-vi",
+    title: "T20 SA vs West Indies",
+    slug: "t20-sa-vs-west-indies",
     shortDescription:
-      "Padel, prizes, and purpose — a brilliant day of sport supporting Oliver's Village.",
-    coverImage: pastEventPadelViCover,
-    // https://photos.app.goo.gl/RGfF8Fx2ZfHMB9Wk9
+      "T20 action with the Proteas and West Indies — a memorable day at the ground with our charity family.",
+    coverImage: pastEventT20SaVsWestIndiesCover,
+    // https://photos.app.goo.gl/dVbaviioL25wTTCE6
     albumLink:
-      "https://photos.google.com/share/AF1QipNiMrl-OtDYFw3s76IPzg5oPWABp-F7EHqITf_LAUohHH3ncFUgDSJM5QaUslBarA?key=V0tSSGJFUGNXTU92VmdOdzZlU2NQcDdLMmtRVHpB",
+      "https://photos.google.com/share/AF1QipPcCAQ2KgDjzZAVblyW3tNJXJ-IjsJTqTkYPBVFxNVpbWbtHw8aX1qeQ29avcPPfg?key=U0dEbzh4S2lNWTN6VEFTdVdqRlV1V0JpbW5FYWdR",
   },
   {
     id: 5,
-    title: "Blaire Atholl Golf",
-    slug: "blaire-atholl-golf",
+    title: "Stef Terblanche / Lawrence Brittan Dinner",
+    slug: "stef-terblanche-lawrence-brittan",
     shortDescription:
-      "A day on the course at Blair Atholl — golf, company, and support for education at Oliver's Village.",
-    coverImage: pastEventBlaireAthollGolfCover,
-    // https://photos.app.goo.gl/JD7eSGqbYJvmACbG9
+      "An evening with Stef Terblanche and Lawrence Brittan — great company and support for Oliver's Village.",
+    coverImage: pastEventStefTerblancheLawrenceBrittanCover,
+    // https://photos.app.goo.gl/eDTwMHRiEvAh5RpM9
     albumLink:
-      "https://photos.google.com/share/AF1QipORLSQwV4sbc6UNTLvpKZT_dbh-baLfW_ws8mGV4f7YNMc8WKk433LpAm00L5qDxA?key=ZGxmVXNWTmxlN3I5bXdEd1ZiczViWUJiLWdXRjFn",
+      "https://photos.google.com/share/AF1QipPe_46XZ71hiOp97HX7NAHJuGo8J07Ob0XMZLK3f0t-hPk0gy3x0JKVUXN4bANz3Q?key=b1llRlVTV0EyTFpQYXJ2MC0yN2t3TDhhV3ZEeFlB",
   },
   {
     id: 6,
@@ -221,57 +221,57 @@ export const pastEvents: PastEvent[] = [
   },
   {
     id: 7,
-    title: "Stef Terblanche / Lawrence Brittan Dinner",
-    slug: "stef-terblanche-lawrence-brittan",
+    title: "Blaire Atholl Golf",
+    slug: "blaire-atholl-golf",
     shortDescription:
-      "An evening with Stef Terblanche and Lawrence Brittan — great company and support for Oliver's Village.",
-    coverImage: pastEventStefTerblancheLawrenceBrittanCover,
-    // https://photos.app.goo.gl/eDTwMHRiEvAh5RpM9
+      "A day on the course at Blair Atholl — golf, company, and support for education at Oliver's Village.",
+    coverImage: pastEventBlaireAthollGolfCover,
+    // https://photos.app.goo.gl/JD7eSGqbYJvmACbG9
     albumLink:
-      "https://photos.google.com/share/AF1QipPe_46XZ71hiOp97HX7NAHJuGo8J07Ob0XMZLK3f0t-hPk0gy3x0JKVUXN4bANz3Q?key=b1llRlVTV0EyTFpQYXJ2MC0yN2t3TDhhV3ZEeFlB",
+      "https://photos.google.com/share/AF1QipORLSQwV4sbc6UNTLvpKZT_dbh-baLfW_ws8mGV4f7YNMc8WKk433LpAm00L5qDxA?key=ZGxmVXNWTmxlN3I5bXdEd1ZiczViWUJiLWdXRjFn",
   },
   {
     id: 8,
-    title: "T20 SA vs West Indies",
-    slug: "t20-sa-vs-west-indies",
+    title: "Couples Padel VI",
+    slug: "padel-vi",
     shortDescription:
-      "T20 action with the Proteas and West Indies — a memorable day at the ground with our charity family.",
-    coverImage: pastEventT20SaVsWestIndiesCover,
-    // https://photos.app.goo.gl/dVbaviioL25wTTCE6
+      "Padel, prizes, and purpose — a brilliant day of sport supporting Oliver's Village.",
+    coverImage: pastEventPadelViCover,
+    // https://photos.app.goo.gl/RGfF8Fx2ZfHMB9Wk9
     albumLink:
-      "https://photos.google.com/share/AF1QipPcCAQ2KgDjzZAVblyW3tNJXJ-IjsJTqTkYPBVFxNVpbWbtHw8aX1qeQ29avcPPfg?key=U0dEbzh4S2lNWTN6VEFTdVdqRlV1V0JpbW5FYWdR",
+      "https://photos.google.com/share/AF1QipNiMrl-OtDYFw3s76IPzg5oPWABp-F7EHqITf_LAUohHH3ncFUgDSJM5QaUslBarA?key=V0tSSGJFUGNXTU92VmdOdzZlU2NQcDdLMmtRVHpB",
   },
   {
     id: 9,
-    title: "Charity Dinner 2024",
-    slug: "charity-dinner-2024",
+    title: "Couples Padel IV",
+    slug: "padel-iv",
     shortDescription:
-      "Our annual charity dinner — friends, food, and fundraising to change lives at Oliver's Village.",
-    coverImage: pastEventCharityDinner2024Cover,
-    // https://photos.app.goo.gl/9hqgVm1EX7aHn3r86
+      "Another great Couples Padel tournament — fitness, friends, and fundraising for Oliver's Village.",
+    coverImage: pastEventPadelIvCover,
+    // https://photos.app.goo.gl/TY8jbbP1T2SauiyC9
     albumLink:
-      "https://photos.google.com/share/AF1QipNkMeDPJRSwdATzxPiDiACLsbFGfsuP-sBn0E4sVD2T8wEDH-3fcFRdI5uHOBrW3Q?key=VlZjeDJrQzNtdy1VTlJvUXR4SkRURjBtcE5HU3l3",
+      "https://photos.google.com/share/AF1QipP70SOGXE6Qg7pfUqp6tz1h3zSWolnDq4ARk9Td1HXOOvCsulhfYmCBGag7XETkqg?key=a1ZNenlHc0hQbGwzUlN2eTR5aDFzQzE1b2tfYjN3",
   },
   {
     id: 10,
-    title: "Watershed 2025",
-    slug: "watershed-2025",
+    title: "Couples Padel III — Valentines",
+    slug: "padel-iii",
     shortDescription:
-      "A memorable day at Watershed with family, friends, and supporters. Great food, beautiful surroundings, and funds raised for Oliver's Village.",
-    coverImage: pastEventWatershed2025Cover,
-    // https://photos.app.goo.gl/vMYt6QQzYYgf1qYg8
+      "Couples Padel — Valentine's edition: fun on court and funds raised for Oliver's Village — thank you to every pair who played.",
+    coverImage: pastEventPadelIiiCover,
+    // https://photos.app.goo.gl/g5caZiwTWhMfe3s88
     albumLink:
-      "https://photos.google.com/share/AF1QipM1rtvQscLaTpJzDDNeMVVWKJOX56ta170x89ZmMOndyQJiBs2CLfr7Kzu597h3-A?key=WHVYald3c0NqTjlDYmV3NV8teU01MTE5SlU4TTZR",
+      "https://photos.google.com/share/AF1QipMsek1ptSkW7x14Qs_6VAr1iWRaT2jBYFtzDBHoPfTscd8W_L6WDoY9qJvkuzXZ3g?key=b0NTeldEYzNYZW9VMEZWeG9MbG1pRXJSZzN2RUhB",
   },
   {
     id: 11,
-    title: "Leopard Creek 2025",
-    slug: "leopard-creek-2025",
+    title: "Charity Dinner 2019",
+    slug: "charity-dinner-2019",
     shortDescription:
-      "Mark Stevens and Jobby Roos won this Leopard Creek trip at our gala auction — three days of golf, safari, and hospitality. Huge thanks to everyone who welcomed us; all in support of Oliver's Village and the Boucher Legacy.",
-    coverImage: pastEventLeopardCreek2025Cover,
-    // https://photos.app.goo.gl/FyPwYqpdwxJEDmFW9
+      "Our annual charity dinner — an evening of community and fundraising in support of Oliver's Village and our beneficiaries.",
+    coverImage: pastEventCharityDinner2019Cover,
+    // https://photos.app.goo.gl/cvowNfCUYC4oapQr9
     albumLink:
-      "https://photos.google.com/share/AF1QipNz9c6FqlGq1Q3W_JpMWT_wrnzrOlxaAd75Ttf3GrxVt8M8lUeOQ47nj8x-KVpU8g?key=MFlnSV9Bd3RrbldHMVNXbUdra1kzSjdtb0pBTTN3",
+      "https://photos.google.com/share/AF1QipNkazJvwoPxkYQrOW6hCnUSUZncKi1mQiETMeyd3_AdK4O8RxpVQRR-cuWLdxNipw?key=akRTU1J5ZjBjRUEwcGVFVGtacjBhOEY1Z1BYUmR3",
   },
 ];
