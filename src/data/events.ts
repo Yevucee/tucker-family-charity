@@ -139,27 +139,134 @@ export const upcomingEvents: UpcomingEvent[] = [
   },
 ];
 
+/** Unsplash cover for past events without a local hero image. */
+const unsplash = (id: string, w = 1200) =>
+  `https://images.unsplash.com/photo-${id}?w=${w}&q=80`;
+
+/**
+ * Oldest first where the title includes a year. Undated albums sit between
+ * Charity Dinner 2019 and Charity Dinner 2024; adjust if you have exact dates.
+ */
 export const pastEvents: PastEvent[] = [
   {
     id: 1,
-    title: "Leopard Creek 2025",
-    slug: "leopard-creek-2025",
+    title: "Charity Dinner 2019",
+    slug: "charity-dinner-2019",
     shortDescription:
-      "Mark Stevens and Jobby Roos won this Leopard Creek trip at our gala auction — three days of golf, safari, and hospitality. Huge thanks to everyone who welcomed us; all in support of Oliver's Village and the Boucher Legacy.",
-    coverImage: pastEventLeopardCreek2025Cover,
-    // Canonical share URL (https://photos.app.goo.gl/FyPwYqpdwxJEDmFW9 redirects here)
+      "Our annual charity dinner — an evening of community and fundraising in support of Oliver's Village and our beneficiaries.",
+    coverImage: unsplash("1768776179834-93e6cafc6d97"),
+    // https://photos.app.goo.gl/cvowNfCUYC4oapQr9
     albumLink:
-      "https://photos.google.com/share/AF1QipNz9c6FqlGq1Q3W_JpMWT_wrnzrOlxaAd75Ttf3GrxVt8M8lUeOQ47nj8x-KVpU8g?key=MFlnSV9Bd3RrbldHMVNXbUdra1kzSjdtb0pBTTN3",
+      "https://photos.google.com/share/AF1QipNkazJvwoPxkYQrOW6hCnUSUZncKi1mQiETMeyd3_AdK4O8RxpVQRR-cuWLdxNipw?key=akRTU1J5ZjBjRUEwcGVFVGtacjBhOEY1Z1BYUmR3",
   },
   {
     id: 2,
+    title: "Padel III",
+    slug: "padel-iii",
+    shortDescription:
+      "Couples Padel: fun on court and funds raised for Oliver's Village — thank you to every pair who played.",
+    coverImage: unsplash("1770842655322-bcfd1c4be229"),
+    // https://photos.app.goo.gl/g5caZiwTWhMfe3s88
+    albumLink:
+      "https://photos.google.com/share/AF1QipMsek1ptSkW7x14Qs_6VAr1iWRaT2jBYFtzDBHoPfTscd8W_L6WDoY9qJvkuzXZ3g?key=b0NTeldEYzNYZW9VMEZWeG9MbG1pRXJSZzN2RUhB",
+  },
+  {
+    id: 3,
+    title: "Padel IV",
+    slug: "padel-iv",
+    shortDescription:
+      "Another great Couples Padel tournament — fitness, friends, and fundraising for Oliver's Village.",
+    coverImage: unsplash("1666281269793-da06484657e8"),
+    // https://photos.app.goo.gl/TY8jbbP1T2SauiyC9
+    albumLink:
+      "https://photos.google.com/share/AF1QipP70SOGXE6Qg7pfUqp6tz1h3zSWolnDq4ARk9Td1HXOOvCsulhfYmCBGag7XETkqg?key=a1ZNenlHc0hQbGwzUlN2eTR5aDFzQzE1b2tfYjN3",
+  },
+  {
+    id: 4,
+    title: "Padel VI",
+    slug: "padel-vi",
+    shortDescription:
+      "Padel, prizes, and purpose — a brilliant day of sport supporting Oliver's Village.",
+    coverImage: unsplash("1771924368588-507c6a048363"),
+    // https://photos.app.goo.gl/RGfF8Fx2ZfHMB9Wk9
+    albumLink:
+      "https://photos.google.com/share/AF1QipNiMrl-OtDYFw3s76IPzg5oPWABp-F7EHqITf_LAUohHH3ncFUgDSJM5QaUslBarA?key=V0tSSGJFUGNXTU92VmdOdzZlU2NQcDdLMmtRVHpB",
+  },
+  {
+    id: 5,
+    title: "Blaire Atholl Golf",
+    slug: "blaire-atholl-golf",
+    shortDescription:
+      "A day on the course at Blair Atholl — golf, company, and support for education at Oliver's Village.",
+    coverImage: unsplash("1500534314209-a25ddb8bd429"),
+    // https://photos.app.goo.gl/JD7eSGqbYJvmACbG9
+    albumLink:
+      "https://photos.google.com/share/AF1QipORLSQwV4sbc6UNTLvpKZT_dbh-baLfW_ws8mGV4f7YNMc8WKk433LpAm00L5qDxA?key=ZGxmVXNWTmxlN3I5bXdEd1ZiczViWUJiLWdXRjFn",
+  },
+  {
+    id: 6,
+    title: "Rhino and Lion Tagging",
+    slug: "rhino-and-lion-tagging",
+    shortDescription:
+      "A powerful conservation day — rhino and lion tagging, with our community behind Oliver's Village.",
+    coverImage: unsplash("1683879025805-a268b690613e"),
+    // https://photos.app.goo.gl/aj67GUQT9AeJhBqG8
+    albumLink:
+      "https://photos.google.com/share/AF1QipPlFCJ9eX0Wn0gopcbVnhk3cH47ORIzgLb08b4cNil2ZrN7kHGo7qaLWd8z8HzgqA?key=dE80cG9VU1d2STdiNUlaTnVhVVVIWVRrN3JNVm1B",
+  },
+  {
+    id: 7,
+    title: "Stef Terblanche / Lawrence Brittan",
+    slug: "stef-terblanche-lawrence-brittan",
+    shortDescription:
+      "An evening with Stef Terblanche and Lawrence Brittan — great company and support for Oliver's Village.",
+    coverImage: unsplash("1706323625335-dad461b68fe5"),
+    // https://photos.app.goo.gl/eDTwMHRiEvAh5RpM9
+    albumLink:
+      "https://photos.google.com/share/AF1QipPe_46XZ71hiOp97HX7NAHJuGo8J07Ob0XMZLK3f0t-hPk0gy3x0JKVUXN4bANz3Q?key=b1llRlVTV0EyTFpQYXJ2MC0yN2t3TDhhV3ZEeFlB",
+  },
+  {
+    id: 8,
+    title: "T20 SA vs West Indies",
+    slug: "t20-sa-vs-west-indies",
+    shortDescription:
+      "T20 action with the Proteas and West Indies — a memorable day at the ground with our charity family.",
+    coverImage: unsplash("1517649763962-0b62306601b7"),
+    // https://photos.app.goo.gl/dVbaviioL25wTTCE6
+    albumLink:
+      "https://photos.google.com/share/AF1QipPcCAQ2KgDjzZAVblyW3tNJXJ-IjsJTqTkYPBVFxNVpbWbtHw8aX1qeQ29avcPPfg?key=U0dEbzh4S2lNWTN6VEFTdVdqRlV1V0JpbW5FYWdR",
+  },
+  {
+    id: 9,
+    title: "Charity Dinner 2024",
+    slug: "charity-dinner-2024",
+    shortDescription:
+      "Our annual charity dinner — friends, food, and fundraising to change lives at Oliver's Village.",
+    coverImage: unsplash("1768776179834-93e6cafc6d97"),
+    // https://photos.app.goo.gl/9hqgVm1EX7aHn3r86
+    albumLink:
+      "https://photos.google.com/share/AF1QipNkMeDPJRSwdATzxPiDiACLsbFGfsuP-sBn0E4sVD2T8wEDH-3fcFRdI5uHOBrW3Q?key=VlZjeDJrQzNtdy1VTlJvUXR4SkRURjBtcE5HU3l3",
+  },
+  {
+    id: 10,
     title: "Watershed 2025",
     slug: "watershed-2025",
     shortDescription:
       "A memorable day at Watershed with family, friends, and supporters. Great food, beautiful surroundings, and funds raised for Oliver's Village.",
     coverImage: pastEventWatershed2025Cover,
-    // Canonical share URL (https://photos.app.goo.gl/vMYt6QQzYYgf1qYg8 redirects here)
+    // https://photos.app.goo.gl/vMYt6QQzYYgf1qYg8
     albumLink:
       "https://photos.google.com/share/AF1QipM1rtvQscLaTpJzDDNeMVVWKJOX56ta170x89ZmMOndyQJiBs2CLfr7Kzu597h3-A?key=WHVYald3c0NqTjlDYmV3NV8teU01MTE5SlU4TTZR",
+  },
+  {
+    id: 11,
+    title: "Leopard Creek 2025",
+    slug: "leopard-creek-2025",
+    shortDescription:
+      "Mark Stevens and Jobby Roos won this Leopard Creek trip at our gala auction — three days of golf, safari, and hospitality. Huge thanks to everyone who welcomed us; all in support of Oliver's Village and the Boucher Legacy.",
+    coverImage: pastEventLeopardCreek2025Cover,
+    // https://photos.app.goo.gl/FyPwYqpdwxJEDmFW9
+    albumLink:
+      "https://photos.google.com/share/AF1QipNz9c6FqlGq1Q3W_JpMWT_wrnzrOlxaAd75Ttf3GrxVt8M8lUeOQ47nj8x-KVpU8g?key=MFlnSV9Bd3RrbldHMVNXbUdra1kzSjdtb0pBTTN3",
   },
 ];
