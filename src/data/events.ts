@@ -20,6 +20,7 @@ const pastEventWatershed2025Cover = `${import.meta.env.BASE_URL}past-events/wate
 const upcomingRemyMartinDinnerPlaceholder = `${import.meta.env.BASE_URL}upcoming/remy-martin-dinner-placeholder.png`;
 const upcomingCouplesPadelViiPlaceholder = `${import.meta.env.BASE_URL}upcoming/couples-padel-vii-placeholder.png`;
 const upcomingAustraliaVsSaCricketPlaceholder = `${import.meta.env.BASE_URL}upcoming/australia-vs-sa-cricket-placeholder.png`;
+const upcomingSaVsBangladeshTestPlaceholder = `${import.meta.env.BASE_URL}upcoming/sa-vs-bangladesh-test-placeholder.png`;
 
 export interface UpcomingEvent {
   id: number;
@@ -105,8 +106,7 @@ export const upcomingEvents: UpcomingEvent[] = [
     time: "Five-day Test · times TBC",
     location: "Venue TBC (South Africa series)",
     address: "Check CSA fixtures when released",
-    image:
-      "https://images.unsplash.com/photo-1666281269793-da06484657e8?w=1200&auto=format&fit=crop&q=80",
+    image: upcomingSaVsBangladeshTestPlaceholder,
     description:
       "Support the Proteas in a Test match against Bangladesh as part of the home summer. A perfect stretch for a charity group outing once venues are confirmed.",
     attendees: "Open to all supporters",
