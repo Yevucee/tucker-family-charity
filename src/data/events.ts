@@ -7,6 +7,7 @@
 const pastEventCharityDinner2019Cover = `${import.meta.env.BASE_URL}past-events/charity-dinner-2019-cover.png`;
 const pastEventCharityDinner2024Cover = `${import.meta.env.BASE_URL}past-events/charity-dinner-2024-cover.png`;
 const pastEventPadelIiiCover = `${import.meta.env.BASE_URL}past-events/padel-iii-cover.png`;
+const pastEventPadelVCover = `${import.meta.env.BASE_URL}past-events/padel-v-cover.png`;
 const pastEventBlaireAthollGolfCover = `${import.meta.env.BASE_URL}past-events/blaire-atholl-golf-cover.png`;
 const pastEventRhinoAndLionTaggingCover = `${import.meta.env.BASE_URL}past-events/rhino-and-lion-tagging-cover.png`;
 const pastEventStefTerblancheLawrenceBrittanCover = `${import.meta.env.BASE_URL}past-events/stef-terblanche-lawrence-brittan-cover.png`;
@@ -190,6 +191,15 @@ export const pastEvents: PastEvent[] = [
   },
   {
     id: 4,
+    title: "Couples Padel V",
+    slug: "padel-v",
+    shortDescription:
+      "Another Couples Padel day — on court in support of Oliver's Village, with the same fun and team spirit you expect.",
+    coverImage: pastEventPadelVCover,
+    albumLink: "https://photos.google.com/", // Add shared Google Photos album URL when you have it
+  },
+  {
+    id: 5,
     title: "Padel VI",
     slug: "padel-vi",
     shortDescription:
@@ -200,7 +210,7 @@ export const pastEvents: PastEvent[] = [
       "https://photos.google.com/share/AF1QipNiMrl-OtDYFw3s76IPzg5oPWABp-F7EHqITf_LAUohHH3ncFUgDSJM5QaUslBarA?key=V0tSSGJFUGNXTU92VmdOdzZlU2NQcDdLMmtRVHpB",
   },
   {
-    id: 5,
+    id: 6,
     title: "Blaire Atholl Golf",
     slug: "blaire-atholl-golf",
     shortDescription:
@@ -211,7 +221,7 @@ export const pastEvents: PastEvent[] = [
       "https://photos.google.com/share/AF1QipORLSQwV4sbc6UNTLvpKZT_dbh-baLfW_ws8mGV4f7YNMc8WKk433LpAm00L5qDxA?key=ZGxmVXNWTmxlN3I5bXdEd1ZiczViWUJiLWdXRjFn",
   },
   {
-    id: 6,
+    id: 7,
     title: "Rhino and Lion Tagging",
     slug: "rhino-and-lion-tagging",
     shortDescription:
@@ -222,7 +232,7 @@ export const pastEvents: PastEvent[] = [
       "https://photos.google.com/share/AF1QipPlFCJ9eX0Wn0gopcbVnhk3cH47ORIzgLb08b4cNil2ZrN7kHGo7qaLWd8z8HzgqA?key=dE80cG9VU1d2STdiNUlaTnVhVVVIWVRrN3JNVm1B",
   },
   {
-    id: 7,
+    id: 8,
     title: "Stef Terblanche / Lawrence Brittan Dinner",
     slug: "stef-terblanche-lawrence-brittan",
     shortDescription:
@@ -233,7 +243,7 @@ export const pastEvents: PastEvent[] = [
       "https://photos.google.com/share/AF1QipPe_46XZ71hiOp97HX7NAHJuGo8J07Ob0XMZLK3f0t-hPk0gy3x0JKVUXN4bANz3Q?key=b1llRlVTV0EyTFpQYXJ2MC0yN2t3TDhhV3ZEeFlB",
   },
   {
-    id: 8,
+    id: 9,
     title: "T20 SA vs West Indies",
     slug: "t20-sa-vs-west-indies",
     shortDescription:
@@ -244,7 +254,7 @@ export const pastEvents: PastEvent[] = [
       "https://photos.google.com/share/AF1QipPcCAQ2KgDjzZAVblyW3tNJXJ-IjsJTqTkYPBVFxNVpbWbtHw8aX1qeQ29avcPPfg?key=U0dEbzh4S2lNWTN6VEFTdVdqRlV1V0JpbW5FYWdR",
   },
   {
-    id: 9,
+    id: 10,
     title: "Charity Dinner 2024",
     slug: "charity-dinner-2024",
     shortDescription:
@@ -255,7 +265,7 @@ export const pastEvents: PastEvent[] = [
       "https://photos.google.com/share/AF1QipNkMeDPJRSwdATzxPiDiACLsbFGfsuP-sBn0E4sVD2T8wEDH-3fcFRdI5uHOBrW3Q?key=VlZjeDJrQzNtdy1VTlJvUXR4SkRURjBtcE5HU3l3",
   },
   {
-    id: 10,
+    id: 11,
     title: "Watershed 2025",
     slug: "watershed-2025",
     shortDescription:
@@ -266,7 +276,7 @@ export const pastEvents: PastEvent[] = [
       "https://photos.google.com/share/AF1QipM1rtvQscLaTpJzDDNeMVVWKJOX56ta170x89ZmMOndyQJiBs2CLfr7Kzu597h3-A?key=WHVYald3c0NqTjlDYmV3NV8teU01MTE5SlU4TTZR",
   },
   {
-    id: 11,
+    id: 12,
     title: "Leopard Creek 2025",
     slug: "leopard-creek-2025",
     shortDescription:
