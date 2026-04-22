@@ -52,7 +52,7 @@ export const upcomingEvents: UpcomingEvent[] = [
     location: "The Whisky Vault, Illovo",
     address: "Above Norman Goodfellows, Illovo, Johannesburg",
     image:
-      "https://images.unsplash.com/photo-1768776179834-93e6cafc6d97?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21tdW5pdHklMjBldmVudCUyMG91dGRvb3IlMjBwZW9wbGV8ZW58MXx8fHwxNzczMTMyMzA1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      "https://images.unsplash.com/photo-1771924368588-507c6a048363?w=1200&auto=format&fit=crop&q=80",
     description:
       "Intimate cognac and brandy tasting with Rémy Martin — curated canapés, full dinner, and partnership with the Tucker Family Charity. R1,000 per person (tastings and food). Only 17 seats. Includes a lucky draw (Rémy Martin cognac worth R3,000), a silent auction with a bush adventure, and the Dale Sarent fine art collection on display. RSVP: janinebehr1@gmail.com or WhatsApp +27 82 322 6323.",
     attendees: "17 guests (limited)",
@@ -70,7 +70,7 @@ export const upcomingEvents: UpcomingEvent[] = [
     location: "Venue to be announced",
     address: "Johannesburg area — details to follow",
     image:
-      "https://images.unsplash.com/photo-1500534314209-a25ddb8bd429?w=1200&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1770842655322-bcfd1c4be229?w=1200&auto=format&fit=crop&q=80",
     description:
       "Our next Couples Padel tournament in the series — same energy, new year. On-court fun and fundraising for Oliver's Village. Save the date; format and sign-up information will be shared closer to the time.",
     attendees: "Couples & supporters",
@@ -87,7 +87,7 @@ export const upcomingEvents: UpcomingEvent[] = [
     location: "Venue TBC (South Africa series)",
     address: "Check CSA fixtures when released",
     image:
-      "https://images.unsplash.com/photo-1517649763962-0b62306601b7?w=1200&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1768776179834-93e6cafc6d97?w=1200&auto=format&fit=crop&q=80",
     description:
       "Join fellow supporters to watch Australia take on the Proteas. A Tucker Family Charity day out for cricket and community. Final venue and format will be confirmed with the season schedule.",
     attendees: "Open to all supporters",
@@ -121,7 +121,7 @@ export const upcomingEvents: UpcomingEvent[] = [
     location: "Venue TBC (South Africa series)",
     address: "Check CSA fixtures when released",
     image:
-      "https://images.unsplash.com/photo-1771924368588-507c6a048363?w=1200&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=1200&auto=format&fit=crop&q=80",
     description:
       "End the year with red-ball action as England tour South Africa. Plan your Tucker Family Charity get-together around the schedule when stadiums and sessions are finalised.",
     attendees: "Open to all supporters",
