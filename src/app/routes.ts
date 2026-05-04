@@ -11,9 +11,11 @@ import { Donate } from "./pages/Donate";
 import { KeepItInTheFamily } from "./pages/KeepItInTheFamily";
 import { GolfLearnershipProgramme } from "./pages/GolfLearnershipProgramme";
 
-/** React Router expects basename without a trailing slash; Vite BASE_URL includes one. */
-const routerBasename =
-  import.meta.env.BASE_URL.replace(/\/$/, "") || "/";
+/** React Router basename: empty string at site root; no trailing slash for subpaths. */
+const routerBasename = (() => {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+  return base === "" ? "" : base;
+})();
 
 export const router = createBrowserRouter(
   [
