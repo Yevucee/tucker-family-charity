@@ -10,4 +10,14 @@
   Run `npm i` to install the dependencies.
 
   Run `npm run dev` to start the development server.
+
+  ## Property partnership listing images
+
+  After you add or change Pam Golding listing URLs in `public/data/properties.json`, refresh card images so they match the **primary gallery photo** on Pam Golding’s page (not only the social-share image):
+
+  ```bash
+  npm run sync:pamgolding-images
+  ```
+
+  Use `node scripts/sync-pamgolding-listing-images.mjs --dry-run` to preview changes without writing the file.
   

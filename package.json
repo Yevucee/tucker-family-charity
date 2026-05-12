@@ -6,7 +6,8 @@
   "homepage": "https://www.tuckerfamilycharity.co.za",
   "scripts": {
     "build": "vite build && cp dist/index.html dist/404.html",
-    "dev": "vite"
+    "dev": "vite",
+    "sync:pamgolding-images": "node scripts/sync-pamgolding-listing-images.mjs"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
