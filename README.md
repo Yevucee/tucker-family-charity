@@ -13,7 +13,7 @@
 
   ## Property partnership listing images
 
-  After you add or change Pam Golding listing URLs in `public/data/properties.json`, refresh card images so they match the **primary gallery photo** on Pam Golding’s page (not only the social-share image):
+  After you add or change Pam Golding listing URLs in `public/data/properties.json`, refresh card images so they match the **main featured photo** Pam Golding uses on the listing (same URL as `og:image` / first hero image in their HTML):
 
   ```bash
   npm run sync:pamgolding-images

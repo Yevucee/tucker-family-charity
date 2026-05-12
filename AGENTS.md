@@ -13,7 +13,7 @@ See `README.md` for canonical instructions. Quick reference:
 - **Install deps:** `npm install`
 - **Dev server:** `npm run dev` — typically `http://localhost:5173/`
 - **Build:** `npm run build`
-- **Pam Golding property images:** `npm run sync:pamgolding-images` — updates `public/data/properties.json` card `image` URLs from each `originalListingUrl` (see `scripts/sync-pamgolding-listing-images.mjs`).
+- **Pam Golding property images:** `npm run sync:pamgolding-images` — sets each card `image` to Pam Golding’s listing **featured / main** image (`og:image`, same as their on-page hero in practice). See `scripts/sync-pamgolding-listing-images.mjs`.
 
 ### Notes
 

@@ -2,13 +2,15 @@
 /**
  * Sync property card images in public/data/properties.json with Pam Golding listing photos.
  *
- * For each Pam Golding URL we:
- * 1. Read og:image — establishes the canonical CDN folder (property id + date path).
- * 2. Collect every .../PID_H_N.jpg reference in that same folder from the HTML.
- * 3. Use the *lowest* N as the on-site primary / first-gallery image for that listing set.
+ * Pam Golding’s **main / hero** image for a listing matches:
+ * - the **`og:image`** URL (featured image they set for the property), and
+ * - the **first** property image reference in their server-rendered HTML (same URL in tests).
  *
- * This avoids stale duplicate folders (e.g. old year-month) and avoids mistaking og:image
- * for the same photo users see as the lead gallery image.
+ * We use **`og:image`** from the listing page so the charity site shows the same lead photo
+ * as their listing (not an arbitrary gallery index such as minimum `_H_N`).
+ *
+ * Fallback (if `og:image` is missing): first `resources.pamgolding.co.za/.../properties/...`
+ * image URL in document order.
  *
  * Usage:
  *   node scripts/sync-pamgolding-listing-images.mjs
@@ -25,27 +27,29 @@ const DEFAULT_JSON = join(__dirname, "..", "public", "data", "properties.json");
 
 const UA = "Mozilla/5.0 (compatible; TuckerCharityListingSync/1.0; +https://www.tuckerfamilycharity.co.za)";
 
+const RESOURCES_RE = /https:\/\/resources\.pamgolding\.co\.za\/content\/properties\/\d+\/\d+\/h\/\d+_H_\d+\.jpg/;
+
 /**
  * @param {string} html
  * @returns {{ url: string, width?: string } | null}
  */
 function primaryImageFromListingHtml(html) {
-  const og = html.match(
-    /og:image" content="(https:\/\/resources\.pamgolding\.co\.za\/content\/properties\/(\d+)\/(\d+)\/h\/\3_H_)(\d+)(\.jpg[^"']*)"/i,
-  );
-  if (!og) return null;
-  const base = og[1];
-  const re = new RegExp(base.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "(\\d+)\\.jpg", "gi");
-  const indices = new Set();
-  let m;
-  while ((m = re.exec(html))) indices.add(+m[1]);
-  if (indices.size === 0) {
-    const fallback = `${base}${og[4]}${og[5].split("?")[0]}`;
-    return { url: fallback.split("?")[0] };
+  const ogMatch =
+    html.match(/property=["']og:image["'][^>]*content=["']([^"']+)["']/i) ||
+    html.match(/property=og:image[^>]*content="([^"]+)"/i) ||
+    html.match(/og:image" content="([^"]+)"/i);
+  if (ogMatch) {
+    const raw = ogMatch[1].trim();
+    if (RESOURCES_RE.test(raw)) {
+      return { url: raw.replace(/\?.*$/, ""), width: "1200" };
+    }
   }
-  const min = Math.min(...indices);
-  const raw = `${base}${min}.jpg`;
-  return { url: raw, width: "1200" };
+  let m;
+  const iter = html.matchAll(new RegExp(RESOURCES_RE, "g"));
+  for (m of iter) {
+    return { url: m[0], width: "1200" };
+  }
+  return null;
 }
 
 async function fetchHtml(url) {
@@ -56,7 +60,7 @@ async function fetchHtml(url) {
 
 function withWidth(url, width) {
   if (!width) return url;
-  const u = new URL(url);
+  const u = new URL(url.includes("://") ? url : `https://${url}`);
   u.searchParams.set("w", width);
   return u.toString();
 }
