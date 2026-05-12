@@ -42,6 +42,11 @@ function scrollToId(id: string) {
   el?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+function isExternalListingUrl(url: string): boolean {
+  const u = url.trim();
+  return u.startsWith("http://") || u.startsWith("https://");
+}
+
 export function PropertyPartnerships() {
   const [listings, setListings] = useState<PropertyListing[]>([]);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -95,7 +100,7 @@ export function PropertyPartnerships() {
     return listings.filter((p) => p.type === filter);
   }, [listings, filter]);
 
-  const resetForm = useCallback(() => {
+  const resetFormFields = useCallback(() => {
     setName("");
     setEmail("");
     setPhone("");
@@ -109,12 +114,12 @@ export function PropertyPartnerships() {
     if (!open) {
       setSelectedProperty(null);
       setDialogStep("form");
-      resetForm();
+      resetFormFields();
     }
   };
 
   const openInterest = (p: PropertyListing) => {
-    resetForm();
+    resetFormFields();
     setSelectedProperty(p);
     setDialogStep("form");
   };
@@ -180,12 +185,12 @@ export function PropertyPartnerships() {
         return;
       }
       setDialogStep("success");
-      resetForm();
+      resetFormFields();
     } catch {
       try {
         await fetch(PROPERTY_ENQUIRY_SUBMIT_URL, { ...postInit, mode: "no-cors" });
         setDialogStep("success");
-        resetForm();
+        resetFormFields();
       } catch {
         setSubmitState("error");
         setSubmitError(
@@ -348,18 +353,18 @@ export function PropertyPartnerships() {
                         {p.parking ? ` · ${p.parking}` : null}
                       </li>
                     </ul>
-                    <p className="text-neutral-700 text-sm leading-relaxed flex-1 mb-6">{p.description}</p>
-                    {p.originalListingUrl && p.originalListingUrl !== "#" ? (
-                      <a
-                        href={p.originalListingUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-sm font-semibold text-amber-800 hover:text-amber-900 mb-4 w-fit"
-                      >
-                        View original listing
-                        <ExternalLink className="w-3.5 h-3.5 shrink-0" aria-hidden />
-                      </a>
+                    <p className="text-neutral-700 text-sm leading-relaxed flex-1 mb-3">{p.description}</p>
+                    {p.features && p.features.length > 0 ? (
+                      <ul className="text-sm text-neutral-600 space-y-1 mb-4 list-disc list-inside">
+                        {p.features.map((f) => (
+                          <li key={f}>{f}</li>
+                        ))}
+                      </ul>
                     ) : null}
+                    <p className="text-xs text-neutral-500 mb-4 leading-relaxed">
+                      The full listing on our property partner&apos;s site is shared with you after you register your
+                      interest, so your enquiry is tracked through Tucker Family Charity.
+                    </p>
                     <button
                       type="button"
                       onClick={() => openInterest(p)}
@@ -388,6 +393,24 @@ export function PropertyPartnerships() {
               <p className="text-sm text-neutral-600 leading-relaxed">
                 Your enquiry helps Tucker Family Charity track support generated through this partnership.
               </p>
+              {selectedProperty && isExternalListingUrl(selectedProperty.originalListingUrl) ? (
+                <div className="rounded-xl border border-amber-100 bg-amber-50/80 px-4 py-3 text-sm">
+                  <p className="font-semibold text-neutral-900 mb-2">View the full listing</p>
+                  <p className="text-neutral-600 mb-3">
+                    You can now open the detailed listing on Pam Golding in a new tab. Please mention Tucker Family
+                    Charity if you follow up, so the referral stays connected.
+                  </p>
+                  <a
+                    href={selectedProperty.originalListingUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 font-semibold text-amber-800 hover:text-amber-900"
+                  >
+                    Open listing on Pam Golding
+                    <ExternalLink className="w-4 h-4 shrink-0" aria-hidden />
+                  </a>
+                </div>
+              ) : null}
               <DialogFooter className="sm:justify-start pt-2">
                 <button
                   type="button"

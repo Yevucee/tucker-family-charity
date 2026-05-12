@@ -19,6 +19,8 @@ export interface PropertyListing {
   description: string;
   originalListingUrl: string;
   agentEmail: string;
+  /** Optional bullet points for the card (e.g. pool, study) */
+  features?: string[];
 }
 
 export function resolvePropertyImageUrl(image: string): string {
@@ -50,6 +52,10 @@ function isValidListing(x: unknown): x is PropertyListing {
   if (typeof x.bedrooms !== "number" || !Number.isFinite(x.bedrooms)) return false;
   if (typeof x.bathrooms !== "number" || !Number.isFinite(x.bathrooms)) return false;
   if (x.parking !== undefined && typeof x.parking !== "string") return false;
+  if (x.features !== undefined) {
+    if (!Array.isArray(x.features)) return false;
+    if (!x.features.every((f) => typeof f === "string")) return false;
+  }
   return true;
 }
 
