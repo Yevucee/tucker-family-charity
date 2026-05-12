@@ -17,6 +17,7 @@ See `README.md` for canonical instructions. Quick reference:
 ### Notes
 
 - The Vite `base` is `/` (custom domain at site root). `public/CNAME` keeps the GitHub Pages custom domain on deploy.
+- **Production:** https://www.tuckerfamilycharity.co.za
 - No linter or test runner is configured in the project. There are no `lint` or `test` npm scripts.
 - Node 22 is used in CI (GitHub Actions). The environment ships with Node v22 which matches.
 - The `package-lock.json` lockfile is present — always use **npm** (not pnpm/yarn).

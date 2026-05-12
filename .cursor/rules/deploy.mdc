@@ -14,5 +14,6 @@ After making changes to the Tucker Family Charity website, commit and push to tr
 
 Use `git_write` permission for commit. Push requires the user's GitHub auth (token or SSH) and may need to be run by the user in their terminal if automated push fails.
 
-**Remote:** `origin` → https://github.com/Yevucee/tucker-family-charity.git  
-**Site:** https://Yevucee.github.io/tucker-family-charity/
+**Site:** https://www.tuckerfamilycharity.co.za (GitHub Pages with custom domain; see `public/CNAME`)
+
+**Remote:** `origin` → https://github.com/Yevucee/tucker-family-charity.git
