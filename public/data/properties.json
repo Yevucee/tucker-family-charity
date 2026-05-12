@@ -1,0 +1,58 @@
+[
+  {
+    "id": "property-001",
+    "title": "Modern Apartment in Sandton",
+    "type": "rent",
+    "suburb": "Sandton",
+    "price": "R18,000 per month",
+    "bedrooms": 2,
+    "bathrooms": 2,
+    "parking": "2 covered parking bays",
+    "image": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=80",
+    "description": "A bright apartment close to amenities and transport—representative sample listing for illustration.",
+    "originalListingUrl": "#",
+    "agentEmail": "agent@example.com"
+  },
+  {
+    "id": "property-002",
+    "title": "Family Home with Garden",
+    "type": "sale",
+    "suburb": "Johannesburg South",
+    "price": "R2,450,000",
+    "bedrooms": 3,
+    "bathrooms": 2,
+    "parking": "Double garage",
+    "image": "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1200&q=80",
+    "description": "Single-storey home with established garden—sample entry only; replace with approved copy when live.",
+    "originalListingUrl": "#",
+    "agentEmail": "agent@example.com"
+  },
+  {
+    "id": "property-003",
+    "title": "Lock-up-and-go Townhouse",
+    "type": "sale",
+    "suburb": "Fourways",
+    "price": "R1,895,000",
+    "bedrooms": 2,
+    "bathrooms": 2,
+    "parking": "1 carport, visitors’ bays",
+    "image": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80",
+    "description": "Low-maintenance living in a quiet complex—placeholder listing for layout testing.",
+    "originalListingUrl": "#",
+    "agentEmail": "agent@example.com"
+  },
+  {
+    "id": "property-004",
+    "title": "Spacious Rental in Parkhurst",
+    "type": "rent",
+    "suburb": "Parkhurst",
+    "price": "R22,500 per month",
+    "bedrooms": 3,
+    "bathrooms": 2,
+    "parking": "2 parking spaces",
+    "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80",
+    "description": "Tree-lined street, generous living areas—sample property for the charity partnership showcase.",
+    "originalListingUrl": "#",
+    "agentEmail": "agent@example.com"
+  }
+]

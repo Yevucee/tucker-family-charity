@@ -24,7 +24,8 @@ export const DIRECTORY_SHEET_ID =
  * Rejects values that cannot be real hosts (e.g. the shared secret pasted into the URL secret →
  * ERR_NAME_NOT_RESOLVED for https://kitf-dir-…/).
  */
-function normalizeKitfSubmitUrl(raw: string): string {
+/** Normalizes Google Apps Script web app deploy URLs (shared by KITF and property enquiry POST). */
+export function normalizeGasWebAppUrl(raw: string): string {
   const t = raw.trim();
   if (!t) return "";
 
@@ -51,7 +52,7 @@ const RAW_KITF_SUBMIT_URL = String(import.meta.env.VITE_KITF_SUBMIT_URL ?? "").t
 
 // Optional: Google Apps Script web app URL for “Add your service” form (POST, form-urlencoded).
 // Set VITE_KITF_SUBMIT_URL in .env locally and as a GitHub Actions secret for Pages builds.
-export const KITF_SUBMIT_URL = normalizeKitfSubmitUrl(RAW_KITF_SUBMIT_URL);
+export const KITF_SUBMIT_URL = normalizeGasWebAppUrl(RAW_KITF_SUBMIT_URL);
 
 /** Env was set but is not a valid URL (common mistake: putting the shared secret in the URL secret). */
 export const KITF_SUBMIT_URL_REJECTED =
@@ -76,3 +77,25 @@ export const DONATION_LINK = import.meta.env.VITE_DONATION_LINK || "#";
  * TODO: set VITE_VOLUNTEER_SIGNUP_URL when the form URL is ready.
  */
 export const VOLUNTEER_SIGNUP_URL = String(import.meta.env.VITE_VOLUNTEER_SIGNUP_URL ?? "").trim();
+
+/**
+ * PROPERTY PARTNERSHIPS — enquiry form POST to Google Apps Script (same pattern as VITE_KITF_SUBMIT_URL).
+ * Deploy script as Web App; set VITE_PROPERTY_ENQUIRY_SUBMIT_URL in .env / GitHub Actions.
+ *
+ * Expected POST: application/x-www-form-urlencoded body with field `json` (stringified object):
+ *   timestamp (ISO), propertyId, propertyTitle, propertyType, suburb, visitorName, visitorEmail,
+ *   visitorPhone, contactMethod, message, agentEmail, originalListingUrl, status ("new"), notes ("")
+ * Apps Script should append to Sheet columns and may send notification emails to agent + charity admin.
+ *
+ * Optional: VITE_PROPERTY_ENQUIRY_SECRET — include in payload as `secret` if script validates it.
+ */
+const RAW_PROPERTY_ENQUIRY_SUBMIT_URL = String(
+  import.meta.env.VITE_PROPERTY_ENQUIRY_SUBMIT_URL ?? ""
+).trim();
+
+export const PROPERTY_ENQUIRY_SUBMIT_URL = normalizeGasWebAppUrl(RAW_PROPERTY_ENQUIRY_SUBMIT_URL);
+
+export const PROPERTY_ENQUIRY_SUBMIT_URL_REJECTED =
+  RAW_PROPERTY_ENQUIRY_SUBMIT_URL.length > 0 && PROPERTY_ENQUIRY_SUBMIT_URL.length === 0;
+
+export const PROPERTY_ENQUIRY_SECRET = import.meta.env.VITE_PROPERTY_ENQUIRY_SECRET ?? "";

@@ -13,10 +13,12 @@ import logo from "@/assets/4920ca320ce31a579ec4c3d0fcc360b4528a2024.png";
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [programmesOpen, setProgrammesOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
   const location = useLocation();
   const isProgrammesActive =
     location.pathname.startsWith("/golf-learnership-programme") ||
     location.pathname.startsWith("/olivers-village");
+  const isMoreActive = location.pathname.startsWith("/property-partnerships");
 
   return (
     <header className="bg-white border-b border-amber-200/80 sticky top-0 z-50">
@@ -69,6 +71,27 @@ export function Header() {
             >
               Partners
             </NavLink>
+            <DropdownMenu modal={false}>
+              <DropdownMenuTrigger
+                className={`flex items-center gap-1 transition-colors ${
+                  isMoreActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600"
+                }`}
+              >
+                More
+                <ChevronDown className="w-4 h-4" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="start"
+                className="z-[100]"
+                onCloseAutoFocus={(e) => e.preventDefault()}
+              >
+                <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
+                  <Link to="/property-partnerships" className="cursor-pointer">
+                    Property Partnerships
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger
                 className={`flex items-center gap-1 transition-colors ${
@@ -169,6 +192,30 @@ export function Header() {
               >
                 Partners
               </NavLink>
+              <Collapsible open={moreOpen} onOpenChange={setMoreOpen}>
+                <CollapsibleTrigger
+                  className={`flex items-center justify-between w-full py-2 ${
+                    isMoreActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600 transition-colors"
+                  }`}
+                >
+                  More
+                  <ChevronDown className={`w-4 h-4 transition-transform ${moreOpen ? "rotate-180" : ""}`} />
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <div className="pl-4 py-2 flex flex-col">
+                    <Link
+                      to="/property-partnerships"
+                      className="text-amber-950 hover:text-orange-600 transition-colors block py-2"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        setMoreOpen(false);
+                      }}
+                    >
+                      Property Partnerships
+                    </Link>
+                  </div>
+                </CollapsibleContent>
+              </Collapsible>
               <Collapsible open={programmesOpen} onOpenChange={setProgrammesOpen}>
                 <CollapsibleTrigger
                   className={`flex items-center justify-between w-full py-2 ${
