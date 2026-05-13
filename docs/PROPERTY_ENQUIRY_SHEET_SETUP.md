@@ -23,8 +23,21 @@ Enquiries from **Property Partnerships** (`Register your interest`) POST JSON to
 | Deploy | **Web app**, Execute as **Me**, Who has access **Anyone** |
 | Site URL | Copy `/exec` URL → repo secret **`VITE_PROPERTY_ENQUIRY_SUBMIT_URL`** |
 | Optional lock | Set `SCRIPT_SECRET` in script + **`VITE_PROPERTY_ENQUIRY_SECRET`** (same string) |
+| Email alerts | Set **`NOTIFY_EMAILS`** in `property-enquiry-append-sheet.gs` (comma-separated addresses). Run **`testNotify`** once from the Apps Script editor to grant Mail permission and verify mail arrives; then redeploy the web app |
 
 Never put the shared secret into the URL secret — same rule as KITF (`VITE_KITF_SUBMIT_URL` vs `VITE_KITF_SUBMIT_SECRET`).
+
+### Email notifications (optional)
+
+After each successful Sheet append, the script can email a plain-text summary using **`MailApp`**.
+
+1. In **`scripts/property-enquiry-append-sheet.gs`** (your deployed Code.gs), set for example:
+   - `NOTIFY_EMAILS = "you@yourdomain.org, colleague@yourdomain.org"`
+2. In Apps Script: choose **`testNotify`** in the function dropdown → **Run**. Approve **Send mail as you** when prompted.
+3. Check your inbox for the test message.
+4. **Deploy → Manage deployments → Edit** (pencil) → **New version** → **Deploy** so the live web app includes the updated script.
+
+If Mail fails (quota, typo), the enquiry row is **still saved** and the website still receives **`saved: true`**; failures are logged in Apps Script **Executions**.
 
 ## Website build
 
