@@ -82,7 +82,44 @@ type GasPostJson = { ok?: boolean; saved?: boolean; live?: boolean; error?: stri
 
 /** Strip BOM / zero-width chars Google occasionally prefixes on macro responses. */
 function normalizeGasBody(raw: string): string {
-  return raw.replace(/^\uFEFF/, "").replace(/[\u200B-\u200D]/g, "").trim();
+  let s = raw.replace(/^\uFEFF/, "").replace(/[\u200B-\u200D]/g, "");
+  // Some Google responses use an anti-XSSI line prefix before JSON.
+  if (s.startsWith(")]}'")) s = s.slice(4).trimStart();
+  return s.trim();
+}
+
+/** Unencode minimal entities so `"ok"` markers match when JSON is embedded in HTML. */
+function decodeHtmlQuotEntities(s: string): string {
+  return s.replace(/&quot;/gi, '"').replace(/&#x22;/gi, '"').replace(/&#34;/gi, '"');
+}
+
+/**
+ * If "ok" and "saved" booleans appear inside the same {...} span, treat as success even when the
+ * slice is not valid JSON (e.g. CSS / script noise elsewhere in a large HTML wrapper).
+ */
+function gasSavedFromBoundedMarkers(raw: string): GasPostJson | null {
+  const n = normalizeGasBody(raw);
+  const okRe = /"ok"\s*:\s*true\b/;
+  const savedRe = /"saved"\s*:\s*true\b/;
+  const okM = okRe.exec(n);
+  const savedM = savedRe.exec(n);
+  if (!okM || !savedM) return null;
+
+  const start = Math.min(okM.index, savedM.index);
+  const end = Math.max(okM.index + okM[0].length, savedM.index + savedM[0].length);
+  const braceOpen = n.lastIndexOf("{", start);
+  const braceClose = n.indexOf("}", end);
+  if (braceOpen === -1 || braceClose === -1 || braceClose <= braceOpen) return null;
+
+  const slice = n.slice(braceOpen, braceClose + 1);
+  try {
+    const data = JSON.parse(slice) as GasPostJson;
+    if (data?.ok === true && data?.saved === true) return data;
+    return null;
+  } catch {
+    /* Markers share a {...} span but the slice isn’t valid JSON (noisy wrappers). */
+    return { ok: true, saved: true };
+  }
 }
 
 /**
@@ -90,8 +127,12 @@ function normalizeGasBody(raw: string): string {
  * Avoid treating arbitrary HTML as success: require both markers used together by our deployed script.
  */
 function gasBodyIndicatesSaved(raw: string): boolean {
-  const n = normalizeGasBody(raw);
-  return /"ok"\s*:\s*true\b/.test(n) && /"saved"\s*:\s*true\b/.test(n);
+  const variants = [normalizeGasBody(raw), decodeHtmlQuotEntities(normalizeGasBody(raw))];
+  for (const n of variants) {
+    if (gasSavedFromBoundedMarkers(n)) return true;
+    if (/"ok"\s*:\s*true\b/.test(n) && /"saved"\s*:\s*true\b/.test(n)) return true;
+  }
+  return false;
 }
 
 /** First balanced `{ ... }` starting at text[0]. */
@@ -109,32 +150,41 @@ function extractLeadingJsonObject(text: string): string | null {
   return null;
 }
 
-/**
- * Try every `{` position — HTML wrappers often break single-shot brace parsing.
- */
-function parseGasPostJson(raw: string): GasPostJson | null {
+function collectGasBalancedJsonSlices(raw: string): string[] {
   const trimmed = normalizeGasBody(raw);
   const candidates = new Set<string>();
-
   for (let i = 0; i < trimmed.length; i++) {
     if (trimmed[i] !== "{") continue;
     const slice = extractLeadingJsonObject(trimmed.slice(i));
     if (slice) candidates.add(slice);
   }
+  return [...candidates];
+}
 
-  let fallback: GasPostJson | null = null;
-  for (const c of candidates) {
+/** Prefer objects where doPost confirmed append (same markers Apps Script returns). */
+function parseGasPostJsonSavedOnly(raw: string): GasPostJson | null {
+  for (const c of collectGasBalancedJsonSlices(raw)) {
     try {
       const data = JSON.parse(c) as GasPostJson;
-      if (!data || typeof data !== "object") continue;
-      if (data.ok === true && data.saved === true) return data;
-      if (!fallback) fallback = data;
+      if (data && typeof data === "object" && data.ok === true && data.saved === true) return data;
     } catch {
       /* next candidate */
     }
   }
+  return null;
+}
 
-  return fallback;
+/** First parseable `{…}` slice — used only for structured error messages when save wasn’t detected. */
+function parseGasPostJsonAny(raw: string): GasPostJson | null {
+  for (const c of collectGasBalancedJsonSlices(raw)) {
+    try {
+      const data = JSON.parse(c) as GasPostJson;
+      if (data && typeof data === "object") return data;
+    } catch {
+      /* next candidate */
+    }
+  }
+  return null;
 }
 
 export function PropertyPartnerships() {
@@ -258,10 +308,22 @@ export function PropertyPartnerships() {
     try {
       const res = await fetchGoogleAppsScriptPost(PROPERTY_ENQUIRY_SUBMIT_URL, formBody);
       const raw = await res.text();
-      let data = parseGasPostJson(raw);
+      let data =
+        parseGasPostJsonSavedOnly(raw) ??
+        parseGasPostJsonSavedOnly(decodeHtmlQuotEntities(raw)) ??
+        gasSavedFromBoundedMarkers(raw) ??
+        gasSavedFromBoundedMarkers(decodeHtmlQuotEntities(raw));
+
       if ((!data || data.ok !== true || data.saved !== true) && gasBodyIndicatesSaved(raw)) {
         data = { ok: true, saved: true };
       }
+
+      if (!data) {
+        data =
+          parseGasPostJsonAny(raw) ??
+          parseGasPostJsonAny(decodeHtmlQuotEntities(raw));
+      }
+
       if (!data) {
         setSubmitState("error");
         setSubmitError(
