@@ -20,4 +20,8 @@
   ```
 
   Use `node scripts/sync-pamgolding-listing-images.mjs --dry-run` to preview changes without writing the file.
+
+  ## Property enquiry form → Google Sheet
+
+  Wire **Register your interest** to your Sheet via Google Apps Script (see **`docs/PROPERTY_ENQUIRY_SHEET_SETUP.md`**). Set **`VITE_PROPERTY_ENQUIRY_SUBMIT_URL`** (and optionally **`VITE_PROPERTY_ENQUIRY_SECRET`**) in `.env` locally and in GitHub Actions secrets for production builds.
   

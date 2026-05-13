@@ -14,6 +14,7 @@ import {
 import {
   PROPERTY_ENQUIRY_SECRET,
   PROPERTY_ENQUIRY_SUBMIT_URL,
+  PROPERTY_ENQUIRY_SUBMIT_URL_REJECTED,
 } from "@/config";
 import {
   parsePropertyListings,
@@ -520,6 +521,27 @@ export function PropertyPartnerships() {
                 By submitting your interest, your details will be shared with Tucker Family Charity and the relevant
                 property partner so they can respond to your enquiry.
               </p>
+
+              {PROPERTY_ENQUIRY_SUBMIT_URL_REJECTED ? (
+                <p className="text-sm text-red-900 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                  This build has an invalid enquiry URL. In GitHub → Settings → Secrets, put your Apps Script{" "}
+                  <strong>web app</strong> link (
+                  <code className="text-xs bg-white px-1 rounded">https://script.google.com/macros/s/…/exec</code>) in{" "}
+                  <code className="text-xs bg-white px-1 rounded">VITE_PROPERTY_ENQUIRY_SUBMIT_URL</code>. Put an optional
+                  shared password only in{" "}
+                  <code className="text-xs bg-white px-1 rounded">VITE_PROPERTY_ENQUIRY_SECRET</code>. Redeploy after
+                  fixing.
+                </p>
+              ) : null}
+
+              {!PROPERTY_ENQUIRY_SUBMIT_URL && !PROPERTY_ENQUIRY_SUBMIT_URL_REJECTED ? (
+                <p className="text-sm text-amber-900 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+                  Online enquiries are not connected on this build yet. Add{" "}
+                  <code className="text-xs bg-white px-1 rounded">VITE_PROPERTY_ENQUIRY_SUBMIT_URL</code> so submissions
+                  go to your Google Sheet (see{" "}
+                  <span className="font-medium">docs/PROPERTY_ENQUIRY_SHEET_SETUP.md</span>).
+                </p>
+              ) : null}
 
               {submitError ? (
                 <p className="text-sm text-red-700 bg-red-50 border border-red-100 rounded-lg px-3 py-2" role="alert">

@@ -36,6 +36,8 @@ jobs:
           # URL = Apps Script web app /exec link; secret = optional password — do not use the same value for both
           VITE_KITF_SUBMIT_URL: ${{ secrets.VITE_KITF_SUBMIT_URL }}
           VITE_KITF_SUBMIT_SECRET: ${{ secrets.VITE_KITF_SUBMIT_SECRET }}
+          VITE_PROPERTY_ENQUIRY_SUBMIT_URL: ${{ secrets.VITE_PROPERTY_ENQUIRY_SUBMIT_URL }}
+          VITE_PROPERTY_ENQUIRY_SECRET: ${{ secrets.VITE_PROPERTY_ENQUIRY_SECRET }}
           VITE_DONATION_LINK: ${{ secrets.VITE_DONATION_LINK }}
           VITE_VOLUNTEER_SIGNUP_URL: ${{ secrets.VITE_VOLUNTEER_SIGNUP_URL }}
 

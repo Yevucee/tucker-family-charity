@@ -14,6 +14,7 @@ See `README.md` for canonical instructions. Quick reference:
 - **Dev server:** `npm run dev` — typically `http://localhost:5173/`
 - **Build:** `npm run build`
 - **Pam Golding property images:** `npm run sync:pamgolding-images` — sets each card `image` to Pam Golding’s listing **featured / main** image (`og:image`, same as their on-page hero in practice). See `scripts/sync-pamgolding-listing-images.mjs`.
+- **Property enquiry → Sheet:** configure `VITE_PROPERTY_ENQUIRY_SUBMIT_URL` (+ optional `VITE_PROPERTY_ENQUIRY_SECRET`) and deploy Apps Script from `scripts/property-enquiry-append-sheet.gs`. See `docs/PROPERTY_ENQUIRY_SHEET_SETUP.md`.
 
 ### Notes
 

@@ -40,3 +40,15 @@ Two separate Google Sheets power the two tabs. Both are fetched at runtime—upd
 | Networking| Business Networking| `VITE_NETWORKING_SHEET_ID` |
 
 To override the default sheet for a tab, add the corresponding secret in **Settings → Secrets and variables → Actions**.
+
+---
+
+## Property Partnerships enquiries → submissions spreadsheet
+
+**Purpose:** Rows appended when visitors submit **Register your interest** on the Property Partnerships page.
+
+**Sheet columns (recommended headers):** see `docs/PROPERTY_ENQUIRY_SHEET_SETUP.md`
+
+**Config:** `VITE_PROPERTY_ENQUIRY_SUBMIT_URL` (Apps Script web app `/exec` URL), optional `VITE_PROPERTY_ENQUIRY_SECRET`
+
+**Data flow:** Browser POST → Google Apps Script (`scripts/property-enquiry-append-sheet.gs`) → `appendRow` on your Sheet.
