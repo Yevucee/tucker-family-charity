@@ -27,8 +27,10 @@ var SHEET_NAME = "Sheet1";
 var SCRIPT_SECRET = "";
 
 function doGet() {
+  /** `live` only — POST responses include `saved: true` so the website knows doPost actually ran. */
   return jsonResponse({
     ok: true,
+    live: true,
     message:
       "Property enquiry endpoint is live. Submissions from the Tucker Family Charity site use POST only.",
   });
@@ -89,7 +91,7 @@ function doPost(e) {
       status,
       notes,
     ]);
-    return jsonResponse({ ok: true });
+    return jsonResponse({ ok: true, saved: true });
   } catch (err) {
     return jsonResponse({ ok: false, error: String(err) });
   }

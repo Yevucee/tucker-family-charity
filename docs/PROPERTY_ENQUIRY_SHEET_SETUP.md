@@ -37,15 +37,17 @@ After deployment, submit a test enquiry and confirm a new row appears in the She
 
 ### Sheet stays empty but the website says “Thank you”
 
-That usually means the **browser never received `{ "ok": true }` JSON** from Apps Script (often because of deployment permissions).
+Older setups could show success while **no row was saved**: Google answers POST with **HTTP 302**, browsers repeat the request as **GET**, so only **`doGet`** ran (health check), not **`doPost`** (Sheet append).
+
+The charity site now **POSTs twice** (manual redirect) and treats success only when JSON includes **`"saved": true`**. Your Apps Script **must** match the latest `scripts/property-enquiry-append-sheet.gs` (**`live`** on GET, **`saved`** on POST).
 
 1. Open your **`…/exec`** URL in an **Incognito / private** window **without** signing into Google.
-   - **Good:** you see JSON like `{"ok":true,"message":"…endpoint is live…"}`.
+   - **Good:** JSON includes **`"live":true`** (and **`"ok":true`**).
    - **Bad:** Google asks you to **sign in**, or you see a Drive “could not open file” page → the Web App is **not** set to **Anyone**.
 
-2. Fix it: Apps Script → **Deploy → Manage deployments** → edit the Web App deployment → **Who has access:** **Anyone** → Deploy again. Copy the **new `/exec` URL** if Google gives you one; update **`VITE_PROPERTY_ENQUIRY_SUBMIT_URL`** and redeploy the charity site build.
+2. Fix access: Apps Script → **Deploy → Manage deployments** → **Who has access:** **Anyone** → Deploy again.
 
-3. **Wrong tab name:** The script uses **`Sheet1`** unless you changed `SHEET_NAME`. If your tab has another name (e.g. “Responses”), either rename the tab or set `SHEET_NAME` to match exactly.
+3. **Wrong tab name:** The script uses **`Sheet1`** unless you changed `SHEET_NAME`.
 
 ### Recommended Sheet headers (14 columns)
 

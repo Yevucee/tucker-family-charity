@@ -48,6 +48,34 @@ function isExternalListingUrl(url: string): boolean {
   return u.startsWith("http://") || u.startsWith("https://");
 }
 
+/**
+ * Google Web Apps redirect POST with HTTP 302; fetch would otherwise repeat the request as GET and only hit doGet.
+ * POST again to the Location URL so doPost runs and the Sheet receives the row.
+ */
+async function fetchGoogleAppsScriptPost(execUrl: string, formBody: string): Promise<Response> {
+  const headers = { "Content-Type": "application/x-www-form-urlencoded" };
+  const first = await fetch(execUrl, {
+    method: "POST",
+    cache: "no-store",
+    headers,
+    body: formBody,
+    mode: "cors",
+    redirect: "manual",
+  });
+  const loc = first.headers.get("Location");
+  if (loc && first.status >= 300 && first.status < 400) {
+    return fetch(loc, {
+      method: "POST",
+      cache: "no-store",
+      headers,
+      body: formBody,
+      mode: "cors",
+      redirect: "follow",
+    });
+  }
+  return first;
+}
+
 export function PropertyPartnerships() {
   const [listings, setListings] = useState<PropertyListing[]>([]);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -162,22 +190,16 @@ export function PropertyPartnerships() {
     };
 
     const formBody = new URLSearchParams({ json: JSON.stringify(payload) }).toString();
-    const postInit = {
-      method: "POST" as const,
-      cache: "no-store" as const,
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: formBody,
-    };
 
     setSubmitState("loading");
     setSubmitError("");
 
     try {
-      const res = await fetch(PROPERTY_ENQUIRY_SUBMIT_URL, { ...postInit, mode: "cors" });
+      const res = await fetchGoogleAppsScriptPost(PROPERTY_ENQUIRY_SUBMIT_URL, formBody);
       const raw = await res.text();
-      let data: { ok?: boolean; error?: string } = {};
+      let data: { ok?: boolean; saved?: boolean; live?: boolean; error?: string } = {};
       try {
-        data = JSON.parse(raw) as { ok?: boolean; error?: string };
+        data = JSON.parse(raw) as { ok?: boolean; saved?: boolean; live?: boolean; error?: string };
       } catch {
         setSubmitState("error");
         setSubmitError(
@@ -185,24 +207,25 @@ export function PropertyPartnerships() {
         );
         return;
       }
-      if (!res.ok || data.ok !== true) {
+      if (!res.ok || data.ok !== true || data.saved !== true) {
         setSubmitState("error");
-        setSubmitError(data.error || `Something went wrong (${res.status}). Try again later.`);
+        setSubmitError(
+          data.error ||
+            (data.live && !data.saved
+              ? "The server responded without saving your enquiry (often an outdated Apps Script). Copy the latest Code.gs from the charity repo, deploy again, then retry."
+              : `Something went wrong (${res.status}). Try again later.`)
+        );
         return;
       }
       setDialogStep("success");
       resetFormFields();
     } catch {
-      try {
-        await fetch(PROPERTY_ENQUIRY_SUBMIT_URL, { ...postInit, mode: "no-cors" });
-        setDialogStep("success");
-        resetFormFields();
-      } catch {
-        setSubmitState("error");
-        setSubmitError(
-          "Network error. Check your connection and try again. If it persists, try another browser or network."
-        );
-      }
+      setSubmitState("error");
+      setSubmitError(
+        "Network error reaching Google Apps Script. Check your connection and try again. If it persists, email " +
+          FALLBACK_ENQUIRY_EMAIL +
+          " with the property you’re interested in."
+      );
     }
   };
 
