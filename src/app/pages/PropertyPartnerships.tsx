@@ -93,33 +93,85 @@ function decodeHtmlQuotEntities(s: string): string {
   return s.replace(/&quot;/gi, '"').replace(/&#x22;/gi, '"').replace(/&#34;/gi, '"');
 }
 
+/** Normalise curly/smart quotes sometimes emitted instead of ASCII `"` in wrapped responses. */
+function normalizeGasQuotes(s: string): string {
+  return s.replace(/[“”„‟]/g, '"').replace(/[‘’]/g, "'");
+}
+
+/** Single pipeline for marker matching and `{…}` scans (entities + quotes after BOM/XSSI strip). */
+function gasPrepare(raw: string): string {
+  return normalizeGasQuotes(decodeHtmlQuotEntities(normalizeGasBody(raw)));
+}
+
+/**
+ * Google occasionally returns an empty body on success while CORS headers still allow reading the status.
+ * Only trust when the response URL is the known Apps Script macro host (after redirects).
+ */
+function gasEmptyTrustedSuccess(res: Response, raw: string): GasPostJson | null {
+  if (normalizeGasBody(raw).length > 0) return null;
+  if (!(res.ok && (res.status === 200 || res.status === 204))) return null;
+  try {
+    const u = res.url;
+    if (u.includes("script.google.com/macros") || u.includes("script.googleusercontent.com/macros")) {
+      return { ok: true, saved: true };
+    }
+  } catch {
+    /* ignore */
+  }
+  return null;
+}
+
+/** Plain JSON body without HTML wrappers — whole-response parse (objects or arrays). */
+function parseGasWholeBodySaved(raw: string): GasPostJson | null {
+  const t = gasPrepare(raw);
+  if (!t || (!t.startsWith("{") && !t.startsWith("["))) return null;
+  try {
+    const data = JSON.parse(t) as GasPostJson | GasPostJson[];
+    if (Array.isArray(data)) {
+      const hit = data.find((x) => x && typeof x === "object" && x.ok === true && x.saved === true);
+      return hit ?? null;
+    }
+    if (data && typeof data === "object" && data.ok === true && data.saved === true) return data;
+  } catch {
+    /* ignore */
+  }
+  return null;
+}
+
+
 /**
  * If "ok" and "saved" booleans appear inside the same {...} span, treat as success even when the
  * slice is not valid JSON (e.g. CSS / script noise elsewhere in a large HTML wrapper).
  */
 function gasSavedFromBoundedMarkers(raw: string): GasPostJson | null {
-  const n = normalizeGasBody(raw);
-  const okRe = /"ok"\s*:\s*true\b/;
-  const savedRe = /"saved"\s*:\s*true\b/;
-  const okM = okRe.exec(n);
-  const savedM = savedRe.exec(n);
-  if (!okM || !savedM) return null;
+  const n = gasPrepare(raw);
+  const markerPairs: ReadonlyArray<[RegExp, RegExp]> = [
+    [/"ok"\s*:\s*true\b/, /"saved"\s*:\s*true\b/],
+    [/\bok\b\s*:\s*true\b/, /\bsaved\b\s*:\s*true\b/],
+  ];
 
-  const start = Math.min(okM.index, savedM.index);
-  const end = Math.max(okM.index + okM[0].length, savedM.index + savedM[0].length);
-  const braceOpen = n.lastIndexOf("{", start);
-  const braceClose = n.indexOf("}", end);
-  if (braceOpen === -1 || braceClose === -1 || braceClose <= braceOpen) return null;
+  for (const [okRe, savedRe] of markerPairs) {
+    const okM = okRe.exec(n);
+    const savedM = savedRe.exec(n);
+    if (!okM || !savedM) continue;
 
-  const slice = n.slice(braceOpen, braceClose + 1);
-  try {
-    const data = JSON.parse(slice) as GasPostJson;
-    if (data?.ok === true && data?.saved === true) return data;
-    return null;
-  } catch {
-    /* Markers share a {...} span but the slice isn’t valid JSON (noisy wrappers). */
-    return { ok: true, saved: true };
+    const start = Math.min(okM.index, savedM.index);
+    const end = Math.max(okM.index + okM[0].length, savedM.index + savedM[0].length);
+    const braceOpen = n.lastIndexOf("{", start);
+    const braceClose = n.indexOf("}", end);
+    if (braceOpen === -1 || braceClose === -1 || braceClose <= braceOpen) continue;
+
+    const slice = n.slice(braceOpen, braceClose + 1);
+    let parsed: GasPostJson;
+    try {
+      parsed = JSON.parse(slice) as GasPostJson;
+    } catch {
+      return { ok: true, saved: true };
+    }
+    if (parsed?.ok === true && parsed?.saved === true) return parsed;
   }
+
+  return null;
 }
 
 /**
@@ -127,12 +179,9 @@ function gasSavedFromBoundedMarkers(raw: string): GasPostJson | null {
  * Avoid treating arbitrary HTML as success: require both markers used together by our deployed script.
  */
 function gasBodyIndicatesSaved(raw: string): boolean {
-  const variants = [normalizeGasBody(raw), decodeHtmlQuotEntities(normalizeGasBody(raw))];
-  for (const n of variants) {
-    if (gasSavedFromBoundedMarkers(n)) return true;
-    if (/"ok"\s*:\s*true\b/.test(n) && /"saved"\s*:\s*true\b/.test(n)) return true;
-  }
-  return false;
+  if (gasSavedFromBoundedMarkers(raw) !== null) return true;
+  const n = gasPrepare(raw);
+  return /\bok\b\s*:\s*true\b/.test(n) && /\bsaved\b\s*:\s*true\b/.test(n);
 }
 
 /** First balanced `{ ... }` starting at text[0]. */
@@ -150,8 +199,26 @@ function extractLeadingJsonObject(text: string): string | null {
   return null;
 }
 
+/** Scan for `{ "ok": ...` starts — skips unrelated `{` earlier in noisy HTML. */
+function parseGasSavedNearOkKey(raw: string): GasPostJson | null {
+  const n = gasPrepare(raw);
+  const re = /\{\s*"ok"\s*:/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(n)) !== null) {
+    const slice = extractLeadingJsonObject(n.slice(m.index));
+    if (!slice) continue;
+    try {
+      const data = JSON.parse(slice) as GasPostJson;
+      if (data && typeof data === "object" && data.ok === true && data.saved === true) return data;
+    } catch {
+      /* next occurrence */
+    }
+  }
+  return null;
+}
+
 function collectGasBalancedJsonSlices(raw: string): string[] {
-  const trimmed = normalizeGasBody(raw);
+  const trimmed = gasPrepare(raw);
   const candidates = new Set<string>();
   for (let i = 0; i < trimmed.length; i++) {
     if (trimmed[i] !== "{") continue;
@@ -309,19 +376,18 @@ export function PropertyPartnerships() {
       const res = await fetchGoogleAppsScriptPost(PROPERTY_ENQUIRY_SUBMIT_URL, formBody);
       const raw = await res.text();
       let data =
+        gasEmptyTrustedSuccess(res, raw) ??
+        parseGasWholeBodySaved(raw) ??
+        parseGasSavedNearOkKey(raw) ??
         parseGasPostJsonSavedOnly(raw) ??
-        parseGasPostJsonSavedOnly(decodeHtmlQuotEntities(raw)) ??
-        gasSavedFromBoundedMarkers(raw) ??
-        gasSavedFromBoundedMarkers(decodeHtmlQuotEntities(raw));
+        gasSavedFromBoundedMarkers(raw);
 
       if ((!data || data.ok !== true || data.saved !== true) && gasBodyIndicatesSaved(raw)) {
         data = { ok: true, saved: true };
       }
 
       if (!data) {
-        data =
-          parseGasPostJsonAny(raw) ??
-          parseGasPostJsonAny(decodeHtmlQuotEntities(raw));
+        data = parseGasPostJsonAny(raw);
       }
 
       if (!data) {
