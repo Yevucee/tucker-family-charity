@@ -76,6 +76,46 @@ async function fetchGoogleAppsScriptPost(execUrl: string, formBody: string): Pro
   return first;
 }
 
+type GasPostJson = { ok?: boolean; saved?: boolean; live?: boolean; error?: string };
+
+/** First balanced `{ ... }` in text (handles stray bytes / wrappers before JSON). */
+function extractLeadingJsonObject(text: string): string | null {
+  const start = text.indexOf("{");
+  if (start === -1) return null;
+  let depth = 0;
+  for (let i = start; i < text.length; i++) {
+    const c = text[i];
+    if (c === "{") depth++;
+    else if (c === "}") {
+      depth--;
+      if (depth === 0) return text.slice(start, i + 1);
+    }
+  }
+  return null;
+}
+
+/**
+ * Google Apps Script sometimes returns slight junk around JSON after redirect chains.
+ */
+function parseGasPostJson(raw: string): GasPostJson | null {
+  const trimmed = raw.trim().replace(/^\uFEFF/, "");
+  const chunk = extractLeadingJsonObject(trimmed);
+  const candidates = chunk ? [chunk, trimmed] : [trimmed];
+  const seen = new Set<string>();
+  for (const c of candidates) {
+    const t = c.trim();
+    if (!t || seen.has(t)) continue;
+    seen.add(t);
+    try {
+      const data = JSON.parse(t) as GasPostJson;
+      if (data && typeof data === "object") return data;
+    } catch {
+      /* try next */
+    }
+  }
+  return null;
+}
+
 export function PropertyPartnerships() {
   const [listings, setListings] = useState<PropertyListing[]>([]);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -197,13 +237,11 @@ export function PropertyPartnerships() {
     try {
       const res = await fetchGoogleAppsScriptPost(PROPERTY_ENQUIRY_SUBMIT_URL, formBody);
       const raw = await res.text();
-      let data: { ok?: boolean; saved?: boolean; live?: boolean; error?: string } = {};
-      try {
-        data = JSON.parse(raw) as { ok?: boolean; saved?: boolean; live?: boolean; error?: string };
-      } catch {
+      const data = parseGasPostJson(raw);
+      if (!data) {
         setSubmitState("error");
         setSubmitError(
-          "The enquiry server did not return JSON (often a Google sign‑in page). Redeploy Apps Script → Web app → Who has access: **Anyone** — not restricted to your organisation only. See docs/PROPERTY_ENQUIRY_SHEET_SETUP.md."
+          "The enquiry server did not return readable JSON (often a Google sign‑in page or an outdated Apps Script deploy). Redeploy Apps Script → Web app → Who has access: **Anyone**. See docs/PROPERTY_ENQUIRY_SHEET_SETUP.md."
         );
         return;
       }
