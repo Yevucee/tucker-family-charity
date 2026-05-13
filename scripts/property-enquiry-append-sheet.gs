@@ -27,10 +27,10 @@ var SHEET_NAME = "Sheet1";
 /** Empty = no check. If set, must match VITE_PROPERTY_ENQUIRY_SECRET in the site build. */
 var SCRIPT_SECRET = "";
 /**
- * Optional: comma-separated addresses (spaces OK). Empty = no notification emails.
+ * Comma-separated addresses (spaces OK). Add another recipient after the last comma when needed.
  * Uses MailApp — quota limits apply (see Google Apps Script quotas).
  */
-var NOTIFY_EMAILS = "";
+var NOTIFY_EMAILS = "brett@tuckerfamilycharity.co.za, samuel.polley1@gmail.com";
 
 /** Optional test from Apps Script editor: Run → send sample mail (must set NOTIFY_EMAILS first). */
 function testNotify() {
