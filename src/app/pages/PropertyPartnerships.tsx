@@ -49,10 +49,23 @@ function isExternalListingUrl(url: string): boolean {
 }
 
 /**
- * Google Web Apps redirect POST with HTTP 302; fetch would otherwise repeat the request as GET and only hit doGet.
- * POST again to the Location URL so doPost runs and the Sheet receives the row.
+ * Prefer letting the browser follow redirects (KITF pattern). Manual POST hops can confuse Apps Script echo and show up as failed echo requests in DevTools.
  */
-async function fetchGoogleAppsScriptPost(execUrl: string, formBody: string): Promise<Response> {
+async function fetchGasWebAppPostFollow(execUrl: string, formBody: string): Promise<Response> {
+  return fetch(execUrl, {
+    method: "POST",
+    cache: "no-store",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: formBody,
+    mode: "cors",
+    redirect: "follow",
+  });
+}
+
+/**
+ * When redirect-follow turns the POST into an effective doGet-style reply (`live` without `saved`), replay using explicit POST to each Location (historical workaround).
+ */
+async function fetchGasWebAppPostManualHops(execUrl: string, formBody: string): Promise<Response> {
   const headers = { "Content-Type": "application/x-www-form-urlencoded" };
   let requestUrl = execUrl;
 
@@ -66,7 +79,8 @@ async function fetchGoogleAppsScriptPost(execUrl: string, formBody: string): Pro
       redirect: "manual",
     });
 
-    const loc = res.headers.get("Location");
+    const locRaw = res.headers.get("Location");
+    const loc = locRaw?.trim();
     if (loc && res.status >= 300 && res.status < 400) {
       requestUrl = new URL(loc, res.url || requestUrl).href;
       continue;
@@ -195,9 +209,15 @@ function gasBodyIndicatesSaved(raw: string): boolean {
   return false;
 }
 
+/** True when the body matches our Apps Script doGet probe (`live`) but not a confirmed doPost (`saved`). */
+function gasBodyLooksLikeDoGetOnly(raw: string): boolean {
+  const b = gasPrepare(raw).toLowerCase();
+  return /"live"\s*:\s*true\b/.test(b) && !/"saved"\s*:\s*true\b/.test(b);
+}
+
 /**
  * Macro round-trip succeeded (2xx) but we could not parse JSON — still common when proxies/wrappers alter the body.
- * Never treat obvious HTML login pages or explicit `{ ok: false }` as success.
+ * Never treat obvious HTML login pages, doGet-only payloads, or explicit `{ ok: false }` as success.
  */
 function gasMacrosOptimisticSaved(res: Response, raw: string): GasPostJson | null {
   if (!res.ok) return null;
@@ -205,6 +225,7 @@ function gasMacrosOptimisticSaved(res: Response, raw: string): GasPostJson | nul
 
   const b = normalizeGasBody(raw).toLowerCase();
   if (/\bok\b\s*:\s*false\b/.test(b)) return null;
+  if (gasBodyLooksLikeDoGetOnly(raw)) return null;
 
   const negatives =
     /<!doctype\b|<\s*html\b|accounts\.google|sign\s+in|access\s+denied|log\s+in\s+with|could\s+not\s+complete|typeerror|referenceerror|service\s+unavailable/i;
@@ -408,9 +429,33 @@ export function PropertyPartnerships() {
     setSubmitState("loading");
     setSubmitError("");
 
+    const postInit = {
+      method: "POST" as const,
+      cache: "no-store" as const,
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: formBody,
+    };
+
     try {
-      const res = await fetchGoogleAppsScriptPost(PROPERTY_ENQUIRY_SUBMIT_URL, formBody);
-      const raw = await res.text();
+      let res: Response;
+      let raw: string;
+
+      try {
+        res = await fetchGasWebAppPostFollow(PROPERTY_ENQUIRY_SUBMIT_URL, formBody);
+        raw = await res.text();
+      } catch {
+        /* Same recovery path as KeepItInTheFamily: some browsers choke on GAS redirects even though POST should reach Google. */
+        await fetch(PROPERTY_ENQUIRY_SUBMIT_URL, { ...postInit, mode: "no-cors" });
+        setDialogStep("success");
+        resetFormFields();
+        return;
+      }
+
+      if (res.ok && gasBodyLooksLikeDoGetOnly(raw)) {
+        res = await fetchGasWebAppPostManualHops(PROPERTY_ENQUIRY_SUBMIT_URL, formBody);
+        raw = await res.text();
+      }
+
       let data =
         gasEmptyTrustedSuccess(res, raw) ??
         parseGasWholeBodySaved(raw) ??
