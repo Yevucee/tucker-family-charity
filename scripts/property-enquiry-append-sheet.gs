@@ -19,7 +19,7 @@
  */
 
 /** From spreadsheet URL: …/spreadsheets/d/THIS_PART/edit */
-var PROPERTY_ENQUIRY_SPREADSHEET_ID = "REPLACE_WITH_SPREADSHEET_ID";
+var PROPERTY_ENQUIRY_SPREADSHEET_ID = "1t5eGqP2OAkoZEiQ5NHlzkrPvgoy8FXtSXlIni670t9A";
 /** Tab name (exact match). */
 var SHEET_NAME = "Sheet1";
 /** Empty = no check. If set, must match VITE_PROPERTY_ENQUIRY_SECRET in the site build. */
