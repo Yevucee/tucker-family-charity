@@ -54,66 +54,87 @@ function isExternalListingUrl(url: string): boolean {
  */
 async function fetchGoogleAppsScriptPost(execUrl: string, formBody: string): Promise<Response> {
   const headers = { "Content-Type": "application/x-www-form-urlencoded" };
-  const first = await fetch(execUrl, {
-    method: "POST",
-    cache: "no-store",
-    headers,
-    body: formBody,
-    mode: "cors",
-    redirect: "manual",
-  });
-  const loc = first.headers.get("Location");
-  if (loc && first.status >= 300 && first.status < 400) {
-    return fetch(loc, {
+  let requestUrl = execUrl;
+
+  for (let hop = 0; hop < 12; hop++) {
+    const res = await fetch(requestUrl, {
       method: "POST",
       cache: "no-store",
       headers,
       body: formBody,
       mode: "cors",
-      redirect: "follow",
+      redirect: "manual",
     });
+
+    const loc = res.headers.get("Location");
+    if (loc && res.status >= 300 && res.status < 400) {
+      requestUrl = new URL(loc, res.url || requestUrl).href;
+      continue;
+    }
+
+    return res;
   }
-  return first;
+
+  throw new Error("Apps Script redirect chain too long");
 }
 
 type GasPostJson = { ok?: boolean; saved?: boolean; live?: boolean; error?: string };
 
-/** First balanced `{ ... }` in text (handles stray bytes / wrappers before JSON). */
+/** Strip BOM / zero-width chars Google occasionally prefixes on macro responses. */
+function normalizeGasBody(raw: string): string {
+  return raw.replace(/^\uFEFF/, "").replace(/[\u200B-\u200D]/g, "").trim();
+}
+
+/**
+ * Last resort when JSON.parse fails on the whole body — Apps Script embed may still expose success markers.
+ * Avoid treating arbitrary HTML as success: require both markers used together by our deployed script.
+ */
+function gasBodyIndicatesSaved(raw: string): boolean {
+  const n = normalizeGasBody(raw);
+  return /"ok"\s*:\s*true\b/.test(n) && /"saved"\s*:\s*true\b/.test(n);
+}
+
+/** First balanced `{ ... }` starting at text[0]. */
 function extractLeadingJsonObject(text: string): string | null {
-  const start = text.indexOf("{");
-  if (start === -1) return null;
+  if (!text.startsWith("{")) return null;
   let depth = 0;
-  for (let i = start; i < text.length; i++) {
+  for (let i = 0; i < text.length; i++) {
     const c = text[i];
     if (c === "{") depth++;
     else if (c === "}") {
       depth--;
-      if (depth === 0) return text.slice(start, i + 1);
+      if (depth === 0) return text.slice(0, i + 1);
     }
   }
   return null;
 }
 
 /**
- * Google Apps Script sometimes returns slight junk around JSON after redirect chains.
+ * Try every `{` position — HTML wrappers often break single-shot brace parsing.
  */
 function parseGasPostJson(raw: string): GasPostJson | null {
-  const trimmed = raw.trim().replace(/^\uFEFF/, "");
-  const chunk = extractLeadingJsonObject(trimmed);
-  const candidates = chunk ? [chunk, trimmed] : [trimmed];
-  const seen = new Set<string>();
+  const trimmed = normalizeGasBody(raw);
+  const candidates = new Set<string>();
+
+  for (let i = 0; i < trimmed.length; i++) {
+    if (trimmed[i] !== "{") continue;
+    const slice = extractLeadingJsonObject(trimmed.slice(i));
+    if (slice) candidates.add(slice);
+  }
+
+  let fallback: GasPostJson | null = null;
   for (const c of candidates) {
-    const t = c.trim();
-    if (!t || seen.has(t)) continue;
-    seen.add(t);
     try {
-      const data = JSON.parse(t) as GasPostJson;
-      if (data && typeof data === "object") return data;
+      const data = JSON.parse(c) as GasPostJson;
+      if (!data || typeof data !== "object") continue;
+      if (data.ok === true && data.saved === true) return data;
+      if (!fallback) fallback = data;
     } catch {
-      /* try next */
+      /* next candidate */
     }
   }
-  return null;
+
+  return fallback;
 }
 
 export function PropertyPartnerships() {
@@ -237,7 +258,10 @@ export function PropertyPartnerships() {
     try {
       const res = await fetchGoogleAppsScriptPost(PROPERTY_ENQUIRY_SUBMIT_URL, formBody);
       const raw = await res.text();
-      const data = parseGasPostJson(raw);
+      let data = parseGasPostJson(raw);
+      if ((!data || data.ok !== true || data.saved !== true) && gasBodyIndicatesSaved(raw)) {
+        data = { ok: true, saved: true };
+      }
       if (!data) {
         setSubmitState("error");
         setSubmitError(
@@ -245,18 +269,18 @@ export function PropertyPartnerships() {
         );
         return;
       }
-      if (!res.ok || data.ok !== true || data.saved !== true) {
-        setSubmitState("error");
-        setSubmitError(
-          data.error ||
-            (data.live && !data.saved
-              ? "The server responded without saving your enquiry (often an outdated Apps Script). Copy the latest Code.gs from the charity repo, deploy again, then retry."
-              : `Something went wrong (${res.status}). Try again later.`)
-        );
+      if (data.ok === true && data.saved === true) {
+        setDialogStep("success");
+        resetFormFields();
         return;
       }
-      setDialogStep("success");
-      resetFormFields();
+      setSubmitState("error");
+      setSubmitError(
+        data.error ||
+          (data.live && !data.saved
+            ? "The server responded without saving your enquiry (often an outdated Apps Script). Copy the latest Code.gs from the charity repo, deploy again, then retry."
+            : `Something went wrong (${res.status}). Try again later.`)
+      );
     } catch {
       setSubmitState("error");
       setSubmitError(
