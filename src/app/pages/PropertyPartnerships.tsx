@@ -103,6 +103,16 @@ function gasPrepare(raw: string): string {
   return normalizeGasQuotes(decodeHtmlQuotEntities(normalizeGasBody(raw)));
 }
 
+/** Final fetch URL after redirects — host must match Apps Script web-app endpoints (path varies; avoid requiring `/macros/`). */
+function isGasAppsScriptResponseUrl(urlStr: string): boolean {
+  try {
+    const host = new URL(urlStr).hostname.toLowerCase();
+    return host === "script.google.com" || host === "script.googleusercontent.com";
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Google occasionally returns an empty body on success while CORS headers still allow reading the status.
  * Only trust when the response URL is the known Apps Script macro host (after redirects).
@@ -110,14 +120,7 @@ function gasPrepare(raw: string): string {
 function gasEmptyTrustedSuccess(res: Response, raw: string): GasPostJson | null {
   if (normalizeGasBody(raw).length > 0) return null;
   if (!(res.ok && (res.status === 200 || res.status === 204))) return null;
-  try {
-    const u = res.url;
-    if (u.includes("script.google.com/macros") || u.includes("script.googleusercontent.com/macros")) {
-      return { ok: true, saved: true };
-    }
-  } catch {
-    /* ignore */
-  }
+  if (isGasAppsScriptResponseUrl(res.url)) return { ok: true, saved: true };
   return null;
 }
 
@@ -198,12 +201,7 @@ function gasBodyIndicatesSaved(raw: string): boolean {
  */
 function gasMacrosOptimisticSaved(res: Response, raw: string): GasPostJson | null {
   if (!res.ok) return null;
-  try {
-    const u = res.url;
-    if (!u.includes("script.google.com/macros") && !u.includes("script.googleusercontent.com/macros")) return null;
-  } catch {
-    return null;
-  }
+  if (!isGasAppsScriptResponseUrl(res.url)) return null;
 
   const b = normalizeGasBody(raw).toLowerCase();
   if (/\bok\b\s*:\s*false\b/.test(b)) return null;
