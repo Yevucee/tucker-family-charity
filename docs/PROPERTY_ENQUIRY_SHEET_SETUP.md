@@ -23,21 +23,22 @@ Enquiries from **Property Partnerships** (`Register your interest`) POST JSON to
 | Deploy | **Web app**, Execute as **Me**, Who has access **Anyone** |
 | Site URL | Copy `/exec` URL → repo secret **`VITE_PROPERTY_ENQUIRY_SUBMIT_URL`** |
 | Optional lock | Set `SCRIPT_SECRET` in script + **`VITE_PROPERTY_ENQUIRY_SECRET`** (same string) |
-| Email alerts | Set **`NOTIFY_EMAILS`** in `property-enquiry-append-sheet.gs` (comma-separated addresses). Run **`testNotify`** once from the Apps Script editor to grant Mail permission and verify mail arrives; then redeploy the web app |
+| Email alerts | Set **`NOTIFY_EMAILS`**. Run **`testNotify`** once (Mail permission). Recommended: run **`installPropertyEnquiryChangeTrigger`** once (Sheet **`onChange`** + primes dedupe). Redeploy the web app |
 
 Never put the shared secret into the URL secret — same rule as KITF (`VITE_KITF_SUBMIT_URL` vs `VITE_KITF_SUBMIT_SECRET`).
 
 ### Email notifications (optional)
 
-After each successful Sheet append, the script can email a plain-text summary using **`MailApp`**.
+After each successful Sheet append (or when a **new bottom row** is completed on the enquiries tab), the script can email a plain-text summary using **`MailApp`**.
 
 1. In **`scripts/property-enquiry-append-sheet.gs`** (your deployed Code.gs), set for example:
    - `NOTIFY_EMAILS = "you@yourdomain.org, colleague@yourdomain.org"`
 2. In Apps Script: choose **`testNotify`** in the function dropdown → **Run**. Approve **Send mail as you** when prompted.
 3. Check your inbox for the test message.
-4. **Deploy → Manage deployments → Edit** (pencil) → **New version** → **Deploy** so the live web app includes the updated script.
+4. **Sheet-driven alerts (recommended):** Run **`installPropertyEnquiryChangeTrigger`** once. That installs an **`onChange`** trigger on the spreadsheet so **manual or imported rows** at the bottom of `SHEET_NAME` trigger the same email path as the website (deduped — you won’t get two emails for one web submission). The installer also runs **`primeEnquiryNotifyDedupe_`** so existing bottom-row data isn’t treated as a “new” enquiry on the next edit.
+5. **Deploy → Manage deployments → Edit** (pencil) → **New version** → **Deploy** so the live web app includes the updated script.
 
-If Mail fails (quota, typo), the enquiry row is **still saved** and the website still receives **`saved: true`**; failures are logged in Apps Script **Executions**.
+If Mail fails (quota, typo), the enquiry row is **still saved** and the website still receives **`saved: true`**; failures are logged in Apps Script **Executions** (look for **`doPost`** or **`propertyEnquirySheetOnChange_`**).
 
 ### No email after an enquiry?
 
@@ -45,7 +46,7 @@ Mail is sent **only from Apps Script**, not from the website — and only **afte
 
 1. **Redeploy required:** Saving Code.gs does **not** update the live **`/exec`** web app until **Deploy → Manage deployments → ✏️ Edit → New version → Deploy**.
 2. **Authorize Mail:** Run **`testNotify`** in the editor once; approve sending mail. Confirm **both** inboxes receive the test (including **Spam / Promotions**).
-3. **Executions:** Apps Script → **Executions** → latest **`doPost`** → **Logs**. Look for `notifyNewEnquiry_ failed for …`.
+3. **Executions:** Apps Script → **Executions** → latest **`doPost`** or **`propertyEnquirySheetOnChange_`** → **Logs**. Look for `notifyNewEnquiry_ failed for …`. If you never ran **`installPropertyEnquiryChangeTrigger`**, only **`doPost`** can send mail after form submits (manual Sheet rows won’t alert until you install that trigger).
 4. **Workspace:** IT may block scripted outbound mail.
 
 ## Website build

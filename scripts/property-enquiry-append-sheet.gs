@@ -7,7 +7,10 @@
  * 2. Open Extensions → Apps Script. Paste this entire file as Code.gs (replace defaults).
  * 3. Set PROPERTY_ENQUIRY_SPREADSHEET_ID and SHEET_NAME below (Sheet ID from the spreadsheet URL).
  * 4. Optional: set SCRIPT_SECRET to a random string and use the same value in VITE_PROPERTY_ENQUIRY_SECRET.
- * 5. Optional email alerts: set NOTIFY_EMAILS (comma-separated). Run testNotify once to authorize MailApp, then Deploy → Manage deployments → New version (otherwise live /exec still runs old code).
+ * 5. Optional email alerts: set NOTIFY_EMAILS (comma-separated). Run testNotify once to authorize MailApp.
+ *    Then run installPropertyEnquiryChangeTrigger once (installs a Sheet onChange watcher so new rows notify
+ *    even if you add them by hand). That run also primes dedupe from the current bottom row when data exists.
+ *    You can run primeEnquiryNotifyDedupe_ again later after bulk imports. Deploy → Manage deployments → New version so /exec stays current.
  * 6. Deploy → New deployment → Type: Web app
  *      Execute as: Me
  *      Who has access: Anyone   ← MUST be “Anyone”, not “Anyone within Org only”.
@@ -48,6 +51,100 @@ function testNotify() {
     listingUrl: "",
     agentEmail: "",
   });
+}
+
+/**
+ * One-time: register an installable trigger so any new enquiry row on SHEET_NAME can send NOTIFY_EMAILS.
+ * Run from the Apps Script editor after saving this project (same account as the spreadsheet).
+ */
+function installPropertyEnquiryChangeTrigger() {
+  var handler = 'propertyEnquirySheetOnChange_';
+  ScriptApp.getProjectTriggers().forEach(function (t) {
+    if (t.getHandlerFunction() === handler) ScriptApp.deleteTrigger(t);
+  });
+  ScriptApp.newTrigger(handler).forSpreadsheet(PROPERTY_ENQUIRY_SPREADSHEET_ID).onChange().create();
+  primeEnquiryNotifyDedupe_();
+}
+
+/**
+ * Run once before or after installPropertyEnquiryChangeTrigger if the sheet already has enquiry rows —
+ * remembers the bottom row so routine edits don’t look like a “new enquiry”.
+ */
+function primeEnquiryNotifyDedupe_() {
+  var ss = SpreadsheetApp.openById(PROPERTY_ENQUIRY_SPREADSHEET_ID);
+  var sheet = ss.getSheetByName(SHEET_NAME);
+  if (!sheet || sheet.getLastRow() < 2) return;
+  var lastRow = sheet.getLastRow();
+  var rowVals = sheet.getRange(lastRow, 1, lastRow, 12).getValues()[0];
+  PropertiesService.getScriptProperties().setProperty(
+    'LAST_NOTIFIED_ENQUIRY_KEY',
+    enquiryDedupeKey_(lastRow, rowVals[1], rowVals[6]),
+  );
+}
+
+function propertyEnquirySheetOnChange_(e) {
+  try {
+    var ct = e.changeType;
+    if (ct !== SpreadsheetApp.ChangeType.EDIT && ct !== SpreadsheetApp.ChangeType.INSERT_ROW) return;
+
+    var ss = e.source;
+    var sheet = ss.getSheetByName(SHEET_NAME);
+    if (!sheet) return;
+
+    var lastRow = sheet.getLastRow();
+    if (lastRow < 2) return;
+
+    var rowVals = sheet.getRange(lastRow, 1, lastRow, 12).getValues()[0];
+    var propertyId = String(rowVals[1] || '').trim();
+    var visitorName = String(rowVals[5] || '').trim();
+    var visitorEmail = String(rowVals[6] || '').trim();
+    if (!propertyId || !visitorName || !visitorEmail) return;
+
+    notifyNewEnquiryAfterDedupe_(
+      {
+        timestamp: timestampCellToIso_(rowVals[0]),
+        propertyId: propertyId,
+        propertyTitle: String(rowVals[2] || '').trim(),
+        propertyType: String(rowVals[3] || '').trim(),
+        suburb: String(rowVals[4] || '').trim(),
+        visitorName: visitorName,
+        visitorEmail: visitorEmail,
+        visitorPhone: String(rowVals[7] || '').trim(),
+        contactMethod: String(rowVals[8] || '').trim(),
+        message: String(rowVals[9] || '').trim(),
+        agentEmail: String(rowVals[10] || '').trim(),
+        listingUrl: String(rowVals[11] || '').trim(),
+      },
+      lastRow,
+    );
+  } catch (err) {
+    Logger.log('propertyEnquirySheetOnChange_: ' + String(err));
+  }
+}
+
+/** Row identity for Mail dedupe (matches between doPost + onChange even if Timestamp cell format differs). */
+function enquiryDedupeKey_(sheetRowNum, propertyId, visitorEmail) {
+  return (
+    String(sheetRowNum) +
+    '|' +
+    String(propertyId || '').trim() +
+    '|' +
+    String(visitorEmail || '').trim()
+  );
+}
+
+function timestampCellToIso_(cell) {
+  if (cell instanceof Date) return cell.toISOString();
+  return String(cell || '').trim();
+}
+
+/** Sends MailApp notification unless this enquiry row was already notified (doPost + Sheet onChange deduped). */
+function notifyNewEnquiryAfterDedupe_(row, sheetRowNum) {
+  var key = enquiryDedupeKey_(sheetRowNum, row.propertyId, row.visitorEmail);
+  var props = PropertiesService.getScriptProperties();
+  if (props.getProperty('LAST_NOTIFIED_ENQUIRY_KEY') === key) return;
+  props.setProperty('LAST_NOTIFIED_ENQUIRY_KEY', key);
+  notifyNewEnquiry_(row);
 }
 
 function doGet() {
@@ -116,20 +213,25 @@ function doPost(e) {
       notes,
     ]);
 
-    notifyNewEnquiry_({
-      timestamp: ts,
-      propertyId: propertyId,
-      propertyTitle: propertyTitle,
-      propertyType: propertyType,
-      suburb: suburb,
-      visitorName: visitorName,
-      visitorEmail: visitorEmail,
-      visitorPhone: visitorPhone,
-      contactMethod: contactMethod,
-      message: message,
-      agentEmail: agentEmail,
-      listingUrl: listingUrl,
-    });
+    var appendedRowNum = sheet.getLastRow();
+
+    notifyNewEnquiryAfterDedupe_(
+      {
+        timestamp: ts,
+        propertyId: propertyId,
+        propertyTitle: propertyTitle,
+        propertyType: propertyType,
+        suburb: suburb,
+        visitorName: visitorName,
+        visitorEmail: visitorEmail,
+        visitorPhone: visitorPhone,
+        contactMethod: contactMethod,
+        message: message,
+        agentEmail: agentEmail,
+        listingUrl: listingUrl,
+      },
+      appendedRowNum,
+    );
 
     return jsonResponse({ ok: true, saved: true });
   } catch (err) {
@@ -191,7 +293,7 @@ function notifyNewEnquiry_(row) {
     var replyToOpt = visitorReply.indexOf('@') > 0 ? visitorReply : undefined;
 
     var lines = [
-      'A new enquiry was submitted on the Tucker Family Charity website.',
+      'A new property enquiry row was added (website form or directly in the Sheet).',
       '',
       'Property: ' + String(row.propertyTitle || ''),
       'Suburb: ' + String(row.suburb || ''),
