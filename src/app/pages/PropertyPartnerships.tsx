@@ -144,31 +144,35 @@ function parseGasWholeBodySaved(raw: string): GasPostJson | null {
  * slice is not valid JSON (e.g. CSS / script noise elsewhere in a large HTML wrapper).
  */
 function gasSavedFromBoundedMarkers(raw: string): GasPostJson | null {
-  const n = gasPrepare(raw);
-  const markerPairs: ReadonlyArray<[RegExp, RegExp]> = [
-    [/"ok"\s*:\s*true\b/, /"saved"\s*:\s*true\b/],
-    [/\bok\b\s*:\s*true\b/, /\bsaved\b\s*:\s*true\b/],
-  ];
+  const primary = gasPrepare(raw);
+  const variants = primary.includes('\\"') ? [primary, primary.replace(/\\"/g, '"')] : [primary];
 
-  for (const [okRe, savedRe] of markerPairs) {
-    const okM = okRe.exec(n);
-    const savedM = savedRe.exec(n);
-    if (!okM || !savedM) continue;
+  for (const n of variants) {
+    const markerPairs: ReadonlyArray<[RegExp, RegExp]> = [
+      [/"ok"\s*:\s*true\b/, /"saved"\s*:\s*true\b/],
+      [/\bok\b\s*:\s*true\b/, /\bsaved\b\s*:\s*true\b/],
+    ];
 
-    const start = Math.min(okM.index, savedM.index);
-    const end = Math.max(okM.index + okM[0].length, savedM.index + savedM[0].length);
-    const braceOpen = n.lastIndexOf("{", start);
-    const braceClose = n.indexOf("}", end);
-    if (braceOpen === -1 || braceClose === -1 || braceClose <= braceOpen) continue;
+    for (const [okRe, savedRe] of markerPairs) {
+      const okM = okRe.exec(n);
+      const savedM = savedRe.exec(n);
+      if (!okM || !savedM) continue;
 
-    const slice = n.slice(braceOpen, braceClose + 1);
-    let parsed: GasPostJson;
-    try {
-      parsed = JSON.parse(slice) as GasPostJson;
-    } catch {
-      return { ok: true, saved: true };
+      const start = Math.min(okM.index, savedM.index);
+      const end = Math.max(okM.index + okM[0].length, savedM.index + savedM[0].length);
+      const braceOpen = n.lastIndexOf("{", start);
+      const braceClose = n.indexOf("}", end);
+      if (braceOpen === -1 || braceClose === -1 || braceClose <= braceOpen) continue;
+
+      const slice = n.slice(braceOpen, braceClose + 1);
+      let parsed: GasPostJson;
+      try {
+        parsed = JSON.parse(slice) as GasPostJson;
+      } catch {
+        return { ok: true, saved: true };
+      }
+      if (parsed?.ok === true && parsed?.saved === true) return parsed;
     }
-    if (parsed?.ok === true && parsed?.saved === true) return parsed;
   }
 
   return null;
@@ -180,8 +184,35 @@ function gasSavedFromBoundedMarkers(raw: string): GasPostJson | null {
  */
 function gasBodyIndicatesSaved(raw: string): boolean {
   if (gasSavedFromBoundedMarkers(raw) !== null) return true;
-  const n = gasPrepare(raw);
-  return /\bok\b\s*:\s*true\b/.test(n) && /\bsaved\b\s*:\s*true\b/.test(n);
+  const primary = gasPrepare(raw);
+  const variants = primary.includes('\\"') ? [primary, primary.replace(/\\"/g, '"')] : [primary];
+  for (const n of variants) {
+    if (/\bok\b\s*:\s*true\b/.test(n) && /\bsaved\b\s*:\s*true\b/.test(n)) return true;
+  }
+  return false;
+}
+
+/**
+ * Macro round-trip succeeded (2xx) but we could not parse JSON — still common when proxies/wrappers alter the body.
+ * Never treat obvious HTML login pages or explicit `{ ok: false }` as success.
+ */
+function gasMacrosOptimisticSaved(res: Response, raw: string): GasPostJson | null {
+  if (!res.ok) return null;
+  try {
+    const u = res.url;
+    if (!u.includes("script.google.com/macros") && !u.includes("script.googleusercontent.com/macros")) return null;
+  } catch {
+    return null;
+  }
+
+  const b = normalizeGasBody(raw).toLowerCase();
+  if (/\bok\b\s*:\s*false\b/.test(b)) return null;
+
+  const negatives =
+    /<!doctype\b|<\s*html\b|accounts\.google|sign\s+in|access\s+denied|log\s+in\s+with|could\s+not\s+complete|typeerror|referenceerror|service\s+unavailable/i;
+  if (negatives.test(b)) return null;
+
+  return { ok: true, saved: true };
 }
 
 /** First balanced `{ ... }` starting at text[0]. */
@@ -201,29 +232,36 @@ function extractLeadingJsonObject(text: string): string | null {
 
 /** Scan for `{ "ok": ...` starts — skips unrelated `{` earlier in noisy HTML. */
 function parseGasSavedNearOkKey(raw: string): GasPostJson | null {
-  const n = gasPrepare(raw);
-  const re = /\{\s*"ok"\s*:/g;
-  let m: RegExpExecArray | null;
-  while ((m = re.exec(n)) !== null) {
-    const slice = extractLeadingJsonObject(n.slice(m.index));
-    if (!slice) continue;
-    try {
-      const data = JSON.parse(slice) as GasPostJson;
-      if (data && typeof data === "object" && data.ok === true && data.saved === true) return data;
-    } catch {
-      /* next occurrence */
+  const primary = gasPrepare(raw);
+  const variants = primary.includes('\\"') ? [primary, primary.replace(/\\"/g, '"')] : [primary];
+
+  for (const n of variants) {
+    const re = /\{\s*"ok"\s*:/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(n)) !== null) {
+      const slice = extractLeadingJsonObject(n.slice(m.index));
+      if (!slice) continue;
+      try {
+        const data = JSON.parse(slice) as GasPostJson;
+        if (data && typeof data === "object" && data.ok === true && data.saved === true) return data;
+      } catch {
+        /* next occurrence */
+      }
     }
   }
   return null;
 }
 
 function collectGasBalancedJsonSlices(raw: string): string[] {
-  const trimmed = gasPrepare(raw);
+  const primary = gasPrepare(raw);
+  const variants = primary.includes('\\"') ? [primary, primary.replace(/\\"/g, '"')] : [primary];
   const candidates = new Set<string>();
-  for (let i = 0; i < trimmed.length; i++) {
-    if (trimmed[i] !== "{") continue;
-    const slice = extractLeadingJsonObject(trimmed.slice(i));
-    if (slice) candidates.add(slice);
+  for (const trimmed of variants) {
+    for (let i = 0; i < trimmed.length; i++) {
+      if (trimmed[i] !== "{") continue;
+      const slice = extractLeadingJsonObject(trimmed.slice(i));
+      if (slice) candidates.add(slice);
+    }
   }
   return [...candidates];
 }
@@ -384,6 +422,10 @@ export function PropertyPartnerships() {
 
       if ((!data || data.ok !== true || data.saved !== true) && gasBodyIndicatesSaved(raw)) {
         data = { ok: true, saved: true };
+      }
+
+      if (!data) {
+        data = gasMacrosOptimisticSaved(res, raw);
       }
 
       if (!data) {
