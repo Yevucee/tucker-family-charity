@@ -32,3 +32,23 @@ Never put the shared secret into the URL secret — same rule as KITF (`VITE_KIT
 - **Local:** copy `.env.example` lines into `.env` and rebuild.
 
 After deployment, submit a test enquiry and confirm a new row appears in the Sheet.
+
+## Troubleshooting
+
+### Sheet stays empty but the website says “Thank you”
+
+That usually means the **browser never received `{ "ok": true }` JSON** from Apps Script (often because of deployment permissions).
+
+1. Open your **`…/exec`** URL in an **Incognito / private** window **without** signing into Google.
+   - **Good:** you see JSON like `{"ok":true,"message":"…endpoint is live…"}`.
+   - **Bad:** Google asks you to **sign in**, or you see a Drive “could not open file” page → the Web App is **not** set to **Anyone**.
+
+2. Fix it: Apps Script → **Deploy → Manage deployments** → edit the Web App deployment → **Who has access:** **Anyone** → Deploy again. Copy the **new `/exec` URL** if Google gives you one; update **`VITE_PROPERTY_ENQUIRY_SUBMIT_URL`** and redeploy the charity site build.
+
+3. **Wrong tab name:** The script uses **`Sheet1`** unless you changed `SHEET_NAME`. If your tab has another name (e.g. “Responses”), either rename the tab or set `SHEET_NAME` to match exactly.
+
+### Recommended Sheet headers (14 columns)
+
+Match what `appendRow` writes (add **Suburb** and **Listing URL** if yours only has 12 columns):
+
+`Timestamp` | `Property ID` | `Title` | `Type` | `Suburb` | `Name` | `Email` | `Phone` | `Preferred contact` | `Message` | `Agent email` | `Listing URL` | `Status` | `Notes`

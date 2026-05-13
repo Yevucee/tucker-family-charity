@@ -174,13 +174,18 @@ export function PropertyPartnerships() {
 
     try {
       const res = await fetch(PROPERTY_ENQUIRY_SUBMIT_URL, { ...postInit, mode: "cors" });
+      const raw = await res.text();
       let data: { ok?: boolean; error?: string } = {};
       try {
-        data = (await res.json()) as { ok?: boolean; error?: string };
+        data = JSON.parse(raw) as { ok?: boolean; error?: string };
       } catch {
-        /* non-JSON */
+        setSubmitState("error");
+        setSubmitError(
+          "The enquiry server did not return JSON (often a Google sign‑in page). Redeploy Apps Script → Web app → Who has access: **Anyone** — not restricted to your organisation only. See docs/PROPERTY_ENQUIRY_SHEET_SETUP.md."
+        );
+        return;
       }
-      if (!res.ok || data.ok === false) {
+      if (!res.ok || data.ok !== true) {
         setSubmitState("error");
         setSubmitError(data.error || `Something went wrong (${res.status}). Try again later.`);
         return;
@@ -393,6 +398,9 @@ export function PropertyPartnerships() {
               </DialogHeader>
               <p className="text-sm text-neutral-600 leading-relaxed">
                 Your enquiry helps Tucker Family Charity track support generated through this partnership.
+              </p>
+              <p className="text-xs text-neutral-500 leading-relaxed">
+                Charity admins: confirm new rows appear on the enquiries Sheet after each test submission.
               </p>
               {selectedProperty && isExternalListingUrl(selectedProperty.originalListingUrl) ? (
                 <div className="rounded-xl border border-amber-100 bg-amber-50/80 px-4 py-3 text-sm">

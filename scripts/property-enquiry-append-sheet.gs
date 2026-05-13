@@ -9,7 +9,8 @@
  * 4. Optional: set SCRIPT_SECRET to a random string and use the same value in VITE_PROPERTY_ENQUIRY_SECRET.
  * 5. Deploy → New deployment → Type: Web app
  *      Execute as: Me
- *      Who has access: Anyone
+ *      Who has access: Anyone   ← MUST be “Anyone”, not “Anyone within Org only”.
+ *        If this is wrong, the website gets HTML login pages / HTTP 401 and NO rows are appended.
  *    Deploy → copy URL ending in /exec → GitHub secret VITE_PROPERTY_ENQUIRY_SUBMIT_URL (and .env locally).
  *
  * TAB HEADERS (row 1 — create manually so collaborators understand columns):
@@ -64,7 +65,14 @@ function doPost(e) {
       return jsonResponse({ ok: false, error: "Missing required fields" });
     }
 
-    var sheet = SpreadsheetApp.openById(PROPERTY_ENQUIRY_SPREADSHEET_ID).getSheetByName(SHEET_NAME);
+    var ss = SpreadsheetApp.openById(PROPERTY_ENQUIRY_SPREADSHEET_ID);
+    var sheet = ss.getSheetByName(SHEET_NAME);
+    if (!sheet) {
+      return jsonResponse({
+        ok: false,
+        error: 'Missing sheet tab "' + SHEET_NAME + '". Rename the tab or set SHEET_NAME in Code.gs.',
+      });
+    }
     sheet.appendRow([
       ts,
       propertyId,
