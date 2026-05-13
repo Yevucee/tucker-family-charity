@@ -7,7 +7,7 @@
  * 2. Open Extensions → Apps Script. Paste this entire file as Code.gs (replace defaults).
  * 3. Set PROPERTY_ENQUIRY_SPREADSHEET_ID and SHEET_NAME below (Sheet ID from the spreadsheet URL).
  * 4. Optional: set SCRIPT_SECRET to a random string and use the same value in VITE_PROPERTY_ENQUIRY_SECRET.
- * 5. Optional email alerts: set NOTIFY_EMAILS (comma-separated). First send requires authorizing MailApp (run testNotify once).
+ * 5. Optional email alerts: set NOTIFY_EMAILS (comma-separated). Run testNotify once to authorize MailApp, then Deploy → Manage deployments → New version (otherwise live /exec still runs old code).
  * 6. Deploy → New deployment → Type: Web app
  *      Execute as: Me
  *      Who has access: Anyone   ← MUST be “Anyone”, not “Anyone within Org only”.
@@ -167,7 +167,8 @@ function readScriptSecret_() {
 }
 
 /**
- * Sends plain-text summary via MailApp. Never fails the web response — failures are swallowed so enquiries still save.
+ * Sends plain-text summary via MailApp (one message per recipient — avoids comma-list quirks).
+ * Never fails the web response — failures are logged per address so enquiries still save.
  */
 function notifyNewEnquiry_(row) {
   try {
@@ -185,6 +186,9 @@ function notifyNewEnquiry_(row) {
       'New property enquiry: ' +
       String(row.propertyTitle || '').substring(0, 80) +
       (String(row.propertyTitle || '').length > 80 ? '…' : '');
+
+    var visitorReply = String(row.visitorEmail || '').trim();
+    var replyToOpt = visitorReply.indexOf('@') > 0 ? visitorReply : undefined;
 
     var lines = [
       'A new enquiry was submitted on the Tucker Family Charity website.',
@@ -210,13 +214,23 @@ function notifyNewEnquiry_(row) {
       'Open the Property enquiries sheet tab to see the full row.',
     ];
 
-    MailApp.sendEmail({
-      to: recipients.join(','),
-      subject: subject,
-      body: lines.join('\n'),
+    var bodyText = lines.join('\n');
+
+    recipients.forEach(function (addr) {
+      try {
+        var opts = {
+          to: addr,
+          subject: subject,
+          body: bodyText,
+          name: 'Tucker Family Charity — property enquiry',
+        };
+        if (replyToOpt) opts.replyTo = replyToOpt;
+        MailApp.sendEmail(opts);
+      } catch (oneErr) {
+        Logger.log('notifyNewEnquiry_ failed for ' + addr + ': ' + String(oneErr));
+      }
     });
   } catch (notifyErr) {
-    /* Still return saved:true to the website — row is already appended */
-    Logger.log('notifyNewEnquiry_ failed: ' + String(notifyErr));
+    Logger.log('notifyNewEnquiry_ outer failure: ' + String(notifyErr));
   }
 }

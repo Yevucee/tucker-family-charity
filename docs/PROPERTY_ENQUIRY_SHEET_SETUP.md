@@ -39,6 +39,15 @@ After each successful Sheet append, the script can email a plain-text summary us
 
 If Mail fails (quota, typo), the enquiry row is **still saved** and the website still receives **`saved: true`**; failures are logged in Apps Script **Executions**.
 
+### No email after an enquiry?
+
+Mail is sent **only from Apps Script**, not from the website — and only **after** `appendRow` succeeds.
+
+1. **Redeploy required:** Saving Code.gs does **not** update the live **`/exec`** web app until **Deploy → Manage deployments → ✏️ Edit → New version → Deploy**.
+2. **Authorize Mail:** Run **`testNotify`** in the editor once; approve sending mail. Confirm **both** inboxes receive the test (including **Spam / Promotions**).
+3. **Executions:** Apps Script → **Executions** → latest **`doPost`** → **Logs**. Look for `notifyNewEnquiry_ failed for …`.
+4. **Workspace:** IT may block scripted outbound mail.
+
 ## Website build
 
 - **GitHub Actions:** add secrets `VITE_PROPERTY_ENQUIRY_SUBMIT_URL` and optionally `VITE_PROPERTY_ENQUIRY_SECRET`, then redeploy Pages (workflow already passes these into `npm run build`).
