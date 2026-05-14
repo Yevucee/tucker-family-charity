@@ -559,7 +559,8 @@ export function PropertyPartnerships() {
               </div>
               <h3 className="text-lg font-bold text-neutral-900 mb-2">1. Browse selected properties</h3>
               <p className="text-neutral-700 leading-relaxed">
-                Explore homes available through our property partner.
+                Explore homes and other listings available through Tucker Family Charity — including selected partner
+                properties and charity direct lets.
               </p>
             </div>
             <div className="rounded-2xl border border-amber-100 bg-amber-50/60 p-8 text-center shadow-sm">
@@ -568,7 +569,8 @@ export function PropertyPartnerships() {
               </div>
               <h3 className="text-lg font-bold text-neutral-900 mb-2">2. Register your interest</h3>
               <p className="text-neutral-700 leading-relaxed">
-                Submit your details for the property you are interested in.
+                Submit your details for the property you want. Straight after, we show you the link to the full listing so
+                you can read every detail — and Tucker Family Charity can reach out to you.
               </p>
             </div>
             <div className="rounded-2xl border border-amber-100 bg-amber-50/60 p-8 text-center shadow-sm">
@@ -600,8 +602,9 @@ export function PropertyPartnerships() {
             Available Properties
           </h2>
           <p className="text-center text-neutral-600 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Curated listings through our property partner. Details are updated manually—contact us if something looks out
-            of date.
+            Charity-tracked listings — selected partner properties and Tucker Family Charity direct lets. Register your
+            interest to unlock the full listing link; we’ll follow up with you. Details are updated manually—contact us
+            if something looks out of date.
           </p>
 
           <div
@@ -684,8 +687,8 @@ export function PropertyPartnerships() {
                     ) : null}
                     <p className="text-xs text-neutral-500 mb-4 leading-relaxed">
                       {p.directFromCharity
-                        ? "Leased directly by Tucker Family Charity. Register your interest below — we’ll follow up with full details or a viewing route via the public listing."
-                        : "The full listing on our property partner's site is shared with you after you register your interest, so your enquiry is tracked through Tucker Family Charity."}
+                        ? "Register your interest below. After you submit, we’ll show you the link to the full listing — then Tucker Family Charity will get in touch."
+                        : "Register your interest below. After you submit, we’ll show you the link to the full listing — then Tucker Family Charity will get in touch (with our property partner in the loop for these homes)."}
                     </p>
                     <button
                       type="button"
@@ -709,15 +712,17 @@ export function PropertyPartnerships() {
               <DialogHeader>
                 <DialogTitle className="text-xl">Thank you</DialogTitle>
                 <DialogDescription className="text-base text-neutral-700 leading-relaxed pt-2">
+                  Your details are saved. Below is the link to the full listing — Tucker Family Charity will contact you
+                  to follow up.
                   {selectedProperty?.directFromCharity
-                    ? "Your interest has been received. Tucker Family Charity will follow up about this space or point you to the next step on the public listing."
-                    : "Your interest has been received and the property partner will be in touch with you soon."}
+                    ? ""
+                    : " For partnership listings, the property partner may contact you as well."}
                 </DialogDescription>
               </DialogHeader>
               <p className="text-sm text-neutral-600 leading-relaxed">
-                {selectedProperty?.directFromCharity
-                  ? "Thank you for registering — this helps the charity keep enquiries organised for our own commercial let."
-                  : "Your enquiry helps Tucker Family Charity track support generated through this partnership."}
+                We ask you to register first so we have a way to reach you and so your enquiry stays tied to Tucker
+                Family Charity
+                {selectedProperty?.directFromCharity ? "." : " and the partnership referral route."}
               </p>
               <p className="text-xs text-neutral-500 leading-relaxed">
                 Charity admins: confirm new rows appear on the enquiries Sheet after each test submission.
@@ -728,13 +733,14 @@ export function PropertyPartnerships() {
                   <p className="text-neutral-600 mb-3">
                     {selectedProperty.directFromCharity ? (
                       <>
-                        Open the Property24 listing in a new tab for photos, specs, and the agent contact on that
-                        portal. Mention Tucker Family Charity if you enquire there so context stays clear.
+                        Open the Property24 listing for photos, specs, and next steps on that site. If you contact the
+                        agent there, please mention Tucker Family Charity.
                       </>
                     ) : (
                       <>
-                        You can now open the detailed listing on {listingSiteShortName(selectedProperty.originalListingUrl)}{" "}
-                        in a new tab. Please mention Tucker Family Charity if you follow up, so the referral stays connected.
+                        Open the full{" "}
+                        {listingSiteShortName(selectedProperty.originalListingUrl)} listing for every detail. If you
+                        speak to the agent, please mention Tucker Family Charity so the referral stays connected.
                       </>
                     )}
                   </p>
@@ -768,6 +774,10 @@ export function PropertyPartnerships() {
                     <>
                       <span className="font-semibold text-neutral-800">{selectedProperty.title}</span>
                       <span className="text-neutral-600"> · {selectedProperty.suburb}</span>
+                      <span className="block text-neutral-600 mt-2 text-sm leading-relaxed">
+                        After you submit, we&apos;ll show you the link to the full listing and Tucker Family Charity
+                        will be able to contact you.
+                      </span>
                     </>
                   ) : null}
                 </DialogDescription>
@@ -855,10 +865,11 @@ export function PropertyPartnerships() {
               </div>
 
               <p className="text-xs text-neutral-600 leading-relaxed">
-                By submitting your interest, your details will be shared with{" "}
+                By submitting, your details are sent to Tucker Family Charity so we can share the listing link (on the
+                next screen) and follow up with you.
                 {selectedProperty?.directFromCharity
-                  ? "Tucker Family Charity for this direct listing (see Property24 if you pursue the lease there)."
-                  : "Tucker Family Charity and the relevant property partner so they can respond to your enquiry."}
+                  ? ""
+                  : " Our property partner may also contact you about this home."}
               </p>
 
               {PROPERTY_ENQUIRY_SUBMIT_URL_REJECTED ? (
