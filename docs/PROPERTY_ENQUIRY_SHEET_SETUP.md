@@ -57,6 +57,14 @@ Mail is sent **only from Apps Script**, not from the website — and only **afte
 
 After deployment, submit a test enquiry and confirm a new row appears in the Sheet.
 
+### Production readiness (quick check)
+
+1. **GitHub secret** `VITE_PROPERTY_ENQUIRY_SUBMIT_URL` is set and equals your **Manage deployments → Web app** `/exec` URL (see `.env.example` for the canonical link used in this repo).
+2. **GET** that URL (open in browser or curl with redirects): JSON must include **`"ok":true,"live":true`**. Anything else usually means deploy access or wrong URL.
+3. **Paste + deploy** the latest `scripts/property-enquiry-append-sheet.gs`; row **15** = **Owner** (`Pam Golding` / `TFC`).
+4. **Mail:** `testNotify` once (authorize MailApp); **`installPropertyEnquiryChangeTrigger`** once; set **`PROPERTY_IDS_OWNER_TFC_CSV`** and **`NOTIFY_EMAILS_TFC`** when you need TFC-only inboxes.
+5. **Smoke test:** From the live Property Partnerships page, submit a test enquiry → new Sheet row **and** sensible email recipients for that **Owner**.
+
 ## Troubleshooting
 
 ### Sheet stays empty but the website says “Thank you”
