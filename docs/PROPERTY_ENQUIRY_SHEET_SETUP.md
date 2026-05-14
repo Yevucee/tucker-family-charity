@@ -13,7 +13,7 @@ Enquiries from **Property Partnerships** (`Register your interest`) POST JSON to
 1. Create a tab named **`Sheet1`** (or change `SHEET_NAME` in the script to match).
 2. In **row 1**, add headers (recommended):
 
-   `Timestamp` | `Property ID` | `Title` | `Type` | `Suburb` | `Name` | `Email` | `Phone` | `Preferred contact` | `Message` | `Agent email` | `Listing URL` | `Status` | `Notes`
+   `Timestamp` | `Property ID` | `Title` | `Type` | `Suburb` | `Name` | `Email` | `Phone` | `Preferred contact` | `Message` | `Agent email` | `Listing URL` | `Status` | `Notes` | `Owner`
 
 ## Apps Script checklist
 
@@ -23,7 +23,7 @@ Enquiries from **Property Partnerships** (`Register your interest`) POST JSON to
 | Deploy | **Web app**, Execute as **Me**, Who has access **Anyone** |
 | Site URL | Copy `/exec` URL → repo secret **`VITE_PROPERTY_ENQUIRY_SUBMIT_URL`** |
 | Optional lock | Set `SCRIPT_SECRET` in script + **`VITE_PROPERTY_ENQUIRY_SECRET`** (same string) |
-| Email alerts | Set **`NOTIFY_EMAILS`**. Run **`testNotify`** once (Mail permission). Recommended: run **`installPropertyEnquiryChangeTrigger`** once (Sheet **`onChange`** + primes dedupe). Redeploy the web app |
+| Email alerts | Set **`NOTIFY_EMAILS`** (Pam Golding enquiries) and optional **`NOTIFY_EMAILS_TFC`** (charity-owned ids). **`PROPERTY_IDS_OWNER_TFC_CSV`** in script = those listing ids → Owner **TFC** column + TFC inbox list. Run **`testNotify`**, **`installPropertyEnquiryChangeTrigger`**, redeploy |
 
 Never put the shared secret into the URL secret — same rule as KITF (`VITE_KITF_SUBMIT_URL` vs `VITE_KITF_SUBMIT_SECRET`).
 
@@ -32,7 +32,8 @@ Never put the shared secret into the URL secret — same rule as KITF (`VITE_KIT
 After each successful Sheet append (or when a **new bottom row** is completed on the enquiries tab), the script can email a plain-text summary using **`MailApp`**.
 
 1. In **`scripts/property-enquiry-append-sheet.gs`** (your deployed Code.gs), set for example:
-   - `NOTIFY_EMAILS = "you@yourdomain.org, colleague@yourdomain.org"`
+   - `NOTIFY_EMAILS = "…"` — recipients when **Owner** is **Pam Golding** (default partnership listings)
+   - `NOTIFY_EMAILS_TFC = "…"` — recipients when **Owner** is **TFC** (charity-owned listing ids listed in **`PROPERTY_IDS_OWNER_TFC_CSV`**). Leave empty to use **`NOTIFY_EMAILS`** temporarily.
 2. In Apps Script: choose **`testNotify`** in the function dropdown → **Run**. Approve **Send mail as you** when prompted.
 3. Check your inbox for the test message.
 4. **Sheet-driven alerts (recommended):** Run **`installPropertyEnquiryChangeTrigger`** once. That installs an **`onChange`** trigger on the spreadsheet so **manual or imported rows** at the bottom of `SHEET_NAME` trigger the same email path as the website (deduped — you won’t get two emails for one web submission). The installer also runs **`primeEnquiryNotifyDedupe_`** so existing bottom-row data isn’t treated as a “new” enquiry on the next edit.
@@ -72,8 +73,8 @@ The charity site now **POSTs twice** (manual redirect) and treats success only w
 
 3. **Wrong tab name:** The script uses **`Sheet1`** unless you changed `SHEET_NAME`.
 
-### Recommended Sheet headers (14 columns)
+### Recommended Sheet headers (15 columns)
 
-Match what `appendRow` writes (add **Suburb** and **Listing URL** if yours only has 12 columns):
+Match what `appendRow` writes. **Owner** is **`Pam Golding`** or **`TFC`** (written by Apps Script from id whitelist; editable for manual rows).
 
-`Timestamp` | `Property ID` | `Title` | `Type` | `Suburb` | `Name` | `Email` | `Phone` | `Preferred contact` | `Message` | `Agent email` | `Listing URL` | `Status` | `Notes`
+`Timestamp` | `Property ID` | `Title` | `Type` | `Suburb` | `Name` | `Email` | `Phone` | `Preferred contact` | `Message` | `Agent email` | `Listing URL` | `Status` | `Notes` | `Owner`

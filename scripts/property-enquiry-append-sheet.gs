@@ -7,7 +7,8 @@
  * 2. Open Extensions → Apps Script. Paste this entire file as Code.gs (replace defaults).
  * 3. Set PROPERTY_ENQUIRY_SPREADSHEET_ID and SHEET_NAME below (Sheet ID from the spreadsheet URL).
  * 4. Optional: set SCRIPT_SECRET to a random string and use the same value in VITE_PROPERTY_ENQUIRY_SECRET.
- * 5. Optional email alerts: set NOTIFY_EMAILS (comma-separated). Run testNotify once to authorize MailApp.
+ * 5. Optional email: NOTIFY_EMAILS (Pam Golding route), NOTIFY_EMAILS_TFC (TFC IDs only — fallback = NOTIFY_EMAILS if empty).
+ *    PROPERTY_IDS_OWNER_TFC_CSV lists site property ids that are charity direct (Owner=TFC). Run testNotify for Mail permission.
  *    Then run installPropertyEnquiryChangeTrigger once (installs a Sheet onChange watcher so new rows notify
  *    even if you add them by hand). That run also primes dedupe from the current bottom row when data exists.
  *    You can run primeEnquiryNotifyDedupe_ again later after bulk imports. Deploy → Manage deployments → New version so /exec stays current.
@@ -18,7 +19,8 @@
  *    Deploy → copy URL ending in /exec → GitHub secret VITE_PROPERTY_ENQUIRY_SUBMIT_URL (and .env locally).
  *
  * TAB HEADERS (row 1 — create manually so collaborators understand columns):
- * Timestamp | Property ID | Title | Type | Suburb | Name | Email | Phone | Preferred contact | Message | Agent email | Listing URL | Status | Notes
+ * Timestamp | Property ID | Title | Type | Suburb | Name | Email | Phone | Preferred contact | Message | Agent email | Listing URL | Status | Notes | Owner
+ * Owner = "Pam Golding" (partnership listings) or "TFC" (charity direct). Set emails per route below; TFC property IDs in PROPERTY_IDS_OWNER_TFC_CSV.
  *
  * The charity website POSTs application/x-www-form-urlencoded with field `json` (same pattern as KITF).
  */
@@ -29,13 +31,58 @@ var PROPERTY_ENQUIRY_SPREADSHEET_ID = "1t5eGqP2OAkoZEiQ5NHlzkrPvgoy8FXtSXlIni670
 var SHEET_NAME = "Sheet1";
 /** Empty = no check. If set, must match VITE_PROPERTY_ENQUIRY_SECRET in the site build. */
 var SCRIPT_SECRET = "";
+/** Sheet / email label for partnership route (must match column values). */
+var OWNER_LABEL_PAM_GOLDING = 'Pam Golding';
+/** Sheet / email label for charity-owned direct listings. */
+var OWNER_LABEL_TFC = 'TFC';
+
 /**
- * Comma-separated addresses (spaces OK). Add another recipient after the last comma when needed.
+ * Property IDs (from the website `properties.json`) that are charity direct — Owner column = TFC, mail list = NOTIFY_EMAILS_TFC.
+ * Comma-separated, spaces OK. Empty = all enquiries use Pam Golding route.
+ */
+var PROPERTY_IDS_OWNER_TFC_CSV = '';
+
+/**
+ * Comma-separated addresses for Pam Golding / partnership enquiries (spaces OK).
  * Uses MailApp — quota limits apply (see Google Apps Script quotas).
  */
 var NOTIFY_EMAILS = "brett@tuckerfamilycharity.co.za, samuel.polley1@gmail.com";
 
-/** Optional test from Apps Script editor: Run → send sample mail (must set NOTIFY_EMAILS first). */
+/**
+ * Comma-separated addresses for TFC-owned listing enquiries only.
+ * If empty, NOTIFY_EMAILS is used so mail is never silently dropped for TFC IDs.
+ */
+var NOTIFY_EMAILS_TFC = '';
+
+var LAST_COL_ENQUIRY_ = 15;
+
+function sheetOwnerLabelForPropertyId_(propertyId) {
+  var pid = String(propertyId || '').trim();
+  if (!PROPERTY_IDS_OWNER_TFC_CSV || !pid) return OWNER_LABEL_PAM_GOLDING;
+  var matched = false;
+  String(PROPERTY_IDS_OWNER_TFC_CSV).split(',').forEach(function (part) {
+    if (String(part).trim() === pid) matched = true;
+  });
+  return matched ? OWNER_LABEL_TFC : OWNER_LABEL_PAM_GOLDING;
+}
+
+/** Resolves Owner from Sheet column O (15) when set; else from property ID whitelist (same as web). */
+function ownerLabelFromRowVals_(rowVals, propertyId) {
+  var fromCell = String(rowVals[14] || '').trim();
+  if (fromCell === OWNER_LABEL_TFC || fromCell === OWNER_LABEL_PAM_GOLDING) return fromCell;
+  return sheetOwnerLabelForPropertyId_(propertyId);
+}
+
+/** Notification email list JSON string split for MailApp — empty TFC falls back to partnership list. */
+function notifyEmailCsvForOwner_(ownerLabel) {
+  if (ownerLabel === OWNER_LABEL_TFC) {
+    var tfc = String(NOTIFY_EMAILS_TFC || '').trim();
+    if (tfc) return tfc;
+  }
+  return String(NOTIFY_EMAILS || '').trim();
+}
+
+/** Optional test from Apps Script editor: Run → send sample mail (Pam Golding route recipients). */
 function testNotify() {
   notifyNewEnquiry_({
     timestamp: new Date().toISOString(),
@@ -50,6 +97,7 @@ function testNotify() {
     message: "Script notification test.",
     listingUrl: "",
     agentEmail: "",
+    owner: OWNER_LABEL_PAM_GOLDING,
   });
 }
 
@@ -75,7 +123,7 @@ function primeEnquiryNotifyDedupe_() {
   var sheet = ss.getSheetByName(SHEET_NAME);
   if (!sheet || sheet.getLastRow() < 2) return;
   var lastRow = sheet.getLastRow();
-  var rowVals = sheet.getRange(lastRow, 1, lastRow, 12).getValues()[0];
+  var rowVals = sheet.getRange(lastRow, 1, lastRow, LAST_COL_ENQUIRY_).getValues()[0];
   PropertiesService.getScriptProperties().setProperty(
     'LAST_NOTIFIED_ENQUIRY_KEY',
     enquiryDedupeKey_(lastRow, rowVals[1], rowVals[6]),
@@ -94,11 +142,13 @@ function propertyEnquirySheetOnChange_(e) {
     var lastRow = sheet.getLastRow();
     if (lastRow < 2) return;
 
-    var rowVals = sheet.getRange(lastRow, 1, lastRow, 12).getValues()[0];
+    var rowVals = sheet.getRange(lastRow, 1, lastRow, LAST_COL_ENQUIRY_).getValues()[0];
     var propertyId = String(rowVals[1] || '').trim();
     var visitorName = String(rowVals[5] || '').trim();
     var visitorEmail = String(rowVals[6] || '').trim();
     if (!propertyId || !visitorName || !visitorEmail) return;
+
+    var owner = ownerLabelFromRowVals_(rowVals, propertyId);
 
     notifyNewEnquiryAfterDedupe_(
       {
@@ -114,6 +164,7 @@ function propertyEnquirySheetOnChange_(e) {
         message: String(rowVals[9] || '').trim(),
         agentEmail: String(rowVals[10] || '').trim(),
         listingUrl: String(rowVals[11] || '').trim(),
+        owner: owner,
       },
       lastRow,
     );
@@ -196,6 +247,8 @@ function doPost(e) {
         error: 'Missing sheet tab "' + SHEET_NAME + '". Rename the tab or set SHEET_NAME in Code.gs.',
       });
     }
+    var owner = sheetOwnerLabelForPropertyId_(propertyId);
+
     sheet.appendRow([
       ts,
       propertyId,
@@ -211,6 +264,7 @@ function doPost(e) {
       listingUrl,
       status,
       notes,
+      owner,
     ]);
 
     var appendedRowNum = sheet.getLastRow();
@@ -229,6 +283,7 @@ function doPost(e) {
         message: message,
         agentEmail: agentEmail,
         listingUrl: listingUrl,
+        owner: owner,
       },
       appendedRowNum,
     );
@@ -270,11 +325,17 @@ function readScriptSecret_() {
 
 /**
  * Sends plain-text summary via MailApp (one message per recipient — avoids comma-list quirks).
+ * Recipients chosen from NOTIFY_EMAILS (Pam Golding) vs NOTIFY_EMAILS_TFC via row.owner.
  * Never fails the web response — failures are logged per address so enquiries still save.
  */
 function notifyNewEnquiry_(row) {
   try {
-    var raw = String(NOTIFY_EMAILS || "").trim();
+    var ownerRoute =
+      row.owner === OWNER_LABEL_TFC || row.owner === OWNER_LABEL_PAM_GOLDING
+        ? row.owner
+        : sheetOwnerLabelForPropertyId_(row.propertyId);
+
+    var raw = String(notifyEmailCsvForOwner_(ownerRoute) || '').trim();
     if (!raw) return;
 
     var recipients = [];
@@ -284,16 +345,20 @@ function notifyNewEnquiry_(row) {
     });
     if (!recipients.length) return;
 
+    var routeTag = ownerRoute === OWNER_LABEL_TFC ? '[TFC] ' : '[Pam Golding] ';
     var subject =
+      routeTag +
       'New property enquiry: ' +
-      String(row.propertyTitle || '').substring(0, 80) +
-      (String(row.propertyTitle || '').length > 80 ? '…' : '');
+      String(row.propertyTitle || '').substring(0, 70) +
+      (String(row.propertyTitle || '').length > 70 ? '…' : '');
 
     var visitorReply = String(row.visitorEmail || '').trim();
     var replyToOpt = visitorReply.indexOf('@') > 0 ? visitorReply : undefined;
 
     var lines = [
       'A new property enquiry row was added (website form or directly in the Sheet).',
+      '',
+      'Owner / route: ' + String(ownerRoute),
       '',
       'Property: ' + String(row.propertyTitle || ''),
       'Suburb: ' + String(row.suburb || ''),

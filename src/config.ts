@@ -85,7 +85,7 @@ export const VOLUNTEER_SIGNUP_URL = String(import.meta.env.VITE_VOLUNTEER_SIGNUP
  * Expected POST: application/x-www-form-urlencoded body with field `json` (stringified object):
  *   timestamp (ISO), propertyId, propertyTitle, propertyType, suburb, visitorName, visitorEmail,
  *   visitorPhone, contactMethod, message, agentEmail, originalListingUrl, status ("new"), notes ("")
- * Apps Script should append to Sheet columns and may send notification emails to agent + charity admin.
+ * Apps Script appends a Sheet row (+ **Owner**: Pam Golding vs TFC from server-side property id whitelist) and emails the route’s recipient list.
  *
  * Optional: VITE_PROPERTY_ENQUIRY_SECRET — include in payload as `secret` if script validates it.
  */
