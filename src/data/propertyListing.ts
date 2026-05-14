@@ -21,6 +21,10 @@ export interface PropertyListing {
   agentEmail: string;
   /** Optional bullet points for the card (e.g. pool, study) */
   features?: string[];
+  /** When set, shown instead of "X bed · Y bath" (e.g. commercial floor area). */
+  listingSummary?: string;
+  /** Charity-managed direct let — different copy from Pam Golding partnership listings. */
+  directFromCharity?: boolean;
 }
 
 export function resolvePropertyImageUrl(image: string): string {
@@ -52,6 +56,8 @@ function isValidListing(x: unknown): x is PropertyListing {
   if (typeof x.bedrooms !== "number" || !Number.isFinite(x.bedrooms)) return false;
   if (typeof x.bathrooms !== "number" || !Number.isFinite(x.bathrooms)) return false;
   if (x.parking !== undefined && typeof x.parking !== "string") return false;
+  if (x.listingSummary !== undefined && typeof x.listingSummary !== "string") return false;
+  if (x.directFromCharity !== undefined && typeof x.directFromCharity !== "boolean") return false;
   if (x.features !== undefined) {
     if (!Array.isArray(x.features)) return false;
     if (!x.features.every((f) => typeof f === "string")) return false;

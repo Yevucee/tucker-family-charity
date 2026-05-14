@@ -40,7 +40,7 @@ var OWNER_LABEL_TFC = 'TFC';
  * Property IDs (from the website `properties.json`) that are charity direct — Owner column = TFC, mail list = NOTIFY_EMAILS_TFC.
  * Comma-separated, spaces OK. Empty = all enquiries use Pam Golding route.
  */
-var PROPERTY_IDS_OWNER_TFC_CSV = '';
+var PROPERTY_IDS_OWNER_TFC_CSV = 'property-tfc-parkmore-office';
 
 /**
  * Comma-separated addresses for Pam Golding / partnership enquiries (spaces OK).

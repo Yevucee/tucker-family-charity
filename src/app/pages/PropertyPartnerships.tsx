@@ -48,6 +48,13 @@ function isExternalListingUrl(url: string): boolean {
   return u.startsWith("http://") || u.startsWith("https://");
 }
 
+function listingSiteShortName(url: string): string {
+  const u = url.toLowerCase();
+  if (u.includes("pamgolding.co.za")) return "Pam Golding";
+  if (u.includes("property24.com")) return "Property24";
+  return "the listing site";
+}
+
 /**
  * Prefer letting the browser follow redirects (KITF pattern). Manual POST hops can confuse Apps Script echo and show up as failed echo requests in DevTools.
  */
@@ -628,7 +635,11 @@ export function PropertyPartnerships() {
               {filtered.map((p) => (
                 <article
                   key={p.id}
-                  className="flex flex-col rounded-2xl border-2 border-amber-100 bg-white shadow-md hover:shadow-lg hover:border-amber-200/80 transition-all overflow-hidden"
+                  className={
+                    p.directFromCharity
+                      ? "flex flex-col rounded-2xl border-2 border-amber-500 bg-white shadow-lg ring-2 ring-amber-200/70 hover:border-amber-600 transition-all overflow-hidden"
+                      : "flex flex-col rounded-2xl border-2 border-amber-100 bg-white shadow-md hover:shadow-lg hover:border-amber-200/80 transition-all overflow-hidden"
+                  }
                 >
                   <div className="relative aspect-[4/3] bg-neutral-100">
                     <ImageWithFallback
@@ -646,6 +657,11 @@ export function PropertyPartnerships() {
                     >
                       {p.type === "rent" ? "For Rent" : "For Sale"}
                     </span>
+                    {p.directFromCharity ? (
+                      <span className="absolute top-3 right-3 rounded-full bg-neutral-900/90 text-amber-100 text-[11px] font-bold uppercase tracking-wide px-2.5 py-1 shadow border border-amber-400/40">
+                        TFC direct
+                      </span>
+                    ) : null}
                   </div>
                   <div className="p-6 flex flex-col flex-1">
                     <h3 className="text-xl font-bold text-neutral-900 mb-1">{p.title}</h3>
@@ -653,8 +669,9 @@ export function PropertyPartnerships() {
                     <p className="text-lg font-semibold text-neutral-900 mb-3">{p.price}</p>
                     <ul className="text-sm text-neutral-600 space-y-1 mb-4">
                       <li>
-                        {p.bedrooms} bed · {p.bathrooms} bath
-                        {p.parking ? ` · ${p.parking}` : null}
+                        {p.listingSummary
+                          ? p.listingSummary
+                          : `${p.bedrooms} bed · ${p.bathrooms} bath${p.parking ? ` · ${p.parking}` : ""}`}
                       </li>
                     </ul>
                     <p className="text-neutral-700 text-sm leading-relaxed flex-1 mb-3">{p.description}</p>
@@ -666,8 +683,9 @@ export function PropertyPartnerships() {
                       </ul>
                     ) : null}
                     <p className="text-xs text-neutral-500 mb-4 leading-relaxed">
-                      The full listing on our property partner&apos;s site is shared with you after you register your
-                      interest, so your enquiry is tracked through Tucker Family Charity.
+                      {p.directFromCharity
+                        ? "Leased directly by Tucker Family Charity. Register your interest below — we’ll follow up with full details or a viewing route via the public listing."
+                        : "The full listing on our property partner's site is shared with you after you register your interest, so your enquiry is tracked through Tucker Family Charity."}
                     </p>
                     <button
                       type="button"
@@ -691,11 +709,15 @@ export function PropertyPartnerships() {
               <DialogHeader>
                 <DialogTitle className="text-xl">Thank you</DialogTitle>
                 <DialogDescription className="text-base text-neutral-700 leading-relaxed pt-2">
-                  Your interest has been received and the property partner will be in touch with you soon.
+                  {selectedProperty?.directFromCharity
+                    ? "Your interest has been received. Tucker Family Charity will follow up about this space or point you to the next step on the public listing."
+                    : "Your interest has been received and the property partner will be in touch with you soon."}
                 </DialogDescription>
               </DialogHeader>
               <p className="text-sm text-neutral-600 leading-relaxed">
-                Your enquiry helps Tucker Family Charity track support generated through this partnership.
+                {selectedProperty?.directFromCharity
+                  ? "Thank you for registering — this helps the charity keep enquiries organised for our own commercial let."
+                  : "Your enquiry helps Tucker Family Charity track support generated through this partnership."}
               </p>
               <p className="text-xs text-neutral-500 leading-relaxed">
                 Charity admins: confirm new rows appear on the enquiries Sheet after each test submission.
@@ -704,8 +726,17 @@ export function PropertyPartnerships() {
                 <div className="rounded-xl border border-amber-100 bg-amber-50/80 px-4 py-3 text-sm">
                   <p className="font-semibold text-neutral-900 mb-2">View the full listing</p>
                   <p className="text-neutral-600 mb-3">
-                    You can now open the detailed listing on Pam Golding in a new tab. Please mention Tucker Family
-                    Charity if you follow up, so the referral stays connected.
+                    {selectedProperty.directFromCharity ? (
+                      <>
+                        Open the Property24 listing in a new tab for photos, specs, and the agent contact on that
+                        portal. Mention Tucker Family Charity if you enquire there so context stays clear.
+                      </>
+                    ) : (
+                      <>
+                        You can now open the detailed listing on {listingSiteShortName(selectedProperty.originalListingUrl)}{" "}
+                        in a new tab. Please mention Tucker Family Charity if you follow up, so the referral stays connected.
+                      </>
+                    )}
                   </p>
                   <a
                     href={selectedProperty.originalListingUrl}
@@ -713,7 +744,7 @@ export function PropertyPartnerships() {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 font-semibold text-amber-800 hover:text-amber-900"
                   >
-                    Open listing on Pam Golding
+                    Open listing on {listingSiteShortName(selectedProperty.originalListingUrl)}
                     <ExternalLink className="w-4 h-4 shrink-0" aria-hidden />
                   </a>
                 </div>
@@ -824,8 +855,10 @@ export function PropertyPartnerships() {
               </div>
 
               <p className="text-xs text-neutral-600 leading-relaxed">
-                By submitting your interest, your details will be shared with Tucker Family Charity and the relevant
-                property partner so they can respond to your enquiry.
+                By submitting your interest, your details will be shared with{" "}
+                {selectedProperty?.directFromCharity
+                  ? "Tucker Family Charity for this direct listing (see Property24 if you pursue the lease there)."
+                  : "Tucker Family Charity and the relevant property partner so they can respond to your enquiry."}
               </p>
 
               {PROPERTY_ENQUIRY_SUBMIT_URL_REJECTED ? (
