@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
-import { ExternalLink, HeartHandshake, Home, Search, Send } from "lucide-react";
+import { ExternalLink, HeartHandshake, Home, MapPin, Search, Send, Shield } from "lucide-react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
@@ -18,6 +18,9 @@ import {
 } from "@/config";
 import {
   parsePropertyListings,
+  propertyListingCardFeatures,
+  propertyListingCardTeaser,
+  propertyListingReferralNote,
   resolvePropertyImageUrl,
   type PropertyListing,
 } from "@/data/propertyListing";
@@ -634,72 +637,86 @@ export function PropertyPartnerships() {
               No properties match this filter yet. Try another tab or check back soon.
             </p>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 lg:gap-10">
-              {filtered.map((p) => (
-                <article
-                  key={p.id}
-                  className={
-                    p.directFromCharity
-                      ? "flex flex-col rounded-2xl border-2 border-amber-500 bg-white shadow-lg ring-2 ring-amber-200/70 hover:border-amber-600 transition-all overflow-hidden"
-                      : "flex flex-col rounded-2xl border-2 border-amber-100 bg-white shadow-md hover:shadow-lg hover:border-amber-200/80 transition-all overflow-hidden"
-                  }
-                >
-                  <div className="relative aspect-[4/3] bg-neutral-100">
-                    <ImageWithFallback
-                      src={resolvePropertyImageUrl(p.image)}
-                      alt={p.title}
-                      className="absolute inset-0 w-full h-full object-cover"
-                      loading="lazy"
-                    />
-                    <span
-                      className={
-                        p.type === "rent"
-                          ? "absolute top-3 left-3 rounded-full bg-amber-700 text-white text-xs font-bold px-3 py-1 shadow"
-                          : "absolute top-3 left-3 rounded-full bg-orange-700 text-white text-xs font-bold px-3 py-1 shadow"
-                      }
-                    >
-                      {p.type === "rent" ? "For Rent" : "For Sale"}
-                    </span>
-                    {p.directFromCharity ? (
-                      <span className="absolute top-3 right-3 rounded-full bg-neutral-900/90 text-amber-100 text-[11px] font-bold uppercase tracking-wide px-2.5 py-1 shadow border border-amber-400/40">
-                        TFC direct
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 items-stretch">
+              {filtered.map((p) => {
+                const chips = propertyListingCardFeatures(p);
+                const teaser = propertyListingCardTeaser(p);
+                const referral = propertyListingReferralNote(p);
+                return (
+                  <article
+                    key={p.id}
+                    className={
+                      "flex flex-col h-full rounded-2xl border bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden " +
+                      (p.directFromCharity
+                        ? "border-amber-300/70 ring-1 ring-inset ring-amber-200"
+                        : "border-neutral-200/90 hover:border-amber-200/80")
+                    }
+                  >
+                    <div className="relative aspect-video bg-neutral-100 shrink-0">
+                      <ImageWithFallback
+                        src={resolvePropertyImageUrl(p.image)}
+                        alt={p.title}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                      <span
+                        className={
+                          p.type === "rent"
+                            ? "absolute top-3 left-3 uppercase tracking-wide rounded-md bg-neutral-900/90 text-white text-[11px] font-bold px-2.5 py-1.5 shadow"
+                            : "absolute top-3 left-3 uppercase tracking-wide rounded-md bg-amber-700 text-white text-[11px] font-bold px-2.5 py-1.5 shadow"
+                        }
+                      >
+                        {p.type === "rent" ? "To let" : "For sale"}
                       </span>
-                    ) : null}
-                  </div>
-                  <div className="p-6 flex flex-col flex-1">
-                    <h3 className="text-xl font-bold text-neutral-900 mb-1">{p.title}</h3>
-                    <p className="text-sm text-amber-800 font-medium mb-2">{p.suburb}</p>
-                    <p className="text-lg font-semibold text-neutral-900 mb-3">{p.price}</p>
-                    <ul className="text-sm text-neutral-600 space-y-1 mb-4">
-                      <li>
-                        {p.listingSummary
-                          ? p.listingSummary
-                          : `${p.bedrooms} bed · ${p.bathrooms} bath${p.parking ? ` · ${p.parking}` : ""}`}
-                      </li>
-                    </ul>
-                    <p className="text-neutral-700 text-sm leading-relaxed flex-1 mb-3">{p.description}</p>
-                    {p.features && p.features.length > 0 ? (
-                      <ul className="text-sm text-neutral-600 space-y-1 mb-4 list-disc list-inside">
-                        {p.features.map((f) => (
-                          <li key={f}>{f}</li>
-                        ))}
-                      </ul>
-                    ) : null}
-                    <p className="text-xs text-neutral-500 mb-4 leading-relaxed">
-                      {p.directFromCharity
-                        ? "Register your interest below. After you submit, we’ll show you the link to the full listing — then Tucker Family Charity will get in touch."
-                        : "Register your interest below. After you submit, we’ll show you the link to the full listing — then Tucker Family Charity will get in touch (with our property partner in the loop for these homes)."}
-                    </p>
-                    <button
-                      type="button"
-                      onClick={() => openInterest(p)}
-                      className="mt-auto w-full text-center py-3.5 px-4 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-colors"
-                    >
-                      I&apos;m Interested
-                    </button>
-                  </div>
-                </article>
-              ))}
+                    </div>
+
+                    <div className="p-6 sm:p-7 flex flex-col flex-1 min-h-0 gap-4">
+                      <div>
+                        <h3 className="text-lg sm:text-xl font-bold text-neutral-900 leading-snug">{p.title}</h3>
+                        <p className="mt-1.5 flex items-start gap-1.5 text-sm font-medium text-amber-900/85">
+                          <MapPin className="w-4 h-4 mt-0.5 shrink-0 opacity-85" aria-hidden />
+                          <span>{p.suburb}</span>
+                        </p>
+                        <p className="mt-2 text-xl font-semibold text-neutral-900 tracking-tight">{p.price}</p>
+                      </div>
+
+                      {chips.length > 0 ? (
+                        <ul className="flex flex-wrap gap-2" aria-label="Key features">
+                          {chips.map((label) => (
+                            <li
+                              key={label}
+                              className="rounded-md border border-neutral-200 bg-neutral-50 px-2.5 py-1 text-xs font-medium text-neutral-700"
+                            >
+                              {label}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : null}
+
+                      <p className="text-sm leading-relaxed text-neutral-700 line-clamp-2 flex-1 min-h-[2.75rem]">
+                        {teaser}
+                      </p>
+
+                      <div className="rounded-xl border border-amber-100/90 bg-amber-50/80 px-3.5 py-3 flex gap-2.5">
+                        <Shield
+                          className="w-4 h-4 shrink-0 text-amber-800 mt-0.5 opacity-90"
+                          strokeWidth={2}
+                          aria-hidden
+                        />
+                        <p className="text-xs text-neutral-700 leading-relaxed">{referral}</p>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => openInterest(p)}
+                        className="mt-auto w-full text-center py-3.5 px-4 rounded-xl bg-amber-600 text-white font-semibold text-[15px] hover:bg-amber-700 transition-colors shadow-sm"
+                      >
+                        I&apos;m Interested
+                      </button>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           )}
         </div>

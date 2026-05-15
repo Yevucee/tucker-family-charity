@@ -25,6 +25,12 @@ export interface PropertyListing {
   listingSummary?: string;
   /** Charity-managed direct let — different copy from Pam Golding partnership listings. */
   directFromCharity?: boolean;
+  /** Short labels for pill chips on the listing card (e.g. “5 bed”, “Pool”). */
+  cardFeatures?: string[];
+  /** Teaser shown on card (≤2 lines in UI); falls back to `description` when omitted. */
+  cardSummary?: string;
+  /** Override default referral footnote box on card. */
+  referralNote?: string;
 }
 
 export function resolvePropertyImageUrl(image: string): string {
@@ -58,6 +64,12 @@ function isValidListing(x: unknown): x is PropertyListing {
   if (x.parking !== undefined && typeof x.parking !== "string") return false;
   if (x.listingSummary !== undefined && typeof x.listingSummary !== "string") return false;
   if (x.directFromCharity !== undefined && typeof x.directFromCharity !== "boolean") return false;
+  if (x.cardFeatures !== undefined) {
+    if (!Array.isArray(x.cardFeatures)) return false;
+    if (!x.cardFeatures.every((f) => typeof f === "string")) return false;
+  }
+  if (x.cardSummary !== undefined && typeof x.cardSummary !== "string") return false;
+  if (x.referralNote !== undefined && typeof x.referralNote !== "string") return false;
   if (x.features !== undefined) {
     if (!Array.isArray(x.features)) return false;
     if (!x.features.every((f) => typeof f === "string")) return false;
@@ -69,4 +81,28 @@ function isValidListing(x: unknown): x is PropertyListing {
 export function parsePropertyListings(raw: unknown): PropertyListing[] {
   if (!Array.isArray(raw)) return [];
   return raw.filter(isValidListing);
+}
+
+/** Chip labels on property cards — prefer CMS `cardFeatures`, else derive from basics. */
+export function propertyListingCardFeatures(p: PropertyListing): string[] {
+  const fromData = (p.cardFeatures ?? []).map((x) => x.trim()).filter(Boolean);
+  if (fromData.length > 0) return fromData;
+  const chips: string[] = [];
+  if (p.bedrooms > 0) chips.push(`${p.bedrooms} bed`);
+  if (p.bathrooms > 0) chips.push(`${p.bathrooms} bath`);
+  if (p.parking) chips.push(...p.parking.split("·").map((s) => s.trim()).filter(Boolean));
+  return chips.slice(0, 5);
+}
+
+export function propertyListingReferralNote(p: PropertyListing): string {
+  if (p.referralNote?.trim()) return p.referralNote.trim();
+  if (p.directFromCharity) {
+    return "Register your interest through Tucker Family Charity. We’ll share the full listing with you after you submit and follow up directly.";
+  }
+  return "Register your interest through Tucker Family Charity. We will connect you with the property partner and share the full listing details.";
+}
+
+export function propertyListingCardTeaser(p: PropertyListing): string {
+  const t = (p.cardSummary ?? "").trim();
+  return t.length > 0 ? t : p.description;
 }
