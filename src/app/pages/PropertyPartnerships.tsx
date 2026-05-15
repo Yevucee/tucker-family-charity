@@ -681,11 +681,14 @@ export function PropertyPartnerships() {
                       </div>
 
                       {chips.length > 0 ? (
-                        <ul className="flex flex-wrap gap-2" aria-label="Key features">
-                          {chips.map((label) => (
+                        <ul className="grid grid-cols-2 gap-2" aria-label="Key features">
+                          {chips.map((label, i) => (
                             <li
                               key={label}
-                              className="rounded-md border border-neutral-200 bg-neutral-50 px-2.5 py-1 text-xs font-medium text-neutral-700"
+                              className={
+                                "rounded-md border border-neutral-200 bg-neutral-50 px-2.5 py-1 text-xs font-medium text-neutral-700 text-center sm:text-left min-w-0 " +
+                                (chips.length % 2 === 1 && i === chips.length - 1 ? "col-span-2" : "")
+                              }
                             >
                               {label}
                             </li>
