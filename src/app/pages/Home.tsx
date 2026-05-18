@@ -46,9 +46,9 @@ export function Home() {
         <img
           src={tuckerFamily}
           alt="The Tucker Family"
-          className="absolute inset-0 w-full h-full object-cover object-center opacity-50"
+          className="absolute inset-0 w-full h-full object-cover object-center opacity-[0.72]"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/38 to-black/15" />
         {/* Same shell as About: no inner flex justify-center (that prevented mx-auto column from matching) */}
         <div className="relative z-10 w-full">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
