@@ -20,7 +20,7 @@ import { PartnerAutoScrollStrip } from "../components/PartnerAutoScrollStrip";
 import { INSTAGRAM_ELFSIGHT_APP_ID, INSTAGRAM_WIDGET_URL } from "@/config";
 import { InstagramEmbed } from "@/app/components/InstagramEmbed";
 import logo from "@/assets/4920ca320ce31a579ec4c3d0fcc360b4528a2024.png";
-import schoolGrounds from "@/assets/0cac28478cd9e148e19e33753c2ce2b1507d4676.png";
+import tuckerFamily from "@/assets/708f3b7edb5dbc413e39e442a736f205e2c35b56.png";
 import computerLab from "@/assets/d5c30ac405997a9f47bb022e66f8a25896a2b859.png";
 import gardenArea from "@/assets/f0dd27edb7bda065be4dd5f0f576138f64514baf.png";
 import { shopCatalog } from "@/data/shopCatalog";
@@ -44,9 +44,9 @@ export function Home() {
       {/* Hero Section */}
       <section className="relative min-h-[400px] py-16 md:py-20 flex items-center bg-amber-950">
         <img
-          src={schoolGrounds}
-          alt="Oliver's Village school grounds"
-          className="absolute inset-0 w-full h-full object-cover opacity-50"
+          src={tuckerFamily}
+          alt="The Tucker Family"
+          className="absolute inset-0 w-full h-full object-cover object-center opacity-50"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/30" />
         {/* Same shell as About: no inner flex justify-center (that prevented mx-auto column from matching) */}
