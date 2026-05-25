@@ -724,6 +724,11 @@ export function PropertyPartnerships() {
                         <p className="text-xs text-neutral-700 leading-relaxed">{referral}</p>
                       </div>
 
+                      <p className="text-xs text-neutral-600 leading-relaxed">
+                        Full listing link is shared after you register your interest — your enquiry stays tied to Tucker
+                        Family Charity.
+                      </p>
+
                       <button
                         type="button"
                         onClick={() => openInterest(p)}
@@ -747,11 +752,23 @@ export function PropertyPartnerships() {
               <DialogHeader>
                 <DialogTitle className="text-xl">Thank you</DialogTitle>
                 <DialogDescription className="text-base text-neutral-700 leading-relaxed pt-2">
-                  Your details are saved. Below is the link to the full listing — Tucker Family Charity will contact you
-                  to follow up.
-                  {selectedProperty?.directFromCharity
-                    ? ""
-                    : " For partnership listings, the property partner may contact you as well."}
+                  {selectedProperty && isExternalListingUrl(selectedProperty.originalListingUrl) ? (
+                    <>
+                      Your details are saved. Below is the link to the full listing — Tucker Family Charity will contact
+                      you to follow up.
+                      {selectedProperty.directFromCharity
+                        ? ""
+                        : " For partnership listings, the property partner may contact you as well."}
+                    </>
+                  ) : (
+                    <>
+                      Your details are saved. Tucker Family Charity will contact you to follow up with the full listing
+                      details.
+                      {selectedProperty?.directFromCharity
+                        ? ""
+                        : " For partnership listings, the property partner may contact you as well."}
+                    </>
+                  )}
                 </DialogDescription>
               </DialogHeader>
               <p className="text-sm text-neutral-600 leading-relaxed">
@@ -759,17 +776,17 @@ export function PropertyPartnerships() {
                 Family Charity
                 {selectedProperty?.directFromCharity ? "." : " and the partnership referral route."}
               </p>
-              <p className="text-xs text-neutral-500 leading-relaxed">
-                Charity admins: confirm new rows appear on the enquiries Sheet after each test submission.
-              </p>
               {selectedProperty && isExternalListingUrl(selectedProperty.originalListingUrl) ? (
                 <div className="rounded-xl border border-amber-100 bg-amber-50/80 px-4 py-3 text-sm">
-                  <p className="font-semibold text-neutral-900 mb-2">View the full listing</p>
+                  <p className="font-semibold text-neutral-900 mb-2">
+                    You can also open the full listing on{" "}
+                    {listingSiteShortName(selectedProperty.originalListingUrl)}:
+                  </p>
                   <p className="text-neutral-600 mb-3">
                     {selectedProperty.directFromCharity ? (
                       <>
-                        Open the Property24 listing for photos, specs, and next steps on that site. If you contact the
-                        agent there, please mention Tucker Family Charity.
+                        Use it for photos, specs, and next steps on that site. If you contact the agent there, please
+                        mention Tucker Family Charity.
                       </>
                     ) : (
                       <>
@@ -783,7 +800,7 @@ export function PropertyPartnerships() {
                     href={selectedProperty.originalListingUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 font-semibold text-amber-800 hover:text-amber-900"
+                    className="inline-flex items-center gap-2 rounded-lg border border-amber-200 bg-white px-4 py-2.5 font-semibold text-amber-800 hover:bg-amber-50 hover:text-amber-900 transition-colors"
                   >
                     Open listing on {listingSiteShortName(selectedProperty.originalListingUrl)}
                     <ExternalLink className="w-4 h-4 shrink-0" aria-hidden />
