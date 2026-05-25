@@ -374,6 +374,14 @@ export function PropertyPartnerships() {
     return listings.filter((p) => p.type === filter);
   }, [listings, filter]);
 
+  /** Hide All / Rent / Sale tabs when every listing is the same type (avoids an empty tab). */
+  const showListingTypeTabs = useMemo(() => {
+    if (listings.length < 2) return false;
+    const hasRent = listings.some((p) => p.type === "rent");
+    const hasSale = listings.some((p) => p.type === "sale");
+    return hasRent && hasSale;
+  }, [listings]);
+
   const resetFormFields = useCallback(() => {
     setName("");
     setEmail("");
@@ -604,27 +612,34 @@ export function PropertyPartnerships() {
           <h2 id="properties-heading" className="text-3xl md:text-4xl font-bold text-neutral-900 text-center mb-4">
             Available Properties
           </h2>
-          <p className="text-center text-neutral-600 max-w-2xl mx-auto mb-10 leading-relaxed">
+          <p
+            className={
+              "text-center text-neutral-600 max-w-2xl mx-auto leading-relaxed " +
+              (showListingTypeTabs ? "mb-10" : "mb-12")
+            }
+          >
             Charity-tracked listings — selected partner properties and Tucker Family Charity direct lets. Register your
             interest to unlock the full listing link; we’ll follow up with you. Details are updated manually—contact us
             if something looks out of date.
           </p>
 
-          <div
-            className="flex flex-wrap justify-center gap-2 mb-12"
-            role="tablist"
-            aria-label="Filter by listing type"
-          >
-            <button type="button" role="tab" aria-selected={filter === "all"} className={filterBtn(filter === "all")} onClick={() => setFilter("all")}>
-              All
-            </button>
-            <button type="button" role="tab" aria-selected={filter === "rent"} className={filterBtn(filter === "rent")} onClick={() => setFilter("rent")}>
-              For Rent
-            </button>
-            <button type="button" role="tab" aria-selected={filter === "sale"} className={filterBtn(filter === "sale")} onClick={() => setFilter("sale")}>
-              For Sale
-            </button>
-          </div>
+          {showListingTypeTabs ? (
+            <div
+              className="flex flex-wrap justify-center gap-2 mb-12"
+              role="tablist"
+              aria-label="Filter by listing type"
+            >
+              <button type="button" role="tab" aria-selected={filter === "all"} className={filterBtn(filter === "all")} onClick={() => setFilter("all")}>
+                All
+              </button>
+              <button type="button" role="tab" aria-selected={filter === "rent"} className={filterBtn(filter === "rent")} onClick={() => setFilter("rent")}>
+                For Rent
+              </button>
+              <button type="button" role="tab" aria-selected={filter === "sale"} className={filterBtn(filter === "sale")} onClick={() => setFilter("sale")}>
+                For Sale
+              </button>
+            </div>
+          ) : null}
 
           {loading ? (
             <p className="text-center text-neutral-600 py-12">Loading properties…</p>
