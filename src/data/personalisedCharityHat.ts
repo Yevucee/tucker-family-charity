@@ -79,26 +79,26 @@ export const hatPageCopy = {
     "Your name personalised on the side",
     "Tucker Family Charity embroidery—tree logo on front, wording on back (Est. 2009)",
   ],
-  coloursHeading: "Colours in the range",
+  coloursHeading: "Choose your colour",
   coloursBlurb:
     "Browse shades below—exact stock and sizing options are confirmed when you continue to Cheyna Dot.",
   questionsBlurb: "Questions about sizing or fulfilment?",
   questionsCtaEmail: `Email ${ORDER_EMAIL}`,
 };
 
-/** Gallery order matches typical display (grouped loosely by tone). */
+/** Same order as legacy adult picker (dropdown + swatch). */
 export const hatGalleryColours: HatColourVariant[] = [
-  { slug: "navy", label: "Navy", swatchHex: "#1e3a8a" },
-  { slug: "black", label: "Black", swatchHex: "#171717" },
-  { slug: "grey", label: "Grey", swatchHex: "#6b7280" },
   { slug: "aqua", label: "Aqua", swatchHex: "#5eead4" },
-  { slug: "olive", label: "Olive", swatchHex: "#4d7c0f" },
-  { slug: "khaki", label: "Khaki", swatchHex: "#a8a29e" },
-  { slug: "chocolate", label: "Chocolate", swatchHex: "#78350f" },
-  { slug: "maroon", label: "Maroon", swatchHex: "#7f1d1d" },
-  { slug: "rust", label: "Rust", swatchHex: "#c2410c" },
-  { slug: "orange", label: "Orange", swatchHex: "#ea580c" },
-  { slug: "red", label: "Red", swatchHex: "#dc2626" },
-  { slug: "pink", label: "Pink", swatchHex: "#db2777" },
+  { slug: "black", label: "Black", swatchHex: "#171717" },
   { slug: "mustard", label: "Mustard", swatchHex: "#ca8a04" },
+  { slug: "red", label: "Red", swatchHex: "#dc2626" },
+  { slug: "grey", label: "Grey", swatchHex: "#6b7280" },
+  { slug: "olive", label: "Olive", swatchHex: "#4d7c0f" },
+  { slug: "chocolate", label: "Chocolate", swatchHex: "#78350f" },
+  { slug: "navy", label: "Navy", swatchHex: "#1e3a8a" },
+  { slug: "rust", label: "Rust", swatchHex: "#c2410c" },
+  { slug: "khaki", label: "Khaki", swatchHex: "#a8a29e" },
+  { slug: "maroon", label: "Maroon", swatchHex: "#7f1d1d" },
+  { slug: "orange", label: "Orange", swatchHex: "#ea580c" },
+  { slug: "pink", label: "Pink", swatchHex: "#db2777" },
 ];

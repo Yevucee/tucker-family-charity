@@ -83,44 +83,30 @@ export function PersonalisedCharityHat() {
               </div>
 
               <div>
-                <h2 className="text-lg font-bold text-neutral-900 mb-3 flex items-center gap-2">
+                <h2 className="text-lg font-bold text-neutral-900 mb-2 flex items-center gap-2">
                   <Palette className="w-5 h-5 text-amber-700 shrink-0" aria-hidden />
                   {hatPageCopy.coloursHeading}
                 </h2>
                 <p className="text-neutral-700 leading-relaxed mb-4">{hatPageCopy.coloursBlurb}</p>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                  {hatGalleryColours.map((c) => {
-                    const isActive = c.slug === selectedSlug;
-                    return (
-                      <button
-                        key={c.slug}
-                        type="button"
-                        onClick={() => setSelectedSlug(c.slug)}
-                        className={
-                          "rounded-xl border-2 bg-white p-3 text-left transition-all shadow-sm hover:border-amber-300 hover:shadow " +
-                          (isActive ? "border-amber-600 ring-2 ring-amber-200" : "border-amber-100")
-                        }
-                        aria-pressed={isActive}
-                      >
-                        <div className="relative aspect-square rounded-lg bg-neutral-100 overflow-hidden mb-2">
-                          <ImageWithFallback
-                            src={hatImageForSlug(c.slug)}
-                            alt={`${c.label} cap`}
-                            className="absolute inset-0 w-full h-full object-contain p-1"
-                            loading="lazy"
-                          />
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span
-                            className="h-4 w-4 shrink-0 rounded-full border border-neutral-200"
-                            style={{ backgroundColor: c.swatchHex }}
-                            aria-hidden
-                          />
-                          <span className="text-sm font-semibold text-neutral-900">{c.label}</span>
-                        </div>
-                      </button>
-                    );
-                  })}
+                <div className="flex gap-3 items-center">
+                  <span
+                    className="h-10 w-10 shrink-0 rounded-full border border-neutral-200/80 shadow-inner"
+                    style={{ backgroundColor: selected.swatchHex }}
+                    aria-hidden
+                  />
+                  <select
+                    id="hat-colour"
+                    value={selectedSlug}
+                    onChange={(e) => setSelectedSlug(e.target.value)}
+                    aria-label={hatPageCopy.coloursHeading}
+                    className="w-full min-w-0 rounded-xl border border-amber-200 bg-white px-4 py-3 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  >
+                    {hatGalleryColours.map((c) => (
+                      <option key={c.slug} value={c.slug}>
+                        {c.label}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
