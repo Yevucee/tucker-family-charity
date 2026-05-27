@@ -1,6 +1,6 @@
 import { PERSONALISED_HAT_PATH } from "./personalisedCharityHat";
 
-import capNavy from "@/assets/shop/cap-navy.png";
+import capMustard from "@/assets/shop/cap-mustard.png";
 
 /**
  * Shop page content — CMS-ready shape.
@@ -108,7 +108,7 @@ export const shopCatalog: ShopCatalog = {
         title: "Personalised Tucker Family Charity caps",
         shortDescription:
           "Colours and checkout on Cheyna Dot—embroidery celebrates Tucker Family Charity while supporting Oliver’s Village.",
-        image: capNavy,
+        image: capMustard,
         ctaLabel: "View & order",
         ctaHref: PERSONALISED_HAT_PATH,
       },
@@ -133,7 +133,7 @@ export const shopCatalog: ShopCatalog = {
       title: "Personalised Tucker Family Charity Cap",
       shortDescription:
         "Pick your colour and add a name—the order is placed on our partner store (Cheyna Dot). Every hat supports Oliver’s Village. See all shades on the Tucker page, then continue there to buy.",
-      image: capNavy,
+      image: capMustard,
       priceLabel: "Via Cheyna Dot",
       ctaLabel: "View colours & partner link",
       paymentLink: "mailto:info@tuckerfamilycharity.org?subject=Cap%20Purchase",
