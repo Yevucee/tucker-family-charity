@@ -64,6 +64,7 @@ export function hatImageForSlug(slug: string): string {
 export const hatPageCopy = {
   title: "Personalised charity hat",
   intro: "Cotton Tucker caps sold through Cheyna Dot.",
+  impactLine: "100% of profits go to Oliver's Village.",
   orderCta: `Order on ${HAT_STORE_DISPLAY_NAME}`,
   featuresHeading: "What you get",
   features: [

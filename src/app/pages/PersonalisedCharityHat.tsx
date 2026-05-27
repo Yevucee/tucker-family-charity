@@ -33,6 +33,7 @@ export function PersonalisedCharityHat() {
             {hatPageCopy.title}
           </h1>
           <p className="text-sm sm:text-base text-amber-100">{hatPageCopy.intro}</p>
+          <p className="mt-2 text-sm sm:text-base text-amber-100/95">{hatPageCopy.impactLine}</p>
 
           <div className="mt-5 flex flex-col sm:flex-row items-center justify-center gap-3">
             <a
