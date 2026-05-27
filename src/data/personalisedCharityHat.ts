@@ -1,7 +1,20 @@
 /**
  * Personalised charity hat PDP — variants, copy, and order helpers.
- * When per-colour photos exist, update `hatVariantImageSrc` to use slug paths.
  */
+
+import capAqua from "@/assets/shop/cap-aqua.png";
+import capBlack from "@/assets/shop/cap-black.png";
+import capChocolate from "@/assets/shop/cap-chocolate.png";
+import capGrey from "@/assets/shop/cap-grey.png";
+import capKhaki from "@/assets/shop/cap-khaki.png";
+import capMaroon from "@/assets/shop/cap-maroon.png";
+import capMustard from "@/assets/shop/cap-mustard.png";
+import capNavy from "@/assets/shop/cap-navy.png";
+import capOlive from "@/assets/shop/cap-olive.png";
+import capOrange from "@/assets/shop/cap-orange.png";
+import capPink from "@/assets/shop/cap-pink.png";
+import capRed from "@/assets/shop/cap-red.png";
+import capRust from "@/assets/shop/cap-rust.png";
 
 export type HatFit = "adult" | "kids";
 
@@ -26,8 +39,30 @@ const BASE = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
 
-/** Per-colour SVG placeholders in `public/shop/hats/{adult|kids}/{slug}.svg` — replace with photos when ready. */
+/** Production photos of each cap colour (embroidered charity design). */
+export const HAT_COLOUR_IMAGE_BY_SLUG: Record<string, string> = {
+  aqua: capAqua,
+  black: capBlack,
+  mustard: capMustard,
+  red: capRed,
+  grey: capGrey,
+  olive: capOlive,
+  chocolate: capChocolate,
+  navy: capNavy,
+  rust: capRust,
+  khaki: capKhaki,
+  maroon: capMaroon,
+  orange: capOrange,
+  pink: capPink,
+};
+
+/**
+ * Hero image for the selected colour. Kids sizes use the same colour line — same photos until kids-specific shots exist.
+ * Unknown slugs fall back to legacy SVG placeholders under `public/shop/hats/`.
+ */
 export function hatVariantImageSrc(fit: HatFit, slug: string): string {
+  const photo = HAT_COLOUR_IMAGE_BY_SLUG[slug];
+  if (photo) return photo;
   return `${BASE}shop/hats/${fit}/${slug}.svg`;
 }
 
@@ -82,13 +117,13 @@ export const adultHatColours: HatColourVariant[] = [
   { slug: "pink", label: "Pink", swatchHex: "#db2777" },
 ];
 
-/** Replace labels (and slugs if needed) when the five kids colours are confirmed. */
+/** Five popular kids colours — same cap photos as adult line (kids-specific photos can replace later). */
 export const kidsHatColours: HatColourVariant[] = [
-  { slug: "kids-1", label: "Kids colour — details to follow (1)", swatchHex: "#94a3b8" },
-  { slug: "kids-2", label: "Kids colour — details to follow (2)", swatchHex: "#64748b" },
-  { slug: "kids-3", label: "Kids colour — details to follow (3)", swatchHex: "#78716c" },
-  { slug: "kids-4", label: "Kids colour — details to follow (4)", swatchHex: "#a1a1aa" },
-  { slug: "kids-5", label: "Kids colour — details to follow (5)", swatchHex: "#71717a" },
+  { slug: "aqua", label: "Aqua", swatchHex: "#5eead4" },
+  { slug: "black", label: "Black", swatchHex: "#171717" },
+  { slug: "navy", label: "Navy", swatchHex: "#1e3a8a" },
+  { slug: "pink", label: "Pink", swatchHex: "#db2777" },
+  { slug: "mustard", label: "Mustard", swatchHex: "#ca8a04" },
 ];
 
 export function hatVariantsForFit(fit: HatFit): HatColourVariant[] {
