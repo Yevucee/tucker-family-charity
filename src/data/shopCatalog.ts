@@ -107,7 +107,7 @@ export const shopCatalog: ShopCatalog = {
         category: "featured",
         title: "Personalised charity hats",
         shortDescription:
-          "Custom caps in adult and kids sizes—choose your colour and add a name on the side. Every hat helps Oliver’s Village.",
+          "Colours and checkout on Cheyna Dot—embroidery celebrates Tucker Family Charity while supporting Oliver’s Village.",
         image: capNavy,
         ctaLabel: "View & order",
         ctaHref: PERSONALISED_HAT_PATH,
@@ -132,10 +132,10 @@ export const shopCatalog: ShopCatalog = {
       category: "tucker_products",
       title: "Personalised charity hat",
       shortDescription:
-        "Premium cotton caps—pick your colour, add a name on the side, and support Oliver’s Village. Adult and kids sizes.",
+        "Pick your colour and add a name—the order is placed on our partner store (Cheyna Dot). Every hat supports Oliver’s Village. See all shades on the Tucker page, then continue there to buy.",
       image: capNavy,
-      priceLabel: "R250",
-      ctaLabel: "View & order",
+      priceLabel: "Via Cheyna Dot",
+      ctaLabel: "View colours & partner link",
       paymentLink: "mailto:info@tuckerfamilycharity.org?subject=Cap%20Purchase",
       ctaOpensNewTab: false,
       productDetailPath: PERSONALISED_HAT_PATH,
