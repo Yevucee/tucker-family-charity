@@ -63,25 +63,18 @@ export function hatImageForSlug(slug: string): string {
 
 export const hatPageCopy = {
   title: "Personalised charity hat",
-  intro:
-    "Premium washed cotton twill caps with Tucker Family Charity embroidery—add your name on the side. Adult and kids sizes.",
-  heroSubline:
-    "Colour, personalisation name, size and checkout all happen securely on our partner store—every purchase still supports Oliver’s Village through this programme.",
-  impactLine: "Profits from this line support Oliver’s Village.",
-  tagline: "Stand out. Give back. Wear your impact.",
+  intro: "Cotton Tucker caps sold through Cheyna Dot.",
   orderCta: `Order on ${HAT_STORE_DISPLAY_NAME}`,
-  orderCtaNote: `You’ll finish your order on ${HAT_STORE_DISPLAY_NAME}; they print and dispatch the caps.`,
   featuresHeading: "What you get",
   features: [
-    "Premium washed cotton twill",
-    "Comfortable, unstructured dad-hat fit",
-    "Adjustable strap with brass-tone buckle",
-    "Your name personalised on the side",
-    "Tucker Family Charity embroidery—tree logo on front, wording on back (Est. 2009)",
+    "Washed cotton twill",
+    "Unstructured fit, adjustable strap",
+    "Name on the side",
+    "Charity embroidery: tree logo on front, Tucker Family Charity and Est. 2009 on the back",
   ],
   coloursHeading: "Choose your colour",
   coloursBlurb:
-    "Browse shades below—exact stock and sizing options are confirmed when you continue to Cheyna Dot.",
+    "Preview colours here. Stock and sizing are on Cheyna Dot when you click through.",
   questionsBlurb: "Questions about sizing or fulfilment?",
   questionsCtaEmail: `Email ${ORDER_EMAIL}`,
 };

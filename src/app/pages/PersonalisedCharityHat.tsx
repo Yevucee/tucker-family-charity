@@ -27,42 +27,31 @@ export function PersonalisedCharityHat() {
     <div className="min-h-screen bg-white">
       <Header />
 
-      <section className="bg-gradient-to-r from-amber-600 to-amber-800 py-10 md:py-14">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-          <p className="text-sm font-semibold uppercase tracking-wider text-amber-100/90 mb-2">
-            Tucker products
-          </p>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 leading-tight">
+      <section className="bg-gradient-to-r from-amber-600 to-amber-800 py-6 md:py-8">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 leading-tight">
             {hatPageCopy.title}
           </h1>
-          <p className="text-lg text-amber-100 leading-relaxed">{hatPageCopy.intro}</p>
-          <p className="mt-4 text-base text-amber-100/95 leading-relaxed max-w-xl mx-auto">
-            {hatPageCopy.heroSubline}
-          </p>
-          <p className="mt-4 text-amber-100">{hatPageCopy.impactLine}</p>
-          <p className="mt-3 text-amber-50 font-medium">{hatPageCopy.tagline}</p>
+          <p className="text-sm sm:text-base text-amber-100">{hatPageCopy.intro}</p>
 
-          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <div className="mt-5 flex flex-col sm:flex-row items-center justify-center gap-3">
             <a
               href={HAT_STORE_ORDER_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex w-full sm:w-auto justify-center items-center gap-2 py-3.5 px-8 rounded-xl bg-white text-amber-900 font-semibold hover:bg-amber-50 transition-colors shadow-md"
+              className="inline-flex w-full sm:w-auto justify-center items-center gap-2 py-3 px-6 rounded-xl bg-white text-amber-900 font-semibold hover:bg-amber-50 transition-colors shadow-md text-sm sm:text-base"
             >
               {hatPageCopy.orderCta}
               <ExternalLink className="w-5 h-5 shrink-0" aria-hidden />
             </a>
             <Link
               to="/shop"
-              className="inline-flex w-full sm:w-auto justify-center items-center gap-2 py-3.5 px-6 rounded-xl border-2 border-white/80 text-white font-semibold hover:bg-white/10 transition-colors"
+              className="inline-flex w-full sm:w-auto justify-center items-center gap-2 py-3 px-5 rounded-xl border-2 border-white/80 text-white font-semibold hover:bg-white/10 transition-colors text-sm sm:text-base"
             >
               <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden />
               Back to shop
             </Link>
           </div>
-          <p className="mt-6 text-sm text-amber-100/90 max-w-lg mx-auto leading-relaxed">
-            {hatPageCopy.orderCtaNote}
-          </p>
         </div>
       </section>
 
@@ -138,7 +127,7 @@ export function PersonalisedCharityHat() {
                 <div className="relative aspect-square w-full bg-neutral-100">
                   <ImageWithFallback
                     src={previewSrc}
-                    alt={`Personalised charity hat — ${selected.label}`}
+                    alt={`Personalised charity hat, ${selected.label}`}
                     className="absolute inset-0 w-full h-full object-contain p-4"
                     loading="eager"
                   />
@@ -146,7 +135,7 @@ export function PersonalisedCharityHat() {
                 <div className="p-4 text-center border-t border-amber-100/80 bg-white/80">
                   <p className="text-sm font-semibold text-neutral-900">{selected.label}</p>
                   <p className="text-xs text-neutral-600 mt-2">
-                    Order this colour &amp; your name at {HAT_STORE_DISPLAY_NAME}.
+                    Buy this colour at {HAT_STORE_DISPLAY_NAME}.
                   </p>
                 </div>
               </div>
