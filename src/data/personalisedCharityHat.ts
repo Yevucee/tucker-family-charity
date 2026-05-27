@@ -1,5 +1,5 @@
 /**
- * Personalised charity hat — landing page copy, partner store URL, colour gallery assets.
+ * Personalised Tucker Family Charity cap page: copy, Cheyna Dot URL, colours.
  * Orders are fulfilled on Cheyna Dot; this site only informs and links there.
  */
 
@@ -62,7 +62,7 @@ export function hatImageForSlug(slug: string): string {
 }
 
 export const hatPageCopy = {
-  title: "Personalised charity hat",
+  title: "Personalised Tucker Family Charity Cap",
   intro: "Cotton Tucker caps sold through Cheyna Dot.",
   impactLine: "100% of profits go to Oliver's Village.",
   orderCta: `Order on ${HAT_STORE_DISPLAY_NAME}`,

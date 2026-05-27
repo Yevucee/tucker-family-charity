@@ -128,7 +128,7 @@ export function PersonalisedCharityHat() {
                 <div className="relative aspect-square w-full bg-neutral-100">
                   <ImageWithFallback
                     src={previewSrc}
-                    alt={`Personalised charity hat, ${selected.label}`}
+                    alt={`Personalised Tucker Family Charity cap, ${selected.label}`}
                     className="absolute inset-0 w-full h-full object-contain p-4"
                     loading="eager"
                   />

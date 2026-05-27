@@ -105,7 +105,7 @@ export const shopCatalog: ShopCatalog = {
       {
         id: "featured-personalised-caps",
         category: "featured",
-        title: "Personalised charity hats",
+        title: "Personalised Tucker Family Charity caps",
         shortDescription:
           "Colours and checkout on Cheyna Dot—embroidery celebrates Tucker Family Charity while supporting Oliver’s Village.",
         image: capNavy,
@@ -130,7 +130,7 @@ export const shopCatalog: ShopCatalog = {
     {
       id: "caps",
       category: "tucker_products",
-      title: "Personalised charity hat",
+      title: "Personalised Tucker Family Charity Cap",
       shortDescription:
         "Pick your colour and add a name—the order is placed on our partner store (Cheyna Dot). Every hat supports Oliver’s Village. See all shades on the Tucker page, then continue there to buy.",
       image: capNavy,
