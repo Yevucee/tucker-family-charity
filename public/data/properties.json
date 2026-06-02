@@ -15,11 +15,95 @@
     "features": [
       "200 m² workspace + ~140 m² courtyard (per listing)",
       "A-grade building · Sandton CBD access",
-      "We share the Property24 listing link after your enquiry — no need to search elsewhere first"
+      "We share the Property24 listing link after your enquiry"
     ],
     "originalListingUrl": "https://www.property24.com/to-rent/parkmore/sandton/gauteng/5843/117059604?plId=2392305&plt=3&plsIds=2408118",
     "agentEmail": "info@tuckerfamilycharity.org",
     "directFromCharity": true,
     "referralNote": "Register your interest through Tucker Family Charity. We’ll send you the full listing after you submit and follow up with you directly."
+  },
+  {
+    "id": "property-001",
+    "title": "House for Sale — Parktown North",
+    "type": "sale",
+    "suburb": "Parktown North, Johannesburg",
+    "price": "R7,950,000",
+    "bedrooms": 5,
+    "bathrooms": 4,
+    "parking": "2 garages · 10 parking bays (per listing)",
+    "image": "https://resources.pamgolding.co.za/content/properties/202604/644561/h/644561_H_48.jpg?w=1200",
+    "description": "Contemporary 5-bedroom family home in Parktown North through Pam Golding. Double-volume living, pool, flatlet, erf 939 m². Pam Golding invites offers from R7.95 million (seller asking R8.25 million). Confirm current terms when you enquire.",
+    "cardSummary": "Contemporary family home with generous living space, a private pool, flatlet and excellent access to key Johannesburg suburbs.",
+    "cardFeatures": ["5 bed", "4 bath", "2 garages", "Pool", "Flatlet"],
+    "features": [
+      "Headline price as shown on Pam Golding (HP1727718)",
+      "Partnership listing: register interest via Tucker Family Charity first",
+      "Full Pam Golding gallery shared after you enquire"
+    ],
+    "originalListingUrl": "https://www.pamgolding.co.za/property-details/house-for-sale-parktown-north/hp1727718",
+    "agentEmail": "agent@example.com"
+  },
+  {
+    "id": "property-002",
+    "title": "House for Sale — Parkwood",
+    "type": "sale",
+    "suburb": "Parkwood, Johannesburg",
+    "price": "R7,950,000 (under offer)",
+    "bedrooms": 5,
+    "bathrooms": 4.5,
+    "parking": "3 garages (per listing)",
+    "image": "https://resources.pamgolding.co.za/content/properties/202304/492430/h/492430_H_60.jpg?w=1200",
+    "description": "Upper Parkwood designer residence: 5 bedrooms, pool, cottage and flatlet, solar and automation (erf 1 108 m²). Listed as under offer on Pam Golding (HP1723272). Pricing and availability may change; your enquiry keeps the charity referral on record.",
+    "cardSummary": "Designer Parkwood residence with pool, cottage, flatlet and smart home features. Confirm status with Pam Golding.",
+    "cardFeatures": ["5 bed", "4.5 bath", "3 garages", "Pool & flatlet", "Solar & automation"],
+    "features": [
+      "Status on Pam Golding: under offer",
+      "Headline price R7,950,000 as shown on Pam Golding",
+      "Partnership listing: register interest via Tucker Family Charity first"
+    ],
+    "originalListingUrl": "https://www.pamgolding.co.za/property-details/house-for-sale-parkwood-johannesburg/hp1723272",
+    "agentEmail": "agent@example.com"
+  },
+  {
+    "id": "property-003",
+    "title": "House for Sale — Parkwood",
+    "type": "sale",
+    "suburb": "Parkwood, Johannesburg",
+    "price": "R4,950,000 (under offer)",
+    "bedrooms": 4,
+    "bathrooms": 2.5,
+    "parking": "2 garages · 4 parking bays (per listing)",
+    "image": "https://resources.pamgolding.co.za/content/properties/202602/645121/h/645121_H_12.jpg?w=1200",
+    "description": "Contemporary Parkwood family home with pool, staff accommodation and backup power (erf 1 011 m²). Pam Golding invites offers from R4.95 million (seller asking R5.25 million). Listed as under offer (HP1730555).",
+    "cardSummary": "Parkwood contemporary home with pool, staff suite and backup power on a generous erf (~1 011 m²).",
+    "cardFeatures": ["4 bed", "2.5 bath", "2 garages", "Pool"],
+    "features": [
+      "Status on Pam Golding: under offer",
+      "Headline price as shown on Pam Golding (HP1730555)",
+      "Partnership listing: register interest via Tucker Family Charity first"
+    ],
+    "originalListingUrl": "https://www.pamgolding.co.za/property-details/house-for-sale-parkwood-johannesburg/hp1730555",
+    "agentEmail": "agent@example.com"
+  },
+  {
+    "id": "property-004",
+    "title": "House for Sale — Parktown North",
+    "type": "sale",
+    "suburb": "Parktown North, Johannesburg",
+    "price": "R4,490,000 (under offer)",
+    "bedrooms": 4,
+    "bathrooms": 2,
+    "parking": "2 garages · 2 parking bays (per listing)",
+    "image": "https://resources.pamgolding.co.za/content/properties/202601/644464/h/644464_H_41.jpg?w=1200",
+    "description": "Established family home on a quiet Parktown North street: 4 bedrooms, pool, cottage and staff suite (erf 789 m²). Listed as under offer on Pam Golding (HP1725689, ABSA HelpUSell). Confirm pricing and status with the agent.",
+    "cardSummary": "Character Parktown North family home with pool, cottage and mature garden. Status on Pam Golding.",
+    "cardFeatures": ["4 bed", "2 bath", "2 garages", "Pool"],
+    "features": [
+      "Status on Pam Golding: under offer (ABSA HelpUSell)",
+      "Headline price R4,490,000 as shown on Pam Golding",
+      "Partnership listing: register interest via Tucker Family Charity first"
+    ],
+    "originalListingUrl": "https://www.pamgolding.co.za/property-details/house-for-sale-parktown-north/hp1725689",
+    "agentEmail": "agent@example.com"
   }
 ]
