@@ -11,7 +11,8 @@ import { Donate } from "./pages/Donate";
 import { KeepItInTheFamily } from "./pages/KeepItInTheFamily";
 import { GolfLearnershipProgramme } from "./pages/GolfLearnershipProgramme";
 import { PropertyPartnerships } from "./pages/PropertyPartnerships";
-import { Opportunities } from "./pages/Opportunities";
+import { LookingForWork } from "./pages/work-opportunities/LookingForWork";
+import { WorkAvailable } from "./pages/work-opportunities/WorkAvailable";
 
 /** React Router basename: empty string at site root; no trailing slash for subpaths. */
 const routerBasename = (() => {
@@ -35,7 +36,16 @@ export const router = createBrowserRouter(
         { path: "keep-it-in-the-family", Component: KeepItInTheFamily },
         { path: "golf-learnership-programme", Component: GolfLearnershipProgramme },
         { path: "property-partnerships", Component: PropertyPartnerships },
-        { path: "opportunities", Component: Opportunities },
+        {
+          path: "work-opportunities",
+          loader: () => redirect("/work-opportunities/looking-for-work"),
+        },
+        { path: "work-opportunities/looking-for-work", Component: LookingForWork },
+        { path: "work-opportunities/work-available", Component: WorkAvailable },
+        {
+          path: "opportunities",
+          loader: () => redirect("/work-opportunities/looking-for-work"),
+        },
         {
           path: "merch",
           loader: () => redirect("/shop"),

@@ -1,5 +1,5 @@
 /**
- * Opportunities page — curated profiles and job listings.
+ * Work Opportunities — curated profiles and job listings.
  * Update `public/data/opportunities.json` when new lists are uploaded (CMS / Sheets export later).
  */
 
@@ -79,7 +79,7 @@ export function parseOpportunitiesData(raw: unknown): OpportunitiesData {
 export const OPPORTUNITIES_CONTACT_EMAIL = "info@tuckerfamilycharity.org";
 
 export function profileInterestMailto(profile: JobSeekerProfile): string {
-  const subject = `Opportunities — interest in candidate: ${profile.displayName}`;
+  const subject = `Work Opportunities — interest in candidate: ${profile.displayName}`;
   const body = [
     "I am interested in learning more about the following candidate profile:",
     "",
@@ -96,7 +96,7 @@ export function profileInterestMailto(profile: JobSeekerProfile): string {
 }
 
 export function jobInterestMailto(job: JobOpportunity): string {
-  const subject = `Opportunities — interest in role: ${job.title}`;
+  const subject = `Work Opportunities — interest in role: ${job.title}`;
   const body = [
     "I am interested in the following opportunity:",
     "",

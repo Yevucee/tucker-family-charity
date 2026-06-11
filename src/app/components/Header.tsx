@@ -20,7 +20,7 @@ export function Header() {
     location.pathname.startsWith("/olivers-village");
   const isMoreActive =
     location.pathname.startsWith("/property-partnerships") ||
-    location.pathname.startsWith("/opportunities");
+    location.pathname.startsWith("/work-opportunities");
 
   return (
     <header className="bg-white border-b border-amber-200/80 sticky top-0 z-50">
@@ -93,8 +93,13 @@ export function Header() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
-                  <Link to="/opportunities" className="cursor-pointer">
-                    Opportunities
+                  <Link to="/work-opportunities/looking-for-work" className="cursor-pointer">
+                    Work Opportunities — Looking for Work
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
+                  <Link to="/work-opportunities/work-available" className="cursor-pointer">
+                    Work Opportunities — Work Available
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -221,14 +226,24 @@ export function Header() {
                       Property Partnerships
                     </Link>
                     <Link
-                      to="/opportunities"
+                      to="/work-opportunities/looking-for-work"
                       className="text-amber-950 hover:text-orange-600 transition-colors block py-2"
                       onClick={() => {
                         setIsMenuOpen(false);
                         setMoreOpen(false);
                       }}
                     >
-                      Opportunities
+                      Work Opportunities — Looking for Work
+                    </Link>
+                    <Link
+                      to="/work-opportunities/work-available"
+                      className="text-amber-950 hover:text-orange-600 transition-colors block py-2"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        setMoreOpen(false);
+                      }}
+                    >
+                      Work Opportunities — Work Available
                     </Link>
                   </div>
                 </CollapsibleContent>
