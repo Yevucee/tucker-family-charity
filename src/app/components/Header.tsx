@@ -18,7 +18,9 @@ export function Header() {
   const isProgrammesActive =
     location.pathname.startsWith("/golf-learnership-programme") ||
     location.pathname.startsWith("/olivers-village");
-  const isMoreActive = location.pathname.startsWith("/property-partnerships");
+  const isMoreActive =
+    location.pathname.startsWith("/property-partnerships") ||
+    location.pathname.startsWith("/opportunities");
 
   return (
     <header className="bg-white border-b border-amber-200/80 sticky top-0 z-50">
@@ -88,6 +90,11 @@ export function Header() {
                 <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
                   <Link to="/property-partnerships" className="cursor-pointer">
                     Property Partnerships
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
+                  <Link to="/opportunities" className="cursor-pointer">
+                    Opportunities
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -212,6 +219,16 @@ export function Header() {
                       }}
                     >
                       Property Partnerships
+                    </Link>
+                    <Link
+                      to="/opportunities"
+                      className="text-amber-950 hover:text-orange-600 transition-colors block py-2"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        setMoreOpen(false);
+                      }}
+                    >
+                      Opportunities
                     </Link>
                   </div>
                 </CollapsibleContent>

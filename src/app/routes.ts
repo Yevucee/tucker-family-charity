@@ -11,6 +11,7 @@ import { Donate } from "./pages/Donate";
 import { KeepItInTheFamily } from "./pages/KeepItInTheFamily";
 import { GolfLearnershipProgramme } from "./pages/GolfLearnershipProgramme";
 import { PropertyPartnerships } from "./pages/PropertyPartnerships";
+import { Opportunities } from "./pages/Opportunities";
 
 /** React Router basename: empty string at site root; no trailing slash for subpaths. */
 const routerBasename = (() => {
@@ -34,6 +35,7 @@ export const router = createBrowserRouter(
         { path: "keep-it-in-the-family", Component: KeepItInTheFamily },
         { path: "golf-learnership-programme", Component: GolfLearnershipProgramme },
         { path: "property-partnerships", Component: PropertyPartnerships },
+        { path: "opportunities", Component: Opportunities },
         {
           path: "merch",
           loader: () => redirect("/shop"),
