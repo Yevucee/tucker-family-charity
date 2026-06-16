@@ -4,7 +4,7 @@ import { Footer } from "../../components/Footer";
 import { CompactHowItWorks } from "../../components/work-opportunities/CompactHowItWorks";
 import { ProfileCard } from "../../components/work-opportunities/ProfileCard";
 import { useOpportunitiesData } from "../../components/work-opportunities/useOpportunitiesData";
-import { WorkOpportunitiesSubNav } from "../../components/work-opportunities/WorkOpportunitiesSubNav";
+import { WorkOpportunitiesHero } from "../../components/work-opportunities/WorkOpportunitiesHero";
 
 export function LookingForWork() {
   const { profiles, loading, loadError } = useOpportunitiesData();
@@ -17,20 +17,10 @@ export function LookingForWork() {
     <div className="min-h-screen bg-white">
       <Header />
 
-      <section className="bg-gradient-to-r from-amber-600 to-amber-800 py-10 md:py-12 border-b border-amber-900/10">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-          <p className="text-sm font-semibold uppercase tracking-wider text-amber-100/90 mb-1">
-            Work Opportunities
-          </p>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3">Looking for Work</h1>
-          <p className="text-base sm:text-lg text-amber-100 leading-relaxed max-w-2xl mx-auto">
-            Profiles from our network. Email Tucker Family Charity if you would like to learn more about a candidate.
-          </p>
-          <div className="mt-6">
-            <WorkOpportunitiesSubNav />
-          </div>
-        </div>
-      </section>
+      <WorkOpportunitiesHero
+        title="Looking for Work"
+        description="Profiles from our network. Email Tucker Family Charity if you would like to learn more about a candidate."
+      />
 
       <section className="py-10 md:py-14 bg-amber-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">

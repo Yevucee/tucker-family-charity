@@ -4,7 +4,6 @@ import { Footer } from "../components/Footer";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Link } from "react-router";
 import { Sparkles, ShoppingBag, HeartHandshake, ChevronDown } from "lucide-react";
-import { auctionItems } from "@/data/shopProducts";
 import { shopCatalog } from "@/data/shopCatalog";
 import { PartnerExitModal } from "../components/shop/PartnerExitModal";
 import { FeaturedMonthCarousel } from "../components/shop/FeaturedMonthCarousel";
@@ -25,7 +24,6 @@ function tuckerLinkProps(product: TuckerCatalogProduct) {
 
 export function Shop() {
   const { featuredThisMonth, tuckerProducts, partnerOffers } = shopCatalog;
-  const featuredAuction = auctionItems.find((a) => a.featured) ?? auctionItems[0];
   const [partnerModal, setPartnerModal] = useState<PartnerModalState>(null);
 
   const openPartnerModal = (offer: PartnerCatalogOffer) => {
@@ -36,8 +34,8 @@ export function Shop() {
   };
 
   const featuredSlides = useMemo(
-    () => buildFeaturedMonthSlides(featuredAuction, featuredThisMonth, "full"),
-    [featuredAuction, featuredThisMonth]
+    () => buildFeaturedMonthSlides(featuredThisMonth, "full"),
+    [featuredThisMonth]
   );
 
   const useFeaturedCarousel = featuredSlides.length > 1;
@@ -76,7 +74,7 @@ export function Shop() {
         </div>
       </section>
 
-      {/* A. Featured This Month — specials (auction + catalog spotlight) */}
+      {/* A. Featured This Month — catalog spotlight */}
       <section
         id="featured-this-month"
         className="relative py-8 md:py-12 bg-gradient-to-b from-amber-50 via-white to-white overflow-hidden scroll-mt-20 border-t border-amber-100/80"
@@ -91,7 +89,7 @@ export function Shop() {
             <Sparkles className="w-7 h-7 text-amber-600 shrink-0" aria-hidden />
             {featuredThisMonth.sectionTitle}
           </h2>
-          {/* FEATURED SLIDES: auction (shopProducts), main + supporting (shopCatalog / CMS) */}
+          {/* FEATURED SLIDES: main + supporting (shopCatalog / CMS) */}
           <FeaturedMonthCarousel enableCarousel={useFeaturedCarousel}>
             {featuredSlides}
           </FeaturedMonthCarousel>

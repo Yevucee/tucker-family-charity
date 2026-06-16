@@ -24,16 +24,14 @@ import tuckerFamily from "@/assets/708f3b7edb5dbc413e39e442a736f205e2c35b56.png"
 import computerLab from "@/assets/d5c30ac405997a9f47bb022e66f8a25896a2b859.png";
 import gardenArea from "@/assets/f0dd27edb7bda065be4dd5f0f576138f64514baf.png";
 import { shopCatalog } from "@/data/shopCatalog";
-import { auctionItems } from "@/data/shopProducts";
 import { upcomingEvents } from "@/data/events";
 import { FeaturedMonthCarousel } from "../components/shop/FeaturedMonthCarousel";
 import { buildFeaturedMonthSlides } from "../components/shop/featuredMonthSlides";
 
 export function Home() {
-  const featuredAuction = auctionItems.find((a) => a.featured) ?? auctionItems[0];
   const homeFeaturedSlides = useMemo(
-    () => buildFeaturedMonthSlides(featuredAuction, shopCatalog.featuredThisMonth, "home"),
-    [featuredAuction, shopCatalog.featuredThisMonth]
+    () => buildFeaturedMonthSlides(shopCatalog.featuredThisMonth, "home"),
+    [shopCatalog.featuredThisMonth]
   );
   const homeFeaturedUseCarousel = homeFeaturedSlides.length > 1;
 
