@@ -37,6 +37,8 @@ export interface UpcomingEvent {
   ctaLabel: string;
   ctaLink: string;
   ctaType: "mailto" | "external";
+  /** ISO date (YYYY-MM-DD). After this day, the event is treated as past. */
+  endsOn: string;
 }
 
 export interface PastEvent {
@@ -67,6 +69,7 @@ export const upcomingEvents: UpcomingEvent[] = [
     ctaLink:
       "mailto:janinebehr1@gmail.com?subject=RSVP%3A%20R%C3%A9my%20Martin%20Dinner%20%E2%80%94%20Tucker%20Family%20Charity&body=Please%20reserve%20my%20place%20for%20the%20R%C3%A9my%20Martin%20evening%20on%2027%20May%202026.%20%0A%0AName%3A%20%0ANumber%20of%20guests%3A%20",
     ctaType: "mailto",
+    endsOn: "2026-05-27",
   },
   {
     id: 2,
@@ -83,6 +86,7 @@ export const upcomingEvents: UpcomingEvent[] = [
     ctaLabel: "Get updates",
     ctaLink: "mailto:info@tuckerfamilycharity.org?subject=Couples%20Padel%20VII%20%E2%80%94%20interest",
     ctaType: "mailto",
+    endsOn: "2026-05-31",
   },
   {
     id: 3,
@@ -99,6 +103,7 @@ export const upcomingEvents: UpcomingEvent[] = [
     ctaLabel: "Register interest",
     ctaLink: "mailto:info@tuckerfamilycharity.org?subject=Australia%20vs%20SA%20%28Sept%202026%20%E2%80%94%20interest",
     ctaType: "mailto",
+    endsOn: "2026-09-27",
   },
   {
     id: 4,
@@ -115,6 +120,7 @@ export const upcomingEvents: UpcomingEvent[] = [
     ctaLabel: "Register interest",
     ctaLink: "mailto:info@tuckerfamilycharity.org?subject=SA%20vs%20Bangladesh%20Test%20%E2%80%94%20interest",
     ctaType: "mailto",
+    endsOn: "2026-11-19",
   },
   {
     id: 5,
@@ -131,6 +137,7 @@ export const upcomingEvents: UpcomingEvent[] = [
     ctaLabel: "Register interest",
     ctaLink: "mailto:info@tuckerfamilycharity.org?subject=SA%20vs%20England%20Test%20%E2%80%94%20interest",
     ctaType: "mailto",
+    endsOn: "2026-12-21",
   },
 ];
 
@@ -261,3 +268,51 @@ export const pastEvents: PastEvent[] = [
       "https://photos.google.com/share/AF1QipNkazJvwoPxkYQrOW6hCnUSUZncKi1mQiETMeyd3_AdK4O8RxpVQRR-cuWLdxNipw?key=akRTU1J5ZjBjRUEwcGVFVGtacjBhOEY1Z1BYUmR3",
   },
 ];
+
+function parseEndsOn(iso: string): Date {
+  const [y, m, d] = iso.split("-").map(Number);
+  return new Date(y, m - 1, d);
+}
+
+function startOfDay(date: Date): Date {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
+function slugFromTitle(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+/** Upcoming events whose end date is today or later. */
+export function getActiveUpcomingEvents(now = new Date()): UpcomingEvent[] {
+  const today = startOfDay(now);
+  return upcomingEvents.filter((e) => parseEndsOn(e.endsOn) >= today);
+}
+
+function expiredUpcomingToPast(event: UpcomingEvent): PastEvent {
+  const firstSentence = event.description.split(/(?<=[.!?])\s+/)[0] ?? event.description;
+  return {
+    id: 1000 + event.id,
+    title: event.title,
+    slug: slugFromTitle(event.title),
+    shortDescription: firstSentence.length > 280 ? `${firstSentence.slice(0, 277)}…` : firstSentence,
+    coverImage: event.image,
+    albumLink: `mailto:info@tuckerfamilycharity.org?subject=${encodeURIComponent(`${event.title} — follow-up`)}`,
+  };
+}
+
+/** Recently ended upcoming events, newest first, for the Past Events section. */
+export function getRecentlyPastUpcomingEvents(now = new Date()): PastEvent[] {
+  const today = startOfDay(now);
+  return upcomingEvents
+    .filter((e) => parseEndsOn(e.endsOn) < today)
+    .sort((a, b) => b.endsOn.localeCompare(a.endsOn))
+    .map(expiredUpcomingToPast);
+}
+
+/** Static past events plus recently ended upcoming listings. */
+export function getAllPastEvents(now = new Date()): PastEvent[] {
+  return [...getRecentlyPastUpcomingEvents(now), ...pastEvents];
+}

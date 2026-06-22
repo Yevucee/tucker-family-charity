@@ -24,11 +24,12 @@ import tuckerFamily from "@/assets/708f3b7edb5dbc413e39e442a736f205e2c35b56.png"
 import computerLab from "@/assets/d5c30ac405997a9f47bb022e66f8a25896a2b859.png";
 import gardenArea from "@/assets/f0dd27edb7bda065be4dd5f0f576138f64514baf.png";
 import { shopCatalog } from "@/data/shopCatalog";
-import { upcomingEvents } from "@/data/events";
+import { getActiveUpcomingEvents } from "@/data/events";
 import { FeaturedMonthCarousel } from "../components/shop/FeaturedMonthCarousel";
 import { buildFeaturedMonthSlides } from "../components/shop/featuredMonthSlides";
 
 export function Home() {
+  const activeUpcomingEvents = getActiveUpcomingEvents();
   const homeFeaturedSlides = useMemo(
     () => buildFeaturedMonthSlides(shopCatalog.featuredThisMonth, "home"),
     [shopCatalog.featuredThisMonth]
@@ -269,7 +270,8 @@ export function Home() {
         </div>
       </section>
 
-      {/* Events Preview */}
+      {/* Events Preview — only while there are future-dated listings */}
+      {activeUpcomingEvents.length > 0 ? (
       <section className="py-20 bg-amber-50 border-t border-amber-100/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -282,7 +284,7 @@ export function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {upcomingEvents.slice(0, 3).map((event) => (
+            {activeUpcomingEvents.slice(0, 3).map((event) => (
               <div
                 key={event.id}
                 className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300"
@@ -322,6 +324,7 @@ export function Home() {
           </div>
         </div>
       </section>
+      ) : null}
 
       {/* Instagram Feed Preview */}
       <section className="py-20 bg-white border-t border-amber-100/80">

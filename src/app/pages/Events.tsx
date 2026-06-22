@@ -3,9 +3,11 @@ import { Footer } from "../components/Footer";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Link } from "react-router";
 import { Calendar, ExternalLink } from "lucide-react";
-import { upcomingEvents, pastEvents } from "@/data/events";
+import { getActiveUpcomingEvents, getAllPastEvents } from "@/data/events";
 
 export function Events() {
+  const activeUpcomingEvents = getActiveUpcomingEvents();
+  const allPastEvents = getAllPastEvents();
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -38,11 +40,12 @@ export function Events() {
       </section>
 
       {/* Upcoming Events */}
+      {activeUpcomingEvents.length > 0 ? (
       <section className="py-20 bg-white border-t border-amber-100/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold mb-12 text-neutral-900">Upcoming Events</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {upcomingEvents.map((event) => (
+            {activeUpcomingEvents.map((event) => (
               <div
                 key={event.id}
                 className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col"
@@ -80,13 +83,14 @@ export function Events() {
           </div>
         </div>
       </section>
+      ) : null}
 
       {/* Past Events — centred copy, one hero image, link to Google album / folder */}
       <section className="py-20 bg-amber-50 border-t border-amber-100/80">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold mb-12 text-neutral-900 text-center">Past Events</h2>
           <div className="space-y-16">
-            {pastEvents.map((event) => (
+            {allPastEvents.map((event) => (
               <article
                 key={event.id}
                 className="bg-white rounded-xl overflow-hidden shadow-lg border border-amber-100/80"
@@ -116,8 +120,14 @@ export function Events() {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 bg-orange-600 text-white px-8 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold"
                   >
-                    View Full Gallery
-                    <ExternalLink className="w-4 h-4 shrink-0" />
+                    {event.albumLink.includes("photos.google.com") ? (
+                      <>
+                        View Full Gallery
+                        <ExternalLink className="w-4 h-4 shrink-0" />
+                      </>
+                    ) : (
+                      <>Get in touch</>
+                    )}
                   </a>
                 </div>
               </article>
