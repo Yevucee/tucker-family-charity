@@ -94,12 +94,12 @@ export function Header() {
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
                   <Link to="/work-opportunities/looking-for-work" className="cursor-pointer">
-                    Work Opportunities — Looking for Work
+                    Looking for Work
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
                   <Link to="/work-opportunities/work-available" className="cursor-pointer">
-                    Work Opportunities — Work Available
+                    Work Available
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -233,7 +233,7 @@ export function Header() {
                         setMoreOpen(false);
                       }}
                     >
-                      Work Opportunities — Looking for Work
+                      Looking for Work
                     </Link>
                     <Link
                       to="/work-opportunities/work-available"
@@ -243,7 +243,7 @@ export function Header() {
                         setMoreOpen(false);
                       }}
                     >
-                      Work Opportunities — Work Available
+                      Work Available
                     </Link>
                   </div>
                 </CollapsibleContent>
