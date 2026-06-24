@@ -1,26 +1,14 @@
 {
   "profiles": [
     {
-      "id": "profile-sample-001",
-      "displayName": "Lerato M.",
-      "location": "Rosebank, Johannesburg",
-      "workType": "Administration / reception",
-      "skills": "Microsoft Office, filing, phone etiquette, 2 years office experience in a small business",
-      "availability": "Available immediately — full-time preferred",
-      "summary": "Reliable, friendly and eager to learn. Looking for a supportive team where she can grow her admin skills."
+      "id": "profile-john-fry-001",
+      "displayName": "John F.",
+      "location": "Johannesburg, Gauteng",
+      "workType": "Chief Operating Officer / Managing Director",
+      "skills": "20+ years founding and leading businesses across South Africa. COO and MD experience in transport, manufacturing, brand activations and mixed-use property. Scaled teams to 300–500 staff; grew group revenue to R100m; successful exit of Road-Trip to Digicall Group. Strong in operational structure, cost control, data-driven systems and strategic partnerships. BCom Industrial Psychology (University of Johannesburg).",
+      "availability": "Available immediately — open to COO, MD or senior operational leadership roles",
+      "summary": "Entrepreneurial operator with a track record of building, scaling and exiting businesses. Looking for a senior role where he can drive commercial performance, operational discipline and sustainable growth."
     }
   ],
-  "opportunities": [
-    {
-      "id": "job-sample-001",
-      "title": "Part-time office assistant",
-      "organisation": "Community partner (Sandton)",
-      "location": "Sandton, Johannesburg",
-      "type": "Part-time role",
-      "compensation": "Paid",
-      "description": "Light admin support — filing, emails, welcoming visitors. Small friendly office, 3 days per week to start with room to grow.",
-      "skillsRequired": "Basic computer skills, good communication, punctual",
-      "startDate": "April 2026 or flexible"
-    }
-  ]
+  "opportunities": []
 }
