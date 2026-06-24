@@ -13,12 +13,13 @@ import logo from "@/assets/4920ca320ce31a579ec4c3d0fcc360b4528a2024.png";
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [programmesOpen, setProgrammesOpen] = useState(false);
-  const [moreOpen, setMoreOpen] = useState(false);
+  const [communityNetworkOpen, setCommunityNetworkOpen] = useState(false);
   const location = useLocation();
   const isProgrammesActive =
     location.pathname.startsWith("/golf-learnership-programme") ||
     location.pathname.startsWith("/olivers-village");
-  const isMoreActive =
+  const isCommunityNetworkActive =
+    location.pathname.startsWith("/keep-it-in-the-family") ||
     location.pathname.startsWith("/property-partnerships") ||
     location.pathname.startsWith("/work-opportunities");
 
@@ -76,10 +77,12 @@ export function Header() {
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger
                 className={`flex items-center gap-1 transition-colors ${
-                  isMoreActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600"
+                  isCommunityNetworkActive
+                    ? "text-orange-600 font-semibold"
+                    : "text-amber-950 hover:text-orange-600"
                 }`}
               >
-                More
+                Community Network
                 <ChevronDown className="w-4 h-4" />
               </DropdownMenuTrigger>
               <DropdownMenuContent
@@ -87,6 +90,11 @@ export function Header() {
                 className="z-[100]"
                 onCloseAutoFocus={(e) => e.preventDefault()}
               >
+                <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
+                  <Link to="/keep-it-in-the-family" className="cursor-pointer">
+                    Keep It In The Family
+                  </Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
                   <Link to="/property-partnerships" className="cursor-pointer">
                     Property Partnerships
@@ -130,14 +138,6 @@ export function Header() {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <NavLink
-              to="/keep-it-in-the-family"
-              className={({ isActive }) =>
-                isActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600 transition-colors"
-              }
-            >
-              Keep It In The Family
-            </NavLink>
             <Link
               to="/donate"
               className="bg-orange-600 text-white px-5 py-2 rounded-full hover:bg-orange-700 transition-colors"
@@ -204,23 +204,37 @@ export function Header() {
               >
                 Partners
               </NavLink>
-              <Collapsible open={moreOpen} onOpenChange={setMoreOpen}>
+              <Collapsible open={communityNetworkOpen} onOpenChange={setCommunityNetworkOpen}>
                 <CollapsibleTrigger
                   className={`flex items-center justify-between w-full py-2 ${
-                    isMoreActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600 transition-colors"
+                    isCommunityNetworkActive
+                      ? "text-orange-600 font-semibold"
+                      : "text-amber-950 hover:text-orange-600 transition-colors"
                   }`}
                 >
-                  More
-                  <ChevronDown className={`w-4 h-4 transition-transform ${moreOpen ? "rotate-180" : ""}`} />
+                  Community Network
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform ${communityNetworkOpen ? "rotate-180" : ""}`}
+                  />
                 </CollapsibleTrigger>
                 <CollapsibleContent>
                   <div className="pl-4 py-2 flex flex-col">
+                    <Link
+                      to="/keep-it-in-the-family"
+                      className="text-amber-950 hover:text-orange-600 transition-colors block py-2"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        setCommunityNetworkOpen(false);
+                      }}
+                    >
+                      Keep It In The Family
+                    </Link>
                     <Link
                       to="/property-partnerships"
                       className="text-amber-950 hover:text-orange-600 transition-colors block py-2"
                       onClick={() => {
                         setIsMenuOpen(false);
-                        setMoreOpen(false);
+                        setCommunityNetworkOpen(false);
                       }}
                     >
                       Property Partnerships
@@ -230,7 +244,7 @@ export function Header() {
                       className="text-amber-950 hover:text-orange-600 transition-colors block py-2"
                       onClick={() => {
                         setIsMenuOpen(false);
-                        setMoreOpen(false);
+                        setCommunityNetworkOpen(false);
                       }}
                     >
                       Looking for Work
@@ -240,7 +254,7 @@ export function Header() {
                       className="text-amber-950 hover:text-orange-600 transition-colors block py-2"
                       onClick={() => {
                         setIsMenuOpen(false);
-                        setMoreOpen(false);
+                        setCommunityNetworkOpen(false);
                       }}
                     >
                       Work Available
@@ -284,15 +298,6 @@ export function Header() {
                   </div>
                 </CollapsibleContent>
               </Collapsible>
-              <NavLink
-                to="/keep-it-in-the-family"
-                className={({ isActive }) =>
-                  isActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600 transition-colors"
-                }
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Keep It In The Family
-              </NavLink>
               <Link
                 to="/donate"
                 className="flex items-center justify-center min-h-[44px] bg-orange-600 text-white px-5 py-3 rounded-full hover:bg-orange-700 transition-colors text-center"
