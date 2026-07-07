@@ -101,13 +101,8 @@ export function Header() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
-                  <Link to="/work-opportunities/looking-for-work" className="cursor-pointer">
-                    Looking for Work
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
-                  <Link to="/work-opportunities/work-available" className="cursor-pointer">
-                    Work Available
+                  <Link to="/work-opportunities" className="cursor-pointer">
+                    Work Opportunities
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -240,24 +235,14 @@ export function Header() {
                       Property Partnerships
                     </Link>
                     <Link
-                      to="/work-opportunities/looking-for-work"
+                      to="/work-opportunities"
                       className="text-amber-950 hover:text-orange-600 transition-colors block py-2"
                       onClick={() => {
                         setIsMenuOpen(false);
                         setCommunityNetworkOpen(false);
                       }}
                     >
-                      Looking for Work
-                    </Link>
-                    <Link
-                      to="/work-opportunities/work-available"
-                      className="text-amber-950 hover:text-orange-600 transition-colors block py-2"
-                      onClick={() => {
-                        setIsMenuOpen(false);
-                        setCommunityNetworkOpen(false);
-                      }}
-                    >
-                      Work Available
+                      Work Opportunities
                     </Link>
                   </div>
                 </CollapsibleContent>

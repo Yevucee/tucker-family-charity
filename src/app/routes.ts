@@ -13,6 +13,7 @@ import { GolfLearnershipProgramme } from "./pages/GolfLearnershipProgramme";
 import { PropertyPartnerships } from "./pages/PropertyPartnerships";
 import { LookingForWork } from "./pages/work-opportunities/LookingForWork";
 import { WorkAvailable } from "./pages/work-opportunities/WorkAvailable";
+import { WorkOpportunitiesLayout } from "./pages/work-opportunities/WorkOpportunitiesLayout";
 
 /** React Router basename: empty string at site root; no trailing slash for subpaths. */
 const routerBasename = (() => {
@@ -38,13 +39,16 @@ export const router = createBrowserRouter(
         { path: "property-partnerships", Component: PropertyPartnerships },
         {
           path: "work-opportunities",
-          loader: () => redirect("/work-opportunities/looking-for-work"),
+          Component: WorkOpportunitiesLayout,
+          children: [
+            { index: true, loader: () => redirect("looking-for-work") },
+            { path: "looking-for-work", Component: LookingForWork },
+            { path: "work-available", Component: WorkAvailable },
+          ],
         },
-        { path: "work-opportunities/looking-for-work", Component: LookingForWork },
-        { path: "work-opportunities/work-available", Component: WorkAvailable },
         {
           path: "opportunities",
-          loader: () => redirect("/work-opportunities/looking-for-work"),
+          loader: () => redirect("/work-opportunities"),
         },
         {
           path: "merch",
