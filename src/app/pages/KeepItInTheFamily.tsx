@@ -9,6 +9,7 @@ import {
   KITF_SUBMIT_SECRET,
 } from "@/config";
 import { KITF_OTHER_CATEGORY, SERVICE_CATEGORIES } from "@/data/kitfCategories";
+import { KITF_FORM_LIMITS } from "@/data/kitfForm";
 import {
   DEFAULT_PHONE_COUNTRY,
   formatPhoneForDisplay,
@@ -20,6 +21,39 @@ import {
 import type { CountryCode } from "libphonenumber-js";
 
 const PHONE_COUNTRY_OPTIONS = getPhoneCountryOptions();
+
+function FieldHint({ children }: { children: React.ReactNode }) {
+  return <p className="mt-1.5 text-xs text-neutral-600 leading-relaxed">{children}</p>;
+}
+
+function validateKitfFieldLengths(fields: {
+  name: string;
+  professionOther: string;
+  area: string;
+  endorsedBy: string;
+  aboutCompany: string;
+  website: string;
+  isOtherCategory: boolean;
+}): string | null {
+  const { name, professionOther, area, endorsedBy, aboutCompany, website, isOtherCategory } = fields;
+  if (name.length > KITF_FORM_LIMITS.name) {
+    return `Name / business name must be ${KITF_FORM_LIMITS.name} characters or fewer.`;
+  }
+  if (isOtherCategory && professionOther.length > KITF_FORM_LIMITS.professionOther) {
+    return `Service type must be ${KITF_FORM_LIMITS.professionOther} characters or fewer (a few words only).`;
+  }
+  if (area.length > KITF_FORM_LIMITS.area) return `Area must be ${KITF_FORM_LIMITS.area} characters or fewer.`;
+  if (endorsedBy.length > KITF_FORM_LIMITS.endorsedBy) {
+    return `Endorsed by must be ${KITF_FORM_LIMITS.endorsedBy} characters or fewer.`;
+  }
+  if (aboutCompany.length > KITF_FORM_LIMITS.aboutCompany) {
+    return `About your company must be ${KITF_FORM_LIMITS.aboutCompany} characters or fewer.`;
+  }
+  if (website.length > KITF_FORM_LIMITS.website) {
+    return `Website must be ${KITF_FORM_LIMITS.website} characters or fewer.`;
+  }
+  return null;
+}
 
 interface ServicesEntry {
   name: string;
@@ -164,7 +198,22 @@ export function KeepItInTheFamily() {
     }
     if (formCategory === KITF_OTHER_CATEGORY && !formProfessionOther.trim()) {
       setSubmitState("error");
-      setSubmitError("Please describe your profession when you select Other.");
+      setSubmitError("Please enter a short service type when you select Other.");
+      return;
+    }
+
+    const lengthError = validateKitfFieldLengths({
+      name: formName.trim(),
+      professionOther: formProfessionOther.trim(),
+      area: formArea.trim(),
+      endorsedBy: formEndorsedBy.trim(),
+      aboutCompany: formNotes.trim(),
+      website: formWebsite.trim(),
+      isOtherCategory: formCategory === KITF_OTHER_CATEGORY,
+    });
+    if (lengthError) {
+      setSubmitState("error");
+      setSubmitError(lengthError);
       return;
     }
 
@@ -379,8 +428,9 @@ export function KeepItInTheFamily() {
             <div className="text-center mb-8">
               <h2 className="text-2xl font-bold text-neutral-900 mb-2">Add your service</h2>
               <p className="text-neutral-700">
-                Submit your details to appear in the community directory. Listings are reviewed
-                before they appear for everyone.
+                Submit your details to appear in the community directory. Use a short service type and put
+                longer descriptions in About your company. Listings are reviewed before they appear for
+                everyone.
               </p>
             </div>
 
@@ -396,15 +446,18 @@ export function KeepItInTheFamily() {
                   id="kitf-name"
                   type="text"
                   required
+                  maxLength={KITF_FORM_LIMITS.name}
+                  placeholder="e.g. Geezers Plumbing"
                   value={formName}
                   onChange={(e) => setFormName(e.target.value)}
                   className="w-full px-4 py-3 border border-amber-200/90 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 />
+                <FieldHint>Your name or trading name as you want it on the listing.</FieldHint>
               </div>
 
               <div>
                 <label htmlFor="kitf-category" className="block text-sm font-semibold text-neutral-800 mb-1">
-                  Category
+                  Service type
                 </label>
                 <select
                   id="kitf-category"
@@ -418,14 +471,26 @@ export function KeepItInTheFamily() {
                     </option>
                   ))}
                 </select>
+                <FieldHint>Choose the closest match. This appears as a short tag on your card.</FieldHint>
                 {formCategory === KITF_OTHER_CATEGORY && (
-                  <input
-                    type="text"
-                    placeholder="Describe your profession"
-                    value={formProfessionOther}
-                    onChange={(e) => setFormProfessionOther(e.target.value)}
-                    className="mt-2 w-full px-4 py-3 border border-amber-200/90 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  />
+                  <>
+                    <label htmlFor="kitf-profession-other" className="sr-only">
+                      Your service type
+                    </label>
+                    <input
+                      id="kitf-profession-other"
+                      type="text"
+                      maxLength={KITF_FORM_LIMITS.professionOther}
+                      placeholder="e.g. Insurance broker"
+                      value={formProfessionOther}
+                      onChange={(e) => setFormProfessionOther(e.target.value)}
+                      className="mt-2 w-full px-4 py-3 border border-amber-200/90 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    />
+                    <FieldHint>
+                      2–4 words only (max {KITF_FORM_LIMITS.professionOther}). Put the full description in
+                      About your company below.
+                    </FieldHint>
+                  </>
                 )}
               </div>
 
@@ -437,10 +502,13 @@ export function KeepItInTheFamily() {
                   id="kitf-area"
                   type="text"
                   required
+                  maxLength={KITF_FORM_LIMITS.area}
+                  placeholder="e.g. Northcliff, Sandton"
                   value={formArea}
                   onChange={(e) => setFormArea(e.target.value)}
                   className="w-full px-4 py-3 border border-amber-200/90 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 />
+                <FieldHint>Where you mainly work or serve clients.</FieldHint>
               </div>
 
               <div>
@@ -472,10 +540,10 @@ export function KeepItInTheFamily() {
                     aria-label="Phone number"
                   />
                 </div>
-                <p className="mt-1.5 text-xs text-neutral-600 leading-relaxed">
+                <FieldHint>
                   Mobile or landline. For South Africa, enter with or without a leading 0. We save numbers in
                   international format (e.g. +27 82 123 4567).
-                </p>
+                </FieldHint>
               </div>
 
               <div>
@@ -486,39 +554,51 @@ export function KeepItInTheFamily() {
                   id="kitf-endorsed"
                   type="text"
                   required
-                  placeholder="Who recommends you?"
+                  maxLength={KITF_FORM_LIMITS.endorsedBy}
+                  placeholder="e.g. Brett Tucker"
                   value={formEndorsedBy}
                   onChange={(e) => setFormEndorsedBy(e.target.value)}
                   className="w-full px-4 py-3 border border-amber-200/90 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 />
+                <FieldHint>Who recommends you? First and last name is enough.</FieldHint>
               </div>
 
               <div>
                 <label htmlFor="kitf-notes" className="block text-sm font-semibold text-neutral-800 mb-1">
-                  Notes (optional)
+                  About your company <span className="font-normal text-neutral-500">(optional)</span>
                 </label>
                 <textarea
                   id="kitf-notes"
-                  rows={3}
+                  rows={4}
+                  maxLength={KITF_FORM_LIMITS.aboutCompany}
+                  placeholder="e.g. Emergency call-outs, medical aid and insurance advice, custom curtains and blinds…"
                   value={formNotes}
                   onChange={(e) => setFormNotes(e.target.value)}
                   className="w-full px-4 py-3 border border-amber-200/90 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-y"
                 />
+                <div className="mt-1.5 flex flex-wrap items-center justify-between gap-2 text-xs text-neutral-600">
+                  <span>A short summary of what you offer. This is the main description on your listing.</span>
+                  <span className="tabular-nums shrink-0">
+                    {formNotes.length}/{KITF_FORM_LIMITS.aboutCompany}
+                  </span>
+                </div>
               </div>
 
               <div>
                 <label htmlFor="kitf-website" className="block text-sm font-semibold text-neutral-800 mb-1">
-                  Website (optional)
+                  Website <span className="font-normal text-neutral-500">(optional)</span>
                 </label>
                 <input
                   id="kitf-website"
                   type="url"
                   inputMode="url"
-                  placeholder="https://"
+                  maxLength={KITF_FORM_LIMITS.website}
+                  placeholder="https://www.example.co.za"
                   value={formWebsite}
                   onChange={(e) => setFormWebsite(e.target.value)}
                   className="w-full px-4 py-3 border border-amber-200/90 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 />
+                <FieldHint>Full URL including https://</FieldHint>
               </div>
 
               {KITF_SUBMIT_URL_REJECTED && (
