@@ -9,6 +9,17 @@ import {
   KITF_SUBMIT_SECRET,
 } from "@/config";
 import { KITF_OTHER_CATEGORY, SERVICE_CATEGORIES } from "@/data/kitfCategories";
+import {
+  DEFAULT_PHONE_COUNTRY,
+  formatPhoneForDisplay,
+  getPhoneCountryOptions,
+  normalizePhoneForStorage,
+  phonePlaceholderForCountry,
+  phoneTelHref,
+} from "@/utils/phone";
+import type { CountryCode } from "libphonenumber-js";
+
+const PHONE_COUNTRY_OPTIONS = getPhoneCountryOptions();
 
 interface ServicesEntry {
   name: string;
@@ -76,7 +87,8 @@ export function KeepItInTheFamily() {
   const [formCategory, setFormCategory] = useState(SERVICE_CATEGORIES[0] ?? "");
   const [formProfessionOther, setFormProfessionOther] = useState("");
   const [formArea, setFormArea] = useState("");
-  const [formPhone, setFormPhone] = useState("");
+  const [formPhoneCountry, setFormPhoneCountry] = useState<CountryCode>(DEFAULT_PHONE_COUNTRY);
+  const [formPhoneNational, setFormPhoneNational] = useState("");
   const [formEndorsedBy, setFormEndorsedBy] = useState("");
   const [formNotes, setFormNotes] = useState("");
   const [formWebsite, setFormWebsite] = useState("");
@@ -130,7 +142,8 @@ export function KeepItInTheFamily() {
     setFormCategory(SERVICE_CATEGORIES[0] ?? "");
     setFormProfessionOther("");
     setFormArea("");
-    setFormPhone("");
+    setFormPhoneCountry(DEFAULT_PHONE_COUNTRY);
+    setFormPhoneNational("");
     setFormEndorsedBy("");
     setFormNotes("");
     setFormWebsite("");
@@ -144,7 +157,7 @@ export function KeepItInTheFamily() {
       setSubmitError("Form submissions are not configured yet. Please contact the charity.");
       return;
     }
-    if (!formName.trim() || !professionForSubmit || !formArea.trim() || !formPhone.trim() || !formEndorsedBy.trim()) {
+    if (!formName.trim() || !professionForSubmit || !formArea.trim() || !formPhoneNational.trim() || !formEndorsedBy.trim()) {
       setSubmitState("error");
       setSubmitError("Please fill in name, category (or Other), area, phone, and endorsed by.");
       return;
@@ -155,12 +168,19 @@ export function KeepItInTheFamily() {
       return;
     }
 
+    const phoneResult = normalizePhoneForStorage(formPhoneNational, formPhoneCountry);
+    if (!phoneResult.ok) {
+      setSubmitState("error");
+      setSubmitError(phoneResult.error);
+      return;
+    }
+
     const payload = {
       ...(KITF_SUBMIT_SECRET ? { secret: KITF_SUBMIT_SECRET } : {}),
       name: formName.trim(),
       profession: professionForSubmit,
       area: formArea.trim(),
-      phone: formPhone.trim(),
+      phone: phoneResult.display,
       endorsed_by: formEndorsedBy.trim(),
       notes: formNotes.trim(),
       website: formWebsite.trim(),
@@ -321,11 +341,11 @@ export function KeepItInTheFamily() {
                       <div className="flex flex-wrap gap-3">
                         {entry.phone && (
                           <a
-                            href={`tel:${entry.phone.replace(/\s/g, "")}`}
+                            href={phoneTelHref(entry.phone)}
                             className="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 font-semibold"
                           >
                             <Phone className="w-4 h-4" />
-                            {entry.phone}
+                            {formatPhoneForDisplay(entry.phone)}
                           </a>
                         )}
                         {entry.website && (
@@ -424,17 +444,38 @@ export function KeepItInTheFamily() {
               </div>
 
               <div>
-                <label htmlFor="kitf-phone" className="block text-sm font-semibold text-neutral-800 mb-1">
+                <label htmlFor="kitf-phone-country" className="block text-sm font-semibold text-neutral-800 mb-1">
                   Phone
                 </label>
-                <input
-                  id="kitf-phone"
-                  type="tel"
-                  required
-                  value={formPhone}
-                  onChange={(e) => setFormPhone(e.target.value)}
-                  className="w-full px-4 py-3 border border-amber-200/90 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                />
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <select
+                    id="kitf-phone-country"
+                    value={formPhoneCountry}
+                    onChange={(e) => setFormPhoneCountry(e.target.value as CountryCode)}
+                    className="sm:w-56 px-4 py-3 border border-amber-200/90 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-white"
+                    aria-label="Country code"
+                  >
+                    {PHONE_COUNTRY_OPTIONS.map((c) => (
+                      <option key={c.code} value={c.code}>
+                        {c.name} ({c.callingCode})
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    id="kitf-phone"
+                    type="tel"
+                    required
+                    value={formPhoneNational}
+                    onChange={(e) => setFormPhoneNational(e.target.value)}
+                    placeholder={phonePlaceholderForCountry(formPhoneCountry)}
+                    className="flex-1 px-4 py-3 border border-amber-200/90 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    aria-label="Phone number"
+                  />
+                </div>
+                <p className="mt-1.5 text-xs text-neutral-600 leading-relaxed">
+                  Mobile or landline. For South Africa, enter with or without a leading 0. We save numbers in
+                  international format (e.g. +27 82 123 4567).
+                </p>
               </div>
 
               <div>

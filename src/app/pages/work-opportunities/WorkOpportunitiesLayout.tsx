@@ -4,18 +4,19 @@ import { Header } from "../../components/Header";
 import { Footer } from "../../components/Footer";
 import { CompactHowItWorks } from "../../components/work-opportunities/CompactHowItWorks";
 import { WorkOpportunitiesHero } from "../../components/work-opportunities/WorkOpportunitiesHero";
+import { WorkOpportunitiesSubmitCta } from "../../components/work-opportunities/WorkOpportunitiesSubmitCta";
 
 const TAB_COPY = {
   "looking-for-work": {
     title: "Looking for Work",
     description:
-      "Profiles from our network. Email Tucker Family Charity if you would like to learn more about a candidate.",
+      "Candidate profiles from our network. Browse below, or email us if you would like to learn more about someone listed.",
     documentTitle: "Looking for Work | Work Opportunities | Tucker Family Charity",
   },
   "work-available": {
     title: "Work Available",
     description:
-      "Roles and placements from our network. Email us if you are interested or would like us to follow up.",
+      "Roles and placements from our network. Browse below, or email us if you are interested in a listing.",
     documentTitle: "Work Available | Work Opportunities | Tucker Family Charity",
   },
 } as const;
@@ -40,6 +41,7 @@ export function WorkOpportunitiesLayout() {
       <Header />
       <WorkOpportunitiesHero title={copy.title} description={copy.description} />
       <Outlet />
+      <WorkOpportunitiesSubmitCta />
       <CompactHowItWorks />
       <Footer />
     </div>

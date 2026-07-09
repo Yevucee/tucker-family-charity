@@ -111,3 +111,36 @@ export function jobInterestMailto(job: JobOpportunity): string {
   ].join("\n");
   return `mailto:${OPPORTUNITIES_CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
+
+export function submitCandidateMailto(): string {
+  const subject = "Work Opportunities, candidate profile";
+  const body = [
+    "I would like to be considered for listing on the Work Opportunities page.",
+    "",
+    "Name:",
+    "Location / area:",
+    "Type of work sought:",
+    "Skills / experience (short summary):",
+    "Availability:",
+    "",
+    "Please attach my CV if helpful.",
+  ].join("\n");
+  return `mailto:${OPPORTUNITIES_CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+export function submitRoleMailto(): string {
+  const subject = "Work Opportunities, advertise a role";
+  const body = [
+    "I would like to advertise the following role on the Work Opportunities page.",
+    "",
+    "Role title:",
+    "Organisation:",
+    "Location:",
+    "Full-time / part-time / contract:",
+    "Paid / volunteer / other:",
+    "Short description:",
+    "Skills required:",
+    "Start date (if known):",
+  ].join("\n");
+  return `mailto:${OPPORTUNITIES_CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
