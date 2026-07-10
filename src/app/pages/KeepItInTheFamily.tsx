@@ -447,7 +447,7 @@ export function KeepItInTheFamily() {
                   type="text"
                   required
                   maxLength={KITF_FORM_LIMITS.name}
-                  placeholder="e.g. Geezers Plumbing"
+                  placeholder="e.g. Company Name Inc"
                   value={formName}
                   onChange={(e) => setFormName(e.target.value)}
                   className="w-full px-4 py-3 border border-amber-200/90 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
