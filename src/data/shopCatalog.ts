@@ -1,4 +1,5 @@
 import { PERSONALISED_HAT_PATH } from "./personalisedCharityHat";
+import { CHARITY_WINE_PATH } from "./charityWine";
 
 import capMustard from "@/assets/shop/cap-mustard.png";
 import wineListing from "@/assets/shop/wine-listing.png";
@@ -98,8 +99,8 @@ export const shopCatalog: ShopCatalog = {
       shortDescription:
         "Featured this month: our white-label range — Chloe, Ella, and Madison — in partnership with Tucker Family Charity and in support of Oliver’s Village.",
       image: wineFeaturedMonth,
-      ctaLabel: "Shop featured wine",
-      ctaHref: "mailto:info@tuckerfamilycharity.org?subject=Featured%20Wine%20Order",
+      ctaLabel: "View & order",
+      ctaHref: CHARITY_WINE_PATH,
       ctaOpensNewTab: false,
     },
     supporting: [
@@ -124,9 +125,10 @@ export const shopCatalog: ShopCatalog = {
         "Our white-label range — Chloe, Ella, and Madison — in partnership with Tucker Family Charity and in support of Oliver’s Village. Proceeds help support our initiatives.",
       image: wineListing,
       priceLabel: "Price on enquiry",
-      ctaLabel: "Order now",
+      ctaLabel: "View & order",
       paymentLink: "mailto:info@tuckerfamilycharity.org?subject=Wine%20Order",
       ctaOpensNewTab: false,
+      productDetailPath: CHARITY_WINE_PATH,
     },
     {
       id: "caps",

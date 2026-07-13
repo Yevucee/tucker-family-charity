@@ -6,6 +6,7 @@ import { OliversVillage } from "./pages/OliversVillage";
 import { Events } from "./pages/Events";
 import { Shop } from "./pages/Shop";
 import { PersonalisedCharityHat } from "./pages/PersonalisedCharityHat";
+import { CharityWine } from "./pages/CharityWine";
 import { Partners } from "./pages/Partners";
 import { Donate } from "./pages/Donate";
 import { KeepItInTheFamily } from "./pages/KeepItInTheFamily";
@@ -32,6 +33,7 @@ export const router = createBrowserRouter(
         { path: "events", Component: Events },
         { path: "shop", Component: Shop },
         { path: "shop/personalised-hat", Component: PersonalisedCharityHat },
+        { path: "shop/wine", Component: CharityWine },
         { path: "partners", Component: Partners },
         { path: "donate", Component: Donate },
         { path: "keep-it-in-the-family", Component: KeepItInTheFamily },
