@@ -1,6 +1,8 @@
 import { PERSONALISED_HAT_PATH } from "./personalisedCharityHat";
 
 import capMustard from "@/assets/shop/cap-mustard.png";
+import wineListing from "@/assets/shop/wine-listing.png";
+import wineFeaturedMonth from "@/assets/shop/wine-featured-month.png";
 
 /**
  * Shop page content — CMS-ready shape.
@@ -90,13 +92,12 @@ export const shopCatalog: ShopCatalog = {
   featuredThisMonth: {
     sectionTitle: "Featured This Month",
     main: {
-      id: "featured-spotlight",
+      id: "featured-wine",
       category: "featured",
       title: "Tucker Family Charity Wine",
       shortDescription:
-        "Our white-label wine supports Tucker Family Charity with every bottle. Perfect for gifting or your own table—this month we're shining a light on community-powered giving.",
-      image:
-        "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1200&q=80",
+        "Featured this month: our white-label range — Chloe, Ella, and Madison — in partnership with Tucker Family Charity and in support of Oliver’s Village.",
+      image: wineFeaturedMonth,
       ctaLabel: "Shop featured wine",
       ctaHref: "mailto:info@tuckerfamilycharity.org?subject=Featured%20Wine%20Order",
       ctaOpensNewTab: false,
@@ -118,10 +119,10 @@ export const shopCatalog: ShopCatalog = {
     {
       id: "wine",
       category: "tucker_products",
-      title: "Charity wine",
+      title: "Tucker Family Charity Wine",
       shortDescription:
-        "Premium South African red and white. Proceeds help support Tucker Family Charity’s initiatives.",
-      image: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&q=80",
+        "Our white-label range — Chloe, Ella, and Madison — in partnership with Tucker Family Charity and in support of Oliver’s Village. Proceeds help support our initiatives.",
+      image: wineListing,
       priceLabel: "Price on enquiry",
       ctaLabel: "Order now",
       paymentLink: "mailto:info@tuckerfamilycharity.org?subject=Wine%20Order",
