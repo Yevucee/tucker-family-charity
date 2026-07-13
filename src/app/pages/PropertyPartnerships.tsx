@@ -53,6 +53,7 @@ function isExternalListingUrl(url: string): boolean {
 
 function listingSiteShortName(url: string): string {
   const u = url.toLowerCase();
+  if (u.includes("byronthomasproperties.co.za")) return "Byron Thomas Properties";
   if (u.includes("pamgolding.co.za")) return "Pam Golding";
   if (u.includes("property24.com")) return "Property24";
   return "the listing site";

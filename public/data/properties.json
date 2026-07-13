@@ -23,87 +23,87 @@
     "referralNote": "Register your interest through Tucker Family Charity. We’ll send you the full listing after you submit and follow up with you directly."
   },
   {
-    "id": "property-001",
-    "title": "House for Sale — Parktown North",
+    "id": "property-btp-bryanston-e2-3c",
+    "title": "Cluster for Sale in Bryanston",
     "type": "sale",
-    "suburb": "Parktown North, Johannesburg",
-    "price": "R7,950,000",
-    "bedrooms": 5,
-    "bathrooms": 4,
-    "parking": "2 garages · 10 parking bays (per listing)",
-    "image": "https://resources.pamgolding.co.za/content/properties/202604/644561/h/644561_H_48.jpg?w=1200",
-    "description": "Contemporary 5-bedroom family home in Parktown North through Pam Golding. Double-volume living, pool, flatlet, erf 939 m². Pam Golding invites offers from R7.95 million (seller asking R8.25 million). Confirm current terms when you enquire.",
-    "cardSummary": "Contemporary family home with generous living space, a private pool, flatlet and excellent access to key Johannesburg suburbs.",
-    "cardFeatures": ["5 bed", "4 bath", "2 garages", "Pool", "Flatlet"],
+    "suburb": "Bryanston, Johannesburg",
+    "price": "R5,499,000",
+    "bedrooms": 3,
+    "bathrooms": 3.5,
+    "parking": "6 parking bays (per listing)",
+    "image": "https://firebasestorage.googleapis.com/v0/b/sites-storage-za/o/websites%2F6039873e-1a34-44d1-8c5f-528bdbd14440%2Flistings%2F69a2119c-ee8a-461e-9722-82d6c1a4ded2%2F1620f350-7859-418f-92fd-8f0ce633da4d%2Fthumbnail?alt=media",
+    "description": "Classic Bryanston cluster with exceptional outdoor living (erf 1 080 m²). Partnership listing through Byron Thomas Properties (RE-E2-3C-GP). Confirm price, show days and availability when you enquire.",
+    "cardSummary": "Classic Bryanston cluster with generous outdoor living on a 1 080 m² stand.",
+    "cardFeatures": ["3 bed", "3.5 bath", "6 parking", "1 080 m² erf"],
     "features": [
-      "Headline price as shown on Pam Golding (HP1727718)",
+      "Headline price as shown on Byron Thomas Properties",
       "Partnership listing: register interest via Tucker Family Charity first",
-      "Full Pam Golding gallery shared after you enquire"
+      "Full Byron Thomas listing shared after you enquire"
     ],
-    "originalListingUrl": "https://www.pamgolding.co.za/property-details/house-for-sale-parktown-north/hp1727718",
-    "agentEmail": "agent@example.com"
+    "originalListingUrl": "https://byronthomasproperties.co.za/listings/bryanston/RE-E2-3C-GP",
+    "agentEmail": "admin@btproperties.co.za"
   },
   {
-    "id": "property-002",
-    "title": "House for Sale — Parkwood",
+    "id": "property-btp-olivedale-b5-84",
+    "title": "House for Sale in Olivedale",
     "type": "sale",
-    "suburb": "Parkwood, Johannesburg",
-    "price": "R7,950,000 (under offer)",
-    "bedrooms": 5,
-    "bathrooms": 4.5,
-    "parking": "3 garages (per listing)",
-    "image": "https://resources.pamgolding.co.za/content/properties/202304/492430/h/492430_H_60.jpg?w=1200",
-    "description": "Upper Parkwood designer residence: 5 bedrooms, pool, cottage and flatlet, solar and automation (erf 1 108 m²). Listed as under offer on Pam Golding (HP1723272). Pricing and availability may change; your enquiry keeps the charity referral on record.",
-    "cardSummary": "Designer Parkwood residence with pool, cottage, flatlet and smart home features. Confirm status with Pam Golding.",
-    "cardFeatures": ["5 bed", "4.5 bath", "3 garages", "Pool & flatlet", "Solar & automation"],
-    "features": [
-      "Status on Pam Golding: under offer",
-      "Headline price R7,950,000 as shown on Pam Golding",
-      "Partnership listing: register interest via Tucker Family Charity first"
-    ],
-    "originalListingUrl": "https://www.pamgolding.co.za/property-details/house-for-sale-parkwood-johannesburg/hp1723272",
-    "agentEmail": "agent@example.com"
-  },
-  {
-    "id": "property-003",
-    "title": "House for Sale — Parkwood",
-    "type": "sale",
-    "suburb": "Parkwood, Johannesburg",
-    "price": "R4,950,000 (under offer)",
+    "suburb": "Olivedale, Johannesburg",
+    "price": "R4,499,000",
     "bedrooms": 4,
     "bathrooms": 2.5,
-    "parking": "2 garages · 4 parking bays (per listing)",
-    "image": "https://resources.pamgolding.co.za/content/properties/202602/645121/h/645121_H_12.jpg?w=1200",
-    "description": "Contemporary Parkwood family home with pool, staff accommodation and backup power (erf 1 011 m²). Pam Golding invites offers from R4.95 million (seller asking R5.25 million). Listed as under offer (HP1730555).",
-    "cardSummary": "Parkwood contemporary home with pool, staff suite and backup power on a generous erf (~1 011 m²).",
-    "cardFeatures": ["4 bed", "2.5 bath", "2 garages", "Pool"],
+    "parking": "6 parking bays (per listing)",
+    "image": "https://firebasestorage.googleapis.com/v0/b/sites-storage-za/o/websites%2F6039873e-1a34-44d1-8c5f-528bdbd14440%2Flistings%2F99e103d2-9761-40eb-8a34-1342a2f8c9a4%2F4f8c65cc-bdcc-4b48-9fce-a63c4d04a386%2Fthumbnail?alt=media",
+    "description": "Single-storey family home with cottage and exceptional entertainment area (erf 1 265 m²). Listed with Byron Thomas Properties (RE-B5-84-GP). Pricing and status may change; your enquiry keeps the charity referral on record.",
+    "cardSummary": "Single-storey Olivedale family home with cottage and strong entertainment spaces.",
+    "cardFeatures": ["4 bed", "2.5 bath", "6 parking", "Cottage"],
     "features": [
-      "Status on Pam Golding: under offer",
-      "Headline price as shown on Pam Golding (HP1730555)",
-      "Partnership listing: register interest via Tucker Family Charity first"
+      "Headline price as shown on Byron Thomas Properties",
+      "Partnership listing: register interest via Tucker Family Charity first",
+      "Full Byron Thomas listing shared after you enquire"
     ],
-    "originalListingUrl": "https://www.pamgolding.co.za/property-details/house-for-sale-parkwood-johannesburg/hp1730555",
-    "agentEmail": "agent@example.com"
+    "originalListingUrl": "https://byronthomasproperties.co.za/listings/olivedale/RE-B5-84-GP",
+    "agentEmail": "admin@btproperties.co.za"
   },
   {
-    "id": "property-004",
-    "title": "House for Sale — Parktown North",
+    "id": "property-btp-kosmos-4b-d7",
+    "title": "House for Sale in Kosmos",
     "type": "sale",
-    "suburb": "Parktown North, Johannesburg",
-    "price": "R4,490,000 (under offer)",
+    "suburb": "Kosmos, North West (Hartebeespoort)",
+    "price": "R5,995,000",
     "bedrooms": 4,
-    "bathrooms": 2,
-    "parking": "2 garages · 2 parking bays (per listing)",
-    "image": "https://resources.pamgolding.co.za/content/properties/202601/644464/h/644464_H_41.jpg?w=1200",
-    "description": "Established family home on a quiet Parktown North street: 4 bedrooms, pool, cottage and staff suite (erf 789 m²). Listed as under offer on Pam Golding (HP1725689, ABSA HelpUSell). Confirm pricing and status with the agent.",
-    "cardSummary": "Character Parktown North family home with pool, cottage and mature garden. Status on Pam Golding.",
-    "cardFeatures": ["4 bed", "2 bath", "2 garages", "Pool"],
+    "bathrooms": 4,
+    "parking": "11 parking bays (per listing)",
+    "image": "https://firebasestorage.googleapis.com/v0/b/sites-storage-za/o/websites%2F6039873e-1a34-44d1-8c5f-528bdbd14440%2Flistings%2Fc17663f8-f6c4-4e46-ba18-55a80a906a69%2Fd57669cc-ff15-4d64-b0a6-e7726d50f9a5%2Fthumbnail?alt=media",
+    "description": "Stunning bush home at K’shane Lake Lodge: ~800 m² under roof on ~9 000 m², about 60 km from Fourways. Byron Thomas Properties (RE-4B-D7-NW). Confirm details with the agent when you enquire.",
+    "cardSummary": "Large bushveld home at K’shane Lake Lodge with extensive under-roof space and generous stand.",
+    "cardFeatures": ["4 bed", "4 bath", "11 parking", "~800 m² home"],
     "features": [
-      "Status on Pam Golding: under offer (ABSA HelpUSell)",
-      "Headline price R4,490,000 as shown on Pam Golding",
-      "Partnership listing: register interest via Tucker Family Charity first"
+      "Headline price as shown on Byron Thomas Properties",
+      "Partnership listing: register interest via Tucker Family Charity first",
+      "Full Byron Thomas listing shared after you enquire"
     ],
-    "originalListingUrl": "https://www.pamgolding.co.za/property-details/house-for-sale-parktown-north/hp1725689",
-    "agentEmail": "agent@example.com"
+    "originalListingUrl": "https://byronthomasproperties.co.za/listings/kosmos/RE-4B-D7-NW",
+    "agentEmail": "admin@btproperties.co.za"
+  },
+  {
+    "id": "property-btp-bryanston-west-ec-0b",
+    "title": "House for Sale in Bryanston West",
+    "type": "sale",
+    "suburb": "Bryanston West, Johannesburg",
+    "price": "R4,850,000",
+    "bedrooms": 4,
+    "bathrooms": 3.5,
+    "parking": "6 parking bays (per listing)",
+    "image": "https://firebasestorage.googleapis.com/v0/b/sites-storage-za/o/websites%2F6039873e-1a34-44d1-8c5f-528bdbd14440%2Flistings%2Fa6186398-48b7-4956-8c2a-fb3bbb4ff886%2Fb26623cd-999d-4b6d-80fb-1304987fb407%2Fthumbnail?alt=media",
+    "description": "Renovated farm-style home with separate cottage on a 2 133 m² erf in Bryanston West. Byron Thomas Properties (RE-EC-0B-GP). Register interest via Tucker Family Charity for the full listing link.",
+    "cardSummary": "Renovated farm-style Bryanston West home with cottage on a generous erf (2 133 m²).",
+    "cardFeatures": ["4 bed", "3.5 bath", "6 parking", "Cottage"],
+    "features": [
+      "Headline price as shown on Byron Thomas Properties",
+      "Partnership listing: register interest via Tucker Family Charity first",
+      "Full Byron Thomas listing shared after you enquire"
+    ],
+    "originalListingUrl": "https://byronthomasproperties.co.za/listings/bryanston-west/RE-EC-0B-GP",
+    "agentEmail": "admin@btproperties.co.za"
   }
 ]

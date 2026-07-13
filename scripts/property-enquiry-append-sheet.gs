@@ -7,7 +7,7 @@
  * 2. Open Extensions → Apps Script. Paste this entire file as Code.gs (replace defaults).
  * 3. Set PROPERTY_ENQUIRY_SPREADSHEET_ID and SHEET_NAME below (Sheet ID from the spreadsheet URL).
  * 4. Optional: set SCRIPT_SECRET to a random string and use the same value in VITE_PROPERTY_ENQUIRY_SECRET.
- * 5. Optional email: NOTIFY_EMAILS (Pam Golding route), NOTIFY_EMAILS_TFC (TFC IDs only — fallback = NOTIFY_EMAILS if empty).
+ * 5. Optional email: NOTIFY_EMAILS (property partner route), NOTIFY_EMAILS_TFC (TFC IDs only — fallback = NOTIFY_EMAILS if empty).
  *    PROPERTY_IDS_OWNER_TFC_CSV lists site property ids that are charity direct (Owner=TFC). Run testNotify for Mail permission.
  *    Then run installPropertyEnquiryChangeTrigger once (installs a Sheet onChange watcher so new rows notify
  *    even if you add them by hand). That run also primes dedupe from the current bottom row when data exists.
@@ -20,7 +20,7 @@
  *
  * TAB HEADERS (row 1 — create manually so collaborators understand columns):
  * Timestamp | Property ID | Title | Type | Suburb | Name | Email | Phone | Preferred contact | Message | Agent email | Listing URL | Status | Notes | Owner
- * Owner = "Pam Golding" (partnership listings) or "TFC" (charity direct). Set emails per route below; TFC property IDs in PROPERTY_IDS_OWNER_TFC_CSV.
+ * Owner = "Byron Thomas Properties" (partnership listings) or "TFC" (charity direct). Set emails per route below; TFC property IDs in PROPERTY_IDS_OWNER_TFC_CSV.
  *
  * The charity website POSTs application/x-www-form-urlencoded with field `json` (same pattern as KITF).
  */
@@ -31,19 +31,19 @@ var PROPERTY_ENQUIRY_SPREADSHEET_ID = "1t5eGqP2OAkoZEiQ5NHlzkrPvgoy8FXtSXlIni670
 var SHEET_NAME = "Sheet1";
 /** Empty = no check. If set, must match VITE_PROPERTY_ENQUIRY_SECRET in the site build. */
 var SCRIPT_SECRET = "";
-/** Sheet / email label for partnership route (must match column values). */
-var OWNER_LABEL_PAM_GOLDING = 'Pam Golding';
+/** Sheet / email label for partnership property route (must match column values). */
+var OWNER_LABEL_PARTNER = 'Byron Thomas Properties';
 /** Sheet / email label for charity-owned direct listings. */
 var OWNER_LABEL_TFC = 'TFC';
 
 /**
  * Property IDs (from the website `properties.json`) that are charity direct — Owner column = TFC, mail list = NOTIFY_EMAILS_TFC.
- * Comma-separated, spaces OK. Empty = all enquiries use Pam Golding route.
+ * Comma-separated, spaces OK. Empty = all enquiries use the property partner route.
  */
 var PROPERTY_IDS_OWNER_TFC_CSV = 'property-tfc-parkmore-office';
 
 /**
- * Comma-separated addresses for Pam Golding / partnership enquiries (spaces OK).
+ * Comma-separated addresses for Byron Thomas Properties / partnership enquiries (spaces OK).
  * Uses MailApp — quota limits apply (see Google Apps Script quotas).
  */
 var NOTIFY_EMAILS = "brett@tuckerfamilycharity.co.za, samuel.polley1@gmail.com";
@@ -58,18 +58,18 @@ var LAST_COL_ENQUIRY_ = 15;
 
 function sheetOwnerLabelForPropertyId_(propertyId) {
   var pid = String(propertyId || '').trim();
-  if (!PROPERTY_IDS_OWNER_TFC_CSV || !pid) return OWNER_LABEL_PAM_GOLDING;
+  if (!PROPERTY_IDS_OWNER_TFC_CSV || !pid) return OWNER_LABEL_PARTNER;
   var matched = false;
   String(PROPERTY_IDS_OWNER_TFC_CSV).split(',').forEach(function (part) {
     if (String(part).trim() === pid) matched = true;
   });
-  return matched ? OWNER_LABEL_TFC : OWNER_LABEL_PAM_GOLDING;
+  return matched ? OWNER_LABEL_TFC : OWNER_LABEL_PARTNER;
 }
 
 /** Resolves Owner from Sheet column O (15) when set; else from property ID whitelist (same as web). */
 function ownerLabelFromRowVals_(rowVals, propertyId) {
   var fromCell = String(rowVals[14] || '').trim();
-  if (fromCell === OWNER_LABEL_TFC || fromCell === OWNER_LABEL_PAM_GOLDING) return fromCell;
+  if (fromCell === OWNER_LABEL_TFC || fromCell === OWNER_LABEL_PARTNER) return fromCell;
   return sheetOwnerLabelForPropertyId_(propertyId);
 }
 
@@ -82,7 +82,7 @@ function notifyEmailCsvForOwner_(ownerLabel) {
   return String(NOTIFY_EMAILS || '').trim();
 }
 
-/** Optional test from Apps Script editor: Run → send sample mail (Pam Golding route recipients). */
+/** Optional test from Apps Script editor: Run → send sample mail (partnership route recipients). */
 function testNotify() {
   notifyNewEnquiry_({
     timestamp: new Date().toISOString(),
@@ -97,7 +97,7 @@ function testNotify() {
     message: "Script notification test.",
     listingUrl: "",
     agentEmail: "",
-    owner: OWNER_LABEL_PAM_GOLDING,
+    owner: OWNER_LABEL_PARTNER,
   });
 }
 
@@ -325,13 +325,13 @@ function readScriptSecret_() {
 
 /**
  * Sends plain-text summary via MailApp (one message per recipient — avoids comma-list quirks).
- * Recipients chosen from NOTIFY_EMAILS (Pam Golding) vs NOTIFY_EMAILS_TFC via row.owner.
+ * Recipients chosen from NOTIFY_EMAILS (partnership listings) vs NOTIFY_EMAILS_TFC via row.owner.
  * Never fails the web response — failures are logged per address so enquiries still save.
  */
 function notifyNewEnquiry_(row) {
   try {
     var ownerRoute =
-      row.owner === OWNER_LABEL_TFC || row.owner === OWNER_LABEL_PAM_GOLDING
+      row.owner === OWNER_LABEL_TFC || row.owner === OWNER_LABEL_PARTNER
         ? row.owner
         : sheetOwnerLabelForPropertyId_(row.propertyId);
 
@@ -345,7 +345,7 @@ function notifyNewEnquiry_(row) {
     });
     if (!recipients.length) return;
 
-    var routeTag = ownerRoute === OWNER_LABEL_TFC ? '[TFC] ' : '[Pam Golding] ';
+    var routeTag = ownerRoute === OWNER_LABEL_TFC ? '[TFC] ' : '[Byron Thomas Properties] ';
     var subject =
       routeTag +
       'New property enquiry: ' +

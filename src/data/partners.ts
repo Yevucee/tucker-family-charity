@@ -111,11 +111,11 @@ export const partners: Partner[] = [
     websiteUrl: "https://padelandsocialclub.com/",
   },
   {
-    id: "pam-golding-tbc",
-    name: "Pam Golding- TBC",
+    id: "byron-thomas-properties",
+    name: "Byron Thomas Properties",
     logo: null,
-    description: "Partner supporting Tucker Family Charity initiatives.",
-    websiteUrl: "https://www.pamgolding.co.za/",
+    description: "Property partnership supporting Tucker Family Charity initiatives.",
+    websiteUrl: "https://byronthomasproperties.co.za/",
   },
   {
     id: "preidelands",
