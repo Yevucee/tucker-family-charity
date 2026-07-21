@@ -257,7 +257,9 @@ export function Shop() {
                   <ImageWithFallback
                     src={offer.image}
                     alt={offer.title}
-                    className="absolute inset-0 w-full h-full object-cover"
+                    className={`absolute inset-0 w-full h-full ${
+                      offer.imageFit === "contain" ? "object-contain p-6" : "object-cover"
+                    }`}
                     loading="lazy"
                   />
                 </div>

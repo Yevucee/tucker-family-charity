@@ -141,7 +141,7 @@ export const partners: Partner[] = [
   {
     id: "sports-republic",
     name: "Sports Republic",
-    logo: null,
+    logo: "https://sportsrepublic.shop/cdn/shop/files/Sports_Republic_Logo_fa6050f5-bd62-4994-aef7-5365c0a4af6d.jpg?v=1613528837&width=500",
     description:
       "Shop with code TUXFAM15 for 15% off non-sale items — 10% of qualifying sales support Tucker Family Charity.",
     websiteUrl: "https://sportsrepublic.shop/",
