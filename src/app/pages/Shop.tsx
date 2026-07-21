@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
@@ -10,7 +10,11 @@ import { FeaturedMonthCarousel } from "../components/shop/FeaturedMonthCarousel"
 import { buildFeaturedMonthSlides } from "../components/shop/featuredMonthSlides";
 import type { TuckerCatalogProduct, PartnerCatalogOffer } from "@/data/shopCatalog";
 
-type PartnerModalState = { url: string; code?: string } | null;
+type PartnerModalState = { url: string; code?: string; extraNote?: string } | null;
+
+function partnerCardAnchorId(offer: PartnerCatalogOffer): string | undefined {
+  return offer.shopAnchorId ?? (offer.id ? `offer-${offer.id}` : undefined);
+}
 
 function tuckerLinkProps(product: TuckerCatalogProduct) {
   const href = product.paymentLink || "#";
@@ -30,8 +34,31 @@ export function Shop() {
     setPartnerModal({
       url: offer.externalUrl,
       code: offer.checkoutCode?.trim() || undefined,
+      extraNote: offer.modalExtraNote?.trim() || undefined,
     });
   };
+
+  useEffect(() => {
+    const hash = window.location.hash.replace(/^#/, "");
+    if (!hash) return;
+
+    const offer =
+      partnerOffers.find((o) => o.shopAnchorId === hash) ??
+      partnerOffers.find((o) => partnerCardAnchorId(o) === hash);
+    if (!offer) return;
+
+    const anchorId = offer.shopAnchorId ?? partnerCardAnchorId(offer);
+    requestAnimationFrame(() => {
+      if (anchorId) {
+        document.getElementById(anchorId)?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      setPartnerModal({
+        url: offer.externalUrl,
+        code: offer.checkoutCode?.trim() || undefined,
+        extraNote: offer.modalExtraNote?.trim() || undefined,
+      });
+    });
+  }, [partnerOffers]);
 
   const featuredSlides = useMemo(
     () => buildFeaturedMonthSlides(featuredThisMonth, "full"),
@@ -218,12 +245,15 @@ export function Shop() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 max-w-6xl mx-auto">
-            {partnerOffers.map((offer) => (
+            {partnerOffers.map((offer) => {
+              const anchorId = partnerCardAnchorId(offer);
+              return (
               <article
                 key={offer.id}
-                className="flex flex-col rounded-2xl overflow-hidden border border-amber-200/80 bg-white shadow-sm hover:shadow-md transition-shadow"
+                id={anchorId}
+                className="flex flex-col rounded-2xl overflow-hidden border border-amber-200/80 bg-white shadow-sm hover:shadow-md transition-shadow scroll-mt-24"
               >
-                <div className="relative aspect-[4/3] overflow-hidden">
+                <div className="relative aspect-[4/3] overflow-hidden bg-amber-50/50">
                   <ImageWithFallback
                     src={offer.image}
                     alt={offer.title}
@@ -233,7 +263,26 @@ export function Shop() {
                 </div>
                 <div className="p-6 flex flex-col flex-1 border-t border-amber-100/80 text-center">
                   <h3 className="text-xl font-bold text-neutral-900 mb-2">{offer.title}</h3>
-                  <p className="text-neutral-600 mb-6 flex-1 leading-relaxed">{offer.shortDescription}</p>
+                  {offer.highlightBullets && offer.highlightBullets.length > 0 ? (
+                    <ul className="flex flex-wrap justify-center gap-2 mb-3">
+                      {offer.highlightBullets.map((bullet) => (
+                        <li
+                          key={bullet}
+                          className="text-xs font-semibold text-amber-900 bg-amber-100 px-2.5 py-1 rounded-full"
+                        >
+                          {bullet}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                  <p
+                    className={`text-neutral-600 flex-1 leading-relaxed ${offer.termsNote ? "mb-3" : "mb-6"}`}
+                  >
+                    {offer.shortDescription}
+                  </p>
+                  {offer.termsNote ? (
+                    <p className="text-xs text-neutral-500 mb-4 leading-relaxed">{offer.termsNote}</p>
+                  ) : null}
                   {/* PARTNER: `checkoutCode` in shopCatalog.ts feeds the redirect modal */}
                   <button
                     type="button"
@@ -244,7 +293,8 @@ export function Shop() {
                   </button>
                 </div>
               </article>
-            ))}
+            );
+            })}
           </div>
         </div>
       </section>
@@ -286,6 +336,7 @@ export function Shop() {
         open={partnerModal != null}
         targetUrl={partnerModal?.url ?? ""}
         checkoutCode={partnerModal?.code}
+        extraNote={partnerModal?.extraNote}
         onClose={() => setPartnerModal(null)}
       />
 

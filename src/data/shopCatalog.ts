@@ -1,9 +1,15 @@
 import { PERSONALISED_HAT_PATH } from "./personalisedCharityHat";
 import { CHARITY_WINE_PATH } from "./charityWine";
+import { partnerFaviconUrl } from "./partners";
 
 import capMustard from "@/assets/shop/cap-mustard.png";
 import wineListing from "@/assets/shop/wine-listing.png";
 import wineFeaturedMonth from "@/assets/shop/wine-featured-month.png";
+
+const SPORTS_REPUBLIC_URL = "https://sportsrepublic.shop/?sca_ref=11855386.HTKenH216a7FmF";
+const sportsRepublicImage =
+  partnerFaviconUrl("https://sportsrepublic.shop/") ??
+  "https://www.google.com/s2/favicons?domain=sportsrepublic.shop&sz=128";
 
 /**
  * Shop page content — CMS-ready shape.
@@ -81,6 +87,14 @@ export interface PartnerCatalogOffer {
    * modal copy adapts automatically.
    */
   checkoutCode?: string;
+  /** Optional short benefit lines shown as badges on the card */
+  highlightBullets?: string[];
+  /** Small print on the card (e.g. T&Cs) */
+  termsNote?: string;
+  /** Extra line in the leave-site modal (e.g. donation %) */
+  modalExtraNote?: string;
+  /** Hash anchor on Shop page, e.g. offer-sports-republic */
+  shopAnchorId?: string;
 }
 
 export interface ShopCatalog {
@@ -156,26 +170,19 @@ export const shopCatalog: ShopCatalog = {
   ],
   partnerOffers: [
     {
-      id: "face-for-men",
+      id: "sports-republic",
       category: "partner_offers",
-      title: "Face for Men",
-      shortDescription: "Quality grooming and skincare—support the charity when you shop our partner.",
-      image: "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=800&q=80",
-      ctaLabel: "View offer",
-      // PARTNER: replace with live partner storefront URL
-      externalUrl: "https://example.com/partners/face-for-men",
-      checkoutCode: "TUCKER10",
-    },
-    {
-      id: "puma",
-      category: "partner_offers",
-      title: "Puma",
+      title: "Sports Republic",
       shortDescription:
-        "Sportswear and gear through our partner link—proceeds help support Tucker Family Charity’s initiatives.",
-      image: "https://images.unsplash.com/photo-1556906781-9a412961c28c?w=800&q=80",
-      ctaLabel: "Shop offer",
-      externalUrl: "https://www.puma.com",
-      // No checkoutCode — modal uses shorter copy without code line
+        "Tucker Family Charity Special: save 15% on non-sale items with code TUXFAM15 — plus 10% of your purchase is donated to the charity.",
+      image: sportsRepublicImage,
+      ctaLabel: "Shop Sports Republic",
+      externalUrl: SPORTS_REPUBLIC_URL,
+      checkoutCode: "TUXFAM15",
+      highlightBullets: ["15% off non-sale items", "10% donated to charity"],
+      termsNote: "Online only · Valid on non-sale items · T&Cs apply",
+      modalExtraNote: "10% of qualifying sales will be donated to Tucker Family Charity.",
+      shopAnchorId: "offer-sports-republic",
     },
   ],
 };

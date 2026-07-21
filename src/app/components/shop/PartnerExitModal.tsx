@@ -9,6 +9,8 @@ type PartnerExitModalProps = {
   targetUrl: string;
   /** PARTNER CODE: omit or empty when no code applies (copy shortens automatically) */
   checkoutCode?: string | null;
+  /** Optional extra benefit line (e.g. charity donation %) */
+  extraNote?: string | null;
   onClose: () => void;
 };
 
@@ -20,6 +22,7 @@ export function PartnerExitModal({
   open,
   targetUrl,
   checkoutCode,
+  extraNote,
   onClose,
 }: PartnerExitModalProps) {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -50,6 +53,7 @@ export function PartnerExitModal({
 
   const code = checkoutCode?.trim();
   const hasCode = Boolean(code);
+  const note = extraNote?.trim();
 
   const continueToPartner = () => {
     clearTimer();
@@ -82,6 +86,9 @@ export function PartnerExitModal({
             You&apos;re being redirected to our partner site.
           </p>
         )}
+        {note ? (
+          <p className="text-neutral-700 leading-relaxed mb-4">{note}</p>
+        ) : null}
         <p className="text-sm text-amber-900/55 mb-6">
           Opening in a new tab automatically in a few seconds, or use the button below.
         </p>

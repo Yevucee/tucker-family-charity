@@ -139,6 +139,14 @@ export const partners: Partner[] = [
     websiteUrl: "https://www.thornybush.com/lodge/saseka-tented-camp/",
   },
   {
+    id: "sports-republic",
+    name: "Sports Republic",
+    logo: null,
+    description:
+      "Shop with code TUXFAM15 for 15% off non-sale items — 10% of qualifying sales support Tucker Family Charity.",
+    websiteUrl: "https://sportsrepublic.shop/",
+  },
+  {
     id: "wild-earth",
     name: "Wild Earth",
     logo: null,
