@@ -28,5 +28,30 @@
       "summary": "Highly experienced creative and marketing leader seeking her next opportunity to bring creativity, leadership and strategic thinking to a forward-thinking organisation."
     }
   ],
-  "opportunities": []
+  "opportunities": [
+    {
+      "id": "job-rental-admin-coordinator-001",
+      "title": "Rental & Admin Coordinator",
+      "organisation": "",
+      "location": "Johannesburg – Kempton Park",
+      "type": "Full-time",
+      "compensation": "R10 000 – R15 000 CTC",
+      "description": "Coordinate rental administration, sales orders and branch support (Johannesburg, with Durban and Cape Town). Matric plus 2–3 years admin or operations experience.",
+      "skillsRequired": "Matric; 2–3 years admin or operations coordination; Excel, Outlook, Word and ERP experience; forklift or rental industry experience advantageous.",
+      "specPdfUrl": "/opportunities/jobs/rental-admin-coordinator.pdf",
+      "fullDescription": "VACANCY: Rental & Admin Coordinator\nLocation: Johannesburg – Kempton Park\nSupporting the Durban (DBN) and Cape Town (CPT) branches, while assisting the Johannesburg branch.\n\nAbout the Role\nWe are looking for a highly organized, detail-oriented, and proactive Rental & Admin Coordinator to join the team.\n\nThis role is responsible for coordinating rental administration, managing sales orders, updating operational systems, liaising with branches and vendors, and ensuring all rental activities are accurately processed and completed.\n\nKey Responsibilities\n• Open Sales Orders for: Services; Inspections; CIS (Check, Inspect & Service Batteries); Battery Maintenance Agreements (BMA); Breakdowns; Deliveries; Collections\n• Rental Return Inspections\n• Follow up with regional branches and vendors on outstanding Sales Orders\n• Download and review inspection reports\n• Distribute completed inspection, service, and breakdown reports\n• Source quotations for repairs, replacements, and load testing\n• Upload and maintain customer portals\n• Upload completed job cards onto our ERP system\n• Capture equipment hours on the customer portal\n• Close completed Sales Orders\n• Provide administrative support to the National Operations team\n• Perform additional administrative duties as required\n• Manage the switchboard\n• Assist walk-in customers\n\nMinimum Requirements\n• Grade 12 (Matric)\n• Minimum 2–3 years' experience in an administrative or operations coordination role\n• Previous experience in the forklift, material handling or rental industry will be advantageous\n• Strong computer literacy, particularly Microsoft Excel, Outlook, and Word\n• Experience working on ERP systems\n• Excellent organizational and time management skills\n• Strong communication and interpersonal skills\n• Ability to manage multiple tasks and meet deadlines\n• High attention to detail and accuracy\n• Ability to work independently as well as within a team\n\nKey Competencies\n• Excellent administrative and coordination skills\n• Strong problem-solving ability\n• Customer service oriented\n• Ability to prioritize workload\n• Professional and reliable\n• Strong follow-up and communication skills\n\nPlease note: Shortlisted candidates will be required to complete a practical Microsoft Office competency test as part of the recruitment process. The assessment will include Microsoft Excel, Word, Outlook, and Teams.\n\nWorking hours: Monday to Friday, 08:00 to 16:30\nProbation period: 3 months\n\nWhat The Company Offers\n• Opportunity to work within a growing company\n• Supportive and collaborative team environment\n• Professional growth and development opportunities\n• Company cellphone (includes airtime and data) for business use only\n\nSalary range: R10 000 – R15 000 CTC, depending on experience."
+    },
+    {
+      "id": "job-creditors-clerk-ap-001",
+      "title": "Creditors Clerk (Accounts Payable)",
+      "organisation": "",
+      "location": "South Africa",
+      "type": "Full-time",
+      "compensation": "Paid",
+      "description": "Manage the full accounts payable function across multiple entities—supplier invoices, reconciliations, payments and supplier relationships.",
+      "skillsRequired": "Accounts payable experience; invoice processing and reconciliations; strong attention to detail.",
+      "specPdfUrl": "/opportunities/jobs/creditors-clerk-accounts-payable.pdf",
+      "fullDescription": "The Creditors Clerk (Accounts Payable) is responsible for managing the full accounts payable function across many entities. This includes processing supplier invoices, reconciling accounts, ensuring timely and accurate payments, and maintaining strong supplier relationships while supporting overall financial control and cash flow management.\n\nSee the PDF job description for any additional detail, or apply by email with your CV."
+    }
+  ]
 }

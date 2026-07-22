@@ -23,7 +23,12 @@ export interface JobOpportunity {
   type: string;
   /** Paid | Unpaid | Volunteer | Training | Other */
   compensation: string;
+  /** Short teaser on the listing card */
   description: string;
+  /** Full job spec shown in the detail dialog */
+  fullDescription?: string;
+  /** Optional link to downloadable PDF spec */
+  specPdfUrl?: string;
   skillsRequired?: string;
   startDate?: string;
 }
@@ -62,6 +67,8 @@ function isValidOpportunity(x: unknown): x is JobOpportunity {
   if (typeof x.type !== "string" || !x.type.trim()) return false;
   if (typeof x.compensation !== "string" || !x.compensation.trim()) return false;
   if (typeof x.description !== "string" || !x.description.trim()) return false;
+  if (x.fullDescription !== undefined && typeof x.fullDescription !== "string") return false;
+  if (x.specPdfUrl !== undefined && typeof x.specPdfUrl !== "string") return false;
   if (x.skillsRequired !== undefined && typeof x.skillsRequired !== "string") return false;
   if (x.startDate !== undefined && typeof x.startDate !== "string") return false;
   return true;
@@ -92,6 +99,29 @@ export function profileInterestMailto(profile: JobSeekerProfile): string {
     "My organisation (if any):",
     "How I would like to follow up:",
   ].join("\n");
+  return `mailto:${OPPORTUNITIES_CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+export function jobApplicationMailto(job: JobOpportunity): string {
+  const subject = `Job application: ${job.title}`;
+  const body = [
+    "I would like to apply for the following role:",
+    "",
+    `Reference: ${job.id}`,
+    `Role: ${job.title}`,
+    job.organisation.trim() ? `Organisation: ${job.organisation}` : "",
+    `Location: ${job.location}`,
+    "",
+    "My name:",
+    "My email:",
+    "My phone:",
+    "",
+    "Brief cover note:",
+    "",
+    "(Please attach your CV.)",
+  ]
+    .filter(Boolean)
+    .join("\n");
   return `mailto:${OPPORTUNITIES_CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
