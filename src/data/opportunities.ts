@@ -63,9 +63,9 @@ function isValidOpportunity(x: unknown): x is JobOpportunity {
   if (typeof x.id !== "string" || !x.id.trim()) return false;
   if (typeof x.title !== "string" || !x.title.trim()) return false;
   if (typeof x.organisation !== "string") return false;
-  if (typeof x.location !== "string" || !x.location.trim()) return false;
-  if (typeof x.type !== "string" || !x.type.trim()) return false;
-  if (typeof x.compensation !== "string" || !x.compensation.trim()) return false;
+  if (typeof x.location !== "string") return false;
+  if (typeof x.type !== "string") return false;
+  if (typeof x.compensation !== "string") return false;
   if (typeof x.description !== "string" || !x.description.trim()) return false;
   if (x.fullDescription !== undefined && typeof x.fullDescription !== "string") return false;
   if (x.specPdfUrl !== undefined && typeof x.specPdfUrl !== "string") return false;

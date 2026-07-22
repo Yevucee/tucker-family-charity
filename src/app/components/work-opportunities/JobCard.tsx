@@ -28,26 +28,34 @@ export function JobCard({ job }: { job: JobOpportunity }) {
             {job.organisation.trim() ? (
               <p className="mt-1 text-sm text-neutral-600">{job.organisation}</p>
             ) : null}
-            <p className="mt-1.5 flex items-start gap-1.5 text-sm font-medium text-amber-900/85">
-              <MapPin className="w-4 h-4 mt-0.5 shrink-0 opacity-85" aria-hidden />
-              <span>{job.location}</span>
-            </p>
+            {job.location.trim() ? (
+              <p className="mt-1.5 flex items-start gap-1.5 text-sm font-medium text-amber-900/85">
+                <MapPin className="w-4 h-4 mt-0.5 shrink-0 opacity-85" aria-hidden />
+                <span>{job.location}</span>
+              </p>
+            ) : null}
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2 mb-4">
-          <span className="rounded-full bg-amber-50 border border-amber-200 px-3 py-1 text-xs font-semibold text-amber-900">
-            {job.type}
-          </span>
-          <span className="rounded-full bg-neutral-50 border border-neutral-200 px-3 py-1 text-xs font-semibold text-neutral-700">
-            {job.compensation}
-          </span>
-          {job.startDate?.trim() ? (
-            <span className="rounded-full bg-neutral-50 border border-neutral-200 px-3 py-1 text-xs font-medium text-neutral-600">
-              Start: {job.startDate}
-            </span>
-          ) : null}
-        </div>
+        {(job.type.trim() || job.compensation.trim() || job.startDate?.trim()) ? (
+          <div className="flex flex-wrap gap-2 mb-4">
+            {job.type.trim() ? (
+              <span className="rounded-full bg-amber-50 border border-amber-200 px-3 py-1 text-xs font-semibold text-amber-900">
+                {job.type}
+              </span>
+            ) : null}
+            {job.compensation.trim() ? (
+              <span className="rounded-full bg-neutral-50 border border-neutral-200 px-3 py-1 text-xs font-semibold text-neutral-700">
+                {job.compensation}
+              </span>
+            ) : null}
+            {job.startDate?.trim() ? (
+              <span className="rounded-full bg-neutral-50 border border-neutral-200 px-3 py-1 text-xs font-medium text-neutral-600">
+                Start: {job.startDate}
+              </span>
+            ) : null}
+          </div>
+        ) : null}
 
         <p className="text-sm leading-relaxed text-neutral-700 flex-1">{job.description}</p>
 
@@ -81,14 +89,20 @@ export function JobCard({ job }: { job: JobOpportunity }) {
         <DialogContent className="sm:max-w-2xl max-h-[min(85vh,720px)] overflow-hidden flex flex-col gap-0 p-0 border-amber-200/80">
           <DialogHeader className="px-6 pt-6 pb-4 border-b border-amber-100/80 text-left shrink-0">
             <DialogTitle className="text-xl font-bold text-neutral-900 pr-8">{job.title}</DialogTitle>
-            <p className="text-sm text-neutral-600 mt-1">{job.location}</p>
+            {job.location.trim() ? (
+              <p className="text-sm text-neutral-600 mt-1">{job.location}</p>
+            ) : null}
             <div className="flex flex-wrap gap-2 mt-3">
-              <span className="rounded-full bg-amber-50 border border-amber-200 px-3 py-1 text-xs font-semibold text-amber-900">
-                {job.type}
-              </span>
-              <span className="rounded-full bg-neutral-50 border border-neutral-200 px-3 py-1 text-xs font-semibold text-neutral-700">
-                {job.compensation}
-              </span>
+              {job.type.trim() ? (
+                <span className="rounded-full bg-amber-50 border border-amber-200 px-3 py-1 text-xs font-semibold text-amber-900">
+                  {job.type}
+                </span>
+              ) : null}
+              {job.compensation.trim() ? (
+                <span className="rounded-full bg-neutral-50 border border-neutral-200 px-3 py-1 text-xs font-semibold text-neutral-700">
+                  {job.compensation}
+                </span>
+              ) : null}
             </div>
           </DialogHeader>
 
