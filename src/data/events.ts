@@ -135,9 +135,9 @@ export const pastEvents: PastEvent[] = [
     shortDescription:
       "An intimate cognac and brandy evening at The Whisky Vault, Illovo — curated canapés, full dinner, and fundraising for Oliver's Village with Rémy Martin and the Tucker Family Charity.",
     coverImage: pastEventRemyMartinDinnerCover,
-    // https://photos.google.com/album/AF1QipNYwR_eTKohxiazwFnCqYm_SbqVHsCWRyoQuHYt
+    // https://photos.app.goo.gl/kMKhKESpw8edhQYp8
     albumLink:
-      "https://photos.google.com/album/AF1QipNYwR_eTKohxiazwFnCqYm_SbqVHsCWRyoQuHYt",
+      "https://photos.google.com/share/AF1QipN7rn_FRfbdbmKcj-Y3PQSV_fXVDt3kaCwZUdueaanquI-HDlafVJM8B-n6BF9ymw?key=by1DUVVycnZQR1dUS2NXcm82WkZ0OVZEaGVJcVZ3",
   },
   {
     id: 2,
