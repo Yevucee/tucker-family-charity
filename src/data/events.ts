@@ -15,9 +15,9 @@ const pastEventStefTerblancheLawrenceBrittanCover = `${import.meta.env.BASE_URL}
 const pastEventT20SaVsWestIndiesCover = `${import.meta.env.BASE_URL}past-events/t20-sa-vs-west-indies-cover.png`;
 const pastEventLeopardCreek2025Cover = `${import.meta.env.BASE_URL}past-events/leopard-creek-2025-cover.png`;
 const pastEventWatershed2025Cover = `${import.meta.env.BASE_URL}past-events/watershed-2025-cover.png`;
+const pastEventRemyMartinDinnerCover = `${import.meta.env.BASE_URL}past-events/remy-martin-dinner-cover.png`;
 
 /** Upcoming event hero from `public/upcoming/` (GitHub Pages base path). */
-const upcomingRemyMartinDinnerPlaceholder = `${import.meta.env.BASE_URL}upcoming/remy-martin-dinner-placeholder.png`;
 const upcomingCouplesPadelViiPlaceholder = `${import.meta.env.BASE_URL}upcoming/couples-padel-vii-placeholder.png`;
 const upcomingAustraliaVsSaCricketPlaceholder = `${import.meta.env.BASE_URL}upcoming/australia-vs-sa-cricket-placeholder.png`;
 const upcomingSaVsBangladeshTestPlaceholder = `${import.meta.env.BASE_URL}upcoming/sa-vs-bangladesh-test-placeholder.png`;
@@ -55,24 +55,6 @@ export interface PastEvent {
 export const upcomingEvents: UpcomingEvent[] = [
   {
     id: 1,
-    title: "Rémy Martin Dinner Experience",
-    date: "Wednesday, 27 May 2026",
-    time: "6:30 PM arrival · 7:00 PM start",
-    location: "The Whisky Vault, Illovo",
-    address: "Above Norman Goodfellows, Illovo, Johannesburg",
-    image: upcomingRemyMartinDinnerPlaceholder,
-    description:
-      "Intimate cognac and brandy tasting with Rémy Martin — curated canapés, full dinner, and partnership with the Tucker Family Charity. R1,000 per person (tastings and food). Only 17 seats. Includes a lucky draw (Rémy Martin cognac worth R3,000), a silent auction with a bush adventure, and the Dale Sarent fine art collection on display. RSVP: janinebehr1@gmail.com or WhatsApp +27 82 322 6323.",
-    attendees: "17 guests (limited)",
-    category: "Dinner",
-    ctaLabel: "RSVP by email",
-    ctaLink:
-      "mailto:janinebehr1@gmail.com?subject=RSVP%3A%20R%C3%A9my%20Martin%20Dinner%20%E2%80%94%20Tucker%20Family%20Charity&body=Please%20reserve%20my%20place%20for%20the%20R%C3%A9my%20Martin%20evening%20on%2027%20May%202026.%20%0A%0AName%3A%20%0ANumber%20of%20guests%3A%20",
-    ctaType: "mailto",
-    endsOn: "2026-05-27",
-  },
-  {
-    id: 2,
     title: "Couples Padel VII",
     date: "Sunday, 31 May 2026",
     time: "Time TBC",
@@ -89,7 +71,7 @@ export const upcomingEvents: UpcomingEvent[] = [
     endsOn: "2026-05-31",
   },
   {
-    id: 3,
+    id: 2,
     title: "Australia vs South Africa",
     date: "Saturday, 27 September 2026",
     time: "Session TBC",
@@ -106,7 +88,7 @@ export const upcomingEvents: UpcomingEvent[] = [
     endsOn: "2026-09-27",
   },
   {
-    id: 4,
+    id: 3,
     title: "South Africa vs Bangladesh (Test)",
     date: "15-19 November 2026",
     time: "Five-day Test · times TBC",
@@ -123,7 +105,7 @@ export const upcomingEvents: UpcomingEvent[] = [
     endsOn: "2026-11-19",
   },
   {
-    id: 5,
+    id: 4,
     title: "South Africa vs England (Test)",
     date: "17-21 December 2026",
     time: "Five-day Test · times TBC",
@@ -148,6 +130,17 @@ export const upcomingEvents: UpcomingEvent[] = [
 export const pastEvents: PastEvent[] = [
   {
     id: 1,
+    title: "Rémy Martin Dinner Experience",
+    slug: "remy-martin-dinner-2026",
+    shortDescription:
+      "An intimate cognac and brandy evening at The Whisky Vault, Illovo — curated canapés, full dinner, and fundraising for Oliver's Village with Rémy Martin and the Tucker Family Charity.",
+    coverImage: pastEventRemyMartinDinnerCover,
+    // https://photos.google.com/album/AF1QipNYwR_eTKohxiazwFnCqYm_SbqVHsCWRyoQuHYt
+    albumLink:
+      "https://photos.google.com/album/AF1QipNYwR_eTKohxiazwFnCqYm_SbqVHsCWRyoQuHYt",
+  },
+  {
+    id: 2,
     title: "Leopard Creek 2025",
     slug: "leopard-creek-2025",
     shortDescription:
@@ -158,7 +151,7 @@ export const pastEvents: PastEvent[] = [
       "https://photos.google.com/share/AF1QipNz9c6FqlGq1Q3W_JpMWT_wrnzrOlxaAd75Ttf3GrxVt8M8lUeOQ47nj8x-KVpU8g?key=MFlnSV9Bd3RrbldHMVNXbUdra1kzSjdtb0pBTTN3",
   },
   {
-    id: 2,
+    id: 3,
     title: "Watershed 2025",
     slug: "watershed-2025",
     shortDescription:
@@ -169,7 +162,7 @@ export const pastEvents: PastEvent[] = [
       "https://photos.google.com/share/AF1QipM1rtvQscLaTpJzDDNeMVVWKJOX56ta170x89ZmMOndyQJiBs2CLfr7Kzu597h3-A?key=WHVYald3c0NqTjlDYmV3NV8teU01MTE5SlU4TTZR",
   },
   {
-    id: 3,
+    id: 4,
     title: "Charity Dinner 2024",
     slug: "charity-dinner-2024",
     shortDescription:
@@ -180,7 +173,7 @@ export const pastEvents: PastEvent[] = [
       "https://photos.google.com/share/AF1QipNkMeDPJRSwdATzxPiDiACLsbFGfsuP-sBn0E4sVD2T8wEDH-3fcFRdI5uHOBrW3Q?key=VlZjeDJrQzNtdy1VTlJvUXR4SkRURjBtcE5HU3l3",
   },
   {
-    id: 4,
+    id: 5,
     title: "T20 SA vs West Indies",
     slug: "t20-sa-vs-west-indies",
     shortDescription:
@@ -191,7 +184,7 @@ export const pastEvents: PastEvent[] = [
       "https://photos.google.com/share/AF1QipPcCAQ2KgDjzZAVblyW3tNJXJ-IjsJTqTkYPBVFxNVpbWbtHw8aX1qeQ29avcPPfg?key=U0dEbzh4S2lNWTN6VEFTdVdqRlV1V0JpbW5FYWdR",
   },
   {
-    id: 5,
+    id: 6,
     title: "Stef Terblanche / Lawrence Brittan Dinner",
     slug: "stef-terblanche-lawrence-brittan",
     shortDescription:
@@ -202,7 +195,7 @@ export const pastEvents: PastEvent[] = [
       "https://photos.google.com/share/AF1QipPe_46XZ71hiOp97HX7NAHJuGo8J07Ob0XMZLK3f0t-hPk0gy3x0JKVUXN4bANz3Q?key=b1llRlVTV0EyTFpQYXJ2MC0yN2t3TDhhV3ZEeFlB",
   },
   {
-    id: 6,
+    id: 7,
     title: "Rhino and Lion Tagging",
     slug: "rhino-and-lion-tagging",
     shortDescription:
@@ -213,7 +206,7 @@ export const pastEvents: PastEvent[] = [
       "https://photos.google.com/share/AF1QipPlFCJ9eX0Wn0gopcbVnhk3cH47ORIzgLb08b4cNil2ZrN7kHGo7qaLWd8z8HzgqA?key=dE80cG9VU1d2STdiNUlaTnVhVVVIWVRrN3JNVm1B",
   },
   {
-    id: 7,
+    id: 8,
     title: "Blaire Atholl Golf",
     slug: "blaire-atholl-golf",
     shortDescription:
@@ -224,7 +217,7 @@ export const pastEvents: PastEvent[] = [
       "https://photos.google.com/share/AF1QipORLSQwV4sbc6UNTLvpKZT_dbh-baLfW_ws8mGV4f7YNMc8WKk433LpAm00L5qDxA?key=ZGxmVXNWTmxlN3I5bXdEd1ZiczViWUJiLWdXRjFn",
   },
   {
-    id: 8,
+    id: 9,
     title: "Couples Padel VI",
     slug: "padel-vi",
     shortDescription:
@@ -235,7 +228,7 @@ export const pastEvents: PastEvent[] = [
       "https://photos.google.com/share/AF1QipNiMrl-OtDYFw3s76IPzg5oPWABp-F7EHqITf_LAUohHH3ncFUgDSJM5QaUslBarA?key=V0tSSGJFUGNXTU92VmdOdzZlU2NQcDdLMmtRVHpB",
   },
   {
-    id: 9,
+    id: 10,
     title: "Couples Padel IV",
     slug: "padel-iv",
     shortDescription:
@@ -246,7 +239,7 @@ export const pastEvents: PastEvent[] = [
       "https://photos.google.com/share/AF1QipP70SOGXE6Qg7pfUqp6tz1h3zSWolnDq4ARk9Td1HXOOvCsulhfYmCBGag7XETkqg?key=a1ZNenlHc0hQbGwzUlN2eTR5aDFzQzE1b2tfYjN3",
   },
   {
-    id: 10,
+    id: 11,
     title: "Couples Padel III — Valentines",
     slug: "padel-iii",
     shortDescription:
@@ -257,7 +250,7 @@ export const pastEvents: PastEvent[] = [
       "https://photos.google.com/share/AF1QipMsek1ptSkW7x14Qs_6VAr1iWRaT2jBYFtzDBHoPfTscd8W_L6WDoY9qJvkuzXZ3g?key=b0NTeldEYzNYZW9VMEZWeG9MbG1pRXJSZzN2RUhB",
   },
   {
-    id: 11,
+    id: 12,
     title: "Charity Dinner 2019",
     slug: "charity-dinner-2019",
     shortDescription:
