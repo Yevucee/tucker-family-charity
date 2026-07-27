@@ -28,6 +28,9 @@ import {
 const FALLBACK_ENQUIRY_EMAIL = "info@tuckerfamilycharity.org";
 
 type FilterTab = "all" | "rent" | "sale";
+type SortOption = "price-desc" | "price-asc" | "suburb-asc";
+
+const PAGE_SIZE = 12;
 
 const CONTACT_OPTIONS = [
   { value: "email", label: "Email" },
@@ -44,6 +47,16 @@ const filterBtn = (active: boolean) =>
 function scrollToId(id: string) {
   const el = document.getElementById(id);
   el?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function parsePriceSortValue(price: string): number {
+  const digits = price.replace(/[^\d]/g, "");
+  if (!digits) return 0;
+  return Number(digits);
+}
+
+function listingSearchHaystack(p: PropertyListing): string {
+  return [p.title, p.suburb, p.price, p.webRef ?? "", p.description, p.cardSummary ?? ""].join(" ").toLowerCase();
 }
 
 function isExternalListingUrl(url: string): boolean {
@@ -328,6 +341,10 @@ export function PropertyPartnerships() {
   const [loading, setLoading] = useState(true);
 
   const [filter, setFilter] = useState<FilterTab>("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [suburbFilter, setSuburbFilter] = useState("");
+  const [sortOption, setSortOption] = useState<SortOption>("price-desc");
+  const [page, setPage] = useState(1);
   const [selectedProperty, setSelectedProperty] = useState<PropertyListing | null>(null);
   const [dialogStep, setDialogStep] = useState<"form" | "success">("form");
 
@@ -371,9 +388,57 @@ export function PropertyPartnerships() {
   }, []);
 
   const filtered = useMemo(() => {
-    if (filter === "all") return listings;
-    return listings.filter((p) => p.type === filter);
-  }, [listings, filter]);
+    let rows = listings;
+    if (filter !== "all") rows = rows.filter((p) => p.type === filter);
+
+    const q = searchQuery.trim().toLowerCase();
+    if (q) rows = rows.filter((p) => listingSearchHaystack(p).includes(q));
+
+    if (suburbFilter) rows = rows.filter((p) => p.suburb === suburbFilter);
+
+    const manual = rows.filter((p) => p.syncSource === "manual" || p.directFromCharity);
+    const synced = rows.filter((p) => !(p.syncSource === "manual" || p.directFromCharity));
+
+    const sortedSynced = [...synced].sort((a, b) => {
+      if (sortOption === "suburb-asc") return a.suburb.localeCompare(b.suburb, undefined, { sensitivity: "base" });
+      const pa = parsePriceSortValue(a.price);
+      const pb = parsePriceSortValue(b.price);
+      return sortOption === "price-asc" ? pa - pb : pb - pa;
+    });
+
+    return [...manual, ...sortedSynced];
+  }, [listings, filter, searchQuery, suburbFilter, sortOption]);
+
+  const suburbOptions = useMemo(() => {
+    const set = new Set(listings.map((p) => p.suburb.trim()).filter(Boolean));
+    return [...set].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
+  }, [listings]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+
+  const paginated = useMemo(() => {
+    const safePage = Math.min(Math.max(1, page), totalPages);
+    const start = (safePage - 1) * PAGE_SIZE;
+    return filtered.slice(start, start + PAGE_SIZE);
+  }, [filtered, page, totalPages]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [filter, searchQuery, suburbFilter, sortOption]);
+
+  useEffect(() => {
+    if (page > totalPages) setPage(totalPages);
+  }, [page, totalPages]);
+
+  const clearListingFilters = useCallback(() => {
+    setSearchQuery("");
+    setSuburbFilter("");
+    setSortOption("price-desc");
+    setFilter("all");
+    setPage(1);
+  }, []);
+
+  const hasActiveFilters = filter !== "all" || searchQuery.trim() !== "" || suburbFilter !== "" || sortOption !== "price-desc";
 
   /** Hide All / Rent / Sale tabs when every listing is the same type (avoids an empty tab). */
   const showListingTypeTabs = useMemo(() => {
@@ -619,9 +684,9 @@ export function PropertyPartnerships() {
               (showListingTypeTabs ? "mb-10" : "mb-12")
             }
           >
-            Charity-tracked listings — selected partner properties and Tucker Family Charity direct lets. Register your
-            interest to unlock the full listing link; we’ll follow up with you. Details are updated manually—contact us
-            if something looks out of date.
+            Charity-tracked listings — Byron Thomas Properties partnership stock plus Tucker Family Charity direct lets.
+            Register your interest to unlock the full listing link; we’ll follow up with you. Listings sync weekly from our
+            property partner.
           </p>
 
           {showListingTypeTabs ? (
@@ -642,6 +707,69 @@ export function PropertyPartnerships() {
             </div>
           ) : null}
 
+          {!loading && !loadError && listings.length > 0 ? (
+            <div className="mb-10 space-y-4">
+              <div className="flex flex-col lg:flex-row gap-3 lg:items-end">
+                <label className="flex-1 block">
+                  <span className="sr-only">Search properties</span>
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-amber-900/50" aria-hidden />
+                    <input
+                      type="search"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Search suburb, title, price, or web ref…"
+                      className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-amber-200 bg-white text-neutral-900 placeholder:text-neutral-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+                    />
+                  </div>
+                </label>
+                <label className="lg:w-56 block">
+                  <span className="block text-xs font-semibold text-amber-900/70 mb-1">Suburb</span>
+                  <select
+                    value={suburbFilter}
+                    onChange={(e) => setSuburbFilter(e.target.value)}
+                    className="w-full px-3 py-2.5 rounded-xl border border-amber-200 bg-white text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+                  >
+                    <option value="">All suburbs</option>
+                    {suburbOptions.map((s) => (
+                      <option key={s} value={s}>
+                        {s}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="lg:w-48 block">
+                  <span className="block text-xs font-semibold text-amber-900/70 mb-1">Sort</span>
+                  <select
+                    value={sortOption}
+                    onChange={(e) => setSortOption(e.target.value as SortOption)}
+                    className="w-full px-3 py-2.5 rounded-xl border border-amber-200 bg-white text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+                  >
+                    <option value="price-desc">Price: high to low</option>
+                    <option value="price-asc">Price: low to high</option>
+                    <option value="suburb-asc">Suburb: A to Z</option>
+                  </select>
+                </label>
+              </div>
+              <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-neutral-600">
+                <p>
+                  {filtered.length === 0
+                    ? "No properties match your filters."
+                    : `Showing ${paginated.length === 0 ? 0 : (page - 1) * PAGE_SIZE + 1}–${Math.min(page * PAGE_SIZE, filtered.length)} of ${filtered.length} properties`}
+                </p>
+                {hasActiveFilters ? (
+                  <button
+                    type="button"
+                    onClick={clearListingFilters}
+                    className="font-semibold text-amber-800 hover:text-amber-950 underline-offset-2 hover:underline"
+                  >
+                    Clear filters
+                  </button>
+                ) : null}
+              </div>
+            </div>
+          ) : null}
+
           {loading ? (
             <p className="text-center text-neutral-600 py-12">Loading properties…</p>
           ) : loadError ? (
@@ -649,12 +777,26 @@ export function PropertyPartnerships() {
               {loadError}
             </p>
           ) : filtered.length === 0 ? (
-            <p className="text-center text-neutral-600 py-12">
-              No properties match this filter yet. Try another tab or check back soon.
-            </p>
+            <div className="text-center py-12 space-y-4">
+              <p className="text-neutral-600">
+                {listings.length === 0
+                  ? "No properties are listed yet. Check back soon."
+                  : "No properties match your search or filters."}
+              </p>
+              {listings.length > 0 && hasActiveFilters ? (
+                <button
+                  type="button"
+                  onClick={clearListingFilters}
+                  className="inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-colors"
+                >
+                  Clear filters
+                </button>
+              ) : null}
+            </div>
           ) : (
+            <>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 items-stretch">
-              {filtered.map((p) => {
+              {paginated.map((p) => {
                 const chips = propertyListingCardFeatures(p);
                 const teaser = propertyListingCardTeaser(p);
                 const referral = propertyListingReferralNote(p);
@@ -742,6 +884,30 @@ export function PropertyPartnerships() {
                 );
               })}
             </div>
+            {totalPages > 1 ? (
+              <nav className="mt-12 flex flex-wrap items-center justify-center gap-2" aria-label="Property listings pagination">
+                <button
+                  type="button"
+                  disabled={page <= 1}
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  className="px-4 py-2 rounded-full text-sm font-semibold border border-amber-200 bg-white disabled:opacity-40 hover:bg-amber-50 transition-colors"
+                >
+                  Previous
+                </button>
+                <span className="px-3 text-sm text-neutral-600">
+                  Page {page} of {totalPages}
+                </span>
+                <button
+                  type="button"
+                  disabled={page >= totalPages}
+                  onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                  className="px-4 py-2 rounded-full text-sm font-semibold border border-amber-200 bg-white disabled:opacity-40 hover:bg-amber-50 transition-colors"
+                >
+                  Next
+                </button>
+              </nav>
+            ) : null}
+            </>
           )}
         </div>
       </section>

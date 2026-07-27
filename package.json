@@ -7,7 +7,8 @@
   "scripts": {
     "build": "vite build && cp dist/index.html dist/404.html",
     "dev": "vite",
-    "sync:pamgolding-images": "node scripts/sync-pamgolding-listing-images.mjs"
+    "sync:pamgolding-images": "node scripts/sync-pamgolding-listing-images.mjs",
+    "sync:btp-properties": "node scripts/sync-byron-thomas-properties.mjs"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
