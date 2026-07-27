@@ -15,10 +15,12 @@ import {
   computeWineOrderSummary,
   formatWinePriceZar,
   ORDER_EMAIL,
+  wineDeliveryZoneOptions,
   wineDisplayName,
   wineFullLabel,
   winePageCopy,
   winePriceLabel,
+  type WineDeliveryZone,
 } from "@/data/charityWine";
 
 type SubmitState = "idle" | "loading" | "success" | "error";
@@ -34,6 +36,7 @@ export function CharityWine() {
   const [customerName, setCustomerName] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
+  const [deliveryZone, setDeliveryZone] = useState<WineDeliveryZone | "">("");
   const [deliveryArea, setDeliveryArea] = useState("");
   const [notes, setNotes] = useState("");
   const [honeypot, setHoneypot] = useState("");
@@ -46,7 +49,10 @@ export function CharityWine() {
     [previewSlug],
   );
 
-  const orderSummary = useMemo(() => computeWineOrderSummary(quantities), [quantities]);
+  const orderSummary = useMemo(
+    () => computeWineOrderSummary(quantities, deliveryZone),
+    [quantities, deliveryZone],
+  );
 
   const setWineQuantity = useCallback((slug: string, raw: number) => {
     const quantity = Math.max(0, Math.min(99, Math.floor(raw) || 0));
@@ -58,6 +64,7 @@ export function CharityWine() {
     setCustomerName("");
     setCustomerEmail("");
     setCustomerPhone("");
+    setDeliveryZone("");
     setDeliveryArea("");
     setNotes("");
     setHoneypot("");
@@ -83,9 +90,9 @@ export function CharityWine() {
       return;
     }
 
-    if (!customerName.trim() || !customerEmail.trim() || !customerPhone.trim() || !deliveryArea.trim()) {
+    if (!customerName.trim() || !customerEmail.trim() || !customerPhone.trim() || !deliveryZone || !deliveryArea.trim()) {
       setSubmitState("error");
-      setSubmitError("Please fill in your name, email, phone, and delivery area.");
+      setSubmitError("Please fill in your name, email, phone, delivery area, and suburb details.");
       return;
     }
 
@@ -93,6 +100,7 @@ export function CharityWine() {
       customerName,
       customerEmail,
       customerPhone,
+      deliveryZone,
       deliveryArea,
       notes,
       quantities,
@@ -146,6 +154,9 @@ export function CharityWine() {
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 leading-tight">{winePageCopy.title}</h1>
           <p className="text-sm sm:text-base text-amber-100">{winePageCopy.intro}</p>
           <p className="mt-2 text-sm sm:text-base text-amber-100/95">{winePageCopy.impactLine}</p>
+          <p className="mt-4 text-sm sm:text-base text-white/95 bg-white/10 rounded-xl px-4 py-3 leading-relaxed">
+            <strong>{winePageCopy.deliveryNoticeHeading}:</strong> {winePageCopy.deliveryNoticeBody}
+          </p>
 
           <Link
             to="/shop"
@@ -264,16 +275,42 @@ export function CharityWine() {
                         </tbody>
                       </table>
                     </div>
-                    <div className="mt-3 pt-3 border-t border-amber-200/80 flex flex-wrap justify-between gap-2 text-sm">
-                      <span className="text-neutral-700">
-                        Total bottles: <strong>{orderSummary.totalBottles}</strong>
-                      </span>
-                      <span className="text-neutral-900 font-semibold">
-                        Estimated total:{" "}
-                        {orderSummary.estimatedTotalZar != null
-                          ? formatWinePriceZar(orderSummary.estimatedTotalZar)
-                          : "Confirmed with Bret"}
-                      </span>
+                    <div className="mt-3 pt-3 border-t border-amber-200/80 space-y-2 text-sm">
+                      <div className="flex flex-wrap justify-between gap-2">
+                        <span className="text-neutral-700">
+                          Total bottles: <strong>{orderSummary.totalBottles}</strong>
+                        </span>
+                        <span className="text-neutral-700">
+                          Wine subtotal:{" "}
+                          <strong>
+                            {orderSummary.wineSubtotalZar != null
+                              ? formatWinePriceZar(orderSummary.wineSubtotalZar)
+                              : "Confirmed with Bret"}
+                          </strong>
+                        </span>
+                      </div>
+                      {orderSummary.deliveryFeeZar != null ? (
+                        <div className="flex flex-wrap justify-between gap-2">
+                          <span className="text-neutral-700">
+                            Delivery ({orderSummary.deliveryZoneLabel}):{" "}
+                            <strong>{formatWinePriceZar(orderSummary.deliveryFeeZar)}</strong>
+                          </span>
+                        </div>
+                      ) : (
+                        <p className="text-neutral-600 text-xs">
+                          Select a delivery area below to see the delivery charge (R50 Joburg / R200 elsewhere in SA).
+                        </p>
+                      )}
+                      <div className="flex flex-wrap justify-between gap-2 pt-1 border-t border-amber-200/60">
+                        <span className="text-neutral-900 font-semibold">Estimated order total</span>
+                        <span className="text-neutral-900 font-semibold">
+                          {orderSummary.estimatedGrandTotalZar != null
+                            ? formatWinePriceZar(orderSummary.estimatedGrandTotalZar)
+                            : orderSummary.deliveryFeeZar != null
+                              ? `${formatWinePriceZar(orderSummary.deliveryFeeZar)} delivery + wine pricing from Bret`
+                              : "Confirmed with Bret"}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 ) : null}
@@ -315,13 +352,48 @@ export function CharityWine() {
                       />
                     </label>
                     <label className="sm:col-span-2 block">
-                      <span className="block text-sm font-semibold text-neutral-900 mb-1.5">{winePageCopy.deliveryLabel}</span>
+                      <span className="block text-sm font-semibold text-neutral-900 mb-2">{winePageCopy.deliveryZoneLabel}</span>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {wineDeliveryZoneOptions.map((option) => {
+                          const active = deliveryZone === option.value;
+                          return (
+                            <label
+                              key={option.value}
+                              className={[
+                                "flex items-start gap-3 rounded-xl border-2 px-4 py-3 cursor-pointer transition-colors",
+                                active
+                                  ? "border-amber-600 bg-amber-50/80 ring-2 ring-amber-200"
+                                  : "border-amber-100 bg-white hover:border-amber-200",
+                              ].join(" ")}
+                            >
+                              <input
+                                type="radio"
+                                name="delivery-zone"
+                                value={option.value}
+                                checked={active}
+                                onChange={() => setDeliveryZone(option.value)}
+                                className="mt-1 shrink-0 accent-amber-600"
+                                required
+                              />
+                              <span>
+                                <span className="block text-sm font-bold text-neutral-900">{option.label}</span>
+                                <span className="block text-sm text-amber-800 font-semibold mt-0.5">
+                                  {option.description}
+                                </span>
+                              </span>
+                            </label>
+                          );
+                        })}
+                      </div>
+                    </label>
+                    <label className="sm:col-span-2 block">
+                      <span className="block text-sm font-semibold text-neutral-900 mb-1.5">{winePageCopy.deliverySuburbLabel}</span>
                       <input
                         type="text"
                         required
                         value={deliveryArea}
                         onChange={(e) => setDeliveryArea(e.target.value)}
-                        placeholder="e.g. Sandton, Fourways, Cape Town southern suburbs"
+                        placeholder={winePageCopy.deliverySuburbPlaceholder}
                         className="w-full rounded-xl border border-amber-200 bg-white px-4 py-3 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-amber-500"
                       />
                     </label>
@@ -394,7 +466,12 @@ export function CharityWine() {
 
                 <button
                   type="submit"
-                  disabled={submitState === "loading" || !WINE_ORDER_SUBMIT_URL || orderSummary.totalBottles < 1}
+                  disabled={
+                    submitState === "loading" ||
+                    !WINE_ORDER_SUBMIT_URL ||
+                    orderSummary.totalBottles < 1 ||
+                    !deliveryZone
+                  }
                   className="inline-flex w-full sm:w-auto justify-center items-center gap-2 py-3.5 px-8 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {submitState === "loading" ? (

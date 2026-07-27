@@ -32,6 +32,9 @@ var WINE_ORDER_SEND_CUSTOMER_COPY = true;
 /** Max submissions per email address per hour. */
 var RATE_LIMIT_PER_HOUR = 5;
 
+var DELIVERY_FEE_JOHANNESBURG_ZAR = 50;
+var DELIVERY_FEE_ELSEWHERE_SA_ZAR = 200;
+
 /** Trusted catalog — slugs must match src/data/charityWine.ts. priceZar null = price on enquiry. */
 var WINE_CATALOG = {
   chloe: { name: "Chloe", vintage: 2024, varietal: "Sauvignon Blanc", priceZar: null },
@@ -66,13 +69,18 @@ function doPost(e) {
     var customerName = String(body.customerName || "").trim();
     var customerEmail = String(body.customerEmail || "").trim().toLowerCase();
     var customerPhone = String(body.customerPhone || "").trim();
+    var deliveryZone = String(body.deliveryZone || "").trim();
     var deliveryArea = String(body.deliveryArea || "").trim();
     var notes = String(body.notes || "").trim();
     var submissionMode = String(body.submissionMode || "enquiry").trim();
     var ts = String(body.timestamp || new Date().toISOString()).trim();
 
-    if (!customerName || !customerEmail || !customerPhone || !deliveryArea) {
+    if (!customerName || !customerEmail || !customerPhone || !deliveryZone || !deliveryArea) {
       return jsonResponse({ ok: false, error: "Missing required customer fields" });
+    }
+    var deliveryMeta = deliveryMetaForZone_(deliveryZone);
+    if (!deliveryMeta) {
+      return jsonResponse({ ok: false, error: "Invalid delivery area" });
     }
     if (customerEmail.indexOf("@") < 1 || customerEmail.indexOf(".") < 3) {
       return jsonResponse({ ok: false, error: "Invalid email address" });
@@ -82,13 +90,13 @@ function doPost(e) {
       return jsonResponse({ ok: false, error: "Too many submissions — please try again later or email us directly." });
     }
 
-    var order = buildTrustedOrder_(body.lines || []);
+    var order = buildTrustedOrder_(body.lines || [], deliveryMeta);
     if (!order.lines.length) {
       return jsonResponse({ ok: false, error: "Select at least one bottle" });
     }
 
-    appendSheetRow_(ts, submissionMode, customerName, customerEmail, customerPhone, deliveryArea, order, notes);
-    sendOrderEmails_(ts, submissionMode, customerName, customerEmail, customerPhone, deliveryArea, order, notes);
+    appendSheetRow_(ts, submissionMode, customerName, customerEmail, customerPhone, deliveryMeta, deliveryArea, order, notes);
+    sendOrderEmails_(ts, submissionMode, customerName, customerEmail, customerPhone, deliveryMeta, deliveryArea, order, notes);
 
     return jsonResponse({ ok: true, saved: true });
   } catch (err) {
@@ -96,10 +104,20 @@ function doPost(e) {
   }
 }
 
-function buildTrustedOrder_(rawLines) {
+function deliveryMetaForZone_(zone) {
+  if (zone === "johannesburg") {
+    return { zone: zone, label: "Johannesburg", feeZar: DELIVERY_FEE_JOHANNESBURG_ZAR };
+  }
+  if (zone === "elsewhere_sa") {
+    return { zone: zone, label: "Elsewhere in South Africa", feeZar: DELIVERY_FEE_ELSEWHERE_SA_ZAR };
+  }
+  return null;
+}
+
+function buildTrustedOrder_(rawLines, deliveryMeta) {
   var lines = [];
   var totalBottles = 0;
-  var estimatedTotalZar = 0;
+  var wineSubtotalZar = 0;
   var hasAllPrices = true;
 
   if (!Array.isArray(rawLines)) rawLines = [];
@@ -116,7 +134,7 @@ function buildTrustedOrder_(rawLines) {
     var lineTotalZar = priceZar != null ? priceZar * qty : null;
 
     if (priceZar == null) hasAllPrices = false;
-    else estimatedTotalZar += lineTotalZar;
+    else wineSubtotalZar += lineTotalZar;
 
     totalBottles += qty;
     lines.push({
@@ -128,14 +146,22 @@ function buildTrustedOrder_(rawLines) {
     });
   });
 
+  var deliveryFeeZar = deliveryMeta ? deliveryMeta.feeZar : null;
+  var wineSubtotal = hasAllPrices && lines.length ? wineSubtotalZar : null;
+  var estimatedGrandTotalZar = wineSubtotal != null && deliveryFeeZar != null ? wineSubtotal + deliveryFeeZar : null;
+
   return {
     lines: lines,
     totalBottles: totalBottles,
-    estimatedTotalZar: hasAllPrices && lines.length ? estimatedTotalZar : null,
+    wineSubtotalZar: wineSubtotal,
+    deliveryZone: deliveryMeta ? deliveryMeta.zone : "",
+    deliveryZoneLabel: deliveryMeta ? deliveryMeta.label : "",
+    deliveryFeeZar: deliveryFeeZar,
+    estimatedGrandTotalZar: estimatedGrandTotalZar,
   };
 }
 
-function appendSheetRow_(ts, mode, name, email, phone, deliveryArea, order, notes) {
+function appendSheetRow_(ts, mode, name, email, phone, deliveryMeta, deliverySuburb, order, notes) {
   if (!WINE_ORDER_SPREADSHEET_ID) return;
   try {
     var ss = SpreadsheetApp.openById(WINE_ORDER_SPREADSHEET_ID);
@@ -148,10 +174,13 @@ function appendSheetRow_(ts, mode, name, email, phone, deliveryArea, order, note
         "Name",
         "Email",
         "Phone",
-        "Delivery area",
+        "Delivery zone",
+        "Delivery suburb",
         "Wines JSON",
         "Total bottles",
-        "Est. total ZAR",
+        "Wine subtotal ZAR",
+        "Delivery fee ZAR",
+        "Est. grand total ZAR",
         "Notes",
         "Status",
       ]);
@@ -162,10 +191,13 @@ function appendSheetRow_(ts, mode, name, email, phone, deliveryArea, order, note
       name,
       email,
       phone,
-      deliveryArea,
+      deliveryMeta.label,
+      deliverySuburb,
       JSON.stringify(order.lines),
       order.totalBottles,
-      order.estimatedTotalZar != null ? order.estimatedTotalZar : "",
+      order.wineSubtotalZar != null ? order.wineSubtotalZar : "",
+      order.deliveryFeeZar != null ? order.deliveryFeeZar : "",
+      order.estimatedGrandTotalZar != null ? order.estimatedGrandTotalZar : "",
       notes,
       "new",
     ]);
@@ -174,7 +206,7 @@ function appendSheetRow_(ts, mode, name, email, phone, deliveryArea, order, note
   }
 }
 
-function sendOrderEmails_(ts, mode, name, email, phone, deliveryArea, order, notes) {
+function sendOrderEmails_(ts, mode, name, email, phone, deliveryMeta, deliverySuburb, order, notes) {
   var recipient = readRecipientEmail_();
   if (!recipient) {
     Logger.log("sendOrderEmails_: no WINE_ORDER_RECIPIENT_EMAIL configured");
@@ -182,7 +214,7 @@ function sendOrderEmails_(ts, mode, name, email, phone, deliveryArea, order, not
   }
 
   var subject = "New wine order enquiry — " + name;
-  var bodyText = formatOrderEmailBody_(ts, mode, name, email, phone, deliveryArea, order, notes, false);
+  var bodyText = formatOrderEmailBody_(ts, mode, name, email, phone, deliveryMeta, deliverySuburb, order, notes, false);
 
   try {
     MailApp.sendEmail({
@@ -220,7 +252,7 @@ function sendOrderEmails_(ts, mode, name, email, phone, deliveryArea, order, not
       MailApp.sendEmail({
         to: email,
         subject: "We received your Tucker Family Charity wine enquiry",
-        body: formatOrderEmailBody_(ts, mode, name, email, phone, deliveryArea, order, notes, true),
+        body: formatOrderEmailBody_(ts, mode, name, email, phone, deliveryMeta, deliverySuburb, order, notes, true),
         name: "Tucker Family Charity",
       });
     } catch (custErr) {
@@ -229,11 +261,14 @@ function sendOrderEmails_(ts, mode, name, email, phone, deliveryArea, order, not
   }
 }
 
-function formatOrderEmailBody_(ts, mode, name, email, phone, deliveryArea, order, notes, forCustomer) {
+function formatOrderEmailBody_(ts, mode, name, email, phone, deliveryMeta, deliverySuburb, order, notes, forCustomer) {
   var lines = [];
   if (forCustomer) {
     lines.push("Hi " + name + ",", "");
-    lines.push("Thank you — we received your wine order enquiry. Bret will contact you to confirm availability, pricing, delivery, and payment.", "");
+    lines.push(
+      "Thank you — we received your wine order enquiry. Bret will contact you to confirm availability, wine pricing, delivery, and payment.",
+      ""
+    );
   } else {
     lines.push("New wine order enquiry from the Tucker Family Charity website.", "");
   }
@@ -245,7 +280,8 @@ function formatOrderEmailBody_(ts, mode, name, email, phone, deliveryArea, order
   lines.push("  Name: " + name);
   lines.push("  Email: " + email);
   lines.push("  Phone / WhatsApp: " + phone);
-  lines.push("  Delivery area: " + deliveryArea);
+  lines.push("  Delivery zone: " + deliveryMeta.label + " (" + formatZar_(deliveryMeta.feeZar) + " delivery)");
+  lines.push("  Suburb / address details: " + deliverySuburb);
   lines.push("");
   lines.push("Order");
   lines.push(padRight_("Wine", 42) + padRight_("Qty", 6) + padRight_("Price/btl", 14) + "Line total");
@@ -265,7 +301,14 @@ function formatOrderEmailBody_(ts, mode, name, email, phone, deliveryArea, order
   lines.push(repeatChar_("-", 78));
   lines.push("Total bottles: " + order.totalBottles);
   lines.push(
-    "Estimated total: " + (order.estimatedTotalZar != null ? formatZar_(order.estimatedTotalZar) : "Confirm with Bret")
+    "Wine subtotal: " + (order.wineSubtotalZar != null ? formatZar_(order.wineSubtotalZar) : "Confirm with Bret")
+  );
+  lines.push(
+    "Delivery (" + deliveryMeta.label + "): " + formatZar_(order.deliveryFeeZar)
+  );
+  lines.push(
+    "Estimated order total: " +
+      (order.estimatedGrandTotalZar != null ? formatZar_(order.estimatedGrandTotalZar) : "Confirm with Bret")
   );
 
   if (notes) {
@@ -348,13 +391,15 @@ function readScriptSecret_() {
 
 /** Run once from the editor to authorise MailApp. */
 function testWineOrderNotify() {
-  var order = buildTrustedOrder_([{ wineSlug: "chloe", quantity: 2 }]);
+  var deliveryMeta = deliveryMetaForZone_("johannesburg");
+  var order = buildTrustedOrder_([{ wineSlug: "chloe", quantity: 2 }], deliveryMeta);
   sendOrderEmails_(
     new Date().toISOString(),
     "enquiry",
     "Test Customer",
     "test@example.com",
     "+27 82 000 0000",
+    deliveryMeta,
     "Sandton",
     order,
     "Script test — please ignore."

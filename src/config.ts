@@ -105,6 +105,7 @@ export const PROPERTY_ENQUIRY_SECRET = import.meta.env.VITE_PROPERTY_ENQUIRY_SEC
  * Deploy scripts/wine-order-submit.gs as Web App; set VITE_WINE_ORDER_SUBMIT_URL in .env / GitHub Actions.
  *
  * Expected POST: application/x-www-form-urlencoded with field `json` (stringified WineOrderPayload).
+ * Includes deliveryZone (`johannesburg` | `elsewhere_sa`) — server applies R50 / R200 delivery fees.
  * Apps Script emails Bret (WINE_ORDER_RECIPIENT_EMAIL), logs optional Sheet row, recalculates totals server-side.
  *
  * Optional: VITE_WINE_ORDER_SECRET — include in payload as `secret` if script validates it.

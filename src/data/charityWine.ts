@@ -48,6 +48,40 @@ export const charityWineVariants: CharityWineVariant[] = [
 /** Future checkout modes — website currently submits `enquiry` only. */
 export type WineOrderSubmissionMode = "enquiry" | "yoco";
 
+/** Trusted delivery zones — fees recalculated server-side from these values only. */
+export type WineDeliveryZone = "johannesburg" | "elsewhere_sa";
+
+export const WINE_DELIVERY_FEE_JOHANNESBURG_ZAR = 50;
+export const WINE_DELIVERY_FEE_ELSEWHERE_SA_ZAR = 200;
+
+export const wineDeliveryZoneOptions: ReadonlyArray<{
+  value: WineDeliveryZone;
+  label: string;
+  feeZar: number;
+  description: string;
+}> = [
+  {
+    value: "johannesburg",
+    label: "Johannesburg",
+    feeZar: WINE_DELIVERY_FEE_JOHANNESBURG_ZAR,
+    description: `R${WINE_DELIVERY_FEE_JOHANNESBURG_ZAR} delivery`,
+  },
+  {
+    value: "elsewhere_sa",
+    label: "Elsewhere in South Africa",
+    feeZar: WINE_DELIVERY_FEE_ELSEWHERE_SA_ZAR,
+    description: `R${WINE_DELIVERY_FEE_ELSEWHERE_SA_ZAR} delivery`,
+  },
+];
+
+export function wineDeliveryFeeZar(zone: WineDeliveryZone): number {
+  return zone === "johannesburg" ? WINE_DELIVERY_FEE_JOHANNESBURG_ZAR : WINE_DELIVERY_FEE_ELSEWHERE_SA_ZAR;
+}
+
+export function wineDeliveryZoneLabel(zone: WineDeliveryZone): string {
+  return wineDeliveryZoneOptions.find((o) => o.value === zone)?.label ?? zone;
+}
+
 export interface WineOrderLineInput {
   wineSlug: string;
   quantity: number;
@@ -60,6 +94,7 @@ export interface WineOrderPayload {
   customerName: string;
   customerEmail: string;
   customerPhone: string;
+  deliveryZone: WineDeliveryZone;
   deliveryArea: string;
   notes?: string;
   lines: WineOrderLineInput[];
@@ -78,7 +113,10 @@ export interface WineOrderSummaryRow {
 export interface WineOrderSummary {
   rows: WineOrderSummaryRow[];
   totalBottles: number;
-  estimatedTotalZar: number | null;
+  wineSubtotalZar: number | null;
+  deliveryFeeZar: number | null;
+  deliveryZoneLabel: string | null;
+  estimatedGrandTotalZar: number | null;
 }
 
 export function wineDisplayName(wine: CharityWineVariant): string {
@@ -104,10 +142,11 @@ export function getWineBySlug(slug: string): CharityWineVariant | undefined {
 /** Build order summary from trusted local catalog (display only — server recalculates on submit). */
 export function computeWineOrderSummary(
   quantities: Record<string, number>,
+  deliveryZone?: WineDeliveryZone | "",
 ): WineOrderSummary {
   const rows: WineOrderSummaryRow[] = [];
   let totalBottles = 0;
-  let estimatedTotalZar: number | null = 0;
+  let wineSubtotalZar: number | null = 0;
 
   for (const wine of charityWineVariants) {
     const quantity = Math.max(0, Math.min(99, Math.floor(quantities[wine.slug] ?? 0)));
@@ -118,19 +157,34 @@ export function computeWineOrderSummary(
     const lineTotalZar =
       pricePerBottleZar != null ? pricePerBottleZar * quantity : null;
 
-    if (lineTotalZar == null) estimatedTotalZar = null;
-    else if (estimatedTotalZar != null) estimatedTotalZar += lineTotalZar;
+    if (lineTotalZar == null) wineSubtotalZar = null;
+    else if (wineSubtotalZar != null) wineSubtotalZar += lineTotalZar;
 
     rows.push({ wine, quantity, pricePerBottleZar, lineTotalZar });
   }
 
-  return { rows, totalBottles, estimatedTotalZar };
+  const deliveryFeeZar = deliveryZone ? wineDeliveryFeeZar(deliveryZone) : null;
+  const deliveryZoneLabel = deliveryZone ? wineDeliveryZoneLabel(deliveryZone) : null;
+  let estimatedGrandTotalZar: number | null = wineSubtotalZar;
+  if (deliveryFeeZar != null && estimatedGrandTotalZar != null) {
+    estimatedGrandTotalZar += deliveryFeeZar;
+  }
+
+  return {
+    rows,
+    totalBottles,
+    wineSubtotalZar,
+    deliveryFeeZar,
+    deliveryZoneLabel,
+    estimatedGrandTotalZar,
+  };
 }
 
 export function buildWineOrderPayload(input: {
   customerName: string;
   customerEmail: string;
   customerPhone: string;
+  deliveryZone: WineDeliveryZone;
   deliveryArea: string;
   notes: string;
   quantities: Record<string, number>;
@@ -149,6 +203,7 @@ export function buildWineOrderPayload(input: {
     customerName: input.customerName.trim(),
     customerEmail: input.customerEmail.trim(),
     customerPhone: input.customerPhone.trim(),
+    deliveryZone: input.deliveryZone,
     deliveryArea: input.deliveryArea.trim(),
     notes: input.notes.trim() || undefined,
     lines,
@@ -162,6 +217,9 @@ export const winePageCopy = {
   intro:
     "White-label South African wines in partnership with Tucker Family Charity and in support of Oliver’s Village.",
   impactLine: "Every bottle helps support our initiatives.",
+  deliveryNoticeHeading: "Delivery charges",
+  deliveryNoticeBody:
+    "Delivery is charged separately: R50 within Johannesburg, or R200 anywhere else in South Africa. Bret will confirm your final total including wine pricing.",
   orderCta: "Send order enquiry",
   orderCtaSending: "Sending…",
   featuresHeading: "About the range",
@@ -180,7 +238,9 @@ export const winePageCopy = {
   nameLabel: "Full name",
   emailLabel: "Email address",
   phoneLabel: "Phone or WhatsApp",
-  deliveryLabel: "Delivery suburb or area",
+  deliveryZoneLabel: "Delivery area",
+  deliverySuburbLabel: "Suburb or address details",
+  deliverySuburbPlaceholder: "e.g. Sandton, Fourways, Stellenbosch",
   orderSummaryHeading: "Order summary",
   successMessage:
     "Thank you. Your wine order enquiry has been sent to Bret. He will contact you to confirm availability, pricing, delivery, and payment.",
