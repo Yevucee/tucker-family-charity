@@ -5,7 +5,7 @@
  * `logo` — optional absolute URL to a hosted logo; when null, UI uses Google’s
  * favicon service from the site hostname (no scraping; edit `logo` to override).
  *
- * Verify spelling-sensitive rows (Acotraining, EVO, Moonstone, Macron TBC) when URLs are confirmed.
+ * Verify spelling-sensitive rows (EcoTraining, EVO, Moonstone, Macron TBC) when URLs are confirmed.
  */
 
 export interface Partner {
@@ -55,8 +55,8 @@ export const partners: Partner[] = [
     websiteUrl: "https://www.winesofelgin.co.za/",
   },
   {
-    id: "acotraining",
-    name: "Acotraining",
+    id: "ecotraining",
+    name: "EcoTraining",
     logo: null,
     description: "Partner supporting Tucker Family Charity initiatives.",
     websiteUrl: null,
