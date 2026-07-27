@@ -118,18 +118,18 @@ export const partners: Partner[] = [
     websiteUrl: "https://byronthomasproperties.co.za/",
   },
   {
-    id: "preidelands",
-    name: "Preidelands",
+    id: "pridelands",
+    name: "Pridelands",
     logo: null,
     description: "Partner supporting Tucker Family Charity initiatives.",
     websiteUrl: "https://pridelands.co.za/",
   },
   {
-    id: "power2health",
-    name: "Power2Health",
+    id: "sandton-longevity",
+    name: "Sandton Longevity",
     logo: null,
     description: "Partner supporting Tucker Family Charity initiatives.",
-    websiteUrl: "https://www.power2health.co.za/",
+    websiteUrl: "https://www.sandtonlongevitylounge.co.za/",
   },
   {
     id: "saseka",
