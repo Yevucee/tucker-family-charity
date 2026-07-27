@@ -139,7 +139,7 @@ export const shopCatalog: ShopCatalog = {
       image: wineListing,
       priceLabel: "Price on enquiry",
       ctaLabel: "View & order",
-      paymentLink: "mailto:info@tuckerfamilycharity.org?subject=Wine%20Order",
+      paymentLink: CHARITY_WINE_PATH,
       ctaOpensNewTab: false,
       productDetailPath: CHARITY_WINE_PATH,
     },
