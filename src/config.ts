@@ -99,3 +99,21 @@ export const PROPERTY_ENQUIRY_SUBMIT_URL_REJECTED =
   RAW_PROPERTY_ENQUIRY_SUBMIT_URL.length > 0 && PROPERTY_ENQUIRY_SUBMIT_URL.length === 0;
 
 export const PROPERTY_ENQUIRY_SECRET = import.meta.env.VITE_PROPERTY_ENQUIRY_SECRET ?? "";
+
+/**
+ * WINE SHOP — order enquiry POST to Google Apps Script (same pattern as property enquiry).
+ * Deploy scripts/wine-order-submit.gs as Web App; set VITE_WINE_ORDER_SUBMIT_URL in .env / GitHub Actions.
+ *
+ * Expected POST: application/x-www-form-urlencoded with field `json` (stringified WineOrderPayload).
+ * Apps Script emails Bret (WINE_ORDER_RECIPIENT_EMAIL), logs optional Sheet row, recalculates totals server-side.
+ *
+ * Optional: VITE_WINE_ORDER_SECRET — include in payload as `secret` if script validates it.
+ */
+const RAW_WINE_ORDER_SUBMIT_URL = String(import.meta.env.VITE_WINE_ORDER_SUBMIT_URL ?? "").trim();
+
+export const WINE_ORDER_SUBMIT_URL = normalizeGasWebAppUrl(RAW_WINE_ORDER_SUBMIT_URL);
+
+export const WINE_ORDER_SUBMIT_URL_REJECTED =
+  RAW_WINE_ORDER_SUBMIT_URL.length > 0 && WINE_ORDER_SUBMIT_URL.length === 0;
+
+export const WINE_ORDER_SECRET = import.meta.env.VITE_WINE_ORDER_SECRET ?? "";
