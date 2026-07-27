@@ -7,9 +7,9 @@ import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import {
   WINE_ORDER_SECRET,
   WINE_ORDER_SUBMIT_URL,
-  WINE_ORDER_SUBMIT_URL_REJECTED,
 } from "@/config";
 import {
+  buildWineOrderFormSubmitBody,
   buildWineOrderPayload,
   charityWineVariants,
   computeWineOrderSummary,
@@ -20,6 +20,7 @@ import {
   wineFullLabel,
   winePageCopy,
   winePriceLabel,
+  WINE_ORDER_FORMSUBMIT_URL,
   type WineDeliveryZone,
 } from "@/data/charityWine";
 
@@ -78,9 +79,8 @@ export function CharityWine() {
 
     setSubmitError("");
 
-    if (!WINE_ORDER_SUBMIT_URL) {
-      setSubmitState("error");
-      setSubmitError(winePageCopy.submitNotConfigured);
+    if (honeypot.trim()) {
+      setSubmitState("success");
       return;
     }
 
@@ -96,52 +96,94 @@ export function CharityWine() {
       return;
     }
 
-    const payload = buildWineOrderPayload({
-      customerName,
-      customerEmail,
-      customerPhone,
-      deliveryZone,
-      deliveryAddress,
-      notes,
-      quantities,
-      secret: WINE_ORDER_SECRET || undefined,
-    });
-    payload.website = honeypot;
-
-    const formBody = new URLSearchParams({ json: JSON.stringify(payload) }).toString();
-    const postInit = {
-      method: "POST" as const,
-      cache: "no-store" as const,
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: formBody,
-    };
-
     setSubmitState("loading");
 
+    if (WINE_ORDER_SUBMIT_URL) {
+      const payload = buildWineOrderPayload({
+        customerName,
+        customerEmail,
+        customerPhone,
+        deliveryZone,
+        deliveryAddress,
+        notes,
+        quantities,
+        secret: WINE_ORDER_SECRET || undefined,
+      });
+      payload.website = honeypot;
+
+      const formBody = new URLSearchParams({ json: JSON.stringify(payload) }).toString();
+      const postInit = {
+        method: "POST" as const,
+        cache: "no-store" as const,
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: formBody,
+      };
+
+      try {
+        const res = await fetch(WINE_ORDER_SUBMIT_URL, { ...postInit, mode: "cors" });
+        let data: { ok?: boolean; saved?: boolean; error?: string } = {};
+        try {
+          data = (await res.json()) as typeof data;
+        } catch {
+          /* non-JSON */
+        }
+
+        if (data.ok === true && data.saved === true) {
+          setSubmitState("success");
+          return;
+        }
+
+        setSubmitState("error");
+        setSubmitError(data.error || winePageCopy.submitErrorGeneric);
+      } catch {
+        try {
+          await fetch(WINE_ORDER_SUBMIT_URL, { ...postInit, mode: "no-cors" });
+          setSubmitState("success");
+        } catch {
+          setSubmitState("error");
+          setSubmitError(`${winePageCopy.submitErrorGeneric} Email ${ORDER_EMAIL} with your order.`);
+        }
+      }
+      return;
+    }
+
     try {
-      const res = await fetch(WINE_ORDER_SUBMIT_URL, { ...postInit, mode: "cors" });
-      let data: { ok?: boolean; saved?: boolean; error?: string } = {};
+      const res = await fetch(WINE_ORDER_FORMSUBMIT_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(
+          buildWineOrderFormSubmitBody({
+            customerName,
+            customerEmail,
+            customerPhone,
+            deliveryZone,
+            deliveryAddress,
+            notes,
+            orderSummary,
+          }),
+        ),
+      });
+
+      let data: { success?: string } = {};
       try {
         data = (await res.json()) as typeof data;
       } catch {
         /* non-JSON */
       }
 
-      if (data.ok === true && data.saved === true) {
+      if (res.ok && data.success) {
         setSubmitState("success");
         return;
       }
 
       setSubmitState("error");
-      setSubmitError(data.error || winePageCopy.submitErrorGeneric);
+      setSubmitError(winePageCopy.submitErrorGeneric);
     } catch {
-      try {
-        await fetch(WINE_ORDER_SUBMIT_URL, { ...postInit, mode: "no-cors" });
-        setSubmitState("success");
-      } catch {
-        setSubmitState("error");
-        setSubmitError(`${winePageCopy.submitErrorGeneric} Email ${ORDER_EMAIL} with your order.`);
-      }
+      setSubmitState("error");
+      setSubmitError(`${winePageCopy.submitErrorGeneric} Email ${ORDER_EMAIL} with your order.`);
     }
   };
 
@@ -425,25 +467,6 @@ export function CharityWine() {
                   </label>
                 </div>
 
-                {WINE_ORDER_SUBMIT_URL_REJECTED ? (
-                  <p className="text-sm text-red-900 bg-red-50 border border-red-200 rounded-lg px-4 py-3">
-                    This site build has an invalid wine order URL. Fix{" "}
-                    <code className="text-xs bg-white px-1 rounded">VITE_WINE_ORDER_SUBMIT_URL</code> in GitHub
-                    secrets and redeploy.
-                  </p>
-                ) : null}
-
-                {!WINE_ORDER_SUBMIT_URL && !WINE_ORDER_SUBMIT_URL_REJECTED ? (
-                  <p className="text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3">
-                    Online orders are not connected on this build yet. Email{" "}
-                    <a href={`mailto:${ORDER_EMAIL}`} className="font-semibold underline-offset-2 hover:underline">
-                      {ORDER_EMAIL}
-                    </a>{" "}
-                    with your order, or ask the charity team to finish setup (
-                    <span className="font-medium">docs/WINE_ORDER_SETUP.md</span>).
-                  </p>
-                ) : null}
-
                 {submitState === "error" && submitError ? (
                   <p className="text-sm text-red-800 bg-red-50 border border-red-200 rounded-lg px-4 py-3" role="alert">
                     {submitError}{" "}
@@ -467,12 +490,7 @@ export function CharityWine() {
 
                 <button
                   type="submit"
-                  disabled={
-                    submitState === "loading" ||
-                    !WINE_ORDER_SUBMIT_URL ||
-                    orderSummary.totalBottles < 1 ||
-                    !deliveryZone
-                  }
+                  disabled={submitState === "loading" || orderSummary.totalBottles < 1 || !deliveryZone}
                   className="inline-flex w-full sm:w-auto justify-center items-center gap-2 py-3.5 px-8 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {submitState === "loading" ? (

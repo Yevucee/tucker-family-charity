@@ -6,8 +6,10 @@ import wineChloe from "@/assets/shop/wine-chloe.png";
 import wineElla from "@/assets/shop/wine-ella.png";
 import wineMadison from "@/assets/shop/wine-madison.png";
 
-/** Fallback contact when the order endpoint is unavailable. */
-export const ORDER_EMAIL = "info@tuckerfamilycharity.org";
+/** Orders are emailed here when the form is submitted. */
+export const ORDER_EMAIL = "info@tuckerfamilycharity.com";
+
+export const WINE_ORDER_FORMSUBMIT_URL = `https://formsubmit.co/ajax/${encodeURIComponent(ORDER_EMAIL)}`;
 
 export const CHARITY_WINE_PATH = "/shop/wine";
 
@@ -212,6 +214,84 @@ export function buildWineOrderPayload(input: {
   };
 }
 
+/** Body for FormSubmit.co — sends order email with no server setup required. */
+export function buildWineOrderFormSubmitBody(input: {
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string;
+  deliveryZone: WineDeliveryZone;
+  deliveryAddress: string;
+  notes: string;
+  orderSummary: WineOrderSummary;
+}): Record<string, string | number> {
+  const zoneLabel = wineDeliveryZoneLabel(input.deliveryZone);
+  const deliveryFee = wineDeliveryFeeZar(input.deliveryZone);
+  const wineLines = input.orderSummary.rows
+    .map((row) => {
+      const each =
+        row.pricePerBottleZar != null ? formatWinePriceZar(row.pricePerBottleZar) : "Price on enquiry";
+      const line =
+        row.lineTotalZar != null ? formatWinePriceZar(row.lineTotalZar) : "—";
+      return `${wineFullLabel(row.wine)} × ${row.quantity} @ ${each} = ${line}`;
+    })
+    .join("\n");
+
+  const message = [
+    "New wine order enquiry from the Tucker Family Charity website.",
+    "",
+    `Submitted: ${new Date().toLocaleString("en-ZA")}`,
+    "",
+    `Name: ${input.customerName.trim()}`,
+    `Email: ${input.customerEmail.trim()}`,
+    `Phone / WhatsApp: ${input.customerPhone.trim()}`,
+    `Delivery area: ${zoneLabel} (${formatWinePriceZar(deliveryFee)} delivery)`,
+    `Delivery address: ${input.deliveryAddress.trim()}`,
+    "",
+    "Wines ordered:",
+    wineLines,
+    "",
+    `Total bottles: ${input.orderSummary.totalBottles}`,
+    `Wine subtotal: ${
+      input.orderSummary.wineSubtotalZar != null
+        ? formatWinePriceZar(input.orderSummary.wineSubtotalZar)
+        : "Confirm with team"
+    }`,
+    `Delivery: ${formatWinePriceZar(deliveryFee)}`,
+    `Estimated order total: ${
+      input.orderSummary.estimatedGrandTotalZar != null
+        ? formatWinePriceZar(input.orderSummary.estimatedGrandTotalZar)
+        : "Confirm with team"
+    }`,
+    input.notes.trim() ? `\nNotes / gift message:\n${input.notes.trim()}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  return {
+    name: input.customerName.trim(),
+    email: input.customerEmail.trim(),
+    phone: input.customerPhone.trim(),
+    delivery_area: zoneLabel,
+    delivery_fee: formatWinePriceZar(deliveryFee),
+    delivery_address: input.deliveryAddress.trim(),
+    total_bottles: input.orderSummary.totalBottles,
+    wine_subtotal:
+      input.orderSummary.wineSubtotalZar != null
+        ? formatWinePriceZar(input.orderSummary.wineSubtotalZar)
+        : "Confirm with team",
+    estimated_total:
+      input.orderSummary.estimatedGrandTotalZar != null
+        ? formatWinePriceZar(input.orderSummary.estimatedGrandTotalZar)
+        : "Confirm with team",
+    order_details: wineLines,
+    message,
+    _subject: `New wine order enquiry — ${input.customerName.trim()}`,
+    _replyto: input.customerEmail.trim(),
+    _template: "table",
+    _captcha: "false",
+  };
+}
+
 export const winePageCopy = {
   title: "Tucker Family Charity Wine",
   intro:
@@ -219,7 +299,7 @@ export const winePageCopy = {
   impactLine: "Every bottle helps support our initiatives.",
   deliveryNoticeHeading: "Delivery charges",
   deliveryNoticeBody:
-    "Delivery is charged separately: R50 within Johannesburg, or R200 anywhere else in South Africa. Bret will confirm your final total including wine pricing.",
+    "Delivery is charged separately: R50 within Johannesburg, or R200 anywhere else in South Africa. We will confirm your final total including wine pricing.",
   orderCta: "Send order enquiry",
   orderCtaSending: "Sending…",
   featuresHeading: "About the range",
@@ -243,10 +323,8 @@ export const winePageCopy = {
   deliveryAddressPlaceholder: "Street address, complex or estate, city",
   orderSummaryHeading: "Order summary",
   successMessage:
-    "Thank you. Your wine order enquiry has been sent to Bret. He will contact you to confirm availability, pricing, delivery, and payment.",
+    "Thank you. Your wine order enquiry has been sent. We will contact you to confirm availability, pricing, delivery, and payment.",
   questionsBlurb: "Questions before you order?",
   questionsCtaEmail: ORDER_EMAIL,
-  submitNotConfigured:
-    "Online wine orders are not connected yet. Please email us with your order and we will help you.",
   submitErrorGeneric: "We could not send your order enquiry. Please try again or email us directly.",
 };

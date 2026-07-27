@@ -1,8 +1,16 @@
 # Wine shop order email setup
 
-Wine orders on `/shop/wine` POST to a **Google Apps Script** web app (same pattern as property enquiries). Bret receives a structured email; the customer gets an acknowledgement copy. No credentials live in the browser.
+Wine orders on `/shop/wine` email **info@tuckerfamilycharity.com** automatically when a customer submits the form. No extra setup is required for the default path (FormSubmit.co).
 
-## 1. Apps Script
+Optional: deploy Google Apps Script (`scripts/wine-order-submit.gs`) and set `VITE_WINE_ORDER_SUBMIT_URL` if you prefer MailApp instead of FormSubmit.
+
+## Default (no setup)
+
+Submissions POST to FormSubmit.co, which emails the full order to **info@tuckerfamilycharity.com**.
+
+**First time only:** FormSubmit sends an activation link to that inbox — click it once so future orders arrive automatically.
+
+## Optional: Google Apps Script
 
 1. Open [Google Apps Script](https://script.google.com) → **New project**.
 2. Replace `Code.gs` with the contents of `scripts/wine-order-submit.gs`.
