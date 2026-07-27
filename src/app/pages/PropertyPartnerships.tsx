@@ -11,6 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../components/ui/dialog";
+import { Slider } from "../components/ui/slider";
 import {
   PROPERTY_ENQUIRY_SECRET,
   PROPERTY_ENQUIRY_SUBMIT_URL,
@@ -53,6 +54,47 @@ function parsePriceSortValue(price: string): number {
   const digits = price.replace(/[^\d]/g, "");
   if (!digits) return 0;
   return Number(digits);
+}
+
+function priceSliderStep(min: number, max: number): number {
+  const span = max - min;
+  if (span <= 500_000) return 5_000;
+  if (span <= 2_000_000) return 25_000;
+  if (span <= 10_000_000) return 100_000;
+  return 250_000;
+}
+
+function roundDownToStep(n: number, step: number): number {
+  return Math.floor(n / step) * step;
+}
+
+function roundUpToStep(n: number, step: number): number {
+  return Math.ceil(n / step) * step;
+}
+
+function formatPriceLabel(value: number): string {
+  if (value >= 1_000_000) {
+    const millions = value / 1_000_000;
+    if (millions >= 10 || millions % 1 === 0) return `R${millions.toLocaleString("en-ZA", { maximumFractionDigits: 0 })}m`;
+    return `R${millions.toLocaleString("en-ZA", { maximumFractionDigits: 1 })}m`;
+  }
+  if (value >= 1_000) return `R${Math.round(value / 1_000).toLocaleString("en-ZA")}k`;
+  return `R${value.toLocaleString("en-ZA")}`;
+}
+
+type PriceBounds = { min: number; max: number; step: number };
+
+function computePriceBounds(rows: PropertyListing[]): PriceBounds {
+  const prices = rows.map((p) => parsePriceSortValue(p.price)).filter((n) => n > 0);
+  if (prices.length === 0) return { min: 0, max: 0, step: 5_000 };
+  const rawMin = Math.min(...prices);
+  const rawMax = Math.max(...prices);
+  const step = priceSliderStep(rawMin, rawMax);
+  return {
+    min: roundDownToStep(rawMin, step),
+    max: roundUpToStep(rawMax, step),
+    step,
+  };
 }
 
 function listingSearchHaystack(p: PropertyListing): string {
@@ -344,6 +386,7 @@ export function PropertyPartnerships() {
   const [searchQuery, setSearchQuery] = useState("");
   const [suburbFilter, setSuburbFilter] = useState("");
   const [sortOption, setSortOption] = useState<SortOption>("price-desc");
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 0]);
   const [page, setPage] = useState(1);
   const [selectedProperty, setSelectedProperty] = useState<PropertyListing | null>(null);
   const [dialogStep, setDialogStep] = useState<"form" | "success">("form");
@@ -387,6 +430,23 @@ export function PropertyPartnerships() {
     };
   }, []);
 
+  const typeFilteredListings = useMemo(() => {
+    if (filter === "all") return listings;
+    return listings.filter((p) => p.type === filter);
+  }, [listings, filter]);
+
+  const priceBounds = useMemo(() => computePriceBounds(typeFilteredListings), [typeFilteredListings]);
+
+  const priceSliderReady = priceBounds.max > priceBounds.min;
+
+  useEffect(() => {
+    if (!priceSliderReady) return;
+    setPriceRange([priceBounds.min, priceBounds.max]);
+  }, [priceBounds.min, priceBounds.max, priceSliderReady]);
+
+  const isPriceFilterActive =
+    priceSliderReady && (priceRange[0] > priceBounds.min || priceRange[1] < priceBounds.max);
+
   const filtered = useMemo(() => {
     let rows = listings;
     if (filter !== "all") rows = rows.filter((p) => p.type === filter);
@@ -395,6 +455,13 @@ export function PropertyPartnerships() {
     if (q) rows = rows.filter((p) => listingSearchHaystack(p).includes(q));
 
     if (suburbFilter) rows = rows.filter((p) => p.suburb === suburbFilter);
+
+    if (isPriceFilterActive) {
+      rows = rows.filter((p) => {
+        const price = parsePriceSortValue(p.price);
+        return price >= priceRange[0] && price <= priceRange[1];
+      });
+    }
 
     const manual = rows.filter((p) => p.syncSource === "manual" || p.directFromCharity);
     const synced = rows.filter((p) => !(p.syncSource === "manual" || p.directFromCharity));
@@ -407,7 +474,7 @@ export function PropertyPartnerships() {
     });
 
     return [...manual, ...sortedSynced];
-  }, [listings, filter, searchQuery, suburbFilter, sortOption]);
+  }, [listings, filter, searchQuery, suburbFilter, sortOption, isPriceFilterActive, priceRange]);
 
   const suburbOptions = useMemo(() => {
     const set = new Set(listings.map((p) => p.suburb.trim()).filter(Boolean));
@@ -424,7 +491,7 @@ export function PropertyPartnerships() {
 
   useEffect(() => {
     setPage(1);
-  }, [filter, searchQuery, suburbFilter, sortOption]);
+  }, [filter, searchQuery, suburbFilter, sortOption, priceRange]);
 
   useEffect(() => {
     if (page > totalPages) setPage(totalPages);
@@ -435,10 +502,16 @@ export function PropertyPartnerships() {
     setSuburbFilter("");
     setSortOption("price-desc");
     setFilter("all");
+    if (priceSliderReady) setPriceRange([priceBounds.min, priceBounds.max]);
     setPage(1);
-  }, []);
+  }, [priceBounds.max, priceBounds.min, priceSliderReady]);
 
-  const hasActiveFilters = filter !== "all" || searchQuery.trim() !== "" || suburbFilter !== "" || sortOption !== "price-desc";
+  const hasActiveFilters =
+    filter !== "all" ||
+    searchQuery.trim() !== "" ||
+    suburbFilter !== "" ||
+    sortOption !== "price-desc" ||
+    isPriceFilterActive;
 
   /** Hide All / Rent / Sale tabs when every listing is the same type (avoids an empty tab). */
   const showListingTypeTabs = useMemo(() => {
@@ -751,6 +824,53 @@ export function PropertyPartnerships() {
                   </select>
                 </label>
               </div>
+              {priceSliderReady ? (
+                <div className="rounded-xl border border-amber-200 bg-white px-4 py-4 sm:px-5 shadow-sm">
+                  <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 mb-4">
+                    <span className="text-xs font-semibold uppercase tracking-wide text-amber-900/70">Price range</span>
+                    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-sm font-semibold text-amber-950 tabular-nums">
+                      <span>
+                        Min{" "}
+                        <span className="text-base font-bold">
+                          {formatPriceLabel(priceRange[0])}
+                          {filter === "rent" ? " / mo" : ""}
+                        </span>
+                      </span>
+                      <span className="text-amber-300 hidden sm:inline" aria-hidden>
+                        —
+                      </span>
+                      <span>
+                        Max{" "}
+                        <span className="text-base font-bold">
+                          {formatPriceLabel(priceRange[1])}
+                          {filter === "rent" ? " / mo" : ""}
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                  <Slider
+                    min={priceBounds.min}
+                    max={priceBounds.max}
+                    step={priceBounds.step}
+                    value={priceRange}
+                    onValueChange={(value) => {
+                      if (value.length >= 2) setPriceRange([value[0], value[1]]);
+                    }}
+                    aria-label="Filter by price range"
+                    className="py-2 [&_[data-slot=slider-track]]:h-2 [&_[data-slot=slider-track]]:bg-amber-100 [&_[data-slot=slider-range]]:bg-amber-600 [&_[data-slot=slider-thumb]]:size-5 [&_[data-slot=slider-thumb]]:border-2 [&_[data-slot=slider-thumb]]:border-amber-600 [&_[data-slot=slider-thumb]]:bg-white [&_[data-slot=slider-thumb]]:shadow-md [&_[data-slot=slider-thumb]]:hover:ring-4 [&_[data-slot=slider-thumb]]:hover:ring-amber-200"
+                  />
+                  <div className="mt-2 flex justify-between text-xs text-neutral-500 tabular-nums">
+                    <span>
+                      {formatPriceLabel(priceBounds.min)}
+                      {filter === "rent" ? " / mo" : ""}
+                    </span>
+                    <span>
+                      {formatPriceLabel(priceBounds.max)}
+                      {filter === "rent" ? " / mo" : ""}
+                    </span>
+                  </div>
+                </div>
+              ) : null}
               <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-neutral-600">
                 <p>
                   {filtered.length === 0
@@ -795,7 +915,7 @@ export function PropertyPartnerships() {
             </div>
           ) : (
             <>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 items-stretch">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8 items-stretch">
               {paginated.map((p) => {
                 const chips = propertyListingCardFeatures(p);
                 const teaser = propertyListingCardTeaser(p);
