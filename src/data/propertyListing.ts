@@ -4,6 +4,8 @@
 
 export type PropertyListingType = "rent" | "sale";
 
+export type PropertyListingSyncSource = "byron-thomas" | "manual";
+
 export interface PropertyListing {
   id: string;
   title: string;
@@ -12,6 +14,10 @@ export interface PropertyListing {
   price: string;
   bedrooms: number;
   bathrooms: number;
+  /** Byron Thomas web ref (e.g. RE-E2-3C-GP) when synced from their site. */
+  webRef?: string;
+  /** Where this row was sourced — manual entries are never removed by sync. */
+  syncSource?: PropertyListingSyncSource;
   /** e.g. "2 covered bays" — omit if unknown */
   parking?: string;
   /** Absolute https URL or site-relative path under public/ (see resolvePropertyImageUrl) */
@@ -70,6 +76,8 @@ function isValidListing(x: unknown): x is PropertyListing {
   }
   if (x.cardSummary !== undefined && typeof x.cardSummary !== "string") return false;
   if (x.referralNote !== undefined && typeof x.referralNote !== "string") return false;
+  if (x.webRef !== undefined && typeof x.webRef !== "string") return false;
+  if (x.syncSource !== undefined && x.syncSource !== "byron-thomas" && x.syncSource !== "manual") return false;
   if (x.features !== undefined) {
     if (!Array.isArray(x.features)) return false;
     if (!x.features.every((f) => typeof f === "string")) return false;

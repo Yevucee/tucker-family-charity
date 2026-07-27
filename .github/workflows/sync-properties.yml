@@ -1,0 +1,63 @@
+name: Sync property listings
+
+on:
+  schedule:
+    # Monday 06:00 UTC (08:00 SA standard time)
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Sync Byron Thomas Properties
+        run: npm run sync:btp-properties
+
+      - name: Create pull request if listings changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          if git diff --quiet -- public/data/properties.json public/data/properties-sync-report.json; then
+            echo "Portfolio up to date — no PR needed."
+            exit 0
+          fi
+
+          BRANCH="auto/properties-sync-$(date -u +%Y-%m-%d)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add public/data/properties.json public/data/properties-sync-report.json
+          ADDED=$(node -e "const r=require('./public/data/properties-sync-report.json'); console.log(r.added.length)")
+          REMOVED=$(node -e "const r=require('./public/data/properties-sync-report.json'); console.log(r.removed.length)")
+          git commit -m "Sync Byron Thomas property listings (${ADDED} added, ${REMOVED} removed)"
+          git push -u origin "$BRANCH"
+
+          gh pr create \
+            --base main \
+            --head "$BRANCH" \
+            --title "Property sync: Byron Thomas listings ($(date -u +%Y-%m-%d))" \
+            --body "$(cat <<EOF
+          Weekly automated sync from Byron Thomas Properties.
+
+          Review the \`properties.json\` diff, then merge to deploy to GitHub Pages.
+
+          Report file: \`public/data/properties-sync-report.json\`
+          EOF
+          )"
