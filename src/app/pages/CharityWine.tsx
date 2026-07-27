@@ -37,7 +37,7 @@ export function CharityWine() {
   const [customerEmail, setCustomerEmail] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
   const [deliveryZone, setDeliveryZone] = useState<WineDeliveryZone | "">("");
-  const [deliveryArea, setDeliveryArea] = useState("");
+  const [deliveryAddress, setDeliveryAddress] = useState("");
   const [notes, setNotes] = useState("");
   const [honeypot, setHoneypot] = useState("");
 
@@ -65,7 +65,7 @@ export function CharityWine() {
     setCustomerEmail("");
     setCustomerPhone("");
     setDeliveryZone("");
-    setDeliveryArea("");
+    setDeliveryAddress("");
     setNotes("");
     setHoneypot("");
     setSubmitError("");
@@ -90,9 +90,9 @@ export function CharityWine() {
       return;
     }
 
-    if (!customerName.trim() || !customerEmail.trim() || !customerPhone.trim() || !deliveryZone || !deliveryArea.trim()) {
+    if (!customerName.trim() || !customerEmail.trim() || !customerPhone.trim() || !deliveryZone || !deliveryAddress.trim()) {
       setSubmitState("error");
-      setSubmitError("Please fill in your name, email, phone, delivery area, and suburb details.");
+      setSubmitError("Please fill in your name, email, phone, delivery area, and address.");
       return;
     }
 
@@ -101,7 +101,7 @@ export function CharityWine() {
       customerEmail,
       customerPhone,
       deliveryZone,
-      deliveryArea,
+      deliveryAddress,
       notes,
       quantities,
       secret: WINE_ORDER_SECRET || undefined,
@@ -387,13 +387,14 @@ export function CharityWine() {
                       </div>
                     </label>
                     <label className="sm:col-span-2 block">
-                      <span className="block text-sm font-semibold text-neutral-900 mb-1.5">{winePageCopy.deliverySuburbLabel}</span>
+                      <span className="block text-sm font-semibold text-neutral-900 mb-1.5">{winePageCopy.deliveryAddressLabel}</span>
                       <input
                         type="text"
                         required
-                        value={deliveryArea}
-                        onChange={(e) => setDeliveryArea(e.target.value)}
-                        placeholder={winePageCopy.deliverySuburbPlaceholder}
+                        autoComplete="street-address"
+                        value={deliveryAddress}
+                        onChange={(e) => setDeliveryAddress(e.target.value)}
+                        placeholder={winePageCopy.deliveryAddressPlaceholder}
                         className="w-full rounded-xl border border-amber-200 bg-white px-4 py-3 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-amber-500"
                       />
                     </label>

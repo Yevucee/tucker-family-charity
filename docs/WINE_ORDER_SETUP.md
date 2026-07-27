@@ -51,7 +51,7 @@ Run `npm run dev` and submit a test order.
 
 Email subject: **`New wine order enquiry — [Customer name]`**
 
-Body includes date/time, customer contact details, delivery zone (Johannesburg R50 / elsewhere in SA R200), suburb details, a readable order table (wine, qty, price, line total), wine subtotal, delivery fee, grand total, and notes. **Reply-To** is the customer’s email.
+Body includes date/time, customer contact details, delivery zone (Johannesburg R50 / elsewhere in SA R200), delivery address, a readable order table (wine, qty, price, line total), wine subtotal, delivery fee, grand total, and notes. **Reply-To** is the customer’s email.
 
 ## Future Yoco checkout
 

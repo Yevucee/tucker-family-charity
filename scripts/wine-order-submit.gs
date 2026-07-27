@@ -70,12 +70,12 @@ function doPost(e) {
     var customerEmail = String(body.customerEmail || "").trim().toLowerCase();
     var customerPhone = String(body.customerPhone || "").trim();
     var deliveryZone = String(body.deliveryZone || "").trim();
-    var deliveryArea = String(body.deliveryArea || "").trim();
+    var deliveryAddress = String(body.deliveryAddress || body.deliveryArea || "").trim();
     var notes = String(body.notes || "").trim();
     var submissionMode = String(body.submissionMode || "enquiry").trim();
     var ts = String(body.timestamp || new Date().toISOString()).trim();
 
-    if (!customerName || !customerEmail || !customerPhone || !deliveryZone || !deliveryArea) {
+    if (!customerName || !customerEmail || !customerPhone || !deliveryZone || !deliveryAddress) {
       return jsonResponse({ ok: false, error: "Missing required customer fields" });
     }
     var deliveryMeta = deliveryMetaForZone_(deliveryZone);
@@ -95,8 +95,8 @@ function doPost(e) {
       return jsonResponse({ ok: false, error: "Select at least one bottle" });
     }
 
-    appendSheetRow_(ts, submissionMode, customerName, customerEmail, customerPhone, deliveryMeta, deliveryArea, order, notes);
-    sendOrderEmails_(ts, submissionMode, customerName, customerEmail, customerPhone, deliveryMeta, deliveryArea, order, notes);
+    appendSheetRow_(ts, submissionMode, customerName, customerEmail, customerPhone, deliveryMeta, deliveryAddress, order, notes);
+    sendOrderEmails_(ts, submissionMode, customerName, customerEmail, customerPhone, deliveryMeta, deliveryAddress, order, notes);
 
     return jsonResponse({ ok: true, saved: true });
   } catch (err) {
@@ -161,7 +161,7 @@ function buildTrustedOrder_(rawLines, deliveryMeta) {
   };
 }
 
-function appendSheetRow_(ts, mode, name, email, phone, deliveryMeta, deliverySuburb, order, notes) {
+function appendSheetRow_(ts, mode, name, email, phone, deliveryMeta, deliveryAddress, order, notes) {
   if (!WINE_ORDER_SPREADSHEET_ID) return;
   try {
     var ss = SpreadsheetApp.openById(WINE_ORDER_SPREADSHEET_ID);
@@ -175,7 +175,7 @@ function appendSheetRow_(ts, mode, name, email, phone, deliveryMeta, deliverySub
         "Email",
         "Phone",
         "Delivery zone",
-        "Delivery suburb",
+        "Delivery address",
         "Wines JSON",
         "Total bottles",
         "Wine subtotal ZAR",
@@ -192,7 +192,7 @@ function appendSheetRow_(ts, mode, name, email, phone, deliveryMeta, deliverySub
       email,
       phone,
       deliveryMeta.label,
-      deliverySuburb,
+      deliveryAddress,
       JSON.stringify(order.lines),
       order.totalBottles,
       order.wineSubtotalZar != null ? order.wineSubtotalZar : "",
@@ -206,7 +206,7 @@ function appendSheetRow_(ts, mode, name, email, phone, deliveryMeta, deliverySub
   }
 }
 
-function sendOrderEmails_(ts, mode, name, email, phone, deliveryMeta, deliverySuburb, order, notes) {
+function sendOrderEmails_(ts, mode, name, email, phone, deliveryMeta, deliveryAddress, order, notes) {
   var recipient = readRecipientEmail_();
   if (!recipient) {
     Logger.log("sendOrderEmails_: no WINE_ORDER_RECIPIENT_EMAIL configured");
@@ -214,7 +214,7 @@ function sendOrderEmails_(ts, mode, name, email, phone, deliveryMeta, deliverySu
   }
 
   var subject = "New wine order enquiry — " + name;
-  var bodyText = formatOrderEmailBody_(ts, mode, name, email, phone, deliveryMeta, deliverySuburb, order, notes, false);
+  var bodyText = formatOrderEmailBody_(ts, mode, name, email, phone, deliveryMeta, deliveryAddress, order, notes, false);
 
   try {
     MailApp.sendEmail({
@@ -252,7 +252,7 @@ function sendOrderEmails_(ts, mode, name, email, phone, deliveryMeta, deliverySu
       MailApp.sendEmail({
         to: email,
         subject: "We received your Tucker Family Charity wine enquiry",
-        body: formatOrderEmailBody_(ts, mode, name, email, phone, deliveryMeta, deliverySuburb, order, notes, true),
+        body: formatOrderEmailBody_(ts, mode, name, email, phone, deliveryMeta, deliveryAddress, order, notes, true),
         name: "Tucker Family Charity",
       });
     } catch (custErr) {
@@ -261,7 +261,7 @@ function sendOrderEmails_(ts, mode, name, email, phone, deliveryMeta, deliverySu
   }
 }
 
-function formatOrderEmailBody_(ts, mode, name, email, phone, deliveryMeta, deliverySuburb, order, notes, forCustomer) {
+function formatOrderEmailBody_(ts, mode, name, email, phone, deliveryMeta, deliveryAddress, order, notes, forCustomer) {
   var lines = [];
   if (forCustomer) {
     lines.push("Hi " + name + ",", "");
@@ -281,7 +281,7 @@ function formatOrderEmailBody_(ts, mode, name, email, phone, deliveryMeta, deliv
   lines.push("  Email: " + email);
   lines.push("  Phone / WhatsApp: " + phone);
   lines.push("  Delivery zone: " + deliveryMeta.label + " (" + formatZar_(deliveryMeta.feeZar) + " delivery)");
-  lines.push("  Suburb / address details: " + deliverySuburb);
+  lines.push("  Delivery address: " + deliveryAddress);
   lines.push("");
   lines.push("Order");
   lines.push(padRight_("Wine", 42) + padRight_("Qty", 6) + padRight_("Price/btl", 14) + "Line total");

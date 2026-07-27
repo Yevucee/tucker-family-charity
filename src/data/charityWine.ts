@@ -95,7 +95,7 @@ export interface WineOrderPayload {
   customerEmail: string;
   customerPhone: string;
   deliveryZone: WineDeliveryZone;
-  deliveryArea: string;
+  deliveryAddress: string;
   notes?: string;
   lines: WineOrderLineInput[];
   /** Honeypot — must stay empty. */
@@ -185,7 +185,7 @@ export function buildWineOrderPayload(input: {
   customerEmail: string;
   customerPhone: string;
   deliveryZone: WineDeliveryZone;
-  deliveryArea: string;
+  deliveryAddress: string;
   notes: string;
   quantities: Record<string, number>;
   secret?: string;
@@ -204,7 +204,7 @@ export function buildWineOrderPayload(input: {
     customerEmail: input.customerEmail.trim(),
     customerPhone: input.customerPhone.trim(),
     deliveryZone: input.deliveryZone,
-    deliveryArea: input.deliveryArea.trim(),
+    deliveryAddress: input.deliveryAddress.trim(),
     notes: input.notes.trim() || undefined,
     lines,
     website: "",
@@ -239,8 +239,8 @@ export const winePageCopy = {
   emailLabel: "Email address",
   phoneLabel: "Phone or WhatsApp",
   deliveryZoneLabel: "Delivery area",
-  deliverySuburbLabel: "Suburb or address details",
-  deliverySuburbPlaceholder: "e.g. Sandton, Fourways, Stellenbosch",
+  deliveryAddressLabel: "Delivery address",
+  deliveryAddressPlaceholder: "Street address, complex or estate, city",
   orderSummaryHeading: "Order summary",
   successMessage:
     "Thank you. Your wine order enquiry has been sent to Bret. He will contact you to confirm availability, pricing, delivery, and payment.",
