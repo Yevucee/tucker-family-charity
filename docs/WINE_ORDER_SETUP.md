@@ -1,12 +1,12 @@
 # Wine shop order email setup
 
-Wine orders on `/shop/wine` email **info@tuckerfamilycharity.com** automatically when a customer submits the form. No extra setup is required for the default path (FormSubmit.co).
+Wine orders on `/shop/wine` email **info@tuckerfamilycharity.co.za** automatically when a customer submits the form. No extra setup is required for the default path (FormSubmit.co).
 
 Optional: deploy Google Apps Script (`scripts/wine-order-submit.gs`) and set `VITE_WINE_ORDER_SUBMIT_URL` if you prefer MailApp instead of FormSubmit.
 
 ## Default (no setup)
 
-Submissions POST to FormSubmit.co, which emails the full order to **info@tuckerfamilycharity.com**.
+Submissions POST to FormSubmit.co, which emails the full order to **info@tuckerfamilycharity.co.za**.
 
 **First time only:** FormSubmit sends an activation link to that inbox — click it once so future orders arrive automatically.
 

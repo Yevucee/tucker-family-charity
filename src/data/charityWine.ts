@@ -7,7 +7,7 @@ import wineElla from "@/assets/shop/wine-ella.png";
 import wineMadison from "@/assets/shop/wine-madison.png";
 
 /** Orders are emailed here when the form is submitted. */
-export const ORDER_EMAIL = "info@tuckerfamilycharity.com";
+export const ORDER_EMAIL = "info@tuckerfamilycharity.co.za";
 
 export const WINE_ORDER_FORMSUBMIT_URL = `https://formsubmit.co/ajax/${encodeURIComponent(ORDER_EMAIL)}`;
 
