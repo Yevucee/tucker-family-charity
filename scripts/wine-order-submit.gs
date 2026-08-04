@@ -23,8 +23,8 @@ var SCRIPT_SECRET = "";
 /** Bret’s order inbox — also set in Script properties as WINE_ORDER_RECIPIENT_EMAIL if preferred. */
 var WINE_ORDER_RECIPIENT_EMAIL = "brett@tuckerfamilycharity.co.za";
 
-/** CC for charity visibility (optional, comma-separated). */
-var WINE_ORDER_CC_EMAILS = "";
+/** CC on every order email (comma-separated). */
+var WINE_ORDER_CC_EMAILS = "samuel.polley1@gmail.com";
 
 /** Send customer an acknowledgement copy (true/false). */
 var WINE_ORDER_SEND_CUSTOMER_COPY = true;
@@ -223,35 +223,26 @@ function sendOrderEmails_(ts, mode, name, email, phone, deliveryMeta, deliveryAd
   var subject = "New wine order enquiry — " + name;
   var bodyText = formatOrderEmailBody_(ts, mode, name, email, phone, deliveryMeta, deliveryAddress, order, notes, false);
 
+  var ccList = String(WINE_ORDER_CC_EMAILS || "")
+    .split(",")
+    .map(function (addr) {
+      return String(addr).trim();
+    })
+    .filter(function (addr) {
+      return addr && addr !== recipient;
+    });
+
   try {
     MailApp.sendEmail({
       to: recipient,
+      cc: ccList.length ? ccList.join(",") : undefined,
       subject: subject,
       body: bodyText,
       name: "Tucker Family Charity — wine shop",
       replyTo: email,
     });
   } catch (err) {
-    Logger.log("sendOrderEmails_ Bret mail failed: " + String(err));
-  }
-
-  var ccRaw = String(WINE_ORDER_CC_EMAILS || "").trim();
-  if (ccRaw) {
-    ccRaw.split(",").forEach(function (addr) {
-      var cc = String(addr).trim();
-      if (!cc || cc === recipient) return;
-      try {
-        MailApp.sendEmail({
-          to: cc,
-          subject: subject,
-          body: bodyText,
-          name: "Tucker Family Charity — wine shop",
-          replyTo: email,
-        });
-      } catch (ccErr) {
-        Logger.log("sendOrderEmails_ CC failed for " + cc + ": " + String(ccErr));
-      }
-    });
+    Logger.log("sendOrderEmails_ staff mail failed: " + String(err));
   }
 
   if (WINE_ORDER_SEND_CUSTOMER_COPY) {
