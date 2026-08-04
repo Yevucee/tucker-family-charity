@@ -20,6 +20,7 @@ import {
   wineFullLabel,
   winePageCopy,
   winePriceLabel,
+  WINE_BOTTLES_PER_CASE,
   WINE_ORDER_FORMSUBMIT_URL,
   type WineDeliveryZone,
 } from "@/data/charityWine";
@@ -84,9 +85,9 @@ export function CharityWine() {
       return;
     }
 
-    if (orderSummary.totalBottles < 1) {
+    if (orderSummary.totalCases < 1) {
       setSubmitState("error");
-      setSubmitError("Please select at least one bottle.");
+      setSubmitError("Please select at least one case.");
       return;
     }
 
@@ -199,6 +200,7 @@ export function CharityWine() {
           <p className="mt-4 text-sm sm:text-base text-white/95 bg-white/10 rounded-xl px-4 py-3 leading-relaxed">
             <strong>{winePageCopy.deliveryNoticeHeading}:</strong> {winePageCopy.deliveryNoticeBody}
           </p>
+          <p className="mt-3 text-sm text-amber-100/95">{winePageCopy.caseNotice}</p>
 
           <Link
             to="/shop"
@@ -288,7 +290,7 @@ export function CharityWine() {
                   </div>
                 </div>
 
-                {orderSummary.totalBottles > 0 ? (
+                {orderSummary.totalCases > 0 ? (
                   <div className="rounded-xl border border-amber-200 bg-amber-50/50 p-4">
                     <h3 className="text-sm font-bold text-neutral-900 mb-3">{winePageCopy.orderSummaryHeading}</h3>
                     <div className="overflow-x-auto">
@@ -296,39 +298,44 @@ export function CharityWine() {
                         <thead>
                           <tr className="text-xs uppercase tracking-wide text-neutral-500 border-b border-amber-200/80">
                             <th className="py-2 pr-2 font-semibold">Wine</th>
-                            <th className="py-2 px-2 font-semibold text-center">Qty</th>
-                            <th className="py-2 px-2 font-semibold text-right">Each</th>
-                            <th className="py-2 pl-2 font-semibold text-right">Line</th>
+                            <th className="py-2 px-2 font-semibold text-center">Cases</th>
+                            <th className="py-2 px-2 font-semibold text-center">Bottles</th>
+                            <th className="py-2 px-2 font-semibold text-right">Case price</th>
+                            <th className="py-2 pl-2 font-semibold text-right">Line total</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {orderSummary.rows.map(({ wine, quantity, pricePerBottleZar, lineTotalZar }) => (
+                          {orderSummary.rows.map(
+                            ({ wine, caseQuantity, bottleQuantity, pricePerCaseZar, lineTotalZar }) => (
                             <tr key={wine.slug} className="border-b border-amber-100/80 last:border-0">
                               <td className="py-2 pr-2 text-neutral-800">{wineFullLabel(wine)}</td>
-                              <td className="py-2 px-2 text-center tabular-nums">{quantity}</td>
+                              <td className="py-2 px-2 text-center tabular-nums">{caseQuantity}</td>
+                              <td className="py-2 px-2 text-center tabular-nums">{bottleQuantity}</td>
                               <td className="py-2 px-2 text-right tabular-nums">
-                                {pricePerBottleZar != null ? formatWinePriceZar(pricePerBottleZar) : "Enquiry"}
+                                {formatWinePriceZar(pricePerCaseZar)}
                               </td>
                               <td className="py-2 pl-2 text-right tabular-nums font-medium">
-                                {lineTotalZar != null ? formatWinePriceZar(lineTotalZar) : "—"}
+                                {formatWinePriceZar(lineTotalZar)}
                               </td>
                             </tr>
-                          ))}
+                          ),
+                          )}
                         </tbody>
                       </table>
                     </div>
                     <div className="mt-3 pt-3 border-t border-amber-200/80 space-y-2 text-sm">
                       <div className="flex flex-wrap justify-between gap-2">
                         <span className="text-neutral-700">
-                          Total bottles: <strong>{orderSummary.totalBottles}</strong>
+                          Total cases: <strong>{orderSummary.totalCases}</strong>
                         </span>
                         <span className="text-neutral-700">
+                          Total bottles: <strong>{orderSummary.totalBottles}</strong>
+                        </span>
+                      </div>
+                      <div className="flex flex-wrap justify-between gap-2">
+                        <span className="text-neutral-700">
                           Wine subtotal:{" "}
-                          <strong>
-                            {orderSummary.wineSubtotalZar != null
-                              ? formatWinePriceZar(orderSummary.wineSubtotalZar)
-                              : "Confirmed with Bret"}
-                          </strong>
+                          <strong>{formatWinePriceZar(orderSummary.wineSubtotalZar)}</strong>
                         </span>
                       </div>
                       {orderSummary.deliveryFeeZar != null ? (
@@ -344,13 +351,11 @@ export function CharityWine() {
                         </p>
                       )}
                       <div className="flex flex-wrap justify-between gap-2 pt-1 border-t border-amber-200/60">
-                        <span className="text-neutral-900 font-semibold">Estimated order total</span>
+                        <span className="text-neutral-900 font-semibold">Order total</span>
                         <span className="text-neutral-900 font-semibold">
                           {orderSummary.estimatedGrandTotalZar != null
                             ? formatWinePriceZar(orderSummary.estimatedGrandTotalZar)
-                            : orderSummary.deliveryFeeZar != null
-                              ? `${formatWinePriceZar(orderSummary.deliveryFeeZar)} delivery + wine pricing from Bret`
-                              : "Confirmed with Bret"}
+                            : `${formatWinePriceZar(orderSummary.wineSubtotalZar)} + delivery`}
                         </span>
                       </div>
                     </div>
@@ -490,7 +495,7 @@ export function CharityWine() {
 
                 <button
                   type="submit"
-                  disabled={submitState === "loading" || orderSummary.totalBottles < 1 || !deliveryZone}
+                  disabled={submitState === "loading" || orderSummary.totalCases < 1 || !deliveryZone}
                   className="inline-flex w-full sm:w-auto justify-center items-center gap-2 py-3.5 px-8 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {submitState === "loading" ? (
@@ -520,7 +525,8 @@ export function CharityWine() {
                   <div className="p-4 text-center border-t border-amber-100/80 bg-white/80">
                     <p className="text-lg font-semibold text-neutral-900">{wineDisplayName(previewWine)}</p>
                     <p className="text-sm text-neutral-600 mt-1">{previewWine.varietal}</p>
-                    <p className="text-sm font-medium text-amber-800 mt-2">{winePriceLabel(previewWine)}</p>
+                    <p className="text-sm font-medium text-amber-800 mt-2 leading-snug">{winePriceLabel(previewWine)}</p>
+                    <p className="text-xs text-neutral-500 mt-1">{WINE_BOTTLES_PER_CASE} bottles per case</p>
                   </div>
                 </div>
               </div>

@@ -13,14 +13,17 @@ export const WINE_ORDER_FORMSUBMIT_URL = `https://formsubmit.co/ajax/${encodeURI
 
 export const CHARITY_WINE_PATH = "/shop/wine";
 
+/** All wines are sold in cases of this many bottles. */
+export const WINE_BOTTLES_PER_CASE = 6;
+
 export interface CharityWineVariant {
   slug: string;
   name: string;
   vintage: number;
   varietal: string;
   image: string;
-  /** ZAR per bottle — omit until Bret confirms pricing (shown as “Price on enquiry”). */
-  pricePerBottleZar?: number;
+  /** ZAR per bottle — case price is derived (× bottles per case). */
+  pricePerBottleZar: number;
 }
 
 export const charityWineVariants: CharityWineVariant[] = [
@@ -30,6 +33,7 @@ export const charityWineVariants: CharityWineVariant[] = [
     vintage: 2024,
     varietal: "Sauvignon Blanc",
     image: wineChloe,
+    pricePerBottleZar: 159,
   },
   {
     slug: "ella",
@@ -37,6 +41,7 @@ export const charityWineVariants: CharityWineVariant[] = [
     vintage: 2025,
     varietal: "Pinot Noir",
     image: wineElla,
+    pricePerBottleZar: 205,
   },
   {
     slug: "madison",
@@ -44,6 +49,7 @@ export const charityWineVariants: CharityWineVariant[] = [
     vintage: 2021,
     varietal: "Merlot / Shiraz",
     image: wineMadison,
+    pricePerBottleZar: 175,
   },
 ];
 
@@ -86,7 +92,8 @@ export function wineDeliveryZoneLabel(zone: WineDeliveryZone): string {
 
 export interface WineOrderLineInput {
   wineSlug: string;
-  quantity: number;
+  /** Cases ordered (each case = WINE_BOTTLES_PER_CASE bottles). */
+  caseQuantity: number;
 }
 
 /** Payload POSTed to Apps Script — totals are recalculated server-side. */
@@ -107,15 +114,18 @@ export interface WineOrderPayload {
 
 export interface WineOrderSummaryRow {
   wine: CharityWineVariant;
-  quantity: number;
-  pricePerBottleZar: number | null;
-  lineTotalZar: number | null;
+  caseQuantity: number;
+  bottleQuantity: number;
+  pricePerBottleZar: number;
+  pricePerCaseZar: number;
+  lineTotalZar: number;
 }
 
 export interface WineOrderSummary {
   rows: WineOrderSummaryRow[];
+  totalCases: number;
   totalBottles: number;
-  wineSubtotalZar: number | null;
+  wineSubtotalZar: number;
   deliveryFeeZar: number | null;
   deliveryZoneLabel: string | null;
   estimatedGrandTotalZar: number | null;
@@ -133,47 +143,67 @@ export function formatWinePriceZar(amount: number): string {
   return `R${amount.toLocaleString("en-ZA", { maximumFractionDigits: 0 })}`;
 }
 
+export function winePricePerCaseZar(wine: CharityWineVariant): number {
+  return wine.pricePerBottleZar * WINE_BOTTLES_PER_CASE;
+}
+
+export function wineCardPriceSummary(wine: CharityWineVariant): string {
+  return `${formatWinePriceZar(wine.pricePerBottleZar)} per bottle · ${formatWinePriceZar(winePricePerCaseZar(wine))} per case (${WINE_BOTTLES_PER_CASE} bottles)`;
+}
+
 export function winePriceLabel(wine: CharityWineVariant): string {
-  return wine.pricePerBottleZar != null ? formatWinePriceZar(wine.pricePerBottleZar) : "Price on enquiry";
+  return wineCardPriceSummary(wine);
+}
+
+export function formatWineOrderLineSummary(row: WineOrderSummaryRow): string {
+  const caseWord = row.caseQuantity === 1 ? "case" : "cases";
+  return `${wineFullLabel(row.wine)} — ${row.caseQuantity} ${caseWord} (${row.bottleQuantity} bottles) @ ${formatWinePriceZar(row.pricePerCaseZar)}/case = ${formatWinePriceZar(row.lineTotalZar)}`;
 }
 
 export function getWineBySlug(slug: string): CharityWineVariant | undefined {
   return charityWineVariants.find((w) => w.slug === slug);
 }
 
-/** Build order summary from trusted local catalog (display only — server recalculates on submit). */
+/** `quantities` = cases per wine slug. */
 export function computeWineOrderSummary(
   quantities: Record<string, number>,
   deliveryZone?: WineDeliveryZone | "",
 ): WineOrderSummary {
   const rows: WineOrderSummaryRow[] = [];
+  let totalCases = 0;
   let totalBottles = 0;
-  let wineSubtotalZar: number | null = 0;
+  let wineSubtotalZar = 0;
 
   for (const wine of charityWineVariants) {
-    const quantity = Math.max(0, Math.min(99, Math.floor(quantities[wine.slug] ?? 0)));
-    if (quantity <= 0) continue;
+    const caseQuantity = Math.max(0, Math.min(99, Math.floor(quantities[wine.slug] ?? 0)));
+    if (caseQuantity <= 0) continue;
 
-    totalBottles += quantity;
-    const pricePerBottleZar = wine.pricePerBottleZar ?? null;
-    const lineTotalZar =
-      pricePerBottleZar != null ? pricePerBottleZar * quantity : null;
+    const bottleQuantity = caseQuantity * WINE_BOTTLES_PER_CASE;
+    const pricePerCaseZar = winePricePerCaseZar(wine);
+    const lineTotalZar = pricePerCaseZar * caseQuantity;
 
-    if (lineTotalZar == null) wineSubtotalZar = null;
-    else if (wineSubtotalZar != null) wineSubtotalZar += lineTotalZar;
+    totalCases += caseQuantity;
+    totalBottles += bottleQuantity;
+    wineSubtotalZar += lineTotalZar;
 
-    rows.push({ wine, quantity, pricePerBottleZar, lineTotalZar });
+    rows.push({
+      wine,
+      caseQuantity,
+      bottleQuantity,
+      pricePerBottleZar: wine.pricePerBottleZar,
+      pricePerCaseZar,
+      lineTotalZar,
+    });
   }
 
   const deliveryFeeZar = deliveryZone ? wineDeliveryFeeZar(deliveryZone) : null;
   const deliveryZoneLabel = deliveryZone ? wineDeliveryZoneLabel(deliveryZone) : null;
-  let estimatedGrandTotalZar: number | null = wineSubtotalZar;
-  if (deliveryFeeZar != null && estimatedGrandTotalZar != null) {
-    estimatedGrandTotalZar += deliveryFeeZar;
-  }
+  const estimatedGrandTotalZar =
+    deliveryFeeZar != null && totalCases > 0 ? wineSubtotalZar + deliveryFeeZar : null;
 
   return {
     rows,
+    totalCases,
     totalBottles,
     wineSubtotalZar,
     deliveryFeeZar,
@@ -195,9 +225,9 @@ export function buildWineOrderPayload(input: {
   const lines: WineOrderLineInput[] = charityWineVariants
     .map((wine) => ({
       wineSlug: wine.slug,
-      quantity: Math.max(0, Math.min(99, Math.floor(input.quantities[wine.slug] ?? 0))),
+      caseQuantity: Math.max(0, Math.min(99, Math.floor(input.quantities[wine.slug] ?? 0))),
     }))
-    .filter((line) => line.quantity > 0);
+    .filter((line) => line.caseQuantity > 0);
 
   return {
     submissionMode: "enquiry",
@@ -226,42 +256,30 @@ export function buildWineOrderFormSubmitBody(input: {
 }): Record<string, string | number> {
   const zoneLabel = wineDeliveryZoneLabel(input.deliveryZone);
   const deliveryFee = wineDeliveryFeeZar(input.deliveryZone);
-  const wineLines = input.orderSummary.rows
-    .map((row) => {
-      const each =
-        row.pricePerBottleZar != null ? formatWinePriceZar(row.pricePerBottleZar) : "Price on enquiry";
-      const line =
-        row.lineTotalZar != null ? formatWinePriceZar(row.lineTotalZar) : "—";
-      return `${wineFullLabel(row.wine)} × ${row.quantity} @ ${each} = ${line}`;
-    })
-    .join("\n");
+  const wineLines = input.orderSummary.rows.map((row) => formatWineOrderLineSummary(row)).join("\n");
 
   const message = [
     "New wine order enquiry from the Tucker Family Charity website.",
     "",
     `Submitted: ${new Date().toLocaleString("en-ZA")}`,
     "",
+    "Customer",
     `Name: ${input.customerName.trim()}`,
     `Email: ${input.customerEmail.trim()}`,
     `Phone / WhatsApp: ${input.customerPhone.trim()}`,
-    `Delivery area: ${zoneLabel} (${formatWinePriceZar(deliveryFee)} delivery)`,
-    `Delivery address: ${input.deliveryAddress.trim()}`,
     "",
-    "Wines ordered:",
+    "Delivery",
+    `Area: ${zoneLabel} (${formatWinePriceZar(deliveryFee)} delivery)`,
+    `Address: ${input.deliveryAddress.trim()}`,
+    "",
+    "Order (sold by the case — 6 bottles per case)",
     wineLines,
     "",
+    `Total cases: ${input.orderSummary.totalCases}`,
     `Total bottles: ${input.orderSummary.totalBottles}`,
-    `Wine subtotal: ${
-      input.orderSummary.wineSubtotalZar != null
-        ? formatWinePriceZar(input.orderSummary.wineSubtotalZar)
-        : "Confirm with team"
-    }`,
+    `Wine subtotal: ${formatWinePriceZar(input.orderSummary.wineSubtotalZar)}`,
     `Delivery: ${formatWinePriceZar(deliveryFee)}`,
-    `Estimated order total: ${
-      input.orderSummary.estimatedGrandTotalZar != null
-        ? formatWinePriceZar(input.orderSummary.estimatedGrandTotalZar)
-        : "Confirm with team"
-    }`,
+    `Order total: ${formatWinePriceZar(input.orderSummary.estimatedGrandTotalZar ?? input.orderSummary.wineSubtotalZar + deliveryFee)}`,
     input.notes.trim() ? `\nNotes / gift message:\n${input.notes.trim()}` : "",
   ]
     .filter(Boolean)
@@ -274,15 +292,13 @@ export function buildWineOrderFormSubmitBody(input: {
     delivery_area: zoneLabel,
     delivery_fee: formatWinePriceZar(deliveryFee),
     delivery_address: input.deliveryAddress.trim(),
+    total_cases: input.orderSummary.totalCases,
     total_bottles: input.orderSummary.totalBottles,
-    wine_subtotal:
-      input.orderSummary.wineSubtotalZar != null
-        ? formatWinePriceZar(input.orderSummary.wineSubtotalZar)
-        : "Confirm with team",
-    estimated_total:
-      input.orderSummary.estimatedGrandTotalZar != null
-        ? formatWinePriceZar(input.orderSummary.estimatedGrandTotalZar)
-        : "Confirm with team",
+    wine_subtotal: formatWinePriceZar(input.orderSummary.wineSubtotalZar),
+    delivery: formatWinePriceZar(deliveryFee),
+    order_total: formatWinePriceZar(
+      input.orderSummary.estimatedGrandTotalZar ?? input.orderSummary.wineSubtotalZar + deliveryFee,
+    ),
     order_details: wineLines,
     message,
     _subject: `New wine order enquiry — ${input.customerName.trim()}`,
@@ -299,19 +315,17 @@ export const winePageCopy = {
   impactLine: "Every bottle helps support our initiatives.",
   deliveryNoticeHeading: "Delivery charges",
   deliveryNoticeBody:
-    "Delivery is charged separately: R50 within Johannesburg, or R200 anywhere else in South Africa. We will confirm your final total including wine pricing.",
+    "Delivery is charged separately: R50 within Johannesburg, or R200 anywhere else in South Africa.",
+  caseNotice: "We sell by the case only (6 bottles per case).",
   orderCta: "Send order enquiry",
   orderCtaSending: "Sending…",
   featuresHeading: "About the range",
-  features: [
-    "Chloe Sauvignon Blanc 2024",
-    "Ella Pinot Noir 2025",
-    "Madison Merlot / Shiraz 2021",
-    "Wine of South Africa — charity partnership label on every bottle",
-  ],
-  chooseHeading: "Choose your wines",
-  chooseBlurb: "Set the quantity for each bottle you would like, then complete your details below.",
-  quantityLabel: "Bottles",
+  features: charityWineVariants.map(
+    (w) => `${w.name} ${w.varietal} ${w.vintage} — ${formatWinePriceZar(w.pricePerBottleZar)}/bottle (${formatWinePriceZar(winePricePerCaseZar(w))}/case)`,
+  ),
+  chooseHeading: "Choose your cases",
+  chooseBlurb: `Select how many cases you would like for each wine (${WINE_BOTTLES_PER_CASE} bottles per case), then complete your details below.`,
+  quantityLabel: "Cases",
   notesLabel: "Notes or gift message (optional)",
   notesPlaceholder: "Gift message, delivery instructions, or questions…",
   detailsHeading: "Your details",
@@ -323,7 +337,7 @@ export const winePageCopy = {
   deliveryAddressPlaceholder: "Street address, complex or estate, city",
   orderSummaryHeading: "Order summary",
   successMessage:
-    "Thank you. Your wine order enquiry has been sent. We will contact you to confirm availability, pricing, delivery, and payment.",
+    "Thank you. Your wine order enquiry has been sent. We will contact you to confirm delivery and payment.",
   questionsBlurb: "Questions before you order?",
   questionsCtaEmail: ORDER_EMAIL,
   submitErrorGeneric: "We could not send your order enquiry. Please try again or email us directly.",
