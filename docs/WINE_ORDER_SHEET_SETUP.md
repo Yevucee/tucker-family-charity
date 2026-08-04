@@ -1,76 +1,36 @@
 # Wine shop orders → Google Sheet log
 
-Every wine order can be **appended to a Google Sheet** before email is sent, so you still have a record if mail fails or goes to the wrong inbox.
+The Apps Script **only logs orders to a Google Sheet**. Email is handled separately by **FormSubmit** on the website (one email to Brett, CC Samuel — no duplicates from Google).
 
-The website POSTs to **FormSubmit** (email) and **Apps Script** (Sheet + email) **in parallel** when `VITE_WINE_ORDER_SUBMIT_URL` is set. Email works via FormSubmit even before Apps Script is deployed.
+## Sheet
 
-## What you need
-
-1. A Google Sheet (new tab or new workbook) owned by the charity Google account.
-2. Apps Script deployed as a **Web app** using `scripts/wine-order-submit.gs`.
-3. GitHub secret **`VITE_WINE_ORDER_SUBMIT_URL`** = the `/exec` URL from that deployment.
-
-## Sheet tab
-
-1. Create a tab named **`Wine orders`** (or change `SHEET_NAME` in the script).
-2. Row 1 headers are created automatically on first submission. Expected columns:
-
-   `Timestamp` | `Mode` | `Name` | `Email` | `Phone` | `Delivery zone` | `Delivery address` | `Wines JSON` | `Total cases` | `Total bottles` | `Wine subtotal ZAR` | `Delivery fee ZAR` | `Est. grand total ZAR` | `Notes` | `Status`
+- **URL:** https://docs.google.com/spreadsheets/d/1jVOruSkASiklk9Gktl3W8qy1tQwBLvm5AXgUs67tNBQ/edit
+- **ID:** `1jVOruSkASiklk9Gktl3W8qy1tQwBLvm5AXgUs67tNBQ`
+- **Tab:** `Wine orders`
 
 ## Apps Script checklist
 
 | Step | Action |
 |------|--------|
-| Spreadsheet ID | Already set in script: **`1jVOruSkASiklk9Gktl3W8qy1tQwBLvm5AXgUs67tNBQ`** ([open Sheet](https://docs.google.com/spreadsheets/d/1jVOruSkASiklk9Gktl3W8qy1tQwBLvm5AXgUs67tNBQ/edit)) |
-| CC inbox | `WINE_ORDER_CC_EMAILS` — default **`samuel.polley1@gmail.com`** (change in script if needed) |
-| Primary inbox | `WINE_ORDER_RECIPIENT_EMAIL` — default **`brett@tuckerfamilycharity.co.za`** |
-| Deploy | **Web app**, Execute as **Me**, Who has access **Anyone** |
-| Site URL | Copy `/exec` URL → repo secret **`VITE_WINE_ORDER_SUBMIT_URL`** |
-| Optional lock | Set `SCRIPT_SECRET` in script + **`VITE_WINE_ORDER_SECRET`** (same string) |
-| Authorise mail | Run **`testWineOrderNotify`** once in the editor; approve **Send mail as you** |
+| Paste script | `scripts/wine-order-submit.gs` as Code.gs |
+| Sheet ID | `WINE_ORDER_SPREADSHEET_ID = "1jVOruSkASiklk9Gktl3W8qy1tQwBLvm5AXgUs67tNBQ"` |
+| **No email from script** | **`WINE_ORDER_SEND_EMAIL = false`** (default in repo) |
+| Deploy | Web app, Execute as **Me**, access **Anyone** |
+| GitHub secret | `VITE_WINE_ORDER_SUBMIT_URL` = `/exec` URL |
+| Test | Run **`testSheetAppend`** in the editor → new row in Sheet (no email) |
 
-**Important:** Saving Code.gs does **not** update the live web app until **Deploy → Manage deployments → Edit → New version → Deploy**.
+**Redeploy** after any script change: Deploy → Manage deployments → Edit → New version → Deploy.
 
-## Email recipients
+## What gets logged
 
-Each order emails:
+Each order adds one row: timestamp, customer details, delivery zone/address, wines (JSON), case/bottle counts, subtotals, delivery fee, grand total, notes, status `new`.
 
-- **To:** `brett@tuckerfamilycharity.co.za`
-- **CC:** `samuel.polley1@gmail.com`
-- **Reply-To:** the customer’s email
+## Verify end-to-end
 
-The FormSubmit fallback (when Apps Script is down) also CCs Samuel via `_cc`.
-
-## Order of operations (Apps Script path)
-
-1. Validate the submission.
-2. **Append a row to the Sheet** (if `WINE_ORDER_SPREADSHEET_ID` is set).
-3. Send staff email (+ customer acknowledgement if enabled).
-4. Return `{ "ok": true, "saved": true }` to the website.
-
-If step 3 fails, the Sheet row from step 2 is **still kept** and the website still shows success.
-
-## GitHub Pages
-
-Add secrets under **Settings → Secrets and variables → Actions**:
-
-| Secret | Value |
-|--------|--------|
-| `VITE_WINE_ORDER_SUBMIT_URL` | Apps Script `/exec` URL |
-| `VITE_WINE_ORDER_SECRET` | Same as `SCRIPT_SECRET` (optional) |
-
-Push to `main` or merge a PR to rebuild the site.
-
-## Smoke test
-
-1. Open your `/exec` URL in an **Incognito** window (not signed into Google). JSON should include `"ok":true,"live":true`.
-2. Submit a test order on `/shop/wine`.
-3. Confirm a new Sheet row **and** email to Bret + Samuel.
-
-## Troubleshooting
-
-- **Sheet empty but form says thank you** — `WINE_ORDER_SPREADSHEET_ID` blank in the **deployed** script version, or wrong Sheet ID.
-- **No email** — Run `testWineOrderNotify`; check spam; redeploy web app.
-- **Only FormSubmit emails, no Sheet** — `VITE_WINE_ORDER_SUBMIT_URL` missing from GitHub Actions secrets (site uses email-only fallback).
+1. Incognito GET on `/exec` → `{"ok":true,"live":true}`
+2. Submit test order on `/shop/wine`
+3. **One** email to Brett (+ CC Samuel) from FormSubmit
+4. **One** new row in the Sheet
+5. **No** email from the Google account that owns the script
 
 See also: [WINE_ORDER_SETUP.md](./WINE_ORDER_SETUP.md)

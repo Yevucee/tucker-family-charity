@@ -180,7 +180,7 @@ export function CharityWine() {
     });
     payload.website = honeypot;
 
-    // Email via FormSubmit (works without Apps Script). Sheet log via GAS when deployed.
+    // FormSubmit = email (Brett + CC Samuel). Apps Script = Sheet log only (no email).
     const [emailOk, gasResult] = await Promise.all([
       submitViaFormSubmit(),
       WINE_ORDER_SUBMIT_URL ? submitViaAppsScript(payload) : Promise.resolve({ ok: false }),
