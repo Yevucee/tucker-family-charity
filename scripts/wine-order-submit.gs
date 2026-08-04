@@ -21,7 +21,7 @@ var SHEET_NAME = "Wine orders";
 var SCRIPT_SECRET = "";
 
 /** Bret’s order inbox — also set in Script properties as WINE_ORDER_RECIPIENT_EMAIL if preferred. */
-var WINE_ORDER_RECIPIENT_EMAIL = "info@tuckerfamilycharity.co.za";
+var WINE_ORDER_RECIPIENT_EMAIL = "brett@tuckerfamilycharity.co.za";
 
 /** CC for charity visibility (optional, comma-separated). */
 var WINE_ORDER_CC_EMAILS = "";
