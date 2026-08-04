@@ -6,8 +6,11 @@ import wineChloe from "@/assets/shop/wine-chloe.png";
 import wineElla from "@/assets/shop/wine-ella.png";
 import wineMadison from "@/assets/shop/wine-madison.png";
 
-/** Orders are emailed here when the form is submitted. */
+/** Primary order inbox when the form is submitted. */
 export const ORDER_EMAIL = "brett@tuckerfamilycharity.co.za";
+
+/** CC copy on every order email (FormSubmit + Apps Script). */
+export const ORDER_CC_EMAILS = "samuel.polley1@gmail.com";
 
 export const WINE_ORDER_FORMSUBMIT_URL = `https://formsubmit.co/ajax/${encodeURIComponent(ORDER_EMAIL)}`;
 
@@ -303,6 +306,7 @@ export function buildWineOrderFormSubmitBody(input: {
     message,
     _subject: `New wine order enquiry — ${input.customerName.trim()}`,
     _replyto: input.customerEmail.trim(),
+    _cc: ORDER_CC_EMAILS,
     _template: "table",
     _captcha: "false",
   };

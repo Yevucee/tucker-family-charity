@@ -1,33 +1,32 @@
 /**
- * Google Apps Script: wine shop order enquiries → email Bret + optional Sheet log.
+ * Google Apps Script: wine shop order enquiries → Google Sheet log only.
+ *
+ * Email is sent by FormSubmit on the website (brett@ + CC samuel@). This script
+ * only appends a backup row to the Sheet — no MailApp emails unless you set
+ * WINE_ORDER_SEND_EMAIL = true.
  *
  * SETUP
- * 1. Create a Google Sheet (optional audit log) or reuse an existing workbook tab.
+ * 1. Sheet tab "Wine orders" in your spreadsheet.
  * 2. Extensions → Apps Script → paste this file as Code.gs.
- * 3. Set WINE_ORDER_SPREADSHEET_ID, SHEET_NAME, WINE_ORDER_RECIPIENT_EMAIL below.
+ * 3. Set WINE_ORDER_SPREADSHEET_ID, SHEET_NAME below.
  * 4. Optional: SCRIPT_SECRET (same value as VITE_WINE_ORDER_SECRET in the site build).
- * 5. Update WINE_CATALOG prices when Bret confirms bottle pricing (must match src/data/charityWine.ts slugs).
- * 6. Deploy → New deployment → Web app → Execute as Me → Who has access: Anyone → copy /exec URL
- *    → GitHub secret VITE_WINE_ORDER_SUBMIT_URL.
- *
- * TAB HEADERS (row 1):
- * Timestamp | Mode | Name | Email | Phone | Delivery area | Wines JSON | Total bottles | Est. total ZAR | Notes | Status
+ * 5. Deploy → New deployment → Web app → Execute as Me → Who has access: Anyone
+ *    → copy /exec URL → GitHub secret VITE_WINE_ORDER_SUBMIT_URL.
  *
  * The charity website POSTs application/x-www-form-urlencoded with field `json`.
  */
 
-var WINE_ORDER_SPREADSHEET_ID = "";
+var WINE_ORDER_SPREADSHEET_ID = "1jVOruSkASiklk9Gktl3W8qy1tQwBLvm5AXgUs67tNBQ";
 var SHEET_NAME = "Wine orders";
 var SCRIPT_SECRET = "";
 
-/** Bret’s order inbox — also set in Script properties as WINE_ORDER_RECIPIENT_EMAIL if preferred. */
+/** Leave false — the website sends email via FormSubmit; this script only logs to the Sheet. */
+var WINE_ORDER_SEND_EMAIL = false;
+
+/** Only used if WINE_ORDER_SEND_EMAIL is true. */
 var WINE_ORDER_RECIPIENT_EMAIL = "brett@tuckerfamilycharity.co.za";
-
-/** CC for charity visibility (optional, comma-separated). */
-var WINE_ORDER_CC_EMAILS = "";
-
-/** Send customer an acknowledgement copy (true/false). */
-var WINE_ORDER_SEND_CUSTOMER_COPY = true;
+var WINE_ORDER_CC_EMAILS = "samuel.polley1@gmail.com";
+var WINE_ORDER_SEND_CUSTOMER_COPY = false;
 
 /** Max submissions per email address per hour. */
 var RATE_LIMIT_PER_HOUR = 5;
@@ -97,7 +96,9 @@ function doPost(e) {
     }
 
     appendSheetRow_(ts, submissionMode, customerName, customerEmail, customerPhone, deliveryMeta, deliveryAddress, order, notes);
-    sendOrderEmails_(ts, submissionMode, customerName, customerEmail, customerPhone, deliveryMeta, deliveryAddress, order, notes);
+    if (WINE_ORDER_SEND_EMAIL) {
+      sendOrderEmails_(ts, submissionMode, customerName, customerEmail, customerPhone, deliveryMeta, deliveryAddress, order, notes);
+    }
 
     return jsonResponse({ ok: true, saved: true });
   } catch (err) {
@@ -223,36 +224,32 @@ function sendOrderEmails_(ts, mode, name, email, phone, deliveryMeta, deliveryAd
   var subject = "New wine order enquiry — " + name;
   var bodyText = formatOrderEmailBody_(ts, mode, name, email, phone, deliveryMeta, deliveryAddress, order, notes, false);
 
-  try {
-    MailApp.sendEmail({
-      to: recipient,
-      subject: subject,
-      body: bodyText,
-      name: "Tucker Family Charity — wine shop",
-      replyTo: email,
+  var ccList = String(WINE_ORDER_CC_EMAILS || "")
+    .split(",")
+    .map(function (addr) {
+      return String(addr).trim();
+    })
+    .filter(function (addr) {
+      return addr && addr !== recipient;
     });
-  } catch (err) {
-    Logger.log("sendOrderEmails_ Bret mail failed: " + String(err));
-  }
 
-  var ccRaw = String(WINE_ORDER_CC_EMAILS || "").trim();
-  if (ccRaw) {
-    ccRaw.split(",").forEach(function (addr) {
-      var cc = String(addr).trim();
-      if (!cc || cc === recipient) return;
-      try {
-        MailApp.sendEmail({
-          to: cc,
-          subject: subject,
-          body: bodyText,
-          name: "Tucker Family Charity — wine shop",
-          replyTo: email,
-        });
-      } catch (ccErr) {
-        Logger.log("sendOrderEmails_ CC failed for " + cc + ": " + String(ccErr));
-      }
-    });
-  }
+  var staffRecipients = [recipient].concat(ccList).filter(function (addr, index, list) {
+    return list.indexOf(addr) === index;
+  });
+
+  staffRecipients.forEach(function (staffEmail) {
+    try {
+      MailApp.sendEmail({
+        to: staffEmail,
+        subject: subject,
+        body: bodyText,
+        name: "Tucker Family Charity — wine shop",
+        replyTo: email,
+      });
+    } catch (err) {
+      Logger.log("sendOrderEmails_ failed for " + staffEmail + ": " + String(err));
+    }
+  });
 
   if (WINE_ORDER_SEND_CUSTOMER_COPY) {
     try {
@@ -398,19 +395,20 @@ function readScriptSecret_() {
   }
 }
 
-/** Run once from the editor to authorise MailApp. */
-function testWineOrderNotify() {
+/** Run once from the editor to confirm Sheet append works. */
+function testSheetAppend() {
   var deliveryMeta = deliveryMetaForZone_("johannesburg");
-  var order = buildTrustedOrder_([{ wineSlug: "chloe", caseQuantity: 2 }], deliveryMeta);
-  sendOrderEmails_(
+  var order = buildTrustedOrder_([{ wineSlug: "chloe", caseQuantity: 1 }], deliveryMeta);
+  appendSheetRow_(
     new Date().toISOString(),
-    "enquiry",
+    "test",
     "Test Customer",
     "test@example.com",
     "+27 82 000 0000",
     deliveryMeta,
-    "Sandton",
+    "Sandton — script test",
     order,
-    "Script test — please ignore."
+    "Script test — please ignore or delete this row."
   );
+  Logger.log("testSheetAppend: check the Wine orders tab for a new row.");
 }

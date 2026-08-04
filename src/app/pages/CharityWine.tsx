@@ -74,6 +74,75 @@ export function CharityWine() {
     setSubmitState("idle");
   }, []);
 
+  const submitViaAppsScript = async (
+    payload: ReturnType<typeof buildWineOrderPayload>,
+  ): Promise<{ ok: boolean; error?: string }> => {
+    if (!WINE_ORDER_SUBMIT_URL) return { ok: false };
+
+    const formBody = new URLSearchParams({ json: JSON.stringify(payload) }).toString();
+    const postInit = {
+      method: "POST" as const,
+      cache: "no-store" as const,
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: formBody,
+    };
+
+    try {
+      const res = await fetch(WINE_ORDER_SUBMIT_URL, { ...postInit, mode: "cors" });
+      let data: { ok?: boolean; saved?: boolean; error?: string } = {};
+      try {
+        data = (await res.json()) as typeof data;
+      } catch {
+        /* non-JSON */
+      }
+
+      if (data.ok === true && data.saved === true) return { ok: true };
+
+      return { ok: false, error: data.error || winePageCopy.submitErrorGeneric };
+    } catch {
+      try {
+        await fetch(WINE_ORDER_SUBMIT_URL, { ...postInit, mode: "no-cors" });
+        return { ok: true };
+      } catch {
+        return { ok: false };
+      }
+    }
+  };
+
+  const submitViaFormSubmit = async (): Promise<boolean> => {
+    try {
+      const res = await fetch(WINE_ORDER_FORMSUBMIT_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(
+          buildWineOrderFormSubmitBody({
+            customerName,
+            customerEmail,
+            customerPhone,
+            deliveryZone: deliveryZone as WineDeliveryZone,
+            deliveryAddress,
+            notes,
+            orderSummary,
+          }),
+        ),
+      });
+
+      let data: { success?: string } = {};
+      try {
+        data = (await res.json()) as typeof data;
+      } catch {
+        /* non-JSON */
+      }
+
+      return Boolean(res.ok && data.success);
+    } catch {
+      return false;
+    }
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (submitState === "loading" || submitState === "success") return;
@@ -99,93 +168,33 @@ export function CharityWine() {
 
     setSubmitState("loading");
 
-    if (WINE_ORDER_SUBMIT_URL) {
-      const payload = buildWineOrderPayload({
-        customerName,
-        customerEmail,
-        customerPhone,
-        deliveryZone,
-        deliveryAddress,
-        notes,
-        quantities,
-        secret: WINE_ORDER_SECRET || undefined,
-      });
-      payload.website = honeypot;
+    const payload = buildWineOrderPayload({
+      customerName,
+      customerEmail,
+      customerPhone,
+      deliveryZone: deliveryZone as WineDeliveryZone,
+      deliveryAddress,
+      notes,
+      quantities,
+      secret: WINE_ORDER_SECRET || undefined,
+    });
+    payload.website = honeypot;
 
-      const formBody = new URLSearchParams({ json: JSON.stringify(payload) }).toString();
-      const postInit = {
-        method: "POST" as const,
-        cache: "no-store" as const,
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: formBody,
-      };
+    // FormSubmit = email (Brett + CC Samuel). Apps Script = Sheet log only (no email).
+    const [emailOk, gasResult] = await Promise.all([
+      submitViaFormSubmit(),
+      WINE_ORDER_SUBMIT_URL ? submitViaAppsScript(payload) : Promise.resolve({ ok: false }),
+    ]);
 
-      try {
-        const res = await fetch(WINE_ORDER_SUBMIT_URL, { ...postInit, mode: "cors" });
-        let data: { ok?: boolean; saved?: boolean; error?: string } = {};
-        try {
-          data = (await res.json()) as typeof data;
-        } catch {
-          /* non-JSON */
-        }
-
-        if (data.ok === true && data.saved === true) {
-          setSubmitState("success");
-          return;
-        }
-
-        setSubmitState("error");
-        setSubmitError(data.error || winePageCopy.submitErrorGeneric);
-      } catch {
-        try {
-          await fetch(WINE_ORDER_SUBMIT_URL, { ...postInit, mode: "no-cors" });
-          setSubmitState("success");
-        } catch {
-          setSubmitState("error");
-          setSubmitError(`${winePageCopy.submitErrorGeneric} Email ${ORDER_EMAIL} with your order.`);
-        }
-      }
+    if (emailOk || gasResult.ok) {
+      setSubmitState("success");
       return;
     }
 
-    try {
-      const res = await fetch(WINE_ORDER_FORMSUBMIT_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(
-          buildWineOrderFormSubmitBody({
-            customerName,
-            customerEmail,
-            customerPhone,
-            deliveryZone,
-            deliveryAddress,
-            notes,
-            orderSummary,
-          }),
-        ),
-      });
-
-      let data: { success?: string } = {};
-      try {
-        data = (await res.json()) as typeof data;
-      } catch {
-        /* non-JSON */
-      }
-
-      if (res.ok && data.success) {
-        setSubmitState("success");
-        return;
-      }
-
-      setSubmitState("error");
-      setSubmitError(winePageCopy.submitErrorGeneric);
-    } catch {
-      setSubmitState("error");
-      setSubmitError(`${winePageCopy.submitErrorGeneric} Email ${ORDER_EMAIL} with your order.`);
-    }
+    setSubmitState("error");
+    setSubmitError(
+      gasResult.error || `${winePageCopy.submitErrorGeneric} Email ${ORDER_EMAIL} with your order.`,
+    );
   };
 
   return (
