@@ -137,7 +137,7 @@ export const shopCatalog: ShopCatalog = {
       shortDescription:
         "Our white-label range — Chloe, Ella, and Madison — in partnership with Tucker Family Charity and in support of Oliver’s Village. Proceeds help support our initiatives.",
       image: wineListing,
-      priceLabel: "Price on enquiry",
+      priceLabel: "From R954/case (6 bottles)",
       ctaLabel: "View & order",
       paymentLink: CHARITY_WINE_PATH,
       ctaOpensNewTab: false,

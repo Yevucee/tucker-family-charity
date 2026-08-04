@@ -34,12 +34,13 @@ var RATE_LIMIT_PER_HOUR = 5;
 
 var DELIVERY_FEE_JOHANNESBURG_ZAR = 50;
 var DELIVERY_FEE_ELSEWHERE_SA_ZAR = 200;
+var WINE_BOTTLES_PER_CASE = 6;
 
-/** Trusted catalog — slugs must match src/data/charityWine.ts. priceZar null = price on enquiry. */
+/** Trusted catalog — slugs must match src/data/charityWine.ts. priceZar = per bottle. */
 var WINE_CATALOG = {
-  chloe: { name: "Chloe", vintage: 2024, varietal: "Sauvignon Blanc", priceZar: null },
-  ella: { name: "Ella", vintage: 2025, varietal: "Pinot Noir", priceZar: null },
-  madison: { name: "Madison", vintage: 2021, varietal: "Merlot / Shiraz", priceZar: null },
+  chloe: { name: "Chloe", vintage: 2024, varietal: "Sauvignon Blanc", priceZar: 159 },
+  ella: { name: "Ella", vintage: 2025, varietal: "Pinot Noir", priceZar: 205 },
+  madison: { name: "Madison", vintage: 2021, varietal: "Merlot / Shiraz", priceZar: 175 },
 };
 
 var LAST_COL_WINE_ = 11;
@@ -92,7 +93,7 @@ function doPost(e) {
 
     var order = buildTrustedOrder_(body.lines || [], deliveryMeta);
     if (!order.lines.length) {
-      return jsonResponse({ ok: false, error: "Select at least one bottle" });
+      return jsonResponse({ ok: false, error: "Select at least one case" });
     }
 
     appendSheetRow_(ts, submissionMode, customerName, customerEmail, customerPhone, deliveryMeta, deliveryAddress, order, notes);
@@ -116,44 +117,48 @@ function deliveryMetaForZone_(zone) {
 
 function buildTrustedOrder_(rawLines, deliveryMeta) {
   var lines = [];
+  var totalCases = 0;
   var totalBottles = 0;
   var wineSubtotalZar = 0;
-  var hasAllPrices = true;
 
   if (!Array.isArray(rawLines)) rawLines = [];
 
   rawLines.forEach(function (raw) {
     var slug = String((raw && raw.wineSlug) || "").trim();
-    var qty = parseInt(raw && raw.quantity, 10);
-    if (!slug || !WINE_CATALOG[slug] || !(qty > 0)) return;
-    if (qty > 99) qty = 99;
+    var caseQty = parseInt(raw && (raw.caseQuantity != null ? raw.caseQuantity : raw.quantity), 10);
+    if (!slug || !WINE_CATALOG[slug] || !(caseQty > 0)) return;
+    if (caseQty > 99) caseQty = 99;
 
     var cat = WINE_CATALOG[slug];
     var label = cat.name + " " + cat.vintage + " (" + cat.varietal + ")";
-    var priceZar = cat.priceZar;
-    var lineTotalZar = priceZar != null ? priceZar * qty : null;
+    var pricePerBottleZar = cat.priceZar;
+    var pricePerCaseZar = pricePerBottleZar * WINE_BOTTLES_PER_CASE;
+    var bottleQty = caseQty * WINE_BOTTLES_PER_CASE;
+    var lineTotalZar = pricePerCaseZar * caseQty;
 
-    if (priceZar == null) hasAllPrices = false;
-    else wineSubtotalZar += lineTotalZar;
-
-    totalBottles += qty;
+    wineSubtotalZar += lineTotalZar;
+    totalCases += caseQty;
+    totalBottles += bottleQty;
     lines.push({
       slug: slug,
       label: label,
-      quantity: qty,
-      priceZar: priceZar,
+      caseQuantity: caseQty,
+      bottleQuantity: bottleQty,
+      pricePerBottleZar: pricePerBottleZar,
+      pricePerCaseZar: pricePerCaseZar,
       lineTotalZar: lineTotalZar,
     });
   });
 
   var deliveryFeeZar = deliveryMeta ? deliveryMeta.feeZar : null;
-  var wineSubtotal = hasAllPrices && lines.length ? wineSubtotalZar : null;
-  var estimatedGrandTotalZar = wineSubtotal != null && deliveryFeeZar != null ? wineSubtotal + deliveryFeeZar : null;
+  var estimatedGrandTotalZar =
+    lines.length && deliveryFeeZar != null ? wineSubtotalZar + deliveryFeeZar : null;
 
   return {
     lines: lines,
+    totalCases: totalCases,
     totalBottles: totalBottles,
-    wineSubtotalZar: wineSubtotal,
+    wineSubtotalZar: lines.length ? wineSubtotalZar : null,
     deliveryZone: deliveryMeta ? deliveryMeta.zone : "",
     deliveryZoneLabel: deliveryMeta ? deliveryMeta.label : "",
     deliveryFeeZar: deliveryFeeZar,
@@ -177,6 +182,7 @@ function appendSheetRow_(ts, mode, name, email, phone, deliveryMeta, deliveryAdd
         "Delivery zone",
         "Delivery address",
         "Wines JSON",
+        "Total cases",
         "Total bottles",
         "Wine subtotal ZAR",
         "Delivery fee ZAR",
@@ -194,6 +200,7 @@ function appendSheetRow_(ts, mode, name, email, phone, deliveryMeta, deliveryAdd
       deliveryMeta.label,
       deliveryAddress,
       JSON.stringify(order.lines),
+      order.totalCases,
       order.totalBottles,
       order.wineSubtotalZar != null ? order.wineSubtotalZar : "",
       order.deliveryFeeZar != null ? order.deliveryFeeZar : "",
@@ -266,7 +273,7 @@ function formatOrderEmailBody_(ts, mode, name, email, phone, deliveryMeta, deliv
   if (forCustomer) {
     lines.push("Hi " + name + ",", "");
     lines.push(
-      "Thank you — we received your wine order enquiry. Bret will contact you to confirm availability, wine pricing, delivery, and payment.",
+      "Thank you — we received your wine order enquiry. We will contact you to confirm delivery and payment.",
       ""
     );
   } else {
@@ -283,32 +290,34 @@ function formatOrderEmailBody_(ts, mode, name, email, phone, deliveryMeta, deliv
   lines.push("  Delivery zone: " + deliveryMeta.label + " (" + formatZar_(deliveryMeta.feeZar) + " delivery)");
   lines.push("  Delivery address: " + deliveryAddress);
   lines.push("");
-  lines.push("Order");
-  lines.push(padRight_("Wine", 42) + padRight_("Qty", 6) + padRight_("Price/btl", 14) + "Line total");
+  lines.push("Order (sold by the case — " + WINE_BOTTLES_PER_CASE + " bottles per case)");
+  lines.push(
+    padRight_("Wine", 36) +
+      padRight_("Cases", 7) +
+      padRight_("Bottles", 9) +
+      padRight_("Case price", 12) +
+      "Line total"
+  );
   lines.push(repeatChar_("-", 78));
 
   order.lines.forEach(function (line) {
-    var priceStr = line.priceZar != null ? formatZar_(line.priceZar) : "On enquiry";
-    var lineStr = line.lineTotalZar != null ? formatZar_(line.lineTotalZar) : "—";
     lines.push(
-      padRight_(line.label, 42) +
-        padRight_(String(line.quantity), 6) +
-        padRight_(priceStr, 14) +
-        lineStr
+      padRight_(line.label, 36) +
+        padRight_(String(line.caseQuantity), 7) +
+        padRight_(String(line.bottleQuantity), 9) +
+        padRight_(formatZar_(line.pricePerCaseZar), 12) +
+        formatZar_(line.lineTotalZar)
     );
   });
 
   lines.push(repeatChar_("-", 78));
+  lines.push("Total cases: " + order.totalCases);
   lines.push("Total bottles: " + order.totalBottles);
+  lines.push("Wine subtotal: " + formatZar_(order.wineSubtotalZar));
+  lines.push("Delivery (" + deliveryMeta.label + "): " + formatZar_(order.deliveryFeeZar));
   lines.push(
-    "Wine subtotal: " + (order.wineSubtotalZar != null ? formatZar_(order.wineSubtotalZar) : "Confirm with Bret")
-  );
-  lines.push(
-    "Delivery (" + deliveryMeta.label + "): " + formatZar_(order.deliveryFeeZar)
-  );
-  lines.push(
-    "Estimated order total: " +
-      (order.estimatedGrandTotalZar != null ? formatZar_(order.estimatedGrandTotalZar) : "Confirm with Bret")
+    "Order total: " +
+      (order.estimatedGrandTotalZar != null ? formatZar_(order.estimatedGrandTotalZar) : formatZar_(order.wineSubtotalZar + order.deliveryFeeZar))
   );
 
   if (notes) {
@@ -392,7 +401,7 @@ function readScriptSecret_() {
 /** Run once from the editor to authorise MailApp. */
 function testWineOrderNotify() {
   var deliveryMeta = deliveryMetaForZone_("johannesburg");
-  var order = buildTrustedOrder_([{ wineSlug: "chloe", quantity: 2 }], deliveryMeta);
+  var order = buildTrustedOrder_([{ wineSlug: "chloe", caseQuantity: 2 }], deliveryMeta);
   sendOrderEmails_(
     new Date().toISOString(),
     "enquiry",
