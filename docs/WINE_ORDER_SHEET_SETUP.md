@@ -2,7 +2,7 @@
 
 Every wine order can be **appended to a Google Sheet** before email is sent, so you still have a record if mail fails or goes to the wrong inbox.
 
-The website uses **Google Apps Script** (`scripts/wine-order-submit.gs`) when `VITE_WINE_ORDER_SUBMIT_URL` is set. If that endpoint is unavailable, it **falls back to FormSubmit.co** (email only — no Sheet row).
+The website POSTs to **FormSubmit** (email) and **Apps Script** (Sheet + email) **in parallel** when `VITE_WINE_ORDER_SUBMIT_URL` is set. Email works via FormSubmit even before Apps Script is deployed.
 
 ## What you need
 
@@ -21,7 +21,7 @@ The website uses **Google Apps Script** (`scripts/wine-order-submit.gs`) when `V
 
 | Step | Action |
 |------|--------|
-| Spreadsheet ID | Copy from URL: `…/spreadsheets/d/`**`THIS`**`/edit` → `WINE_ORDER_SPREADSHEET_ID` in the script |
+| Spreadsheet ID | Already set in script: **`1jVOruSkASiklk9Gktl3W8qy1tQwBLvm5AXgUs67tNBQ`** ([open Sheet](https://docs.google.com/spreadsheets/d/1jVOruSkASiklk9Gktl3W8qy1tQwBLvm5AXgUs67tNBQ/edit)) |
 | CC inbox | `WINE_ORDER_CC_EMAILS` — default **`samuel.polley1@gmail.com`** (change in script if needed) |
 | Primary inbox | `WINE_ORDER_RECIPIENT_EMAIL` — default **`brett@tuckerfamilycharity.co.za`** |
 | Deploy | **Web app**, Execute as **Me**, Who has access **Anyone** |

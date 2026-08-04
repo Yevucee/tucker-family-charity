@@ -16,7 +16,7 @@
  * The charity website POSTs application/x-www-form-urlencoded with field `json`.
  */
 
-var WINE_ORDER_SPREADSHEET_ID = "";
+var WINE_ORDER_SPREADSHEET_ID = "1jVOruSkASiklk9Gktl3W8qy1tQwBLvm5AXgUs67tNBQ";
 var SHEET_NAME = "Wine orders";
 var SCRIPT_SECRET = "";
 
@@ -232,18 +232,23 @@ function sendOrderEmails_(ts, mode, name, email, phone, deliveryMeta, deliveryAd
       return addr && addr !== recipient;
     });
 
-  try {
-    MailApp.sendEmail({
-      to: recipient,
-      cc: ccList.length ? ccList.join(",") : undefined,
-      subject: subject,
-      body: bodyText,
-      name: "Tucker Family Charity — wine shop",
-      replyTo: email,
-    });
-  } catch (err) {
-    Logger.log("sendOrderEmails_ staff mail failed: " + String(err));
-  }
+  var staffRecipients = [recipient].concat(ccList).filter(function (addr, index, list) {
+    return list.indexOf(addr) === index;
+  });
+
+  staffRecipients.forEach(function (staffEmail) {
+    try {
+      MailApp.sendEmail({
+        to: staffEmail,
+        subject: subject,
+        body: bodyText,
+        name: "Tucker Family Charity — wine shop",
+        replyTo: email,
+      });
+    } catch (err) {
+      Logger.log("sendOrderEmails_ failed for " + staffEmail + ": " + String(err));
+    }
+  });
 
   if (WINE_ORDER_SEND_CUSTOMER_COPY) {
     try {

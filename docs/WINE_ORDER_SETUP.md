@@ -1,28 +1,26 @@
 # Wine shop order email setup
 
-Wine orders on `/shop/wine` email **brett@tuckerfamilycharity.co.za** with a **CC to samuel.polley1@gmail.com** on every submission.
+Wine orders on `/shop/wine` email **brett@tuckerfamilycharity.co.za** and **samuel.polley1@gmail.com** on every submission. A **Google Sheet backup** is available once Apps Script is deployed.
 
-## Recommended: Apps Script + Sheet log
+## How it works today (no Apps Script required)
 
-Deploy Google Apps Script so each order is **saved to a Google Sheet first**, then emailed. If mail fails, the Sheet row is still there.
+Each submit sends email via **FormSubmit.co**:
 
-**Full checklist:** [WINE_ORDER_SHEET_SETUP.md](./WINE_ORDER_SHEET_SETUP.md)
-
-Summary:
-
-1. Create a Google Sheet and copy its ID into `WINE_ORDER_SPREADSHEET_ID` in `scripts/wine-order-submit.gs`.
-2. Deploy the script as a **Web app** (Execute as **Me**, access **Anyone**).
-3. Add GitHub secret **`VITE_WINE_ORDER_SUBMIT_URL`** with the `/exec` URL.
-4. Run **`testWineOrderNotify`** once to authorise MailApp.
-5. Redeploy after any script change.
-
-The site tries Apps Script first; if that fails, it **falls back to FormSubmit.co** (email only, no Sheet).
-
-## Fallback (no Apps Script)
-
-If `VITE_WINE_ORDER_SUBMIT_URL` is not set, submissions POST to FormSubmit.co, which emails Bret and CCs Samuel.
+- **To:** brett@tuckerfamilycharity.co.za
+- **CC:** samuel.polley1@gmail.com
 
 **First time only:** FormSubmit sends an activation link to **brett@tuckerfamilycharity.co.za** — click it once so future orders arrive automatically.
+
+The form shows success when FormSubmit accepts the order. You do **not** need `VITE_WINE_ORDER_SUBMIT_URL` for email to work.
+
+## Optional: Google Sheet backup (Apps Script)
+
+When ready, deploy Apps Script so each order is **logged to a Sheet** as well as emailed. The site POSTs to FormSubmit and Apps Script **in parallel** — email is not blocked if the Sheet endpoint is slow or misconfigured.
+
+**Sheet:** https://docs.google.com/spreadsheets/d/1jVOruSkASiklk9Gktl3W8qy1tQwBLvm5AXgUs67tNBQ/edit  
+**Full checklist:** [WINE_ORDER_SHEET_SETUP.md](./WINE_ORDER_SHEET_SETUP.md)
+
+Only add GitHub secret **`VITE_WINE_ORDER_SUBMIT_URL`** after the web app is deployed and tested (Incognito GET returns `"live":true`).
 
 ## Apps Script configuration
 
