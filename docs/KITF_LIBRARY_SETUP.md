@@ -43,7 +43,7 @@ When a row has a link but **no description** (or a **generic** one like `Show Na
 3. `og:description` / `twitter:description` (skipped when generic)
 4. `og:title` / `twitter:title` (useful for podcasts when meta description is missing)
 
-Generic platform boilerplate (`· Episode`, `18K likes, 345 comments - …`, Instagram login text, etc.) is **rejected**. Instagram captions are extracted from the post text after stripping likes/comments prefixes. The batch menu also **replaces** existing generic descriptions (manual text is never overwritten).
+Generic platform boilerplate (`· Episode`, `18K likes, 345 comments - …`, Instagram login text, etc.) is **rejected**. **Skipped hosts** (left blank on purpose): Instagram, YouTube, Facebook, LinkedIn, X/Twitter — too slow or useless for auto-fill. The batch tries **TED, Spotify, Apple Podcasts, Netflix, articles**, etc. (20 URLs per run, ~4.5 min max).
 
 - **Up to 25 URLs per automatic sync** (keeps runs fast)
 - **Menu → Fill / improve descriptions (batch)** — up to 50 per run (empty + generic rows)

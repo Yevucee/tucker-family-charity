@@ -8,7 +8,7 @@
  * 3. Run syncWebsiteFromSourceTabs once, or menu KITF Library → Sync Website tab now.
  *
  * Brett edits Podcast / You Tube / etc.; Website tab updates for the website automatically.
- * Instagram links are left without auto descriptions (unreliable metadata).
+ * Instagram / YouTube / Facebook / LinkedIn / X links are left without auto descriptions.
  * Run "Fill / improve descriptions (batch)" from the KITF Library menu to backfill or replace generic lines.
  * See docs/KITF_LIBRARY_SETUP.md
  */
@@ -18,9 +18,12 @@ var DEBOUNCE_SECONDS = 90;
 /** Max URL metadata fetches per automatic sync (avoids time limits). */
 var ENRICH_DESCRIPTIONS_PER_SYNC = 25;
 /** Max fetches when running the manual batch menu action. */
-var ENRICH_DESCRIPTIONS_BATCH_LIMIT = 50;
+var ENRICH_DESCRIPTIONS_BATCH_LIMIT = 20;
+/** Stop batch before Apps Script 6-minute limit (ms). */
+var BATCH_MAX_RUNTIME_MS = 270000;
 var DESCRIPTION_MAX_CHARS = 160;
-var FETCH_DELAY_MS = 350;
+var FETCH_DELAY_MS = 100;
+var DESCRIPTION_CACHE_NONE = "__NONE__";
 
 var WEBSITE_HEADERS = [
   "title", "type", "topic", "author", "description", "link",
@@ -113,7 +116,10 @@ function fillMissingDescriptionsBatch() {
   var filled = 0;
   var clearedIg = 0;
   var attempted = 0;
+  var startedAt = Date.now();
   for (var r = 1; r < data.length; r++) {
+    if (Date.now() - startedAt > BATCH_MAX_RUNTIME_MS) break;
+
     var link = String(data[r][linkIdx] || "").trim();
     if (!isPublicHttpLink_(link)) continue;
     var title = titleIdx >= 0 ? String(data[r][titleIdx] || "").trim() : "";
@@ -141,14 +147,18 @@ function fillMissingDescriptionsBatch() {
   }
 
   var msg = [];
-  if (clearedIg) msg.push("Cleared " + clearedIg + " Instagram description(s)");
+  if (clearedIg) msg.push("Cleared " + clearedIg + " skipped-host description(s)");
   if (filled) {
-    msg.push("Filled " + filled + " description(s) (" + attempted + " links tried this run)");
+    msg.push("Filled " + filled + " description(s) (" + attempted + " tried)");
   } else if (attempted) {
     msg.push("Tried " + attempted + " link(s); none returned a usable description");
   }
-  if (!msg.length) msg.push("Nothing to do — no generic/empty rows (Instagram left blank)");
-  else msg.push("Run again for the next batch");
+  if (Date.now() - startedAt > BATCH_MAX_RUNTIME_MS) {
+    msg.push("Stopped early (time limit — run again)");
+  } else if (filled || attempted) {
+    msg.push("Run again for the next batch");
+  }
+  if (!msg.length) msg.push("Nothing left on TED/podcast/Netflix rows (social/video hosts skipped)");
   ss.toast(msg.join(". ") + ".", "KITF Library", 8);
 }
 
@@ -357,11 +367,16 @@ function resolveDescriptionForLink_(link, title, options) {
   var cacheKey = descriptionCacheKey_(link);
   if (!options.bypassCache) {
     var cached = cache.get(cacheKey);
+    if (cached === DESCRIPTION_CACHE_NONE) return "";
     if (cached && !needsDescriptionFill_(cached, title, link)) return cached;
   }
 
   var desc = fetchOneLineDescriptionFromUrl_(link, title);
-  if (desc && !needsDescriptionFill_(desc, title, link)) cache.put(cacheKey, desc, 604800);
+  if (desc && !needsDescriptionFill_(desc, title, link)) {
+    cache.put(cacheKey, desc, 604800);
+  } else {
+    cache.put(cacheKey, DESCRIPTION_CACHE_NONE, 86400);
+  }
   return desc;
 }
 
@@ -371,7 +386,7 @@ function descriptionCacheKey_(link) {
     var v = (b < 0 ? b + 256 : b).toString(16);
     return v.length === 1 ? "0" + v : v;
   }).join("");
-  return "kitf_desc_v4_" + hex;
+  return "kitf_desc_v5_" + hex;
 }
 
 /**
@@ -501,9 +516,29 @@ function isInstagramHost_(host) {
   return /(?:^|\.)instagram\.com$/.test(host);
 }
 
-/** Instagram auto-descriptions are skipped — metadata is unreliable; leave column E blank. */
+function isFacebookHost_(host) {
+  return /(?:^|\.)facebook\.com$|(?:^|\.)fb\.watch$/.test(host);
+}
+
+function isLinkedInHost_(host) {
+  return /(?:^|\.)linkedin\.com$/.test(host);
+}
+
+function isTwitterHost_(host) {
+  return /(?:^|\.)twitter\.com$|(?:^|\.)x\.com$/.test(host);
+}
+
+/**
+ * Skip auto descriptions for hosts that are slow, blocked, or return useless metadata.
+ * Instagram / YouTube / Facebook / LinkedIn / X — leave column E blank (title only on site).
+ */
 function shouldSkipAutoDescription_(url) {
-  return isInstagramHost_(urlHost_(url));
+  var host = urlHost_(url);
+  return isInstagramHost_(host) ||
+    isYouTubeHost_(host) ||
+    isFacebookHost_(host) ||
+    isLinkedInHost_(host) ||
+    isTwitterHost_(host);
 }
 
 function fetchUrlHtml_(url) {
@@ -523,8 +558,8 @@ function fetchUrlHtml_(url) {
     if (response.getResponseCode() >= 400) return "";
   }
   var text = response.getContentText();
-  // YouTube/TED meta tags often appear after 500 KB; keep enough for og:description extraction.
-  return text.length > 1500000 ? text.substring(0, 1500000) : text;
+  var maxLen = isYouTubeHost_(urlHost_(url)) ? 1500000 : 800000;
+  return text.length > maxLen ? text.substring(0, maxLen) : text;
 }
 
 /** Pull a JSON string field (e.g. YouTube shortDescription) from embedded page data. */
