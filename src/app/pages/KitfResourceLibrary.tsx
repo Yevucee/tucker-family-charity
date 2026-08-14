@@ -213,6 +213,8 @@ export function KitfResourceLibrary() {
     <div className="min-h-screen bg-white">
       <Header />
 
+      <main id="main-content">
+
       <section className="bg-gradient-to-r from-amber-600 to-amber-800 py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white/15 mb-4">
@@ -359,6 +361,8 @@ export function KitfResourceLibrary() {
           )}
         </div>
       </section>
+
+      </main>
 
       <Footer />
     </div>

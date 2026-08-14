@@ -10,6 +10,8 @@ export function About() {
     <div className="min-h-screen bg-white">
       <Header />
 
+      <main id="main-content">
+
       {/* Hero — family photo only, no text overlay */}
       <section className="relative min-h-[320px] sm:min-h-[400px] bg-amber-50 overflow-hidden">
         <div className="flex items-center justify-center min-h-[320px] sm:min-h-[400px]">
@@ -179,6 +181,8 @@ export function About() {
           </div>
         </div>
       </section>
+
+      </main>
 
       <Footer />
     </div>

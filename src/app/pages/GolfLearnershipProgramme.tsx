@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import {
@@ -59,14 +59,11 @@ const MORE_THAN_GOLF_ITEMS = [
 ];
 
 export function GolfLearnershipProgramme() {
-  useEffect(() => {
-    document.title =
-      "Golf Learnership Programme | Tucker Family Foundation & Afrika Tikkun";
-  }, []);
-
   return (
     <div className="min-h-screen bg-white">
       <Header />
+
+      <main id="main-content">
 
       {/* 1. Hero */}
       <section className="relative py-16 md:py-20 overflow-hidden">
@@ -314,6 +311,8 @@ export function GolfLearnershipProgramme() {
           </div>
         </div>
       </section>
+
+      </main>
 
       <Footer />
     </div>

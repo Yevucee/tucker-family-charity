@@ -9,6 +9,8 @@ export function Partners() {
     <div className="min-h-screen bg-white">
       <Header />
 
+      <main id="main-content">
+
       {/* Hero */}
       <section className="bg-gradient-to-r from-amber-600 to-amber-800 py-16 md:py-20">
         <div className="relative z-10 flex flex-col items-center justify-center min-h-[280px] px-4 sm:px-6 lg:px-8">
@@ -93,6 +95,8 @@ export function Partners() {
           </a>
         </div>
       </section>
+
+      </main>
 
       <Footer />
     </div>

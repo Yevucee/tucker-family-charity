@@ -1,5 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Outlet, useLocation } from "react-router";
+import { PageHead } from "@/seo/PageHead";
+import { getPageMeta } from "@/seo/routes";
 
 /**
  * Scroll restoration: anchors like `/shop#tucker-products` must scroll after the target
@@ -7,6 +9,7 @@ import { Outlet, useLocation } from "react-router";
  */
 export function RootLayout() {
   const { pathname, search, hash } = useLocation();
+  const pageMeta = useMemo(() => getPageMeta(pathname), [pathname]);
 
   useEffect(() => {
     const id = hash.replace(/^#/, "");
@@ -25,5 +28,10 @@ export function RootLayout() {
     return () => window.clearTimeout(t);
   }, [pathname, search, hash]);
 
-  return <Outlet />;
+  return (
+    <>
+      <PageHead meta={pageMeta} />
+      <Outlet />
+    </>
+  );
 }

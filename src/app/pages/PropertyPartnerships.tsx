@@ -665,6 +665,8 @@ export function PropertyPartnerships() {
     <div className="min-h-screen bg-white">
       <Header />
 
+      <main id="main-content">
+
       {/* Hero */}
       <section className="bg-gradient-to-r from-amber-600 to-amber-800 py-14 md:py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
@@ -1259,6 +1261,8 @@ export function PropertyPartnerships() {
           )}
         </DialogContent>
       </Dialog>
+
+      </main>
 
       <Footer />
     </div>

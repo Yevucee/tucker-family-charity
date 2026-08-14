@@ -40,6 +40,8 @@ export function Home() {
     <div className="min-h-screen bg-white">
       <Header />
 
+      <main id="main-content">
+
       {/* Hero Section */}
       <section className="relative min-h-[400px] py-16 md:py-20 flex items-center bg-amber-950">
         <img
@@ -399,6 +401,8 @@ export function Home() {
           <PartnerAutoScrollStrip />
         </div>
       </section>
+
+      </main>
 
       <Footer />
     </div>

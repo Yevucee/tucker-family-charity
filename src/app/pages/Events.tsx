@@ -12,6 +12,8 @@ export function Events() {
     <div className="min-h-screen bg-white">
       <Header />
 
+      <main id="main-content">
+
       {/* Hero */}
       <section className="relative min-h-[400px] bg-amber-950 flex items-center">
         <ImageWithFallback
@@ -159,6 +161,8 @@ export function Events() {
           </div>
         </div>
       </section>
+
+      </main>
 
       <Footer />
     </div>

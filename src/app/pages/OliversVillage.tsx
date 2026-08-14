@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Link } from "react-router";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
@@ -16,13 +15,11 @@ const OFFICIAL_SITE = "https://oliversvillage.co.za/";
 const DONATIONS_PAGE = "https://oliversvillage.co.za/donations-form/";
 
 export function OliversVillage() {
-  useEffect(() => {
-    document.title = "Oliver's Village | Tucker Family Charity";
-  }, []);
-
   return (
     <div className="min-h-screen bg-white">
       <Header />
+
+      <main id="main-content">
 
       <section className="bg-gradient-to-r from-amber-600 to-amber-800 py-16 md:py-20">
         <div className="relative z-10 flex flex-col items-center justify-center min-h-[240px] px-4 sm:px-6 lg:px-8">
@@ -281,6 +278,8 @@ export function OliversVillage() {
           </div>
         </div>
       </section>
+
+      </main>
 
       <Footer />
     </div>
