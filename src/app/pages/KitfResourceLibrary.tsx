@@ -76,7 +76,10 @@ function ResourceCard({ resource }: { resource: KitfLibraryResource }) {
           )}
         </div>
 
-        <h3 className="text-lg font-bold text-neutral-900 leading-snug line-clamp-2 h-[3.5rem] overflow-hidden shrink-0">
+        <h3
+          className="text-lg font-bold text-neutral-900 leading-snug line-clamp-3 h-[5.25rem] overflow-hidden shrink-0"
+          title={resource.title}
+        >
           {resource.title}
         </h3>
 
