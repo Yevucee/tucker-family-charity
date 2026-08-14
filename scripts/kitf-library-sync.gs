@@ -8,7 +8,7 @@
  * 3. Run syncWebsiteFromSourceTabs once, or menu KITF Library → Sync Website tab now.
  *
  * Brett edits Podcast / You Tube / etc.; Website tab updates for the website automatically.
- * Instagram / YouTube / Facebook / LinkedIn / X / podcastgo.pl links are left without auto descriptions.
+ * Instagram / YouTube / Facebook / LinkedIn / X / podcastgo.pl / Dailymotion / g.co / Bing links are left without auto descriptions.
  * Run "Fill / improve descriptions (batch)" from the KITF Library menu to backfill or replace generic lines.
  * See docs/KITF_LIBRARY_SETUP.md
  */
@@ -119,9 +119,9 @@ function fillMissingDescriptionsBatch() {
   var skippedCached = 0;
   var startedAt = Date.now();
   var cache = CacheService.getScriptCache();
-  for (var r = 1; r < data.length; r++) {
-    if (Date.now() - startedAt > BATCH_MAX_RUNTIME_MS) break;
+  var queue = [];
 
+  for (var r = 1; r < data.length; r++) {
     var link = String(data[r][linkIdx] || "").trim();
     if (!isPublicHttpLink_(link)) continue;
     var title = titleIdx >= 0 ? String(data[r][titleIdx] || "").trim() : "";
@@ -137,18 +137,29 @@ function fillMissingDescriptionsBatch() {
     }
 
     if (existing && !needsDescriptionFill_(existing, title, link)) continue;
-    if (attempted >= ENRICH_DESCRIPTIONS_BATCH_LIMIT) continue;
+    queue.push({ row: r, link: link, title: title, existing: existing, priority: descriptionBatchPriority_(link) });
+  }
 
-    if (!existing && cache.get(descriptionCacheKey_(link)) === DESCRIPTION_CACHE_NONE) {
+  queue.sort(function (a, b) {
+    if (a.priority !== b.priority) return a.priority - b.priority;
+    return a.row - b.row;
+  });
+
+  for (var i = 0; i < queue.length; i++) {
+    if (Date.now() - startedAt > BATCH_MAX_RUNTIME_MS) break;
+    if (attempted >= ENRICH_DESCRIPTIONS_BATCH_LIMIT) break;
+
+    var item = queue[i];
+    if (!item.existing && cache.get(descriptionCacheKey_(item.link)) === DESCRIPTION_CACHE_NONE) {
       skippedCached++;
       continue;
     }
 
     attempted++;
-    var desc = resolveDescriptionForLink_(link, title, { bypassCache: !!existing });
+    var desc = resolveDescriptionForLink_(item.link, item.title, { bypassCache: !!item.existing });
     if (!desc) continue;
-    sh.getRange(r + 1, descIdx + 1).setValue(desc);
-    data[r][descIdx] = desc;
+    sh.getRange(item.row + 1, descIdx + 1).setValue(desc);
+    data[item.row][descIdx] = desc;
     filled++;
     Utilities.sleep(FETCH_DELAY_MS);
   }
@@ -540,9 +551,32 @@ function isPodcastGoHost_(host) {
   return /(?:^|\.)podcastgo\.pl$/.test(host);
 }
 
+function isDailymotionHost_(host) {
+  return /(?:^|\.)dai\.ly$|(?:^|\.)dailymotion\.com$/.test(host);
+}
+
+function isGoogleShortLinkHost_(host) {
+  return /(?:^|\.)g\.co$/.test(host);
+}
+
+function isBingHost_(host) {
+  return /(?:^|\.)bing\.com$/.test(host);
+}
+
+/** Lower number = processed earlier in manual batch (TED/Netflix before blocked article hosts). */
+function descriptionBatchPriority_(url) {
+  var host = urlHost_(url);
+  if (/(?:^|\.)ted\.com$/.test(host)) return 1;
+  if (/(?:^|\.)netflix\.com$/.test(host)) return 2;
+  if (/(?:^|\.)spotify\.com$|(?:^|\.)podcasts\.apple\.com$/.test(host)) return 3;
+  if (/(?:^|\.)medium\.com$|(?:^|\.)bbc\.(com|co\.uk)$|(?:^|\.)tablegroup\.com$/.test(host)) return 4;
+  if (/(?:^|\.)olympic\.org$|(?:^|\.)cbc\.ca$|(?:^|\.)abc\.net\.au$|(?:^|\.)dailymaverick\.co\.za$/.test(host)) return 5;
+  return 10;
+}
+
 /**
  * Skip auto descriptions for hosts that are slow, blocked, or return useless metadata.
- * Instagram / YouTube / Facebook / LinkedIn / X / podcastgo.pl — leave column E blank (title only on site).
+ * Instagram / YouTube / Facebook / LinkedIn / X / podcastgo.pl / Dailymotion / g.co / Bing — leave column E blank.
  */
 function shouldSkipAutoDescription_(url) {
   var host = urlHost_(url);
@@ -551,7 +585,10 @@ function shouldSkipAutoDescription_(url) {
     isFacebookHost_(host) ||
     isLinkedInHost_(host) ||
     isTwitterHost_(host) ||
-    isPodcastGoHost_(host);
+    isPodcastGoHost_(host) ||
+    isDailymotionHost_(host) ||
+    isGoogleShortLinkHost_(host) ||
+    isBingHost_(host);
 }
 
 function fetchUrlHtml_(url) {
