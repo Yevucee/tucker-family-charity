@@ -52,3 +52,17 @@ To override the default sheet for a tab, add the corresponding secret in **Setti
 **Config:** `VITE_PROPERTY_ENQUIRY_SUBMIT_URL` (Apps Script web app `/exec` URL), optional `VITE_PROPERTY_ENQUIRY_SECRET`
 
 **Data flow:** Browser POST → Google Apps Script (`scripts/property-enquiry-append-sheet.gs`) → `appendRow` on your Sheet.
+
+---
+
+## KITF Resource Library → "Learning from the best" spreadsheet
+
+**Purpose:** Curated podcasts, talks, documentaries, articles, and books (`/keep-it-in-the-family/library`).
+
+**Sheet tab:** `Website` (synced from source tabs via `scripts/kitf-library-sync.gs`)
+
+**Sheet columns:** `title` | `type` | `topic` | `author` | `description` | `link` | `tags` | `duration` | `featured` | `show_on_site` | `source_tab`
+
+**Config:** `VITE_KITF_LIBRARY_SHEET_ID` (optional; default `1AqkA2uCcaASDimT8N7O8rndYzPRmE_kFPC5uDkiRFCI`)
+
+**Data flow:** Apps Script sync → `Website` tab → opensheet at runtime. See `docs/KITF_LIBRARY_SETUP.md`.

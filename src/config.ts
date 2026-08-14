@@ -61,6 +61,12 @@ export const KITF_SUBMIT_URL_REJECTED =
 // Optional shared secret checked by Apps Script (same value in script + VITE_KITF_SUBMIT_SECRET).
 export const KITF_SUBMIT_SECRET = import.meta.env.VITE_KITF_SUBMIT_SECRET ?? "";
 
+/** "Learning from the best" resource library — Website tab via opensheet.elk.sh */
+export const KITF_LIBRARY_SHEET_ID =
+  import.meta.env.VITE_KITF_LIBRARY_SHEET_ID || "1AqkA2uCcaASDimT8N7O8rndYzPRmE_kFPC5uDkiRFCI";
+
+export const KITF_LIBRARY_SHEET_TAB = "Website";
+
 // Legacy networking sheet (no longer used on Keep It In The Family page; kept for reference / tooling)
 // Columns: name, company, sectors, business_interests, phone, email, area, website
 export const NETWORKING_SHEET_ID =

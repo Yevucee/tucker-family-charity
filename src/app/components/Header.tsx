@@ -96,6 +96,11 @@ export function Header() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
+                  <Link to="/keep-it-in-the-family/library" className="cursor-pointer">
+                    Learning from the Best
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
                   <Link to="/property-partnerships" className="cursor-pointer">
                     Property Partnerships
                   </Link>
@@ -223,6 +228,16 @@ export function Header() {
                       }}
                     >
                       Keep It In The Family
+                    </Link>
+                    <Link
+                      to="/keep-it-in-the-family/library"
+                      className="text-amber-950 hover:text-orange-600 transition-colors block py-2"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        setCommunityNetworkOpen(false);
+                      }}
+                    >
+                      Learning from the Best
                     </Link>
                     <Link
                       to="/property-partnerships"
