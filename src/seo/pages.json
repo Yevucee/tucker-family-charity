@@ -1,0 +1,109 @@
+{
+  "routes": [
+    {
+      "path": "/",
+      "title": "Tucker Family Charity — Connecting People, Creating Opportunity",
+      "description": "Supporting education and community development at Oliver's Village school near Benoni, South Africa.",
+      "schemaType": "WebPage",
+      "staticHtml": "<header><nav aria-label=\"Primary\"><ul><li><a href=\"/\">Home</a></li><li><a href=\"/about/\">About</a></li><li><a href=\"/olivers-village/\">Oliver's Village</a></li><li><a href=\"/events/\">Events</a></li><li><a href=\"/shop/\">Shop</a></li><li><a href=\"/donate/\">Support Us</a></li></ul></nav></header><main id=\"main-content\"><h1>Connecting People. Creating Opportunity. Uplifting Communities.</h1><p>A vibrant family-led charity creating practical opportunities and supporting vulnerable communities through partnership, action and shared purpose — from Oliver's Village to the broader community.</p><h2>Ways to support</h2><ul><li><a href=\"/donate/\">Donate, volunteer, or give items</a></li><li><a href=\"/shop/\">Shop charity merchandise and partner offers</a></li><li><a href=\"/events/\">Join upcoming events</a></li><li><a href=\"/partners/\">Partner with us</a></li></ul><h2>Programmes</h2><ul><li><a href=\"/olivers-village/\">Oliver's Village</a></li><li><a href=\"/keep-it-in-the-family/\">Keep It In The Family</a></li><li><a href=\"/golf-learnership-programme/\">Golf Learnership Programme</a></li><li><a href=\"/property-partnerships/\">Property Partnerships</a></li><li><a href=\"/work-opportunities/looking-for-work/\">Work Opportunities</a></li></ul></main><footer><p>Contact: <a href=\"mailto:info@tuckerfamilycharity.org\">info@tuckerfamilycharity.org</a> · Johannesburg, South Africa</p></footer>"
+    },
+    {
+      "path": "/about",
+      "title": "About Us | Tucker Family Charity",
+      "description": "The story of Tucker Family Charity — a family-led foundation supporting education, Oliver's Village, and community development in South Africa since 2009.",
+      "schemaType": "AboutPage",
+      "staticHtml": "<header><nav aria-label=\"Primary\"><a href=\"/\">Home</a> · <a href=\"/about/\">About</a></nav></header><main id=\"main-content\"><h1>The Story of the Tucker Family Charity</h1><p>In 2009, everything changed for us. As we waited for the arrival of our first daughter, Madison, we reflected on the opportunities we had been given — and on the responsibility to help others access similar chances.</p><p>Tucker Family Charity grew from that moment into a family-led foundation supporting education, Oliver's Village, and practical community development across South Africa.</p><h2>Our mission and values</h2><p>We work with compassion, integrity, and community partnership to create lasting impact.</p><p><a href=\"/olivers-village/\">Learn about Oliver's Village</a> · <a href=\"/donate/\">Support our work</a></p></main><footer><p>Contact: <a href=\"mailto:info@tuckerfamilycharity.org\">info@tuckerfamilycharity.org</a></p></footer>"
+    },
+    {
+      "path": "/olivers-village",
+      "title": "Oliver's Village | Tucker Family Charity",
+      "description": "Learn how Tucker Family Charity supports Oliver's Village — a community education centre in Putfontein, Benoni providing education, skills development, and food security.",
+      "schemaType": "WebPage",
+      "staticHtml": "<header><nav aria-label=\"Primary\"><a href=\"/\">Home</a> · <a href=\"/olivers-village/\">Oliver's Village</a></nav></header><main id=\"main-content\"><h1>Oliver's Village</h1><p>A community education centre in Putfontein, Benoni that Tucker Family Charity is proud to support. Oliver's Village provides education, skills development, early childhood care, and food security.</p><p><a href=\"https://oliversvillage.co.za/\">Visit oliversvillage.co.za</a> · <a href=\"https://oliversvillage.co.za/donations-form/\">Donate to Oliver's Village</a></p></main><footer><p>Contact: <a href=\"mailto:info@tuckerfamilycharity.org\">info@tuckerfamilycharity.org</a></p></footer>"
+    },
+    {
+      "path": "/events",
+      "title": "Events & Activities | Tucker Family Charity",
+      "description": "Upcoming charity events, fundraisers, and community activities organised by Tucker Family Charity and partners.",
+      "schemaType": "WebPage",
+      "staticHtml": "<header><nav aria-label=\"Primary\"><a href=\"/\">Home</a> · <a href=\"/events/\">Events</a></nav></header><main id=\"main-content\"><h1>Events &amp; Activities</h1><p>Join Tucker Family Charity for fundraisers, community gatherings, and activities that bring people together to create practical opportunities and support vulnerable communities.</p><p>Browse upcoming and past events on this page, or email <a href=\"mailto:info@tuckerfamilycharity.org\">info@tuckerfamilycharity.org</a> for event enquiries.</p><p><a href=\"/donate/\">Support us if you cannot attend</a></p></main><footer><p>Contact: <a href=\"mailto:info@tuckerfamilycharity.org\">info@tuckerfamilycharity.org</a></p></footer>"
+    },
+    {
+      "path": "/shop",
+      "title": "Shop & Offers | Tucker Family Charity",
+      "description": "Charity merchandise, personalised hats, wine, and partner offers that support Tucker Family Charity programmes.",
+      "schemaType": "WebPage",
+      "staticHtml": "<header><nav aria-label=\"Primary\"><a href=\"/\">Home</a> · <a href=\"/shop/\">Shop</a></nav></header><main id=\"main-content\"><h1>Shop &amp; offers</h1><p>Purchase Tucker Family Charity merchandise and explore partner offers that help fund our community programmes.</p><ul><li><a href=\"/shop/personalised-hat/\">Personalised charity hat</a></li><li><a href=\"/shop/wine/\">Charity wine</a></li></ul><p>Questions? Email <a href=\"mailto:info@tuckerfamilycharity.org\">info@tuckerfamilycharity.org</a></p></main><footer><p>Contact: <a href=\"mailto:info@tuckerfamilycharity.org\">info@tuckerfamilycharity.org</a></p></footer>"
+    },
+    {
+      "path": "/shop/personalised-hat",
+      "title": "Personalised Charity Hat | Tucker Family Charity",
+      "description": "Order a personalised Tucker Family Charity cap — adult and kids styles with custom embroidery to support our community work.",
+      "schemaType": "WebPage",
+      "staticHtml": "<header><nav aria-label=\"Primary\"><a href=\"/shop/\">Shop</a> · <a href=\"/shop/personalised-hat/\">Personalised hat</a></nav></header><main id=\"main-content\"><h1>Personalised charity hat</h1><p>Order a Tucker Family Charity cap with custom embroidery. Adult and kids styles are available; proceeds support our community programmes.</p><p>Orders: <a href=\"mailto:info@tuckerfamilycharity.org?subject=Personalised%20hat%20order\">info@tuckerfamilycharity.org</a></p><p><a href=\"/shop/\">Back to shop</a></p></main><footer><p>Contact: <a href=\"mailto:info@tuckerfamilycharity.org\">info@tuckerfamilycharity.org</a></p></footer>"
+    },
+    {
+      "path": "/shop/wine",
+      "title": "Charity Wine | Tucker Family Charity",
+      "description": "Purchase Tucker Family Charity wine — curated bottles where proceeds support education and community programmes.",
+      "schemaType": "WebPage",
+      "staticHtml": "<header><nav aria-label=\"Primary\"><a href=\"/shop/\">Shop</a> · <a href=\"/shop/wine/\">Charity wine</a></nav></header><main id=\"main-content\"><h1>Charity wine</h1><p>Purchase Tucker Family Charity wine. Proceeds from curated bottles support education and community programmes.</p><p>Wine orders: <a href=\"mailto:brett@tuckerfamilycharity.co.za\">brett@tuckerfamilycharity.co.za</a></p><p><a href=\"/shop/\">Back to shop</a></p></main><footer><p>General enquiries: <a href=\"mailto:info@tuckerfamilycharity.org\">info@tuckerfamilycharity.org</a></p></footer>"
+    },
+    {
+      "path": "/partners",
+      "title": "Our Partners | Tucker Family Charity",
+      "description": "Organisations and businesses partnering with Tucker Family Charity to create practical opportunities and uplift communities.",
+      "schemaType": "WebPage",
+      "staticHtml": "<header><nav aria-label=\"Primary\"><a href=\"/\">Home</a> · <a href=\"/partners/\">Partners</a></nav></header><main id=\"main-content\"><h1>Our Partners</h1><p>We collaborate with organisations and businesses that share our commitment to practical opportunity and community upliftment.</p><p>Interested in partnering? Email <a href=\"mailto:info@tuckerfamilycharity.org?subject=Partnership%20Enquiry\">info@tuckerfamilycharity.org</a></p></main><footer><p>Contact: <a href=\"mailto:info@tuckerfamilycharity.org\">info@tuckerfamilycharity.org</a></p></footer>"
+    },
+    {
+      "path": "/donate",
+      "title": "Support Us | Tucker Family Charity",
+      "description": "Donate, volunteer, or contribute items to Tucker Family Charity — financial gifts, time, and material donations welcome.",
+      "schemaType": "WebPage",
+      "staticHtml": "<header><nav aria-label=\"Primary\"><a href=\"/\">Home</a> · <a href=\"/donate/\">Support Us</a></nav></header><main id=\"main-content\"><h1>Support Us</h1><p>There are many ways to support Tucker Family Charity: financial donations, volunteering your time, donating useful items, or purchasing charity merchandise.</p><ul><li>Donate money</li><li>Give your time</li><li>Donate items</li><li><a href=\"/shop/\">Shop charity products</a></li></ul><p>Contact: <a href=\"mailto:info@tuckerfamilycharity.org\">info@tuckerfamilycharity.org</a></p></main><footer><p>Johannesburg, South Africa</p></footer>"
+    },
+    {
+      "path": "/keep-it-in-the-family",
+      "title": "Keep It In The Family | Tucker Family Charity",
+      "description": "A Tucker Family Charity network directory connecting families with trusted local services, trades, and professionals.",
+      "schemaType": "WebPage",
+      "staticHtml": "<header><nav aria-label=\"Primary\"><a href=\"/\">Home</a> · <a href=\"/keep-it-in-the-family/\">Keep It In The Family</a></nav></header><main id=\"main-content\"><h1>Keep It In The Family</h1><p>A community network directory connecting families with trusted local services, trades, and professionals.</p><p><a href=\"/keep-it-in-the-family/library/\">Browse the resource library</a></p><p>Contact: <a href=\"mailto:info@tuckerfamilycharity.org\">info@tuckerfamilycharity.org</a></p></main><footer><p>Johannesburg, South Africa</p></footer>"
+    },
+    {
+      "path": "/keep-it-in-the-family/library",
+      "title": "Resource Library | Keep It In The Family | Tucker Family Charity",
+      "description": "Curated podcasts, talks, books, and videos recommended by the Keep It In The Family community network.",
+      "schemaType": "CollectionPage",
+      "staticHtml": "<header><nav aria-label=\"Primary\"><a href=\"/keep-it-in-the-family/\">Keep It In The Family</a> · <a href=\"/keep-it-in-the-family/library/\">Resource Library</a></nav></header><main id=\"main-content\"><h1>Resource Library</h1><p>Curated podcasts, TED talks, books, videos, and other resources recommended by the Keep It In The Family community network.</p><p><a href=\"/keep-it-in-the-family/\">Back to Keep It In The Family</a></p></main><footer><p>Contact: <a href=\"mailto:info@tuckerfamilycharity.org\">info@tuckerfamilycharity.org</a></p></footer>"
+    },
+    {
+      "path": "/golf-learnership-programme",
+      "title": "Golf Learnership Programme | Tucker Family Charity",
+      "description": "A structured golf learnership programme supported by Tucker Family Charity and Afrika Tikkun — practical exposure, discipline, and future readiness for young learners.",
+      "schemaType": "WebPage",
+      "staticHtml": "<header><nav aria-label=\"Primary\"><a href=\"/\">Home</a> · <a href=\"/golf-learnership-programme/\">Golf Learnership</a></nav></header><main id=\"main-content\"><h1>Golf Learnership Programme</h1><p>A structured programme giving young learners practical exposure, discipline, teamwork, and future readiness — supported by Tucker Family Charity and Afrika Tikkun.</p><p>Enquiries: <a href=\"mailto:info@tuckerfamilycharity.org?subject=Golf%20Learnership%20Programme%20-%20Enquiry\">info@tuckerfamilycharity.org</a></p></main><footer><p>Johannesburg, South Africa</p></footer>"
+    },
+    {
+      "path": "/property-partnerships",
+      "title": "Property Partnerships | Tucker Family Charity",
+      "description": "Property listings and partnership opportunities connected to Tucker Family Charity — enquire about featured homes and community support.",
+      "schemaType": "WebPage",
+      "staticHtml": "<header><nav aria-label=\"Primary\"><a href=\"/\">Home</a> · <a href=\"/property-partnerships/\">Property Partnerships</a></nav></header><main id=\"main-content\"><h1>Property Partnerships</h1><p>Find a home while supporting Tucker Family Charity. Browse selected property listings and register your interest.</p><p>Enquiries: <a href=\"mailto:info@tuckerfamilycharity.org?subject=Property%20Partnership%20Enquiry\">info@tuckerfamilycharity.org</a></p></main><footer><p>Johannesburg, South Africa</p></footer>"
+    },
+    {
+      "path": "/work-opportunities/looking-for-work",
+      "title": "Looking for Work | Work Opportunities | Tucker Family Charity",
+      "description": "Browse candidate profiles from the Tucker Family Charity network — people looking for work placements and opportunities.",
+      "schemaType": "WebPage",
+      "staticHtml": "<header><nav aria-label=\"Primary\"><a href=\"/work-opportunities/looking-for-work/\">Looking for Work</a> · <a href=\"/work-opportunities/work-available/\">Work Available</a></nav></header><main id=\"main-content\"><p>Work Opportunities</p><h1>Looking for Work</h1><p>Candidate profiles from our network. Browse below, or email us if you would like to learn more about someone listed.</p><p>Contact: <a href=\"mailto:info@tuckerfamilycharity.org\">info@tuckerfamilycharity.org</a></p></main><footer><p>Johannesburg, South Africa</p></footer>"
+    },
+    {
+      "path": "/work-opportunities/work-available",
+      "title": "Work Available | Work Opportunities | Tucker Family Charity",
+      "description": "Browse work roles and placements shared through the Tucker Family Charity community network.",
+      "schemaType": "WebPage",
+      "staticHtml": "<header><nav aria-label=\"Primary\"><a href=\"/work-opportunities/looking-for-work/\">Looking for Work</a> · <a href=\"/work-opportunities/work-available/\">Work Available</a></nav></header><main id=\"main-content\"><p>Work Opportunities</p><h1>Work Available</h1><p>Roles and placements from our network. Browse below, or email us if you are interested in a listing.</p><p>Contact: <a href=\"mailto:info@tuckerfamilycharity.org\">info@tuckerfamilycharity.org</a></p></main><footer><p>Johannesburg, South Africa</p></footer>"
+    }
+  ]
+}

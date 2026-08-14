@@ -1,12 +1,70 @@
+# Tucker Family Charity — robots.txt
+# Custom domain site root: https://www.tuckerfamilycharity.co.za/robots.txt
+#
+# Bot names verified against official docs (Aug 2026):
+# - OpenAI: https://developers.openai.com/api/docs/bots
+# - Anthropic: https://support.claude.com/en/articles/8896518
+# - Perplexity: https://docs.perplexity.ai/docs/resources/perplexity-crawlers
+# - Google: https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers
+# - Bing: https://www.bing.com/webmasters/help/which-crawler-is-bing-using-8c184ec0
+# - Common Crawl: https://commoncrawl.org/ccbot
+#
+# NOTE: Perplexity-User and ChatGPT-User may ignore robots.txt for user-initiated fetches
+# per their official documentation. Blocks below express site policy intent.
+
+# --- Search index crawlers (allow) ---
 User-agent: OAI-SearchBot
 Allow: /
 
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: bingbot
+Allow: /
+
+# --- User-triggered retrieval agents (allow) ---
 User-agent: ChatGPT-User
 Allow: /
 
+User-agent: Claude-User
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# --- Model-training crawlers (policy decision required) ---
+# Currently blocked — opt out of OpenAI foundation-model training corpus.
 User-agent: GPTBot
 Disallow: /
 
+# DECISION REQUIRED: uncomment ONE policy for each training crawler below.
+# Option A — block training use (recommended default for charities):
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+# Option B — allow training use (replace Option A blocks):
+# User-agent: ClaudeBot
+# Allow: /
+#
+# User-agent: Google-Extended
+# Allow: /
+#
+# User-agent: CCBot
+# Allow: /
+
+# --- Default for all other crawlers ---
 User-agent: *
 Allow: /
 

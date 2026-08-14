@@ -1,16 +1,6 @@
 import { useEffect } from "react";
-import {
-  CONTACT_EMAIL,
-  OG_IMAGE_URL,
-  ROBOTS_META,
-  SITE_AREA_SERVED,
-  SITE_NAME,
-  SITE_TAGLINE,
-  SITE_URL,
-  SOCIAL_PROFILES,
-  THEME_COLOR,
-} from "./site";
-import { canonicalUrl, type PageMeta } from "./routes";
+import { ROBOTS_META, SITE_NAME, THEME_COLOR, OG_IMAGE_URL } from "./site";
+import { buildJsonLd, canonicalUrl, type PageMeta } from "./head";
 
 function upsertMeta(
   attribute: "name" | "property",
@@ -48,49 +38,6 @@ function upsertLink(rel: string, href: string) {
   el.href = href;
 }
 
-function buildJsonLd(meta: PageMeta): object {
-  const url = canonicalUrl(meta.path);
-  const organization = {
-    "@type": "NonprofitOrganization",
-    "@id": `${SITE_URL}/#organization`,
-    name: SITE_NAME,
-    url: SITE_URL,
-    logo: OG_IMAGE_URL,
-    description: SITE_TAGLINE,
-    email: CONTACT_EMAIL,
-    areaServed: SITE_AREA_SERVED,
-    sameAs: [...SOCIAL_PROFILES],
-  };
-
-  const graph: object[] = [
-    organization,
-    {
-      "@type": "WebSite",
-      "@id": `${SITE_URL}/#website`,
-      url: SITE_URL,
-      name: SITE_NAME,
-      description: meta.description,
-      publisher: { "@id": `${SITE_URL}/#organization` },
-      inLanguage: "en-ZA",
-    },
-    {
-      "@type": meta.schemaType ?? "WebPage",
-      "@id": `${url}#webpage`,
-      url,
-      name: meta.title,
-      description: meta.description,
-      isPartOf: { "@id": `${SITE_URL}/#website` },
-      about: { "@id": `${SITE_URL}/#organization` },
-      inLanguage: "en-ZA",
-    },
-  ];
-
-  return {
-    "@context": "https://schema.org",
-    "@graph": graph,
-  };
-}
-
 type PageHeadProps = {
   meta: PageMeta;
 };
@@ -98,6 +45,7 @@ type PageHeadProps = {
 export function PageHead({ meta }: PageHeadProps) {
   useEffect(() => {
     const url = canonicalUrl(meta.path);
+    const pageDef = { ...meta, staticHtml: "" };
 
     document.title = meta.title;
 
@@ -129,7 +77,7 @@ export function PageHead({ meta }: PageHeadProps) {
       script.setAttribute("data-seo-managed", "true");
       document.head.appendChild(script);
     }
-    script.textContent = JSON.stringify(buildJsonLd(meta));
+    script.textContent = JSON.stringify(buildJsonLd(pageDef));
   }, [meta]);
 
   return null;

@@ -5,7 +5,7 @@
   "type": "module",
   "homepage": "https://www.tuckerfamilycharity.co.za",
   "scripts": {
-    "build": "vite build && cp dist/index.html dist/404.html && node scripts/verify-seo-build.mjs",
+    "build": "vite build && node --experimental-strip-types scripts/prerender-routes.mjs && node scripts/verify-seo-build.mjs",
     "dev": "vite",
     "sync:pamgolding-images": "node scripts/sync-pamgolding-listing-images.mjs",
     "sync:btp-properties": "node scripts/sync-byron-thomas-properties.mjs"
