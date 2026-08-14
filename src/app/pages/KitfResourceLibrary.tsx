@@ -55,40 +55,42 @@ function ResourceCard({ resource }: { resource: KitfLibraryResource }) {
   const hasCustomDescription = resource.description.trim().length >= 20;
 
   return (
-    <article className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 border border-amber-100/90 flex flex-col h-full min-h-[320px] overflow-hidden">
+    <article className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 border border-amber-100/90 flex flex-col h-full overflow-hidden">
       <div className="p-5 sm:p-6 flex flex-col flex-1 min-h-0">
-        <div className="flex flex-wrap items-center gap-2 mb-3 min-h-[1.75rem]">
+        <div className="flex items-center gap-2 h-8 mb-3 overflow-hidden shrink-0">
           <span
-            className={`inline-flex items-center text-[11px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-md ring-1 ring-inset ${typeBadgeClass(displayType)}`}
+            className={`inline-flex items-center shrink-0 text-[11px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-md ring-1 ring-inset ${typeBadgeClass(displayType)}`}
           >
             {displayType}
           </span>
           {resource.topic && (
-            <span className="text-[11px] font-semibold px-2.5 py-1 rounded-md bg-amber-50 text-amber-950 ring-1 ring-inset ring-amber-200/80">
+            <span className="inline-flex items-center shrink-0 text-[11px] font-semibold px-2.5 py-1 rounded-md bg-amber-50 text-amber-950 ring-1 ring-inset ring-amber-200/80 truncate max-w-[40%]">
               {resource.topic}
             </span>
           )}
           {resource.featured && (
-            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-amber-800 ml-auto">
+            <span className="inline-flex items-center gap-1 shrink-0 text-[11px] font-semibold text-amber-800 ml-auto">
               <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400 shrink-0" aria-hidden />
               Featured
             </span>
           )}
         </div>
 
-        <h3 className="text-lg font-bold text-neutral-900 leading-snug line-clamp-2 min-h-[3.25rem] mb-2">
+        <h3 className="text-lg font-bold text-neutral-900 leading-snug line-clamp-2 h-[3.5rem] overflow-hidden shrink-0">
           {resource.title}
         </h3>
 
         <p
-          className={`text-sm mb-3 min-h-[1.25rem] line-clamp-1 ${resource.author ? "text-neutral-600" : "text-transparent select-none"}`}
+          className={`text-sm h-5 line-clamp-1 overflow-hidden shrink-0 mt-2 mb-3 ${
+            resource.author ? "text-neutral-600" : "text-transparent select-none"
+          }`}
           aria-hidden={!resource.author}
         >
-          {resource.author || "—"}
+          {resource.author || "\u00a0"}
         </p>
 
         <p
-          className={`text-sm leading-relaxed line-clamp-3 flex-1 min-h-[4.75rem] ${
+          className={`text-sm leading-relaxed line-clamp-3 h-[4.5rem] overflow-hidden shrink-0 ${
             hasCustomDescription ? "text-neutral-700" : "text-neutral-500 italic"
           }`}
         >
@@ -96,7 +98,7 @@ function ResourceCard({ resource }: { resource: KitfLibraryResource }) {
         </p>
       </div>
 
-      <div className="px-5 sm:px-6 py-4 bg-amber-50/50 border-t border-amber-100/90 mt-auto">
+      <div className="px-5 sm:px-6 py-4 bg-amber-50/50 border-t border-amber-100/90 mt-auto shrink-0 min-h-[3.25rem] flex items-center">
         {hasLink ? (
           <a
             href={resource.link}
