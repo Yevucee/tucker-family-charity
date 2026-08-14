@@ -174,7 +174,7 @@ export function Donate() {
                 education, daily meals and opportunity for vulnerable communities.
               </p>
               <Link
-                to="/shop"
+                to="/shop/"
                 className="inline-flex items-center justify-center bg-orange-600 text-white px-8 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold"
               >
                 Visit the Shop
@@ -200,7 +200,7 @@ export function Donate() {
               Contact Us
             </a>
             <Link
-              to="/shop"
+              to="/shop/"
               className="inline-flex items-center justify-center border-2 border-white text-white px-8 py-3 rounded-full hover:bg-white/10 transition-colors font-semibold"
             >
               Visit the Shop

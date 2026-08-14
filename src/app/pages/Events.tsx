@@ -147,13 +147,13 @@ export function Events() {
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
-              to="/donate"
+              to="/donate/"
               className="bg-white text-orange-600 px-8 py-3 rounded-full hover:bg-amber-50 transition-colors font-semibold"
             >
               Make a Donation
             </Link>
             <Link
-              to="/shop"
+              to="/shop/"
               className="bg-orange-700 text-white px-8 py-3 rounded-full hover:bg-orange-800 transition-colors font-semibold border-2 border-white"
             >
               Shop Merchandise

@@ -34,7 +34,7 @@ function PartnerScrollCard({ partner }: { partner: Partner }) {
   }
 
   return (
-    <Link to="/partners" className={baseClass}>
+    <Link to="/partners/" className={baseClass}>
       {inner}
     </Link>
   );

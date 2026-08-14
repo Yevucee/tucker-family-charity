@@ -270,7 +270,7 @@ export function OliversVillage() {
               <ExternalLink className="w-4 h-4" />
             </a>
             <Link
-              to="/donate"
+              to="/donate/"
               className="inline-block bg-orange-600 text-white px-8 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold"
             >
               Donate via Tucker Family Charity

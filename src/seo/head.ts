@@ -1,4 +1,5 @@
 import pagesManifest from "./pages.json" with { type: "json" };
+import { buildStaticHtmlForPath } from "./pageContent.ts";
 import {
   CONTACT_EMAIL,
   OG_IMAGE_URL,
@@ -11,17 +12,21 @@ import {
   THEME_COLOR,
 } from "./site.ts";
 
-export type PageDef = {
+export type PageMeta = {
   path: string;
   title: string;
   description: string;
   schemaType?: string;
+};
+
+export type PageDef = PageMeta & {
   staticHtml: string;
 };
 
-export type PageMeta = Pick<PageDef, "path" | "title" | "description" | "schemaType">;
-
-export const PAGE_DEFINITIONS: PageDef[] = pagesManifest.routes;
+export const PAGE_DEFINITIONS: PageDef[] = pagesManifest.routes.map((route) => ({
+  ...route,
+  staticHtml: buildStaticHtmlForPath(route.path),
+}));
 
 const VALID_WEBPAGE_TYPES = new Set([
   "WebPage",
@@ -54,7 +59,7 @@ function webpageSchemaType(schemaType?: string): string {
   return "WebPage";
 }
 
-export function buildJsonLd(page: PageDef): object {
+export function buildJsonLd(page: PageMeta): object {
   const url = canonicalUrl(page.path);
   const organization = {
     "@type": "NonprofitOrganization",
@@ -68,6 +73,28 @@ export function buildJsonLd(page: PageDef): object {
     sameAs: [...SOCIAL_PROFILES],
   };
 
+  const webpage: Record<string, unknown> = {
+    "@type": webpageSchemaType(page.schemaType),
+    "@id": `${url}#webpage`,
+    url,
+    name: page.title,
+    description: page.description,
+    isPartOf: { "@id": `${SITE_URL}/#website` },
+    about: { "@id": `${SITE_URL}/#organization` },
+    inLanguage: "en-ZA",
+  };
+
+  if (page.path === "/donate") {
+    webpage.potentialAction = {
+      "@type": "DonateAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `mailto:${CONTACT_EMAIL}`,
+      },
+      recipient: { "@id": `${SITE_URL}/#organization` },
+    };
+  }
+
   const graph: object[] = [
     organization,
     {
@@ -79,16 +106,7 @@ export function buildJsonLd(page: PageDef): object {
       publisher: { "@id": `${SITE_URL}/#organization` },
       inLanguage: "en-ZA",
     },
-    {
-      "@type": webpageSchemaType(page.schemaType),
-      "@id": `${url}#webpage`,
-      url,
-      name: page.title,
-      description: page.description,
-      isPartOf: { "@id": `${SITE_URL}/#website` },
-      about: { "@id": `${SITE_URL}/#organization` },
-      inLanguage: "en-ZA",
-    },
+    webpage,
   ];
 
   return {
@@ -131,7 +149,7 @@ export function buildHeadBlock(page: PageDef): string {
 }
 
 export function buildRootMarkup(page: PageDef): string {
-  return `<div id="static-prerender" data-prerender="true">${page.staticHtml}</div>`;
+  return page.staticHtml;
 }
 
 export function renderPrerenderedHtml(template: string, page: PageDef): string {

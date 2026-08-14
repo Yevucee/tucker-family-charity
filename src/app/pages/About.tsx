@@ -146,7 +146,7 @@ export function About() {
             how to help.
           </p>
           <Link
-            to="/olivers-village"
+            to="/olivers-village/"
             className="inline-block bg-orange-600 text-white px-8 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold"
           >
             Explore Oliver&apos;s Village
@@ -165,7 +165,7 @@ export function About() {
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
-              to="/donate"
+              to="/donate/"
               className="bg-orange-600 text-white px-8 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold"
             >
               Donate via Tucker Family Charity

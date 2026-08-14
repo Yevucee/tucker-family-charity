@@ -3,6 +3,7 @@
  */
 
 import { KITF_LIBRARY_SHEET_ID, KITF_LIBRARY_SHEET_TAB } from "@/config";
+import { kitfLibraryPageCopy as kitfLibraryPageCopyBase } from "./copy/kitfLibraryPageCopy.ts";
 
 export const KITF_LIBRARY_PATH = "/keep-it-in-the-family/library";
 
@@ -146,10 +147,7 @@ export function resourceHasExternalLink(link: string): boolean {
 }
 
 export const kitfLibraryPageCopy = {
-  title: "Learning from the Best",
-  subtitle: "Keep It In The Family resource library",
-  intro:
-    "Explore our curated library of podcasts, talks, documentaries, articles, and books on leadership, high performance, and personal growth — hand-picked for anyone chasing a better version of themselves, on the field or off it.",
+  ...kitfLibraryPageCopyBase,
   searchPlaceholder: "Search by title, author, topic, or type…",
   typeFilterAll: "All formats",
   topicFilterAll: "All topics",

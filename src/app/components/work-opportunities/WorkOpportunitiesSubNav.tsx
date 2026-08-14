@@ -15,11 +15,11 @@ export function WorkOpportunitiesSubNav() {
       className="flex flex-wrap justify-center gap-2"
       aria-label="Work Opportunities sections"
     >
-      <NavLink to="/work-opportunities/looking-for-work" className={tabClass} end>
+      <NavLink to="/work-opportunities/looking-for-work/" className={tabClass} end>
         <Search className="w-4 h-4" aria-hidden />
         Looking for Work
       </NavLink>
-      <NavLink to="/work-opportunities/work-available" className={tabClass}>
+      <NavLink to="/work-opportunities/work-available/" className={tabClass}>
         <Briefcase className="w-4 h-4" aria-hidden />
         Work Available
       </NavLink>

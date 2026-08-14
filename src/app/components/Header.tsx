@@ -43,7 +43,7 @@ export function Header() {
               Home
             </NavLink>
             <NavLink
-              to="/about"
+              to="/about/"
               className={({ isActive }) =>
                 isActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600 transition-colors"
               }
@@ -51,7 +51,7 @@ export function Header() {
               About
             </NavLink>
             <NavLink
-              to="/events"
+              to="/events/"
               className={({ isActive }) =>
                 isActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600 transition-colors"
               }
@@ -59,7 +59,7 @@ export function Header() {
               Events
             </NavLink>
             <NavLink
-              to="/shop"
+              to="/shop/"
               className={({ isActive }) =>
                 isActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600 transition-colors"
               }
@@ -67,7 +67,7 @@ export function Header() {
               Shop
             </NavLink>
             <NavLink
-              to="/partners"
+              to="/partners/"
               className={({ isActive }) =>
                 isActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600 transition-colors"
               }
@@ -91,22 +91,22 @@ export function Header() {
                 onCloseAutoFocus={(e) => e.preventDefault()}
               >
                 <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
-                  <Link to="/keep-it-in-the-family" className="cursor-pointer">
+                  <Link to="/keep-it-in-the-family/" className="cursor-pointer">
                     Keep It In The Family
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
-                  <Link to="/keep-it-in-the-family/library" className="cursor-pointer">
+                  <Link to="/keep-it-in-the-family/library/" className="cursor-pointer">
                     Learning from the Best
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
-                  <Link to="/property-partnerships" className="cursor-pointer">
+                  <Link to="/property-partnerships/" className="cursor-pointer">
                     Property Partnerships
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
-                  <Link to="/work-opportunities" className="cursor-pointer">
+                  <Link to="/work-opportunities/" className="cursor-pointer">
                     Work Opportunities
                   </Link>
                 </DropdownMenuItem>
@@ -127,19 +127,19 @@ export function Header() {
                 onCloseAutoFocus={(e) => e.preventDefault()}
               >
                 <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
-                  <Link to="/olivers-village" className="cursor-pointer">
+                  <Link to="/olivers-village/" className="cursor-pointer">
                     Oliver&apos;s Village
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
-                  <Link to="/golf-learnership-programme" className="cursor-pointer">
+                  <Link to="/golf-learnership-programme/" className="cursor-pointer">
                     Golf Learnership Programme
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             <Link
-              to="/donate"
+              to="/donate/"
               className="bg-orange-600 text-white px-5 py-2 rounded-full hover:bg-orange-700 transition-colors"
             >
               Support Us
@@ -169,7 +169,7 @@ export function Header() {
                 Home
               </NavLink>
               <NavLink
-                to="/about"
+                to="/about/"
                 className={({ isActive }) =>
                   isActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600 transition-colors"
                 }
@@ -178,7 +178,7 @@ export function Header() {
                 About
               </NavLink>
               <NavLink
-                to="/events"
+                to="/events/"
                 className={({ isActive }) =>
                   isActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600 transition-colors"
                 }
@@ -187,7 +187,7 @@ export function Header() {
                 Events
               </NavLink>
               <NavLink
-                to="/shop"
+                to="/shop/"
                 className={({ isActive }) =>
                   isActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600 transition-colors"
                 }
@@ -196,7 +196,7 @@ export function Header() {
                 Shop
               </NavLink>
               <NavLink
-                to="/partners"
+                to="/partners/"
                 className={({ isActive }) =>
                   isActive ? "text-orange-600 font-semibold" : "text-amber-950 hover:text-orange-600 transition-colors"
                 }
@@ -220,7 +220,7 @@ export function Header() {
                 <CollapsibleContent>
                   <div className="pl-4 py-2 flex flex-col">
                     <Link
-                      to="/keep-it-in-the-family"
+                      to="/keep-it-in-the-family/"
                       className="text-amber-950 hover:text-orange-600 transition-colors block py-2"
                       onClick={() => {
                         setIsMenuOpen(false);
@@ -230,7 +230,7 @@ export function Header() {
                       Keep It In The Family
                     </Link>
                     <Link
-                      to="/keep-it-in-the-family/library"
+                      to="/keep-it-in-the-family/library/"
                       className="text-amber-950 hover:text-orange-600 transition-colors block py-2"
                       onClick={() => {
                         setIsMenuOpen(false);
@@ -240,7 +240,7 @@ export function Header() {
                       Learning from the Best
                     </Link>
                     <Link
-                      to="/property-partnerships"
+                      to="/property-partnerships/"
                       className="text-amber-950 hover:text-orange-600 transition-colors block py-2"
                       onClick={() => {
                         setIsMenuOpen(false);
@@ -250,7 +250,7 @@ export function Header() {
                       Property Partnerships
                     </Link>
                     <Link
-                      to="/work-opportunities"
+                      to="/work-opportunities/"
                       className="text-amber-950 hover:text-orange-600 transition-colors block py-2"
                       onClick={() => {
                         setIsMenuOpen(false);
@@ -276,7 +276,7 @@ export function Header() {
                 <CollapsibleContent>
                   <div className="pl-4 py-2 flex flex-col">
                     <Link
-                      to="/olivers-village"
+                      to="/olivers-village/"
                       className="text-amber-950 hover:text-orange-600 transition-colors block py-2"
                       onClick={() => {
                         setIsMenuOpen(false);
@@ -286,7 +286,7 @@ export function Header() {
                       Oliver&apos;s Village
                     </Link>
                     <Link
-                      to="/golf-learnership-programme"
+                      to="/golf-learnership-programme/"
                       className="text-amber-950 hover:text-orange-600 transition-colors block py-2"
                       onClick={() => {
                         setIsMenuOpen(false);
@@ -299,7 +299,7 @@ export function Header() {
                 </CollapsibleContent>
               </Collapsible>
               <Link
-                to="/donate"
+                to="/donate/"
                 className="flex items-center justify-center min-h-[44px] bg-orange-600 text-white px-5 py-3 rounded-full hover:bg-orange-700 transition-colors text-center"
                 onClick={() => setIsMenuOpen(false)}
               >

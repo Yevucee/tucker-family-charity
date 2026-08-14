@@ -214,7 +214,7 @@ export function CharityWine() {
           <p className="mt-3 text-sm text-amber-100/95">{winePageCopy.caseNotice}</p>
 
           <Link
-            to="/shop"
+            to="/shop/"
             className="mt-5 inline-flex w-full sm:w-auto justify-center items-center gap-2 py-3 px-5 rounded-xl border-2 border-white/80 text-white font-semibold hover:bg-white/10 transition-colors text-sm sm:text-base"
           >
             <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden />

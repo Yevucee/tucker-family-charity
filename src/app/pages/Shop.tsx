@@ -328,7 +328,7 @@ export function Shop() {
             and opportunity for vulnerable communities.
           </p>
           <Link
-            to="/olivers-village"
+            to="/olivers-village/"
             className="inline-block bg-white text-amber-900 px-8 py-3 rounded-full hover:bg-amber-50 transition-colors font-semibold"
           >
             Learn more about Oliver&apos;s Village

@@ -5,6 +5,7 @@
 import wineChloe from "@/assets/shop/wine-chloe.png";
 import wineElla from "@/assets/shop/wine-ella.png";
 import wineMadison from "@/assets/shop/wine-madison.png";
+import { winePageCopy as winePageCopyBase } from "./copy/winePageCopy.ts";
 
 /** Primary order inbox when the form is submitted. */
 export const ORDER_EMAIL = "brett@tuckerfamilycharity.co.za";
@@ -313,10 +314,7 @@ export function buildWineOrderFormSubmitBody(input: {
 }
 
 export const winePageCopy = {
-  title: "Tucker Family Charity Wine",
-  intro:
-    "White-label South African wines in partnership with Tucker Family Charity and in support of Oliver’s Village.",
-  impactLine: "Every bottle helps support our initiatives.",
+  ...winePageCopyBase,
   deliveryNoticeHeading: "Delivery charges",
   deliveryNoticeBody:
     "Delivery is charged separately: R50 within Johannesburg, or R200 anywhere else in South Africa.",

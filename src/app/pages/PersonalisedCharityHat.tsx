@@ -48,7 +48,7 @@ export function PersonalisedCharityHat() {
               <ExternalLink className="w-5 h-5 shrink-0" aria-hidden />
             </a>
             <Link
-              to="/shop"
+              to="/shop/"
               className="inline-flex w-full sm:w-auto justify-center items-center gap-2 py-3 px-5 rounded-xl border-2 border-white/80 text-white font-semibold hover:bg-white/10 transition-colors text-sm sm:text-base"
             >
               <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden />

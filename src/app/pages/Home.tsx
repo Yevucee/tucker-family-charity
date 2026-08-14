@@ -63,13 +63,13 @@ export function Home() {
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link
-                  to="/about"
+                  to="/about/"
                   className="bg-orange-600 text-white px-8 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold"
                 >
                   Our Story
                 </Link>
                 <Link
-                  to="/olivers-village"
+                  to="/olivers-village/"
                   className="bg-white text-amber-950 px-8 py-3 rounded-full hover:bg-amber-50 transition-colors font-semibold text-center"
                 >
                   Oliver&apos;s Village
@@ -94,13 +94,13 @@ export function Home() {
                 meals and training to children and families from nearby communities.
               </p>
               <p className="text-lg text-neutral-700 mb-4">
-                Through events, fundraising and merchandise sales, we help provide practical support where it matters most. We also maintain a trusted directory of local tradespeople and services recommended by our community—<Link to="/keep-it-in-the-family" className="text-orange-600 hover:text-orange-700 font-semibold">Keep It In The Family</Link>.
+                Through events, fundraising and merchandise sales, we help provide practical support where it matters most. We also maintain a trusted directory of local tradespeople and services recommended by our community—<Link to="/keep-it-in-the-family/" className="text-orange-600 hover:text-orange-700 font-semibold">Keep It In The Family</Link>.
               </p>
               <p className="text-lg text-neutral-700 mb-8">
                 We&apos;re proud to be part of Oliver&apos;s Village&apos;s journey, and we invite you to join us.
               </p>
               <Link
-                to="/about"
+                to="/about/"
                 className="inline-block text-orange-600 hover:text-orange-700 font-semibold"
               >
                 Read our full story →
@@ -151,7 +151,7 @@ export function Home() {
               </FeaturedMonthCarousel>
               <div className="mt-8 flex justify-center">
                 <Link
-                  to="/shop#featured-this-month"
+                  to="/shop/#featured-this-month"
                   className="inline-flex items-center justify-center bg-orange-600 text-white px-8 py-3.5 rounded-full hover:bg-orange-700 transition-colors font-semibold text-center"
                 >
                   Shop This Month&apos;s Offers
@@ -195,7 +195,7 @@ export function Home() {
             </div>
             <div className="mt-12 flex justify-center">
               <Link
-                to="/donate"
+                to="/donate/"
                 className="inline-flex items-center justify-center border-2 border-orange-600 text-orange-700 bg-white px-8 py-3.5 rounded-full hover:bg-amber-50 transition-colors font-semibold"
               >
                 See All Ways to Support
@@ -263,7 +263,7 @@ export function Home() {
 
           <div className="text-center mt-12">
             <Link
-              to="/olivers-village"
+              to="/olivers-village/"
               className="inline-block bg-orange-600 text-white px-8 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold"
             >
               See the impact
@@ -318,7 +318,7 @@ export function Home() {
 
           <div className="text-center mt-10">
             <Link
-              to="/events"
+              to="/events/"
               className="inline-block bg-orange-600 text-white px-8 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold"
             >
               View All Events

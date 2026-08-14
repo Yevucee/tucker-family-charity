@@ -34,6 +34,8 @@ export const ORDER_EMAIL = "info@tuckerfamilycharity.org";
 
 export const PERSONALISED_HAT_PATH = "/shop/personalised-hat";
 
+import { hatPageCopy as hatPageCopyBase } from "./copy/hatPageCopy.ts";
+
 const BASE = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
@@ -62,9 +64,7 @@ export function hatImageForSlug(slug: string): string {
 }
 
 export const hatPageCopy = {
-  title: "Personalised Tucker Family Charity Cap",
-  intro: "Cotton Tucker caps sold through Cheyna Dot.",
-  impactLine: "100% of profits go to Oliver's Village.",
+  ...hatPageCopyBase,
   orderCta: `Order on ${HAT_STORE_DISPLAY_NAME}`,
   featuresHeading: "What you get",
   features: [

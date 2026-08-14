@@ -31,40 +31,40 @@ export function Footer() {
               <Link to="/" className="text-amber-200/90 hover:text-orange-400 transition-colors">
                 Home
               </Link>
-              <Link to="/about" className="text-amber-200/90 hover:text-orange-400 transition-colors">
+              <Link to="/about/" className="text-amber-200/90 hover:text-orange-400 transition-colors">
                 About Us
               </Link>
-              <Link to="/olivers-village" className="text-amber-200/90 hover:text-orange-400 transition-colors">
+              <Link to="/olivers-village/" className="text-amber-200/90 hover:text-orange-400 transition-colors">
                 Oliver&apos;s Village
               </Link>
-              <Link to="/events" className="text-amber-200/90 hover:text-orange-400 transition-colors">
+              <Link to="/events/" className="text-amber-200/90 hover:text-orange-400 transition-colors">
                 Events
               </Link>
-              <Link to="/shop" className="text-amber-200/90 hover:text-orange-400 transition-colors">
+              <Link to="/shop/" className="text-amber-200/90 hover:text-orange-400 transition-colors">
                 Shop
               </Link>
-              <Link to="/donate" className="text-amber-200/90 hover:text-orange-400 transition-colors">
+              <Link to="/donate/" className="text-amber-200/90 hover:text-orange-400 transition-colors">
                 Support Us
               </Link>
-              <Link to="/partners" className="text-amber-200/90 hover:text-orange-400 transition-colors">
+              <Link to="/partners/" className="text-amber-200/90 hover:text-orange-400 transition-colors">
                 Partners
               </Link>
               <Link
-                to="/property-partnerships"
+                to="/property-partnerships/"
                 className="text-amber-200/90 hover:text-orange-400 transition-colors"
               >
                 Property Partnerships
               </Link>
               <Link
-                to="/work-opportunities"
+                to="/work-opportunities/"
                 className="text-amber-200/90 hover:text-orange-400 transition-colors"
               >
                 Work Opportunities
               </Link>
-              <Link to="/golf-learnership-programme" className="text-amber-200/90 hover:text-orange-400 transition-colors">
+              <Link to="/golf-learnership-programme/" className="text-amber-200/90 hover:text-orange-400 transition-colors">
                 Golf Learnership
               </Link>
-              <Link to="/keep-it-in-the-family" className="text-amber-200/90 hover:text-orange-400 transition-colors">
+              <Link to="/keep-it-in-the-family/" className="text-amber-200/90 hover:text-orange-400 transition-colors">
                 Keep It In The Family
               </Link>
             </div>

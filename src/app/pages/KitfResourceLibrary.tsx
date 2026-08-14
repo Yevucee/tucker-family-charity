@@ -224,7 +224,7 @@ export function KitfResourceLibrary() {
           <h1 className="text-4xl md:text-5xl font-bold mb-4">{kitfLibraryPageCopy.title}</h1>
           <p className="text-lg text-amber-100 leading-relaxed">{kitfLibraryPageCopy.intro}</p>
           <Link
-            to="/keep-it-in-the-family"
+            to="/keep-it-in-the-family/"
             className="mt-6 inline-flex items-center gap-2 py-3 px-5 rounded-xl border-2 border-white/80 text-white font-semibold hover:bg-white/10 transition-colors text-sm sm:text-base"
           >
             <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden />
