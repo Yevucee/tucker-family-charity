@@ -71,6 +71,29 @@ function isPageLikeInternalHref(href) {
   return !lastSegment.includes(".");
 }
 
+function isStaticAssetHref(href) {
+  const pathPart = href.split("#")[0].split("?")[0];
+  const lastSegment = pathPart.split("/").filter(Boolean).pop() ?? "";
+  return lastSegment.includes(".");
+}
+
+function validateStaticAssetRefs(relative, html) {
+  for (const match of html.matchAll(/\s(?:href|src)="(\/[^"]*)"/g)) {
+    const href = match[1];
+    if (!isStaticAssetHref(href)) continue;
+
+    if (href.endsWith("/")) {
+      errors.push(`${relative}: static asset "${href}" must not have a trailing slash`);
+      continue;
+    }
+
+    const assetPath = href.replace(/^\//, "");
+    if (!fs.existsSync(path.join(dist, assetPath))) {
+      errors.push(`${relative}: static asset missing dist/${assetPath} (referenced as "${href}")`);
+    }
+  }
+}
+
 function validateInternalLinks(htmlFilesByPath, validPathnames) {
   for (const [relative, html] of htmlFilesByPath) {
     for (const href of extractInternalHrefs(html)) {
@@ -118,6 +141,16 @@ if (robots) {
 
 readDist("llms.txt");
 readDist("og-image.png");
+
+const requiredStaticAssets = [
+  "favicon.svg",
+  "favicon-16.png",
+  "favicon-32.png",
+  "apple-touch-icon.png",
+];
+for (const asset of requiredStaticAssets) {
+  readDist(asset);
+}
 
 // --- sitemap + prerendered HTML ---
 const sitemap = readDist("sitemap.xml");
@@ -182,6 +215,10 @@ if (sitemap) {
   }
 
   validateInternalLinks(htmlFilesByPath, validPathnames);
+
+  for (const [relative, html] of htmlFilesByPath) {
+    validateStaticAssetRefs(relative, html);
+  }
 }
 
 if (warnings.length) {
