@@ -41,7 +41,8 @@ When a row has a link but **no description**, the sync script fetches the page a
 1. `og:description`
 2. `twitter:description`
 3. `meta name="description"`
-4. `og:title` (only if different from the sheet title)
+4. YouTube `shortDescription` (embedded JSON)
+5. `og:title` (only if different from the sheet title)
 
 - **Up to 25 URLs per automatic sync** (keeps runs fast)
 - **Menu → Fill missing descriptions (batch)** — up to 50 more per run for backfill
@@ -50,7 +51,9 @@ When a row has a link but **no description**, the sync script fetches the page a
 
 After updating the script in Apps Script, save and redeploy is **not** required (bound script, not a web app). Re-run **`installWebsiteSyncTriggers`** only if menu items changed.
 
-First-time backfill: run **Fill missing descriptions (batch)** several times until descriptions stop appearing.
+First-time backfill: run **Fill missing descriptions (batch)** several times until descriptions stop appearing (~10 runs for ~500 rows). Descriptions appear in **`Website` column E** first (sheet row order). The live library sorts **A–Z by title**, so the first website page may still look empty until YouTube/TED rows are filled.
+
+**If the first run looks like it did nothing:** check the toast — it now reports how many links were checked vs filled. Also open the **Website** tab (not Podcast/YouTube source tabs) and scroll column **E**. Spotify/Apple Podcast rows at the top often fill first; YouTube needs the updated script (meta tags appear late in the HTML).
 
 ## Website config
 

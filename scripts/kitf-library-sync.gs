@@ -111,10 +111,12 @@ function fillMissingDescriptionsBatch() {
   }
 
   var filled = 0;
+  var attempted = 0;
   for (var r = 1; r < data.length && filled < ENRICH_DESCRIPTIONS_BATCH_LIMIT; r++) {
     if (String(data[r][descIdx] || "").trim()) continue;
     var link = String(data[r][linkIdx] || "").trim();
     if (!isPublicHttpLink_(link)) continue;
+    attempted++;
     var title = titleIdx >= 0 ? String(data[r][titleIdx] || "").trim() : "";
     var desc = resolveDescriptionForLink_(link, title);
     if (!desc) continue;
@@ -124,11 +126,17 @@ function fillMissingDescriptionsBatch() {
     Utilities.sleep(FETCH_DELAY_MS);
   }
 
-  ss.toast(
-    filled ? "Filled " + filled + " description(s)." : "No new descriptions found (or limit reached).",
-    "KITF Library",
-    6
-  );
+  var msg;
+  if (filled) {
+    msg = "Filled " + filled + " description(s)";
+    if (attempted > filled) msg += " (" + attempted + " links checked this run)";
+    msg += ". Run again for the next batch — check column E on Website.";
+  } else if (attempted) {
+    msg = "Checked " + attempted + " link(s); none returned a usable description. Run again for the next rows.";
+  } else {
+    msg = "No empty description cells with http links found.";
+  }
+  ss.toast(msg, "KITF Library", 8);
 }
 
 function readPreservedWebsiteFields_(ss) {
@@ -348,6 +356,7 @@ function fetchOneLineDescriptionFromUrl_(url, sheetTitle) {
       extractMetaContent_(html, "og:description"),
       extractMetaContent_(html, "twitter:description"),
       extractMetaContent_(html, "description"),
+      extractJsonStringField_(html, "shortDescription"),
       extractMetaContent_(html, "og:title")
     ];
 
@@ -355,7 +364,7 @@ function fetchOneLineDescriptionFromUrl_(url, sheetTitle) {
     for (var i = 0; i < candidates.length; i++) {
       var line = sanitizeOneLineDescription_(candidates[i], DESCRIPTION_MAX_CHARS);
       if (!line) continue;
-      if (i === 3 && normalizeCompareText_(line) === titleNorm) continue;
+      if (i === 4 && normalizeCompareText_(line) === titleNorm) continue;
       if (titleNorm && normalizeCompareText_(line) === titleNorm) continue;
       return line;
     }
@@ -366,7 +375,7 @@ function fetchOneLineDescriptionFromUrl_(url, sheetTitle) {
 }
 
 function fetchUrlHtml_(url) {
-  var response = UrlFetchApp.fetch(url, {
+  var options = {
     muteHttpExceptions: true,
     followRedirects: true,
     validateHttpsCertificates: true,
@@ -374,10 +383,29 @@ function fetchUrlHtml_(url) {
       "User-Agent": "Mozilla/5.0 (compatible; TuckerFamilyCharity-LibraryBot/1.0; +https://www.tuckerfamilycharity.co.za)",
       Accept: "text/html,application/xhtml+xml"
     }
-  });
-  if (response.getResponseCode() >= 400) return "";
+  };
+  var response = UrlFetchApp.fetch(url, options);
+  if (response.getResponseCode() >= 400) {
+    options.validateHttpsCertificates = false;
+    response = UrlFetchApp.fetch(url, options);
+    if (response.getResponseCode() >= 400) return "";
+  }
   var text = response.getContentText();
-  return text.length > 500000 ? text.substring(0, 500000) : text;
+  // YouTube/TED meta tags often appear after 500 KB; keep enough for og:description extraction.
+  return text.length > 1500000 ? text.substring(0, 1500000) : text;
+}
+
+/** Pull a JSON string field (e.g. YouTube shortDescription) from embedded page data. */
+function extractJsonStringField_(html, fieldName) {
+  var escaped = fieldName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  var m = html.match(new RegExp('"' + escaped + '":"((?:\\\\.|[^"\\\\])*)"'));
+  if (!m || !m[1]) return "";
+  return m[1]
+    .replace(/\\n/g, " ")
+    .replace(/\\r/g, " ")
+    .replace(/\\t/g, " ")
+    .replace(/\\"/g, '"')
+    .replace(/\\\\/g, "\\");
 }
 
 function extractMetaContent_(html, propertyOrName) {
