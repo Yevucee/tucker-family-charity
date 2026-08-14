@@ -9,7 +9,7 @@
  *
  * Brett edits Podcast / You Tube / etc.; Website tab updates for the website automatically.
  * Empty descriptions are filled from each link's Open Graph / meta tags (no LLM).
- * Run "Fill missing descriptions (batch)" from the KITF Library menu to backfill more rows.
+ * Run "Fill / improve descriptions (batch)" from the KITF Library menu to backfill or replace generic lines.
  * See docs/KITF_LIBRARY_SETUP.md
  */
 
@@ -49,7 +49,7 @@ function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu("KITF Library")
     .addItem("Sync Website tab now", "syncWebsiteFromSourceTabs")
-    .addItem("Fill missing descriptions (batch)", "fillMissingDescriptionsBatch")
+    .addItem("Fill / improve descriptions (batch)", "fillMissingDescriptionsBatch")
     .addSeparator()
     .addItem("Install auto-sync triggers", "installWebsiteSyncTriggers")
     .addToUi();
@@ -113,12 +113,13 @@ function fillMissingDescriptionsBatch() {
   var filled = 0;
   var attempted = 0;
   for (var r = 1; r < data.length && filled < ENRICH_DESCRIPTIONS_BATCH_LIMIT; r++) {
-    if (String(data[r][descIdx] || "").trim()) continue;
     var link = String(data[r][linkIdx] || "").trim();
     if (!isPublicHttpLink_(link)) continue;
-    attempted++;
     var title = titleIdx >= 0 ? String(data[r][titleIdx] || "").trim() : "";
-    var desc = resolveDescriptionForLink_(link, title);
+    var existing = String(data[r][descIdx] || "").trim();
+    if (existing && !needsDescriptionFill_(existing, title, link)) continue;
+    attempted++;
+    var desc = resolveDescriptionForLink_(link, title, { bypassCache: !!existing });
     if (!desc) continue;
     sh.getRange(r + 1, descIdx + 1).setValue(desc);
     data[r][descIdx] = desc;
@@ -134,7 +135,7 @@ function fillMissingDescriptionsBatch() {
   } else if (attempted) {
     msg = "Checked " + attempted + " link(s); none returned a usable description. Run again for the next rows.";
   } else {
-    msg = "No empty description cells with http links found.";
+    msg = "No empty or generic descriptions left to improve in this pass.";
   }
   ss.toast(msg, "KITF Library", 8);
 }
@@ -152,9 +153,17 @@ function readPreservedWebsiteFields_(ss) {
     var link = normalizeLink_(data[r][linkIdx]);
     if (!link) continue;
     var keep = {};
+    var titleIdx = headers.indexOf("title");
+    var rowTitle = titleIdx >= 0 ? String(data[r][titleIdx] || "") : "";
+    var rowLink = String(data[r][linkIdx] || "");
     fields.forEach(function (f) {
       var i = headers.indexOf(f);
-      if (i >= 0 && data[r][i] != null && String(data[r][i]).trim() !== "") keep[f] = data[r][i];
+      if (i < 0 || data[r][i] == null || String(data[r][i]).trim() === "") return;
+      if (f === "description" && !needsDescriptionFill_(data[r][i], rowTitle, rowLink)) {
+        keep[f] = data[r][i];
+        return;
+      }
+      if (f !== "description") keep[f] = data[r][i];
     });
     if (Object.keys(keep).length) map[link] = keep;
   }
@@ -304,7 +313,7 @@ function buildRow_(title, type, author, link, sourceTab) {
   };
 }
 
-/** Fill description on row objects when empty (respects preserved + cache). */
+/** Fill description on row objects when empty or generic (respects good manual text + cache). */
 function enrichMissingDescriptions_(rows, preserved, maxFetches) {
   var fetches = 0;
   rows.forEach(function (row) {
@@ -312,10 +321,13 @@ function enrichMissingDescriptions_(rows, preserved, maxFetches) {
     var link = String(row.link || "").trim();
     if (!isPublicHttpLink_(link)) return;
     var key = normalizeLink_(link);
-    if (preserved[key] && String(preserved[key].description || "").trim()) return;
-    if (String(row.description || "").trim()) return;
+    var preservedDesc = preserved[key] && preserved[key].description;
+    if (preservedDesc && String(preservedDesc).trim() && !needsDescriptionFill_(preservedDesc, row.title, link)) return;
+    if (String(row.description || "").trim() && !needsDescriptionFill_(row.description, row.title, link)) return;
 
-    var desc = resolveDescriptionForLink_(link, row.title);
+    var desc = resolveDescriptionForLink_(link, row.title, {
+      bypassCache: needsDescriptionFill_(preservedDesc || row.description, row.title, link)
+    });
     if (!desc) return;
     row.description = desc;
     fetches++;
@@ -323,14 +335,17 @@ function enrichMissingDescriptions_(rows, preserved, maxFetches) {
   });
 }
 
-function resolveDescriptionForLink_(link, title) {
+function resolveDescriptionForLink_(link, title, options) {
+  options = options || {};
   var cache = CacheService.getScriptCache();
   var cacheKey = descriptionCacheKey_(link);
-  var cached = cache.get(cacheKey);
-  if (cached) return cached;
+  if (!options.bypassCache) {
+    var cached = cache.get(cacheKey);
+    if (cached && !needsDescriptionFill_(cached, title, link)) return cached;
+  }
 
   var desc = fetchOneLineDescriptionFromUrl_(link, title);
-  if (desc) cache.put(cacheKey, desc, 604800);
+  if (desc && !needsDescriptionFill_(desc, title, link)) cache.put(cacheKey, desc, 604800);
   return desc;
 }
 
@@ -340,7 +355,7 @@ function descriptionCacheKey_(link) {
     var v = (b < 0 ? b + 256 : b).toString(16);
     return v.length === 1 ? "0" + v : v;
   }).join("");
-  return "kitf_desc_" + hex;
+  return "kitf_desc_v2_" + hex;
 }
 
 /**
@@ -353,25 +368,108 @@ function fetchOneLineDescriptionFromUrl_(url, sheetTitle) {
     if (!html) return "";
 
     var candidates = [
-      extractMetaContent_(html, "og:description"),
-      extractMetaContent_(html, "twitter:description"),
-      extractMetaContent_(html, "description"),
-      extractJsonStringField_(html, "shortDescription"),
-      extractMetaContent_(html, "og:title")
+      { source: "meta-description", text: extractMetaContent_(html, "description") },
+      { source: "short-description", text: extractJsonStringField_(html, "shortDescription") },
+      { source: "og-description", text: extractMetaContent_(html, "og:description") },
+      { source: "twitter-description", text: extractMetaContent_(html, "twitter:description") },
+      { source: "og-title", text: extractMetaContent_(html, "og:title") },
+      { source: "twitter-title", text: extractMetaContent_(html, "twitter:title") }
     ];
 
-    var titleNorm = normalizeCompareText_(sheetTitle);
-    for (var i = 0; i < candidates.length; i++) {
-      var line = sanitizeOneLineDescription_(candidates[i], DESCRIPTION_MAX_CHARS);
-      if (!line) continue;
-      if (i === 4 && normalizeCompareText_(line) === titleNorm) continue;
-      if (titleNorm && normalizeCompareText_(line) === titleNorm) continue;
-      return line;
-    }
+    return pickBestDescriptionCandidate_(candidates, sheetTitle, url);
   } catch (err) {
     Logger.log("fetchOneLineDescriptionFromUrl_ failed for " + url + ": " + err);
   }
   return "";
+}
+
+function needsDescriptionFill_(existing, sheetTitle, url) {
+  var s = String(existing || "").trim();
+  if (!s) return true;
+  return isGenericDescription_(s, sheetTitle, url);
+}
+
+function pickBestDescriptionCandidate_(candidates, sheetTitle, url) {
+  var best = "";
+  var bestScore = -1;
+  candidates.forEach(function (item) {
+    var refined = refineDescriptionText_(item.text, url, item.source);
+    var line = sanitizeOneLineDescription_(refined, DESCRIPTION_MAX_CHARS);
+    if (!line || isGenericDescription_(line, sheetTitle, url)) return;
+
+    var score = scoreDescriptionCandidate_(line, item.source, sheetTitle, url);
+    if (score > bestScore) {
+      bestScore = score;
+      best = line;
+    }
+  });
+  return best;
+}
+
+function scoreDescriptionCandidate_(line, source, sheetTitle, url) {
+  var score = 0;
+  var len = line.length;
+  var host = urlHost_(url);
+
+  if (source === "meta-description") score += 45;
+  if (source === "short-description") score += 40;
+  if (source === "og-description") score += 25;
+  if (source === "twitter-description") score += 20;
+  if (source === "og-title") score += isPodcastHost_(host) ? 30 : 8;
+  if (source === "twitter-title") score += 12;
+
+  if (len >= 50 && len <= DESCRIPTION_MAX_CHARS) score += 25;
+  else if (len >= 30) score += 15;
+  else if (len >= 20) score += 5;
+
+  if (sheetTitle && normalizeCompareText_(line) === normalizeCompareText_(sheetTitle)) score -= 60;
+
+  return score;
+}
+
+function isGenericDescription_(text, sheetTitle, url) {
+  var s = normalizeCompareText_(text);
+  if (!s) return true;
+  if (s.length < 15) return true;
+
+  if (sheetTitle && s === normalizeCompareText_(sheetTitle)) return true;
+
+  var patterns = [
+    /^share your videos with friends, family, and the world$/,
+    /^create an account or log in to instagram/,
+    /^log in to (facebook|instagram|linkedin)/,
+    /^watch videos on youtube/,
+    / · episode\s*$/,
+    /^podcastaflevering · .+ · \d/,
+    /^podcast episode · .+ · \d/,
+    /^[^·]{2,50} · episode\s*$/
+  ];
+  for (var i = 0; i < patterns.length; i++) {
+    if (patterns[i].test(s)) return true;
+  }
+
+  if (isPodcastHost_(urlHost_(url)) && /^podcast(aflevering| episode) · .+ · \d/.test(s) && s.length < 90) {
+    return true;
+  }
+
+  return false;
+}
+
+function refineDescriptionText_(text, url, source) {
+  var s = decodeHtmlEntities_(String(text || "")).trim();
+  s = s.replace(/^Listen to this episode from .+? on Spotify\.\s*/i, "");
+  s = s.replace(/^Listen to .+? on Apple Podcasts\.\s*/i, "");
+  s = s.replace(/^Watch .+? on YouTube\.?\s*/i, "");
+  return s;
+}
+
+function urlHost_(url) {
+  var m = String(url || "").match(/^https?:\/\/([^/?#]+)/i);
+  return m ? m[1].toLowerCase().replace(/^www\./, "") : "";
+}
+
+function isPodcastHost_(host) {
+  return /(?:^|\.)spotify\.com$|(?:^|\.)podcasts\.apple\.com$|podcastgo\.pl$|(?:^|\.)soundcloud\.com$/.test(host);
 }
 
 function fetchUrlHtml_(url) {
