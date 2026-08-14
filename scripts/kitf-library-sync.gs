@@ -16,13 +16,18 @@
 var WEBSITE_TAB = "Website";
 var DEBOUNCE_SECONDS = 90;
 /** Max URL metadata fetches per automatic sync (avoids time limits). */
-var ENRICH_DESCRIPTIONS_PER_SYNC = 25;
+var ENRICH_DESCRIPTIONS_PER_SYNC = 12;
 /** Max fetches when running the manual batch menu action. */
-var ENRICH_DESCRIPTIONS_BATCH_LIMIT = 20;
+var ENRICH_DESCRIPTIONS_BATCH_LIMIT = 10;
 /** Stop batch before Apps Script 6-minute limit (ms). */
-var BATCH_MAX_RUNTIME_MS = 270000;
+var BATCH_MAX_RUNTIME_MS = 240000;
+/** Leave headroom before the hard 6-minute Apps Script cap (ms). */
+var BATCH_TIME_RESERVE_MS = 45000;
 var DESCRIPTION_MAX_CHARS = 160;
-var FETCH_DELAY_MS = 100;
+var FETCH_DELAY_MS = 50;
+/** Per-URL fetch timeout (seconds). Prevents one slow host from killing the run. */
+var FETCH_TIMEOUT_SEC = 15;
+var HTML_MAX_LEN = 300000;
 var DESCRIPTION_CACHE_NONE = "__NONE__";
 
 var WEBSITE_HEADERS = [
@@ -129,7 +134,6 @@ function fillMissingDescriptionsBatch() {
 
     if (shouldSkipAutoDescription_(link)) {
       if (existing) {
-        sh.getRange(r + 1, descIdx + 1).setValue("");
         data[r][descIdx] = "";
         clearedSkip++;
       }
@@ -146,7 +150,7 @@ function fillMissingDescriptionsBatch() {
   });
 
   for (var i = 0; i < queue.length; i++) {
-    if (Date.now() - startedAt > BATCH_MAX_RUNTIME_MS) break;
+    if (!hasBatchTimeRemaining_(startedAt)) break;
     if (attempted >= ENRICH_DESCRIPTIONS_BATCH_LIMIT) break;
 
     var item = queue[i];
@@ -158,10 +162,17 @@ function fillMissingDescriptionsBatch() {
     attempted++;
     var desc = resolveDescriptionForLink_(item.link, item.title, { bypassCache: !!item.existing });
     if (!desc) continue;
-    sh.getRange(item.row + 1, descIdx + 1).setValue(desc);
     data[item.row][descIdx] = desc;
     filled++;
-    Utilities.sleep(FETCH_DELAY_MS);
+    if (FETCH_DELAY_MS) Utilities.sleep(FETCH_DELAY_MS);
+  }
+
+  if (filled || clearedSkip) {
+    var descColValues = [];
+    for (var w = 1; w < data.length; w++) {
+      descColValues.push([data[w][descIdx]]);
+    }
+    sh.getRange(2, descIdx + 1, data.length, descIdx + 1).setValues(descColValues);
   }
 
   var msg = [];
@@ -172,7 +183,7 @@ function fillMissingDescriptionsBatch() {
   } else if (attempted) {
     msg.push("Tried " + attempted + " link(s); none returned a usable description");
   }
-  if (Date.now() - startedAt > BATCH_MAX_RUNTIME_MS) {
+  if (!hasBatchTimeRemaining_(startedAt)) {
     msg.push("Stopped early (time limit — run again)");
   } else if (filled || attempted) {
     msg.push("Run again for the next batch");
@@ -566,7 +577,7 @@ function isBingHost_(host) {
 /** Lower number = processed earlier in manual batch (TED/Netflix before blocked article hosts). */
 function descriptionBatchPriority_(url) {
   var host = urlHost_(url);
-  if (/(?:^|\.)ted\.com$/.test(host)) return 1;
+  if (/(?:^|\.)ted\.com$/.test(host) || /(?:^|\.)ideas\.ted\.com$/.test(host)) return 1;
   if (/(?:^|\.)netflix\.com$/.test(host)) return 2;
   if (/(?:^|\.)spotify\.com$|(?:^|\.)podcasts\.apple\.com$/.test(host)) return 3;
   if (/(?:^|\.)medium\.com$|(?:^|\.)bbc\.(com|co\.uk)$|(?:^|\.)tablegroup\.com$/.test(host)) return 4;
@@ -591,11 +602,16 @@ function shouldSkipAutoDescription_(url) {
     isBingHost_(host);
 }
 
+function hasBatchTimeRemaining_(startedAt) {
+  return Date.now() - startedAt < BATCH_MAX_RUNTIME_MS - BATCH_TIME_RESERVE_MS;
+}
+
 function fetchUrlHtml_(url) {
   var options = {
     muteHttpExceptions: true,
     followRedirects: true,
     validateHttpsCertificates: true,
+    timeout: FETCH_TIMEOUT_SEC,
     headers: {
       "User-Agent": "Mozilla/5.0 (compatible; TuckerFamilyCharity-LibraryBot/1.0; +https://www.tuckerfamilycharity.co.za)",
       Accept: "text/html,application/xhtml+xml"
@@ -608,7 +624,7 @@ function fetchUrlHtml_(url) {
     if (response.getResponseCode() >= 400) return "";
   }
   var text = response.getContentText();
-  var maxLen = isYouTubeHost_(urlHost_(url)) ? 1500000 : 800000;
+  var maxLen = isYouTubeHost_(urlHost_(url)) ? 500000 : HTML_MAX_LEN;
   return text.length > maxLen ? text.substring(0, maxLen) : text;
 }
 

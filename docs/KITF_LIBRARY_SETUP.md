@@ -43,10 +43,10 @@ When a row has a link but **no description** (or a **generic** one like `Show Na
 3. `og:description` / `twitter:description` (skipped when generic)
 4. `og:title` / `twitter:title` (useful for podcasts when meta description is missing)
 
-Generic platform boilerplate (`· Episode`, `18K likes, 345 comments - …`, Instagram login text, etc.) is **rejected**. **Skipped hosts** (left blank on purpose): Instagram, YouTube, Facebook, LinkedIn, X/Twitter, **podcastgo.pl**, Dailymotion, **g.co**, Bing — blocked, too slow, or useless for auto-fill. The batch tries **TED first**, then Netflix, Spotify, articles, etc. (20 URLs per run, ~4.5 min max).
+Generic platform boilerplate (`· Episode`, `18K likes, 345 comments - …`, Instagram login text, etc.) is **rejected**. **Skipped hosts** (left blank on purpose): Instagram, YouTube, Facebook, LinkedIn, X/Twitter, **podcastgo.pl**, Dailymotion, **g.co**, Bing — blocked, too slow, or useless for auto-fill. The batch tries **TED first**, then Netflix, Spotify, articles, etc. (**10 URLs per run**, ~15 s max per fetch, single column write at end).
 
-- **Up to 25 URLs per automatic sync** (keeps runs fast)
-- **Menu → Fill / improve descriptions (batch)** — up to 20 fetches per run (empty + generic rows; known-bad cached links are skipped without counting toward the limit)
+- **Up to 12 URLs per automatic sync** (keeps runs fast)
+- **Menu → Fill / improve descriptions (batch)** — up to 10 fetches per run (empty + generic rows; known-bad cached links are skipped without counting toward the limit)
 - Results are **cached for 7 days** per link
 - Manual descriptions on `Website` are **never overwritten**
 
