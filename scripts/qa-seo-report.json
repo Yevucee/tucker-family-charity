@@ -11,7 +11,7 @@
     "renderedH1": "Connecting People. Creating Opportunity. Uplifting Communities.",
     "consoleErrors": [],
     "warnings": [
-      "external failed resources: 404 https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://axishouse.co.za&size=128; 404 https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://byronthomasproperties.co.za&size=128"
+      "external failed resources: 404 https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://byronthomasproperties.co.za&size=128; 404 https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://axishouse.co.za&size=128"
     ],
     "pass": true,
     "renderedInternalLinks": [
@@ -207,7 +207,7 @@
     "renderedH1": "Our Partners",
     "consoleErrors": [],
     "warnings": [
-      "external failed resources: 404 https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://byronthomasproperties.co.za&size=128; 404 https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://axishouse.co.za&size=128"
+      "external failed resources: 404 https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://byronthomasproperties.co.za&size=128; 404 https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://axishouse.co.za&size=128"
     ],
     "pass": true,
     "renderedInternalLinks": [
