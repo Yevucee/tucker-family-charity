@@ -17,6 +17,7 @@ See `README.md` for canonical instructions. Quick reference:
 - **Byron Thomas property sync:** `npm run sync:btp-properties` — imports sale + rent portfolio into `public/data/properties.json`. See `docs/PROPERTY_SYNC.md`.
 - **Property enquiry → Sheet:** configure `VITE_PROPERTY_ENQUIRY_SUBMIT_URL` (+ optional `VITE_PROPERTY_ENQUIRY_SECRET`) and deploy Apps Script from `scripts/property-enquiry-append-sheet.gs`. See `docs/PROPERTY_ENQUIRY_SHEET_SETUP.md`.
 - **Wine shop order → email + Sheet log:** configure `VITE_WINE_ORDER_SUBMIT_URL` (+ optional `VITE_WINE_ORDER_SECRET`) and deploy Apps Script from `scripts/wine-order-submit.gs`. See `docs/WINE_ORDER_SHEET_SETUP.md`.
+- **KITF resource library:** `/keep-it-in-the-family/library` reads the `Website` tab via opensheet; optional `VITE_KITF_LIBRARY_SHEET_ID`. Sync script: `scripts/kitf-library-sync.gs`. See `docs/KITF_LIBRARY_SETUP.md`.
 
 ### Notes
 

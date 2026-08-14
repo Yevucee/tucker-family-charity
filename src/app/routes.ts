@@ -10,6 +10,7 @@ import { CharityWine } from "./pages/CharityWine";
 import { Partners } from "./pages/Partners";
 import { Donate } from "./pages/Donate";
 import { KeepItInTheFamily } from "./pages/KeepItInTheFamily";
+import { KitfResourceLibrary } from "./pages/KitfResourceLibrary";
 import { GolfLearnershipProgramme } from "./pages/GolfLearnershipProgramme";
 import { PropertyPartnerships } from "./pages/PropertyPartnerships";
 import { LookingForWork } from "./pages/work-opportunities/LookingForWork";
@@ -37,6 +38,7 @@ export const router = createBrowserRouter(
         { path: "partners", Component: Partners },
         { path: "donate", Component: Donate },
         { path: "keep-it-in-the-family", Component: KeepItInTheFamily },
+        { path: "keep-it-in-the-family/library", Component: KitfResourceLibrary },
         { path: "golf-learnership-programme", Component: GolfLearnershipProgramme },
         { path: "property-partnerships", Component: PropertyPartnerships },
         {

@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
-import { Search, Phone, Filter, Globe, Briefcase, UserPlus } from "lucide-react";
+import { Search, Phone, Filter, Globe, Briefcase, UserPlus, BookOpen } from "lucide-react";
+import { Link } from "react-router";
 import {
   DIRECTORY_SHEET_ID,
   KITF_SUBMIT_URL,
@@ -18,6 +19,7 @@ import {
   phonePlaceholderForCountry,
   phoneTelHref,
 } from "@/utils/phone";
+import { KITF_LIBRARY_PATH } from "@/data/kitfLibrary";
 import type { CountryCode } from "libphonenumber-js";
 
 const PHONE_COUNTRY_OPTIONS = getPhoneCountryOptions();
@@ -315,6 +317,13 @@ export function KeepItInTheFamily() {
                 <UserPlus className="w-5 h-5 text-current shrink-0" />
                 Add your service
               </button>
+              <Link
+                to={KITF_LIBRARY_PATH}
+                className="flex flex-1 sm:flex-initial items-center justify-center gap-2 min-h-[44px] px-6 py-3.5 rounded-lg font-semibold text-base transition-all duration-200 text-white/90 hover:bg-white/20 hover:text-white border border-white/40"
+              >
+                <BookOpen className="w-5 h-5 shrink-0" aria-hidden />
+                Resource library
+              </Link>
             </div>
           </div>
         </div>
