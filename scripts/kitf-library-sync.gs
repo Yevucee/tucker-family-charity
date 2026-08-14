@@ -128,8 +128,9 @@ function fillMissingDescriptionsBatch() {
       continue;
     }
 
-    if (filled >= ENRICH_DESCRIPTIONS_BATCH_LIMIT) continue;
     if (existing && !needsDescriptionFill_(existing, title, link)) continue;
+    if (attempted >= ENRICH_DESCRIPTIONS_BATCH_LIMIT) continue;
+
     attempted++;
     var desc = resolveDescriptionForLink_(link, title, { bypassCache: !!existing });
     if (!desc) continue;
@@ -142,9 +143,9 @@ function fillMissingDescriptionsBatch() {
   var msg = [];
   if (clearedIg) msg.push("Cleared " + clearedIg + " Instagram description(s)");
   if (filled) {
-    msg.push("Filled " + filled + " description(s)" + (attempted > filled ? " (" + attempted + " checked)" : ""));
+    msg.push("Filled " + filled + " description(s) (" + attempted + " links tried this run)");
   } else if (attempted) {
-    msg.push("Checked " + attempted + " link(s); none returned a usable description");
+    msg.push("Tried " + attempted + " link(s); none returned a usable description");
   }
   if (!msg.length) msg.push("Nothing to do — no generic/empty rows (Instagram left blank)");
   else msg.push("Run again for the next batch");
@@ -370,7 +371,7 @@ function descriptionCacheKey_(link) {
     var v = (b < 0 ? b + 256 : b).toString(16);
     return v.length === 1 ? "0" + v : v;
   }).join("");
-  return "kitf_desc_v3_" + hex;
+  return "kitf_desc_v4_" + hex;
 }
 
 /**
@@ -427,9 +428,9 @@ function scoreDescriptionCandidate_(line, source, sheetTitle, url) {
   var len = line.length;
   var host = urlHost_(url);
 
-  if (source === "meta-description") score += 45;
-  if (source === "short-description") score += 40;
-  if (source === "og-description") score += 25;
+  if (source === "meta-description") score += isYouTubeHost_(host) ? 5 : 45;
+  if (source === "short-description") score += isYouTubeHost_(host) ? 55 : 40;
+  if (source === "og-description") score += isYouTubeHost_(host) ? 10 : 25;
   if (source === "twitter-description") score += 20;
   if (source === "og-title") score += isPodcastHost_(host) ? 30 : 8;
   if (source === "twitter-title") score += 12;
@@ -452,6 +453,7 @@ function isGenericDescription_(text, sheetTitle, url) {
 
   var patterns = [
     /^share your videos with friends, family, and the world$/,
+    /^enjoy the videos and music you love/,
     /^create an account or log in to instagram/,
     /^log in to (facebook|instagram|linkedin)/,
     /^watch videos on youtube/,
@@ -489,6 +491,10 @@ function urlHost_(url) {
 
 function isPodcastHost_(host) {
   return /(?:^|\.)spotify\.com$|(?:^|\.)podcasts\.apple\.com$|podcastgo\.pl$|(?:^|\.)soundcloud\.com$/.test(host);
+}
+
+function isYouTubeHost_(host) {
+  return /(?:^|\.)youtube\.com$|youtu\.be$/.test(host);
 }
 
 function isInstagramHost_(host) {
