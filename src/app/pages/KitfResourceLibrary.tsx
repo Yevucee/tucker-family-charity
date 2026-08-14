@@ -7,8 +7,10 @@ import { KITF_LIBRARY_SHEET_ID } from "@/config";
 import {
   kitfLibraryOpensheetUrl,
   kitfLibraryPageCopy,
-  KITF_LIBRARY_PATH,
+  normalizeDisplayType,
   normalizeKitfLibraryRow,
+  resourceCardDescription,
+  resourceHasExternalLink,
   resourceSearchHaystack,
   sortLibraryResources,
   type KitfLibraryResource,
@@ -17,61 +19,96 @@ import {
 const PAGE_SIZE = 24;
 
 function typeBadgeClass(type: string): string {
-  const key = type.toLowerCase();
-  if (key.includes("podcast")) return "bg-violet-100 text-violet-800";
-  if (key.includes("youtube") || key.includes("you tube")) return "bg-red-100 text-red-800";
-  if (key.includes("ted")) return "bg-rose-100 text-rose-900";
-  if (key.includes("netflix")) return "bg-neutral-800 text-white";
-  if (key.includes("book") || key.includes("audio")) return "bg-amber-100 text-amber-900";
-  if (key.includes("linkedin") || key.includes("instagram") || key.includes("facebook")) {
-    return "bg-sky-100 text-sky-900";
+  switch (type) {
+    case "Podcast":
+      return "bg-violet-100 text-violet-900 ring-violet-200/80";
+    case "YouTube":
+      return "bg-red-100 text-red-900 ring-red-200/80";
+    case "TED Talk":
+      return "bg-rose-100 text-rose-950 ring-rose-200/80";
+    case "Netflix":
+      return "bg-neutral-800 text-white ring-neutral-700";
+    case "Book":
+      return "bg-amber-100 text-amber-950 ring-amber-200/80";
+    case "Article":
+      return "bg-sky-100 text-sky-950 ring-sky-200/80";
+    case "LinkedIn":
+    case "Social":
+      return "bg-blue-100 text-blue-950 ring-blue-200/80";
+    case "Wildlife":
+      return "bg-emerald-100 text-emerald-950 ring-emerald-200/80";
+    case "Motivation":
+    case "Health":
+      return "bg-teal-100 text-teal-950 ring-teal-200/80";
+    case "Video":
+    case "Talk":
+      return "bg-orange-100 text-orange-950 ring-orange-200/80";
+    default:
+      return "bg-neutral-100 text-neutral-800 ring-neutral-200/80";
   }
-  return "bg-orange-100 text-orange-900";
 }
 
 function ResourceCard({ resource }: { resource: KitfLibraryResource }) {
-  const hasLink = /^https?:\/\//i.test(resource.link);
+  const displayType = normalizeDisplayType(resource.type);
+  const hasLink = resourceHasExternalLink(resource.link);
+  const summary = resourceCardDescription(resource);
+  const hasCustomDescription = resource.description.trim().length >= 20;
 
   return (
-    <article className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 sm:p-5 border border-amber-100/90 flex flex-col h-full">
-      <div className="flex flex-wrap items-center gap-2 mb-2">
-        <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${typeBadgeClass(resource.type)}`}>
-          {resource.type}
-        </span>
-        {resource.topic && (
-          <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-amber-50 text-amber-900 border border-amber-200/80">
-            {resource.topic}
+    <article className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 border border-amber-100/90 flex flex-col h-full min-h-[320px] overflow-hidden">
+      <div className="p-5 sm:p-6 flex flex-col flex-1 min-h-0">
+        <div className="flex flex-wrap items-center gap-2 mb-3 min-h-[1.75rem]">
+          <span
+            className={`inline-flex items-center text-[11px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-md ring-1 ring-inset ${typeBadgeClass(displayType)}`}
+          >
+            {displayType}
           </span>
-        )}
-        {resource.featured && (
-          <span className="inline-flex items-center gap-1 text-xs font-semibold text-amber-700">
-            <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" aria-hidden />
-            Featured
-          </span>
-        )}
+          {resource.topic && (
+            <span className="text-[11px] font-semibold px-2.5 py-1 rounded-md bg-amber-50 text-amber-950 ring-1 ring-inset ring-amber-200/80">
+              {resource.topic}
+            </span>
+          )}
+          {resource.featured && (
+            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-amber-800 ml-auto">
+              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400 shrink-0" aria-hidden />
+              Featured
+            </span>
+          )}
+        </div>
+
+        <h3 className="text-lg font-bold text-neutral-900 leading-snug line-clamp-2 min-h-[3.25rem] mb-2">
+          {resource.title}
+        </h3>
+
+        <p
+          className={`text-sm mb-3 min-h-[1.25rem] line-clamp-1 ${resource.author ? "text-neutral-600" : "text-transparent select-none"}`}
+          aria-hidden={!resource.author}
+        >
+          {resource.author || "—"}
+        </p>
+
+        <p
+          className={`text-sm leading-relaxed line-clamp-3 flex-1 min-h-[4.75rem] ${
+            hasCustomDescription ? "text-neutral-700" : "text-neutral-500 italic"
+          }`}
+        >
+          {summary}
+        </p>
       </div>
 
-      <h3 className="text-lg font-bold text-neutral-900 leading-snug mb-1">{resource.title}</h3>
-
-      {resource.author && <p className="text-sm text-neutral-600 mb-2">{resource.author}</p>}
-
-      {resource.description && (
-        <p className="text-sm text-neutral-700 mb-3 line-clamp-3 flex-1">{resource.description}</p>
-      )}
-
-      <div className="mt-auto pt-3">
+      <div className="px-5 sm:px-6 py-4 bg-amber-50/50 border-t border-amber-100/90 mt-auto">
         {hasLink ? (
           <a
             href={resource.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-orange-600 hover:text-orange-700"
+            className="inline-flex items-center justify-center gap-2 w-full sm:w-auto text-sm font-semibold text-orange-700 hover:text-orange-800"
           >
             {kitfLibraryPageCopy.openResource}
             <ExternalLink className="w-4 h-4 shrink-0" aria-hidden />
           </a>
         ) : (
-          <span className="text-sm text-neutral-500">Link not available</span>
+          <span className="text-sm text-neutral-500">{kitfLibraryPageCopy.noLink}</span>
         )}
       </div>
     </article>
@@ -118,7 +155,7 @@ export function KitfResourceLibrary() {
   }, []);
 
   const typeOptions = useMemo(() => {
-    const types = new Set(resources.map((r) => r.type).filter(Boolean));
+    const types = new Set(resources.map((r) => normalizeDisplayType(r.type)).filter(Boolean));
     return ["all", ...Array.from(types).sort((a, b) => a.localeCompare(b))];
   }, [resources]);
 
@@ -130,7 +167,7 @@ export function KitfResourceLibrary() {
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     return resources.filter((resource) => {
-      if (typeFilter !== "all" && resource.type !== typeFilter) return false;
+      if (typeFilter !== "all" && normalizeDisplayType(resource.type) !== typeFilter) return false;
       if (topicFilter !== "all" && resource.topic !== topicFilter) return false;
       if (!q) return true;
       return resourceSearchHaystack(resource).includes(q);
@@ -138,7 +175,7 @@ export function KitfResourceLibrary() {
   }, [resources, search, typeFilter, topicFilter]);
 
   const featured = useMemo(
-    () => filtered.filter((r) => r.featured).slice(0, 8),
+    () => filtered.filter((r) => r.featured).slice(0, 6),
     [filtered],
   );
 
@@ -251,9 +288,9 @@ export function KitfResourceLibrary() {
           ) : (
             <>
               {showFeaturedStrip && (
-                <div className="mb-10">
-                  <h2 className="text-xl font-bold text-neutral-900 mb-4">{kitfLibraryPageCopy.featuredHeading}</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="mb-12">
+                  <h2 className="text-xl font-bold text-neutral-900 mb-5">{kitfLibraryPageCopy.featuredHeading}</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {featured.map((resource, index) => (
                       <ResourceCard key={`featured-${resource.link}-${index}`} resource={resource} />
                     ))}
@@ -290,7 +327,7 @@ export function KitfResourceLibrary() {
                 )}
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
                 {paginated.map((resource, index) => (
                   <ResourceCard key={`${resource.link}-${index}`} resource={resource} />
                 ))}
