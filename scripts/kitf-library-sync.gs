@@ -8,7 +8,7 @@
  * 3. Run syncWebsiteFromSourceTabs once, or menu KITF Library → Sync Website tab now.
  *
  * Brett edits Podcast / You Tube / etc.; Website tab updates for the website automatically.
- * Empty descriptions are filled from each link's Open Graph / meta tags (no LLM).
+ * Instagram links are left without auto descriptions (unreliable metadata).
  * Run "Fill / improve descriptions (batch)" from the KITF Library menu to backfill or replace generic lines.
  * See docs/KITF_LIBRARY_SETUP.md
  */
@@ -111,12 +111,24 @@ function fillMissingDescriptionsBatch() {
   }
 
   var filled = 0;
+  var clearedIg = 0;
   var attempted = 0;
-  for (var r = 1; r < data.length && filled < ENRICH_DESCRIPTIONS_BATCH_LIMIT; r++) {
+  for (var r = 1; r < data.length; r++) {
     var link = String(data[r][linkIdx] || "").trim();
     if (!isPublicHttpLink_(link)) continue;
     var title = titleIdx >= 0 ? String(data[r][titleIdx] || "").trim() : "";
     var existing = String(data[r][descIdx] || "").trim();
+
+    if (shouldSkipAutoDescription_(link)) {
+      if (existing) {
+        sh.getRange(r + 1, descIdx + 1).setValue("");
+        data[r][descIdx] = "";
+        clearedIg++;
+      }
+      continue;
+    }
+
+    if (filled >= ENRICH_DESCRIPTIONS_BATCH_LIMIT) continue;
     if (existing && !needsDescriptionFill_(existing, title, link)) continue;
     attempted++;
     var desc = resolveDescriptionForLink_(link, title, { bypassCache: !!existing });
@@ -127,17 +139,16 @@ function fillMissingDescriptionsBatch() {
     Utilities.sleep(FETCH_DELAY_MS);
   }
 
-  var msg;
+  var msg = [];
+  if (clearedIg) msg.push("Cleared " + clearedIg + " Instagram description(s)");
   if (filled) {
-    msg = "Filled " + filled + " description(s)";
-    if (attempted > filled) msg += " (" + attempted + " links checked this run)";
-    msg += ". Run again for the next batch — check column E on Website.";
+    msg.push("Filled " + filled + " description(s)" + (attempted > filled ? " (" + attempted + " checked)" : ""));
   } else if (attempted) {
-    msg = "Checked " + attempted + " link(s); none returned a usable description. Run again for the next rows.";
-  } else {
-    msg = "No empty or generic descriptions left to improve in this pass.";
+    msg.push("Checked " + attempted + " link(s); none returned a usable description");
   }
-  ss.toast(msg, "KITF Library", 8);
+  if (!msg.length) msg.push("Nothing to do — no generic/empty rows (Instagram left blank)");
+  else msg.push("Run again for the next batch");
+  ss.toast(msg.join(". ") + ".", "KITF Library", 8);
 }
 
 function readPreservedWebsiteFields_(ss) {
@@ -159,11 +170,12 @@ function readPreservedWebsiteFields_(ss) {
     fields.forEach(function (f) {
       var i = headers.indexOf(f);
       if (i < 0 || data[r][i] == null || String(data[r][i]).trim() === "") return;
-      if (f === "description" && !needsDescriptionFill_(data[r][i], rowTitle, rowLink)) {
-        keep[f] = data[r][i];
+      if (f === "description") {
+        if (shouldSkipAutoDescription_(rowLink)) return;
+        if (!needsDescriptionFill_(data[r][i], rowTitle, rowLink)) keep[f] = data[r][i];
         return;
       }
-      if (f !== "description") keep[f] = data[r][i];
+      keep[f] = data[r][i];
     });
     if (Object.keys(keep).length) map[link] = keep;
   }
@@ -320,6 +332,7 @@ function enrichMissingDescriptions_(rows, preserved, maxFetches) {
     if (fetches >= maxFetches) return;
     var link = String(row.link || "").trim();
     if (!isPublicHttpLink_(link)) return;
+    if (shouldSkipAutoDescription_(link)) return;
     var key = normalizeLink_(link);
     var preservedDesc = preserved[key] && preserved[key].description;
     if (preservedDesc && String(preservedDesc).trim() && !needsDescriptionFill_(preservedDesc, row.title, link)) return;
@@ -337,6 +350,8 @@ function enrichMissingDescriptions_(rows, preserved, maxFetches) {
 
 function resolveDescriptionForLink_(link, title, options) {
   options = options || {};
+  if (shouldSkipAutoDescription_(link)) return "";
+
   var cache = CacheService.getScriptCache();
   var cacheKey = descriptionCacheKey_(link);
   if (!options.bypassCache) {
@@ -363,6 +378,7 @@ function descriptionCacheKey_(link) {
  * Returns "" when nothing useful is found.
  */
 function fetchOneLineDescriptionFromUrl_(url, sheetTitle) {
+  if (shouldSkipAutoDescription_(url)) return "";
   try {
     var html = fetchUrlHtml_(url);
     if (!html) return "";
@@ -415,7 +431,7 @@ function scoreDescriptionCandidate_(line, source, sheetTitle, url) {
   if (source === "short-description") score += 40;
   if (source === "og-description") score += 25;
   if (source === "twitter-description") score += 20;
-  if (source === "og-title") score += isPodcastHost_(host) ? 30 : (isInstagramHost_(host) ? 35 : 8);
+  if (source === "og-title") score += isPodcastHost_(host) ? 30 : 8;
   if (source === "twitter-title") score += 12;
 
   if (len >= 50 && len <= DESCRIPTION_MAX_CHARS) score += 25;
@@ -460,31 +476,9 @@ function isGenericDescription_(text, sheetTitle, url) {
 
 function refineDescriptionText_(text, url, source) {
   var s = decodeHtmlEntities_(String(text || "")).trim();
-  if (isInstagramHost_(urlHost_(url))) s = refineInstagramCaption_(s);
   s = s.replace(/^Listen to this episode from .+? on Spotify\.\s*/i, "");
   s = s.replace(/^Listen to .+? on Apple Podcasts\.\s*/i, "");
   s = s.replace(/^Watch .+? on YouTube\.?\s*/i, "");
-  return s;
-}
-
-/** Strip Instagram likes/comments prefix or "Account on Instagram:" wrapper. */
-function refineInstagramCaption_(text) {
-  var s = String(text || "").trim();
-  if (!s || s.toLowerCase() === "instagram") return "";
-
-  var titleMatch = s.match(/\s+on Instagram:\s*["']?([\s\S]+)/i);
-  if (titleMatch && titleMatch[1]) {
-    var fromTitle = titleMatch[1].replace(/^["']|["']$/g, "").trim();
-    if (fromTitle.length >= 12) return fromTitle;
-  }
-
-  var likesMatch = s.match(
-    /^[\d,.]+\s*[kKmMbB]?\s+likes,\s+[\d,.]+\s*[kKmMbB]?\s+comments\s+-\s+\S+\s+on\s+[^:]+:\s*["']?([\s\S]+)/i
-  );
-  if (likesMatch && likesMatch[1]) {
-    return likesMatch[1].replace(/^["']|["']$/g, "").trim();
-  }
-
   return s;
 }
 
@@ -499,6 +493,11 @@ function isPodcastHost_(host) {
 
 function isInstagramHost_(host) {
   return /(?:^|\.)instagram\.com$/.test(host);
+}
+
+/** Instagram auto-descriptions are skipped — metadata is unreliable; leave column E blank. */
+function shouldSkipAutoDescription_(url) {
+  return isInstagramHost_(urlHost_(url));
 }
 
 function fetchUrlHtml_(url) {
