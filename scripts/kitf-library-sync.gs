@@ -28,6 +28,7 @@ var FETCH_DELAY_MS = 50;
 /** Per-URL fetch timeout (seconds). Prevents one slow host from killing the run. */
 var FETCH_TIMEOUT_SEC = 15;
 var HTML_MAX_LEN = 300000;
+var FETCH_USER_AGENT = "Mozilla/5.0 (compatible; KITF-LibraryBot/1.0)";
 var DESCRIPTION_CACHE_NONE = "__NONE__";
 
 var WEBSITE_HEADERS = [
@@ -613,8 +614,8 @@ function fetchUrlHtml_(url) {
     validateHttpsCertificates: true,
     timeout: FETCH_TIMEOUT_SEC,
     headers: {
-      "User-Agent": "Mozilla/5.0 (compatible; TuckerFamilyCharity-LibraryBot/1.0; +https://www.tuckerfamilycharity.co.za)",
-      Accept: "text/html,application/xhtml+xml"
+      "User-Agent": FETCH_USER_AGENT,
+      "Accept": "text/html,application/xhtml+xml"
     }
   };
   var response = UrlFetchApp.fetch(url, options);
