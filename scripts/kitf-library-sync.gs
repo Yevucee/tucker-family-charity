@@ -8,7 +8,7 @@
  * 3. Run syncWebsiteFromSourceTabs once, or menu KITF Library → Sync Website tab now.
  *
  * Brett edits Podcast / You Tube / etc.; Website tab updates for the website automatically.
- * Instagram / YouTube / Facebook / LinkedIn / X links are left without auto descriptions.
+ * Instagram / YouTube / Facebook / LinkedIn / X / podcastgo.pl links are left without auto descriptions.
  * Run "Fill / improve descriptions (batch)" from the KITF Library menu to backfill or replace generic lines.
  * See docs/KITF_LIBRARY_SETUP.md
  */
@@ -114,9 +114,11 @@ function fillMissingDescriptionsBatch() {
   }
 
   var filled = 0;
-  var clearedIg = 0;
+  var clearedSkip = 0;
   var attempted = 0;
+  var skippedCached = 0;
   var startedAt = Date.now();
+  var cache = CacheService.getScriptCache();
   for (var r = 1; r < data.length; r++) {
     if (Date.now() - startedAt > BATCH_MAX_RUNTIME_MS) break;
 
@@ -129,13 +131,18 @@ function fillMissingDescriptionsBatch() {
       if (existing) {
         sh.getRange(r + 1, descIdx + 1).setValue("");
         data[r][descIdx] = "";
-        clearedIg++;
+        clearedSkip++;
       }
       continue;
     }
 
     if (existing && !needsDescriptionFill_(existing, title, link)) continue;
     if (attempted >= ENRICH_DESCRIPTIONS_BATCH_LIMIT) continue;
+
+    if (!existing && cache.get(descriptionCacheKey_(link)) === DESCRIPTION_CACHE_NONE) {
+      skippedCached++;
+      continue;
+    }
 
     attempted++;
     var desc = resolveDescriptionForLink_(link, title, { bypassCache: !!existing });
@@ -147,7 +154,8 @@ function fillMissingDescriptionsBatch() {
   }
 
   var msg = [];
-  if (clearedIg) msg.push("Cleared " + clearedIg + " skipped-host description(s)");
+  if (clearedSkip) msg.push("Cleared " + clearedSkip + " skipped-host description(s)");
+  if (skippedCached) msg.push("Skipped " + skippedCached + " cached no-description link(s)");
   if (filled) {
     msg.push("Filled " + filled + " description(s) (" + attempted + " tried)");
   } else if (attempted) {
@@ -528,9 +536,13 @@ function isTwitterHost_(host) {
   return /(?:^|\.)twitter\.com$|(?:^|\.)x\.com$/.test(host);
 }
 
+function isPodcastGoHost_(host) {
+  return /(?:^|\.)podcastgo\.pl$/.test(host);
+}
+
 /**
  * Skip auto descriptions for hosts that are slow, blocked, or return useless metadata.
- * Instagram / YouTube / Facebook / LinkedIn / X — leave column E blank (title only on site).
+ * Instagram / YouTube / Facebook / LinkedIn / X / podcastgo.pl — leave column E blank (title only on site).
  */
 function shouldSkipAutoDescription_(url) {
   var host = urlHost_(url);
@@ -538,7 +550,8 @@ function shouldSkipAutoDescription_(url) {
     isYouTubeHost_(host) ||
     isFacebookHost_(host) ||
     isLinkedInHost_(host) ||
-    isTwitterHost_(host);
+    isTwitterHost_(host) ||
+    isPodcastGoHost_(host);
 }
 
 function fetchUrlHtml_(url) {
