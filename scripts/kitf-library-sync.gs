@@ -355,7 +355,7 @@ function descriptionCacheKey_(link) {
     var v = (b < 0 ? b + 256 : b).toString(16);
     return v.length === 1 ? "0" + v : v;
   }).join("");
-  return "kitf_desc_v2_" + hex;
+  return "kitf_desc_v3_" + hex;
 }
 
 /**
@@ -415,7 +415,7 @@ function scoreDescriptionCandidate_(line, source, sheetTitle, url) {
   if (source === "short-description") score += 40;
   if (source === "og-description") score += 25;
   if (source === "twitter-description") score += 20;
-  if (source === "og-title") score += isPodcastHost_(host) ? 30 : 8;
+  if (source === "og-title") score += isPodcastHost_(host) ? 30 : (isInstagramHost_(host) ? 35 : 8);
   if (source === "twitter-title") score += 12;
 
   if (len >= 50 && len <= DESCRIPTION_MAX_CHARS) score += 25;
@@ -439,6 +439,9 @@ function isGenericDescription_(text, sheetTitle, url) {
     /^create an account or log in to instagram/,
     /^log in to (facebook|instagram|linkedin)/,
     /^watch videos on youtube/,
+    /^instagram$/,
+    /^500 million\+ members.*manage your professional identity/,
+    /^[\d,.]+\s*[kmb]?\s+likes,\s+[\d,.]+\s*[kmb]?\s+comments\b/,
     / · episode\s*$/,
     /^podcastaflevering · .+ · \d/,
     /^podcast episode · .+ · \d/,
@@ -457,9 +460,31 @@ function isGenericDescription_(text, sheetTitle, url) {
 
 function refineDescriptionText_(text, url, source) {
   var s = decodeHtmlEntities_(String(text || "")).trim();
+  if (isInstagramHost_(urlHost_(url))) s = refineInstagramCaption_(s);
   s = s.replace(/^Listen to this episode from .+? on Spotify\.\s*/i, "");
   s = s.replace(/^Listen to .+? on Apple Podcasts\.\s*/i, "");
   s = s.replace(/^Watch .+? on YouTube\.?\s*/i, "");
+  return s;
+}
+
+/** Strip Instagram likes/comments prefix or "Account on Instagram:" wrapper. */
+function refineInstagramCaption_(text) {
+  var s = String(text || "").trim();
+  if (!s || s.toLowerCase() === "instagram") return "";
+
+  var titleMatch = s.match(/\s+on Instagram:\s*["']?([\s\S]+)/i);
+  if (titleMatch && titleMatch[1]) {
+    var fromTitle = titleMatch[1].replace(/^["']|["']$/g, "").trim();
+    if (fromTitle.length >= 12) return fromTitle;
+  }
+
+  var likesMatch = s.match(
+    /^[\d,.]+\s*[kKmMbB]?\s+likes,\s+[\d,.]+\s*[kKmMbB]?\s+comments\s+-\s+\S+\s+on\s+[^:]+:\s*["']?([\s\S]+)/i
+  );
+  if (likesMatch && likesMatch[1]) {
+    return likesMatch[1].replace(/^["']|["']$/g, "").trim();
+  }
+
   return s;
 }
 
@@ -470,6 +495,10 @@ function urlHost_(url) {
 
 function isPodcastHost_(host) {
   return /(?:^|\.)spotify\.com$|(?:^|\.)podcasts\.apple\.com$|podcastgo\.pl$|(?:^|\.)soundcloud\.com$/.test(host);
+}
+
+function isInstagramHost_(host) {
+  return /(?:^|\.)instagram\.com$/.test(host);
 }
 
 function fetchUrlHtml_(url) {
@@ -521,6 +550,12 @@ function extractMetaContent_(html, propertyOrName) {
 
 function decodeHtmlEntities_(text) {
   return String(text || "")
+    .replace(/&#x([0-9a-f]+);/gi, function (_, hex) {
+      return String.fromCharCode(parseInt(hex, 16));
+    })
+    .replace(/&#(\d+);/g, function (_, dec) {
+      return String.fromCharCode(parseInt(dec, 10));
+    })
     .replace(/&amp;/g, "&")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
