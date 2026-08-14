@@ -13,7 +13,23 @@
     "warnings": [
       "external failed resources: 404 https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://axishouse.co.za&size=128; 404 https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://byronthomasproperties.co.za&size=128"
     ],
-    "pass": true
+    "pass": true,
+    "renderedInternalLinks": [
+      "/",
+      "/about/",
+      "/events/",
+      "/shop/",
+      "/partners/",
+      "/donate/",
+      "/olivers-village/",
+      "/keep-it-in-the-family/",
+      "/shop/wine",
+      "/shop/personalised-hat",
+      "/shop/#featured-this-month",
+      "/property-partnerships/",
+      "/work-opportunities/looking-for-work/",
+      "/golf-learnership-programme/"
+    ]
   },
   {
     "route": "/about/",
@@ -27,7 +43,20 @@
     "renderedH1": "The Story of the Tucker Family Charity",
     "consoleErrors": [],
     "warnings": [],
-    "pass": true
+    "pass": true,
+    "renderedInternalLinks": [
+      "/",
+      "/about/",
+      "/events/",
+      "/shop/",
+      "/partners/",
+      "/donate/",
+      "/olivers-village/",
+      "/property-partnerships/",
+      "/work-opportunities/looking-for-work/",
+      "/golf-learnership-programme/",
+      "/keep-it-in-the-family/"
+    ]
   },
   {
     "route": "/olivers-village/",
@@ -41,7 +70,20 @@
     "renderedH1": "Oliver's Village",
     "consoleErrors": [],
     "warnings": [],
-    "pass": true
+    "pass": true,
+    "renderedInternalLinks": [
+      "/",
+      "/about/",
+      "/events/",
+      "/shop/",
+      "/partners/",
+      "/donate/",
+      "/olivers-village/",
+      "/property-partnerships/",
+      "/work-opportunities/looking-for-work/",
+      "/golf-learnership-programme/",
+      "/keep-it-in-the-family/"
+    ]
   },
   {
     "route": "/events/",
@@ -55,7 +97,20 @@
     "renderedH1": "Events & Activities",
     "consoleErrors": [],
     "warnings": [],
-    "pass": true
+    "pass": true,
+    "renderedInternalLinks": [
+      "/",
+      "/about/",
+      "/events/",
+      "/shop/",
+      "/partners/",
+      "/donate/",
+      "/olivers-village/",
+      "/property-partnerships/",
+      "/work-opportunities/looking-for-work/",
+      "/golf-learnership-programme/",
+      "/keep-it-in-the-family/"
+    ]
   },
   {
     "route": "/shop/",
@@ -69,7 +124,22 @@
     "renderedH1": "Shop & offers",
     "consoleErrors": [],
     "warnings": [],
-    "pass": true
+    "pass": true,
+    "renderedInternalLinks": [
+      "/",
+      "/about/",
+      "/events/",
+      "/shop/",
+      "/partners/",
+      "/donate/",
+      "/shop/wine",
+      "/shop/personalised-hat",
+      "/olivers-village/",
+      "/property-partnerships/",
+      "/work-opportunities/looking-for-work/",
+      "/golf-learnership-programme/",
+      "/keep-it-in-the-family/"
+    ]
   },
   {
     "route": "/shop/personalised-hat/",
@@ -83,7 +153,20 @@
     "renderedH1": "Personalised Tucker Family Charity Cap",
     "consoleErrors": [],
     "warnings": [],
-    "pass": true
+    "pass": true,
+    "renderedInternalLinks": [
+      "/",
+      "/about/",
+      "/events/",
+      "/shop/",
+      "/partners/",
+      "/donate/",
+      "/olivers-village/",
+      "/property-partnerships/",
+      "/work-opportunities/looking-for-work/",
+      "/golf-learnership-programme/",
+      "/keep-it-in-the-family/"
+    ]
   },
   {
     "route": "/shop/wine/",
@@ -97,7 +180,20 @@
     "renderedH1": "Tucker Family Charity Wine",
     "consoleErrors": [],
     "warnings": [],
-    "pass": true
+    "pass": true,
+    "renderedInternalLinks": [
+      "/",
+      "/about/",
+      "/events/",
+      "/shop/",
+      "/partners/",
+      "/donate/",
+      "/olivers-village/",
+      "/property-partnerships/",
+      "/work-opportunities/looking-for-work/",
+      "/golf-learnership-programme/",
+      "/keep-it-in-the-family/"
+    ]
   },
   {
     "route": "/partners/",
@@ -113,7 +209,20 @@
     "warnings": [
       "external failed resources: 404 https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://byronthomasproperties.co.za&size=128; 404 https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://axishouse.co.za&size=128"
     ],
-    "pass": true
+    "pass": true,
+    "renderedInternalLinks": [
+      "/",
+      "/about/",
+      "/events/",
+      "/shop/",
+      "/partners/",
+      "/donate/",
+      "/olivers-village/",
+      "/property-partnerships/",
+      "/work-opportunities/looking-for-work/",
+      "/golf-learnership-programme/",
+      "/keep-it-in-the-family/"
+    ]
   },
   {
     "route": "/donate/",
@@ -127,7 +236,20 @@
     "renderedH1": "Support Us",
     "consoleErrors": [],
     "warnings": [],
-    "pass": true
+    "pass": true,
+    "renderedInternalLinks": [
+      "/",
+      "/about/",
+      "/events/",
+      "/shop/",
+      "/partners/",
+      "/donate/",
+      "/olivers-village/",
+      "/property-partnerships/",
+      "/work-opportunities/looking-for-work/",
+      "/golf-learnership-programme/",
+      "/keep-it-in-the-family/"
+    ]
   },
   {
     "route": "/keep-it-in-the-family/",
@@ -141,7 +263,21 @@
     "renderedH1": "Keep It In The Family",
     "consoleErrors": [],
     "warnings": [],
-    "pass": true
+    "pass": true,
+    "renderedInternalLinks": [
+      "/",
+      "/about/",
+      "/events/",
+      "/shop/",
+      "/partners/",
+      "/donate/",
+      "/keep-it-in-the-family/library",
+      "/olivers-village/",
+      "/property-partnerships/",
+      "/work-opportunities/looking-for-work/",
+      "/golf-learnership-programme/",
+      "/keep-it-in-the-family/"
+    ]
   },
   {
     "route": "/keep-it-in-the-family/library/",
@@ -155,7 +291,20 @@
     "renderedH1": "Learning from the Best",
     "consoleErrors": [],
     "warnings": [],
-    "pass": true
+    "pass": true,
+    "renderedInternalLinks": [
+      "/",
+      "/about/",
+      "/events/",
+      "/shop/",
+      "/partners/",
+      "/donate/",
+      "/keep-it-in-the-family/",
+      "/olivers-village/",
+      "/property-partnerships/",
+      "/work-opportunities/looking-for-work/",
+      "/golf-learnership-programme/"
+    ]
   },
   {
     "route": "/golf-learnership-programme/",
@@ -169,7 +318,20 @@
     "renderedH1": "Golf Learnership Programme",
     "consoleErrors": [],
     "warnings": [],
-    "pass": true
+    "pass": true,
+    "renderedInternalLinks": [
+      "/",
+      "/about/",
+      "/events/",
+      "/shop/",
+      "/partners/",
+      "/donate/",
+      "/olivers-village/",
+      "/property-partnerships/",
+      "/work-opportunities/looking-for-work/",
+      "/golf-learnership-programme/",
+      "/keep-it-in-the-family/"
+    ]
   },
   {
     "route": "/property-partnerships/",
@@ -183,7 +345,20 @@
     "renderedH1": "Property Partnerships",
     "consoleErrors": [],
     "warnings": [],
-    "pass": true
+    "pass": true,
+    "renderedInternalLinks": [
+      "/",
+      "/about/",
+      "/events/",
+      "/shop/",
+      "/partners/",
+      "/donate/",
+      "/olivers-village/",
+      "/property-partnerships/",
+      "/work-opportunities/looking-for-work/",
+      "/golf-learnership-programme/",
+      "/keep-it-in-the-family/"
+    ]
   },
   {
     "route": "/work-opportunities/looking-for-work/",
@@ -197,7 +372,21 @@
     "renderedH1": "Looking for Work",
     "consoleErrors": [],
     "warnings": [],
-    "pass": true
+    "pass": true,
+    "renderedInternalLinks": [
+      "/",
+      "/about/",
+      "/events/",
+      "/shop/",
+      "/partners/",
+      "/donate/",
+      "/work-opportunities/looking-for-work/",
+      "/work-opportunities/work-available/",
+      "/olivers-village/",
+      "/property-partnerships/",
+      "/golf-learnership-programme/",
+      "/keep-it-in-the-family/"
+    ]
   },
   {
     "route": "/work-opportunities/work-available/",
@@ -211,6 +400,20 @@
     "renderedH1": "Work Available",
     "consoleErrors": [],
     "warnings": [],
-    "pass": true
+    "pass": true,
+    "renderedInternalLinks": [
+      "/",
+      "/about/",
+      "/events/",
+      "/shop/",
+      "/partners/",
+      "/donate/",
+      "/work-opportunities/looking-for-work/",
+      "/work-opportunities/work-available/",
+      "/olivers-village/",
+      "/property-partnerships/",
+      "/golf-learnership-programme/",
+      "/keep-it-in-the-family/"
+    ]
   }
 ]

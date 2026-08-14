@@ -56,7 +56,7 @@ export function Footer() {
                 Property Partnerships
               </Link>
               <Link
-                to="/work-opportunities/"
+                to="/work-opportunities/looking-for-work/"
                 className="text-amber-200/90 hover:text-orange-400 transition-colors"
               >
                 Work Opportunities

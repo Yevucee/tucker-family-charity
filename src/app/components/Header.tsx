@@ -106,7 +106,7 @@ export function Header() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
-                  <Link to="/work-opportunities/" className="cursor-pointer">
+                  <Link to="/work-opportunities/looking-for-work/" className="cursor-pointer">
                     Work Opportunities
                   </Link>
                 </DropdownMenuItem>
@@ -250,7 +250,7 @@ export function Header() {
                       Property Partnerships
                     </Link>
                     <Link
-                      to="/work-opportunities/"
+                      to="/work-opportunities/looking-for-work/"
                       className="text-amber-950 hover:text-orange-600 transition-colors block py-2"
                       onClick={() => {
                         setIsMenuOpen(false);

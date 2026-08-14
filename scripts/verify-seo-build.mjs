@@ -48,6 +48,55 @@ function rootHasStaticContent(html) {
   return text.length >= 80;
 }
 
+function normalizeInternalPath(href) {
+  if (!href.startsWith("/") || href.startsWith("//")) return null;
+  const pathPart = href.split("#")[0].split("?")[0];
+  if (pathPart === "/") return "/";
+  return pathPart.endsWith("/") ? pathPart : `${pathPart}/`;
+}
+
+function pathnameToDistRelative(pathname) {
+  if (pathname === "/") return "index.html";
+  return `${pathname.replace(/^\//, "").replace(/\/$/, "")}/index.html`;
+}
+
+function extractInternalHrefs(html) {
+  return [...html.matchAll(/\shref="(\/[^"]*)"/g)].map((match) => match[1]);
+}
+
+function isPageLikeInternalHref(href) {
+  const pathPart = href.split("#")[0].split("?")[0];
+  if (pathPart === "/") return true;
+  const lastSegment = pathPart.split("/").filter(Boolean).pop() ?? "";
+  return !lastSegment.includes(".");
+}
+
+function validateInternalLinks(htmlFilesByPath, validPathnames) {
+  for (const [relative, html] of htmlFilesByPath) {
+    for (const href of extractInternalHrefs(html)) {
+      if (!isPageLikeInternalHref(href)) continue;
+
+      const pathname = normalizeInternalPath(href);
+      if (!pathname) continue;
+
+      if (pathname === "/work-opportunities/") {
+        errors.push(`${relative}: internal link targets /work-opportunities/ (no static page); use /work-opportunities/looking-for-work/`);
+        continue;
+      }
+
+      if (!validPathnames.has(pathname)) {
+        errors.push(`${relative}: internal link "${href}" has no prerendered route (${pathname})`);
+        continue;
+      }
+
+      const targetRelative = pathnameToDistRelative(pathname);
+      if (!fs.existsSync(path.join(dist, targetRelative))) {
+        errors.push(`${relative}: internal link "${href}" missing dist/${targetRelative}`);
+      }
+    }
+  }
+}
+
 // --- robots.txt ---
 const robots = readDist("robots.txt");
 if (robots) {
@@ -76,10 +125,14 @@ if (sitemap) {
   const locs = parseSitemapLocs(sitemap);
   if (locs.length !== 15) errors.push(`sitemap.xml expected 15 URLs, found ${locs.length}`);
 
+  const validPathnames = new Set(locs.map((loc) => new URL(loc).pathname));
+  const htmlFilesByPath = new Map();
+
   for (const loc of locs) {
     const relative = locToDistPath(loc);
     const html = readDist(relative);
     if (!html) continue;
+    htmlFilesByPath.set(relative, html);
 
     const title = extractTag(html, /<title>([^<]*)<\/title>/);
     const description = extractTag(html, /<meta name="description" content="([^"]*)"/);
@@ -127,6 +180,8 @@ if (sitemap) {
       warnings.push(`${relative}: title equals description`);
     }
   }
+
+  validateInternalLinks(htmlFilesByPath, validPathnames);
 }
 
 if (warnings.length) {

@@ -45,14 +45,14 @@ export const router = createBrowserRouter(
           path: "work-opportunities",
           Component: WorkOpportunitiesLayout,
           children: [
-            { index: true, loader: () => redirect("looking-for-work") },
+            { index: true, loader: () => redirect("/work-opportunities/looking-for-work/") },
             { path: "looking-for-work", Component: LookingForWork },
             { path: "work-available", Component: WorkAvailable },
           ],
         },
         {
           path: "opportunities",
-          loader: () => redirect("/work-opportunities"),
+          loader: () => redirect("/work-opportunities/looking-for-work/"),
         },
         {
           path: "merch",
