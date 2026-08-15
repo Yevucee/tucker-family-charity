@@ -36,21 +36,25 @@ Brett keeps editing source tabs; `Website` updates automatically.
 
 ### Auto descriptions (Open Graph / meta tags)
 
-When a row has a link but **no description**, the sync script fetches the page and tries:
+When a row has a link but **no description** (or a **generic** one like `Show Name · Episode`), the sync script fetches the page and picks the best line from:
 
-1. `og:description`
-2. `twitter:description`
-3. `meta name="description"`
-4. `og:title` (only if different from the sheet title)
+1. `meta name="description"` (often best for Spotify — episode summary after stripping the “Listen on Spotify…” prefix)
+2. YouTube `shortDescription`
+3. `og:description` / `twitter:description` (skipped when generic)
+4. `og:title` / `twitter:title` (useful for podcasts when meta description is missing)
 
-- **Up to 25 URLs per automatic sync** (keeps runs fast)
-- **Menu → Fill missing descriptions (batch)** — up to 50 more per run for backfill
+Generic platform boilerplate (`· Episode`, `18K likes, 345 comments - …`, Instagram login text, etc.) is **rejected**. **Skipped hosts** (left blank on purpose): Instagram, YouTube, Facebook, LinkedIn, X/Twitter, **podcastgo.pl**, Dailymotion, **g.co**, Bing — blocked, too slow, or useless for auto-fill. The batch tries **TED first**, then Netflix, Spotify, articles, etc. (**10 URLs per run**, ~15 s max per fetch, single column write at end).
+
+- **Up to 12 URLs per automatic sync** (keeps runs fast)
+- **Menu → Fill / improve descriptions (batch)** — up to 10 fetches per run (empty + generic rows; known-bad cached links are skipped without counting toward the limit)
 - Results are **cached for 7 days** per link
 - Manual descriptions on `Website` are **never overwritten**
 
 After updating the script in Apps Script, save and redeploy is **not** required (bound script, not a web app). Re-run **`installWebsiteSyncTriggers`** only if menu items changed.
 
-First-time backfill: run **Fill missing descriptions (batch)** several times until descriptions stop appearing.
+First-time backfill: run **Fill / improve descriptions (batch)** several times until the toast stops reporting new fills (~10 runs for ~500 rows). Descriptions appear in **`Website` column E** first (sheet row order). The live library sorts **A–Z by title**, so the first website page may still look sparse until more rows are processed.
+
+**Replacing bad auto-fills:** After updating the script, run **Fill / improve descriptions (batch)** again — it will upgrade generic lines like `The High Performance Podcast · Episode` to the real episode summary where the platform provides one.
 
 ## Website config
 
