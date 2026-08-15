@@ -5,7 +5,7 @@
  * SETUP
  * 1. Extensions → Apps Script → paste as Code.gs on the master workbook.
  * 2. Run installWebsiteSyncTriggers once (on-edit debounce + every 6 hours).
- * 3. Run syncWebsiteFromSourceTabs once, or menu KITF Library → Sync Website tab now.
+ * 3. Run syncWebsiteFromSourceTabsFast once, or menu KITF Library → Sync Website tab now.
  *
  * Brett edits Podcast / You Tube / etc.; Website tab updates for the website automatically.
  * Empty descriptions are filled from each link's Open Graph / meta tags (no LLM).
@@ -48,7 +48,8 @@ var ARTICLE_AUTHOR_TYPE_LINK_TABS = {
 function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu("KITF Library")
-    .addItem("Sync Website tab now", "syncWebsiteFromSourceTabs")
+    .addItem("Sync Website tab now", "syncWebsiteFromSourceTabsFast")
+    .addItem("Sync + fill descriptions (slow)", "syncWebsiteFromSourceTabs")
     .addItem("Fill missing descriptions (batch)", "fillMissingDescriptionsBatch")
     .addSeparator()
     .addItem("Install auto-sync triggers", "installWebsiteSyncTriggers")
@@ -80,16 +81,49 @@ function syncWebsiteFromSourceTabsDebounced(e) {
   var cache = CacheService.getScriptCache();
   if (cache.get("kitf_sync_pending")) return;
   cache.put("kitf_sync_pending", "1", DEBOUNCE_SECONDS);
-  syncWebsiteFromSourceTabs();
+  syncWebsiteFromSourceTabsInternal_(0);
 }
 
+/** Menu + on-edit: sync rows only (fast; avoids Apps Script timeout). */
+function syncWebsiteFromSourceTabsFast() {
+  syncWebsiteFromSourceTabsInternal_(0);
+}
+
+/** Scheduled trigger: sync rows then enrich up to ENRICH_DESCRIPTIONS_PER_SYNC descriptions. */
 function syncWebsiteFromSourceTabs() {
+  syncWebsiteFromSourceTabsInternal_(ENRICH_DESCRIPTIONS_PER_SYNC);
+}
+
+function syncWebsiteFromSourceTabsInternal_(maxDescriptionFetches) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var preserved = readPreservedWebsiteFields_(ss);
   var rows = dedupeRowsByLink_(collectAllSourceRows_(ss));
-  enrichMissingDescriptions_(rows, preserved, ENRICH_DESCRIPTIONS_PER_SYNC);
+
+  // Write first so a slow/failed description fetch never blocks the Website tab update.
   writeWebsiteTab_(ss, rows, preserved);
   CacheService.getScriptCache().remove("kitf_sync_pending");
+
+  var liveCount = rows.filter(function (row) { return row.show_on_site === "Y"; }).length;
+  var enriched = 0;
+
+  if (maxDescriptionFetches > 0) {
+    try {
+      enriched = enrichMissingDescriptions_(rows, preserved, maxDescriptionFetches);
+      if (enriched > 0) writeWebsiteTab_(ss, rows, preserved);
+    } catch (err) {
+      Logger.log("Description enrichment failed after Website sync: " + err);
+      ss.toast(
+        "Website tab synced (" + liveCount + " live rows). Description fetch stopped early — run Fill missing descriptions (batch).",
+        "KITF Library",
+        10
+      );
+      return;
+    }
+  }
+
+  var msg = "Website tab synced (" + liveCount + " live rows, " + rows.length + " total).";
+  if (enriched > 0) msg += " Filled " + enriched + " description(s).";
+  ss.toast(msg, "KITF Library", 8);
 }
 
 /** Menu action: fill empty description cells on Website tab (no full resync). */
@@ -296,7 +330,7 @@ function buildRow_(title, type, author, link, sourceTab) {
   };
 }
 
-/** Fill description on row objects when empty (respects preserved + cache). */
+/** Fill description on row objects when empty (respects preserved + cache). Returns fetch count. */
 function enrichMissingDescriptions_(rows, preserved, maxFetches) {
   var fetches = 0;
   rows.forEach(function (row) {
@@ -313,6 +347,7 @@ function enrichMissingDescriptions_(rows, preserved, maxFetches) {
     fetches++;
     Utilities.sleep(FETCH_DELAY_MS);
   });
+  return fetches;
 }
 
 function resolveDescriptionForLink_(link, title) {
@@ -370,6 +405,7 @@ function fetchUrlHtml_(url) {
     muteHttpExceptions: true,
     followRedirects: true,
     validateHttpsCertificates: true,
+    timeout: 15,
     headers: {
       "User-Agent": "Mozilla/5.0 (compatible; TuckerFamilyCharity-LibraryBot/1.0; +https://www.tuckerfamilycharity.co.za)",
       Accept: "text/html,application/xhtml+xml"
