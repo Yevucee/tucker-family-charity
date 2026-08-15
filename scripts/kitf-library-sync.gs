@@ -475,7 +475,7 @@ function writeWebsiteTab_(ss, rows, preserved) {
       row.show_on_site, row.source_tab
     ];
   });
-  sh.getRange(2, 1, rows.length + 1, WEBSITE_HEADERS.length).setValues(matrix);
+  sh.getRange(2, 1, rows.length, WEBSITE_HEADERS.length).setValues(matrix);
 }
 
 function dedupeRowsByLink_(rows) {
