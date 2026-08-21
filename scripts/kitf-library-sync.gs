@@ -45,7 +45,8 @@ var ARTICLE_AUTHOR_LINK_TABS = {
 var ARTICLE_AUTHOR_TYPE_LINK_TABS = {
   "Wildlife": "Wildlife",
   "Motivation": "Motivation",
-  "Health": "Health"
+  "Health": "Health",
+  "FitnessTrain": "Fitness Training"
 };
 
 function onOpen() {
@@ -653,7 +654,7 @@ function writeWebsiteTab_(ss, rows, preserved) {
       row.show_on_site, row.source_tab
     ];
   });
-  sh.getRange(2, 1, rows.length + 1, WEBSITE_HEADERS.length).setValues(matrix);
+  sh.getRange(2, 1, rows.length, WEBSITE_HEADERS.length).setValues(matrix);
 }
 
 function dedupeRowsByLink_(rows) {
@@ -706,6 +707,7 @@ function inferTopic_(title) {
   if (/leader|ceo|management|business|startup|entrepreneur/.test(t)) return "Business";
   if (/leadership/.test(t)) return "Leadership";
   if (/happy|motivat|mindset|habit|growth/.test(t)) return "Personal development";
+  if (/fitness|workout|train|exercise|gym|strength|cardio/.test(t)) return "Fitness";
   if (/charity|community|impact|social|volunteer/.test(t)) return "Social impact";
   return "";
 }

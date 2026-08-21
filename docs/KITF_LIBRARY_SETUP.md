@@ -14,7 +14,7 @@ Curated podcasts, talks, documentaries, articles, and books. Data comes from the
 ## Website data flow
 
 ```
-Brett adds row on Podcast / You Tube / etc.
+Brett adds row on Podcast / You Tube / FitnessTrain / etc.
         ↓
 Apps Script (scripts/kitf-library-sync.gs) → Website tab
         ↓
@@ -71,6 +71,18 @@ Local `.env`:
 `title` | `type` | `topic` | `author` | `description` | `link` | `tags` | `duration` | `featured` | `show_on_site` | `source_tab`
 
 Only rows with **`show_on_site = Y`** appear on the public page.
+
+### Source tabs synced into `Website`
+
+| Tab name | Columns (A → D) | Default `type` on Website |
+|----------|-------------------|---------------------------|
+| Podcast, Netflix, LinkedIn_Articles, IG_FB | title, link | Per tab (e.g. Podcast) |
+| You Tube, Ted Talks | title, author, link | YouTube / Ted Talk |
+| Wildlife, Motivation, Health, **FitnessTrain** | title, author, type, link | Wildlife / Motivation / Health / **Fitness Training** |
+| Books | title, author, type, link | Book |
+| Articles, Various, To be sorted | (varies) | Article / Other |
+
+Each row needs a **title** and valid **`https://` link** to get `show_on_site = Y`.
 
 ## Troubleshooting
 
