@@ -254,10 +254,19 @@ function collectAllSourceRows_(ss) {
   return out;
 }
 
+function simpleItemLinkStartRow_(data) {
+  if (!data.length) return 0;
+  var h0 = String(data[0][0] || "").trim().toLowerCase();
+  var h1 = String(data[0][1] || "").trim().toLowerCase();
+  if (h0 === "item" && h1 === "link") return 1;
+  return 0;
+}
+
 function readSimpleItemLinkTab_(sh, sourceTab, typeLabel) {
   var rows = [];
   var data = sh.getDataRange().getValues();
-  for (var r = 1; r < data.length; r++) {
+  var startRow = simpleItemLinkStartRow_(data);
+  for (var r = startRow; r < data.length; r++) {
     var title = String(data[r][0] || "").trim();
     var rawLink = String(data[r][1] || "").trim();
     var link = extractUrl_(rawLink) || rawLink;
