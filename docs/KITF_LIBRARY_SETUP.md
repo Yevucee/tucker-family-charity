@@ -14,7 +14,7 @@ Curated podcasts, talks, documentaries, articles, and books. Data comes from the
 ## Website data flow
 
 ```
-Brett adds row on Podcast / You Tube / etc.
+Brett adds row on Podcast / You Tube / FitnessTrain / etc.
         ↓
 Apps Script (scripts/kitf-library-sync.gs) → Website tab
         ↓
@@ -46,21 +46,25 @@ Previously, **Sync Website tab now** fetched up to 25 URLs *before* writing the 
 
 ### Auto descriptions (Open Graph / meta tags)
 
-When a row has a link but **no description**, the sync script fetches the page and tries:
+When a row has a link but **no description** (or a **generic** one like `Show Name · Episode`), the sync script fetches the page and picks the best line from:
 
-1. `og:description`
-2. `twitter:description`
-3. `meta name="description"`
-4. `og:title` (only if different from the sheet title)
+1. `meta name="description"` (often best for Spotify — episode summary after stripping the “Listen on Spotify…” prefix)
+2. YouTube `shortDescription`
+3. `og:description` / `twitter:description` (skipped when generic)
+4. `og:title` / `twitter:title` (useful for podcasts when meta description is missing)
+
+Generic platform boilerplate (`· Episode`, `18K likes, 345 comments - …`, Instagram login text, etc.) is **rejected**. **Skipped hosts** (left blank on purpose): Instagram, YouTube, Facebook, LinkedIn, X/Twitter, **podcastgo.pl** — blocked, too slow, or useless for auto-fill. The batch tries **TED, Spotify, Apple Podcasts, Netflix, articles**, etc. (20 URLs per run, ~4.5 min max).
 
 - **Up to 25 URLs per automatic sync** (keeps runs fast)
-- **Menu → Fill missing descriptions (batch)** — up to 50 more per run for backfill
+- **Menu → Fill / improve descriptions (batch)** — up to 20 fetches per run (empty + generic rows; known-bad cached links are skipped without counting toward the limit)
 - Results are **cached for 7 days** per link
 - Manual descriptions on `Website` are **never overwritten**
 
 After updating the script in Apps Script, save and redeploy is **not** required (bound script, not a web app). Re-run **`installWebsiteSyncTriggers`** only if menu items changed.
 
-First-time backfill: run **Fill missing descriptions (batch)** several times until descriptions stop appearing.
+First-time backfill: run **Fill / improve descriptions (batch)** several times until the toast stops reporting new fills (~10 runs for ~500 rows). Descriptions appear in **`Website` column E** first (sheet row order). The live library sorts **A–Z by title**, so the first website page may still look sparse until more rows are processed.
+
+**Replacing bad auto-fills:** After updating the script, run **Fill / improve descriptions (batch)** again — it will upgrade generic lines like `The High Performance Podcast · Episode` to the real episode summary where the platform provides one.
 
 ## Website config
 
@@ -77,6 +81,18 @@ Local `.env`:
 `title` | `type` | `topic` | `author` | `description` | `link` | `tags` | `duration` | `featured` | `show_on_site` | `source_tab`
 
 Only rows with **`show_on_site = Y`** appear on the public page.
+
+### Source tabs synced into `Website`
+
+| Tab name | Columns (A → D) | Default `type` on Website |
+|----------|-------------------|---------------------------|
+| Podcast, Netflix, LinkedIn_Articles, IG_FB | title, link | Per tab (e.g. Podcast) |
+| You Tube, Ted Talks | title, author, link | YouTube / Ted Talk |
+| Wildlife, Motivation, Health, **FitnessTrain** | title, author, type, link | Wildlife / Motivation / Health / **Fitness Training** |
+| Books | title, author, type, link | Book |
+| Articles, Various, To be sorted | (varies) | Article / Other |
+
+Each row needs a **title** and valid **`https://` link** to get `show_on_site = Y`.
 
 ## Troubleshooting
 
