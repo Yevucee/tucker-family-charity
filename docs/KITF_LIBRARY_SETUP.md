@@ -86,9 +86,9 @@ Only rows with **`show_on_site = Y`** appear on the public page.
 
 | Tab name | Columns (A → D) | Default `type` on Website |
 |----------|-------------------|---------------------------|
-| Podcast, Netflix, LinkedIn_Articles, IG_FB | title, link | Per tab (e.g. Podcast) |
+| Podcast, Netflix, LinkedIn_Articles, IG_FB, **FitnessTrain** | title (ITEM), link | Per tab (e.g. Podcast, **Fitness Training**) |
 | You Tube, Ted Talks | title, author, link | YouTube / Ted Talk |
-| Wildlife, Motivation, Health, **FitnessTrain** | title, author, type, link | Wildlife / Motivation / Health / **Fitness Training** |
+| Wildlife, Motivation, Health | title, author, type, link | Wildlife / Motivation / Health |
 | Books | title, author, type, link | Book |
 | Articles, Various, To be sorted | (varies) | Article / Other |
 

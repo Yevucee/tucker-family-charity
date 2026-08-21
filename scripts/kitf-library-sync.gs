@@ -31,6 +31,7 @@ var WEBSITE_HEADERS = [
 ];
 
 var SIMPLE_ITEM_LINK_TABS = {
+  "FitnessTrain": "Fitness Training",
   "Podcast": "Podcast",
   "Netflix": "Netflix",
   "LinkedIn_Articles": "LinkedIn Article",
@@ -45,8 +46,7 @@ var ARTICLE_AUTHOR_LINK_TABS = {
 var ARTICLE_AUTHOR_TYPE_LINK_TABS = {
   "Wildlife": "Wildlife",
   "Motivation": "Motivation",
-  "Health": "Health",
-  "FitnessTrain": "Fitness Training"
+  "Health": "Health"
 };
 
 function onOpen() {
