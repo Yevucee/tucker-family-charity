@@ -275,7 +275,8 @@ function readSimpleItemLinkTab_(sh, sourceTab, typeLabel) {
       title = split.title;
       link = split.link;
     }
-    rows.push(buildRow_(title, typeLabel, "", link, sourceTab));
+    var description = String(data[r][2] || "").trim();
+    rows.push(buildRow_(title, typeLabel, "", link, sourceTab, description));
   }
   return rows;
 }
@@ -370,7 +371,7 @@ function readToBeSortedTab_(sh) {
   return rows;
 }
 
-function buildRow_(title, type, author, link, sourceTab) {
+function buildRow_(title, type, author, link, sourceTab, description) {
   link = extractUrl_(link) || String(link || "").trim();
   if (isInternalPath_(link)) link = "";
   return {
@@ -378,7 +379,7 @@ function buildRow_(title, type, author, link, sourceTab) {
     type: type || "Other",
     topic: inferTopic_(title),
     author: String(author || "").trim(),
-    description: "",
+    description: String(description || "").trim(),
     link: link,
     tags: "",
     duration: "",
