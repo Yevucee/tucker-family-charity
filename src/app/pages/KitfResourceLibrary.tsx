@@ -9,6 +9,7 @@ import {
   kitfLibraryPageCopy,
   normalizeDisplayType,
   normalizeKitfLibraryRow,
+  hasLibrarySheetDescription,
   resourceCardDescription,
   resourceHasExternalLink,
   resourceSearchHaystack,
@@ -52,7 +53,7 @@ function ResourceCard({ resource }: { resource: KitfLibraryResource }) {
   const displayType = normalizeDisplayType(resource.type);
   const hasLink = resourceHasExternalLink(resource.link);
   const summary = resourceCardDescription(resource);
-  const hasCustomDescription = resource.description.trim().length >= 20;
+  const hasCustomDescription = hasLibrarySheetDescription(resource.description);
 
   return (
     <article className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 border border-amber-100/90 flex flex-col h-full overflow-hidden">

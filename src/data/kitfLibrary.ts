@@ -123,9 +123,16 @@ export function normalizeDisplayType(type: string): string {
   return type.trim().replace(/\s+/g, " ");
 }
 
+/** Minimum length to treat a sheet description as intentional (short fitness captions still count). */
+export const MIN_LIBRARY_DESCRIPTION_LENGTH = 8;
+
+export function hasLibrarySheetDescription(description: string): boolean {
+  return decodeLibraryText(description).length >= MIN_LIBRARY_DESCRIPTION_LENGTH;
+}
+
 export function resourceCardDescription(resource: KitfLibraryResource): string {
   const cleaned = decodeLibraryText(resource.description);
-  if (cleaned.length >= 20) return cleaned;
+  if (cleaned.length >= MIN_LIBRARY_DESCRIPTION_LENGTH) return cleaned;
 
   const type = normalizeDisplayType(resource.type);
   const fallbacks: Record<string, string> = {
@@ -138,6 +145,7 @@ export function resourceCardDescription(resource: KitfLibraryResource): string {
     LinkedIn: "LinkedIn post or article — open the link to read.",
     Social: "Social post — open the link to view.",
     Video: "Video — open the link to watch.",
+    "Fitness Training": "Fitness training — open the link to watch.",
   };
   return fallbacks[type] ?? "Curated pick — open the link to explore.";
 }
