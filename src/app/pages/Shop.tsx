@@ -5,6 +5,7 @@ import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Link } from "react-router";
 import { Sparkles, ShoppingBag, HeartHandshake, ChevronDown } from "lucide-react";
 import { shopCatalog } from "@/data/shopCatalog";
+import { auctionItems } from "@/data/shopProducts";
 import { PartnerExitModal } from "../components/shop/PartnerExitModal";
 import { FeaturedMonthCarousel } from "../components/shop/FeaturedMonthCarousel";
 import { buildFeaturedMonthSlides } from "../components/shop/featuredMonthSlides";
@@ -28,6 +29,7 @@ function tuckerLinkProps(product: TuckerCatalogProduct) {
 
 export function Shop() {
   const { featuredThisMonth, tuckerProducts, partnerOffers } = shopCatalog;
+  const featuredAuction = auctionItems.find((a) => a.featured) ?? auctionItems[0];
   const [partnerModal, setPartnerModal] = useState<PartnerModalState>(null);
 
   const openPartnerModal = (offer: PartnerCatalogOffer) => {
@@ -61,8 +63,8 @@ export function Shop() {
   }, [partnerOffers]);
 
   const featuredSlides = useMemo(
-    () => buildFeaturedMonthSlides(featuredThisMonth, "full"),
-    [featuredThisMonth]
+    () => buildFeaturedMonthSlides(featuredAuction, featuredThisMonth, "full"),
+    [featuredAuction, featuredThisMonth]
   );
 
   const useFeaturedCarousel = featuredSlides.length > 1;
@@ -103,7 +105,7 @@ export function Shop() {
         </div>
       </section>
 
-      {/* A. Featured This Month — catalog spotlight */}
+      {/* A. Featured This Month — specials (auction + catalog spotlight) */}
       <section
         id="featured-this-month"
         className="relative py-8 md:py-12 bg-gradient-to-b from-amber-50 via-white to-white overflow-hidden scroll-mt-20 border-t border-amber-100/80"

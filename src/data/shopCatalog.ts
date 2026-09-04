@@ -5,8 +5,10 @@ import capMustard from "@/assets/shop/cap-mustard.png";
 import wineListing from "@/assets/shop/wine-listing.png";
 import wineFeaturedMonth from "@/assets/shop/wine-featured-month.png";
 import partnerSportsRepublic from "@/assets/shop/partner-sports-republic.jpg";
+import auctionDominicTshabangu from "@/assets/shop/auction-dominic-tshabangu-behind-table-mountain.png";
 
 const SPORTS_REPUBLIC_URL = "https://sportsrepublic.shop/?sca_ref=11855386.HTKenH216a7FmF";
+const DALE_SARGENT_AUCTION_URL = "https://www.giftsbyyou.com/product-page/behind-table-mountain";
 
 /**
  * Shop page content — CMS-ready shape.
@@ -168,6 +170,21 @@ export const shopCatalog: ShopCatalog = {
     },
   ],
   partnerOffers: [
+    {
+      id: "dale-sargent-silent-auction",
+      category: "partner_offers",
+      title: "Dale Sargent Art Gallery — Silent Auction",
+      shortDescription:
+        "Bid on Dominic Tshabangu’s original “Behind Table Mountain” — acrylic and collage on paper, 84cm × 82cm, signed and dated 2016. Secret bids; you may bid again to stay in the running.",
+      image: auctionDominicTshabangu,
+      imageFit: "contain",
+      ctaLabel: "Place a bid",
+      externalUrl: DALE_SARGENT_AUCTION_URL,
+      highlightBullets: ["Starting bid R16,500", "Secret bids", "Closes 30 Sep 2026"],
+      termsNote: "Silent auction hosted on Gifts By You · Closes 30 September 2026 at 20:45",
+      modalExtraNote: "Your bid is completely private. You can place multiple bids during the auction.",
+      shopAnchorId: "offer-dale-sargent-auction",
+    },
     {
       id: "face-for-men",
       category: "partner_offers",
