@@ -30,8 +30,10 @@ GitHub Actions workflow [`.github/workflows/sync-properties.yml`](../.github/wor
 
 - Runs every **Monday 06:00 UTC**
 - Can be triggered manually: **Actions → Sync property listings → Run workflow**
-- If listings changed, opens a **pull request** (does not merge to `main`)
+- If listings changed, pushes branch `auto/properties-sync-YYYY-MM-DD` and opens a **pull request** (does not merge to `main`)
 - Merge the PR to deploy via the existing Pages workflow
+
+If the workflow shows green but no PR appears, enable **Settings → Actions → General → Allow GitHub Actions to create and approve pull requests**, or open a PR manually from the pushed `auto/properties-sync-*` branch.
 
 ## On the move (with Cursor agent)
 
