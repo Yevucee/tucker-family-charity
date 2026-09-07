@@ -49,7 +49,7 @@ jobs:
           git commit -m "Sync Byron Thomas property listings (${ADDED} added, ${REMOVED} removed)"
           git push -u origin "$BRANCH"
 
-          gh pr create \
+          if gh pr create \
             --base main \
             --head "$BRANCH" \
             --title "Property sync: Byron Thomas listings ($(date -u +%Y-%m-%d))" \
@@ -60,4 +60,11 @@ jobs:
 
           Report file: \`public/data/properties-sync-report.json\`
           EOF
-          )"
+          )"; then
+            echo "Pull request opened for ${BRANCH}."
+          else
+            echo "::warning::Sync completed and branch ${BRANCH} was pushed, but GitHub Actions could not open a PR."
+            echo "Enable Settings → Actions → General → Allow GitHub Actions to create and approve pull requests,"
+            echo "or open a PR manually: https://github.com/${{ github.repository }}/compare/main...${BRANCH}"
+            exit 0
+          fi
