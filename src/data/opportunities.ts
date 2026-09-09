@@ -13,6 +13,8 @@ export interface JobSeekerProfile {
   availability: string;
   /** Short public summary shown on the card */
   summary: string;
+  /** Optional link to full CV (Google Drive, PDF, etc.) */
+  cvUrl?: string;
 }
 
 export interface JobOpportunity {
@@ -54,7 +56,8 @@ function isValidProfile(x: unknown): x is JobSeekerProfile {
     x.workType.trim() !== "" &&
     typeof x.skills === "string" &&
     typeof x.availability === "string" &&
-    typeof x.summary === "string"
+    typeof x.summary === "string" &&
+    (x.cvUrl === undefined || typeof x.cvUrl === "string")
   );
 }
 
