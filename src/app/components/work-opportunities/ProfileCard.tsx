@@ -36,6 +36,19 @@ export function ProfileCard({ profile }: { profile: JobSeekerProfile }) {
         ) : null}
       </dl>
 
+      {profile.cvUrl ? (
+        <p className="mt-3">
+          <a
+            href={profile.cvUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-semibold text-amber-800 hover:text-amber-900 underline-offset-2 hover:underline"
+          >
+            View full CV
+          </a>
+        </p>
+      ) : null}
+
       <p className="mt-4 text-xs text-neutral-600 leading-relaxed">
         Contact details are not published here. Email Tucker Family Charity if you would like to explore a connection.
       </p>
