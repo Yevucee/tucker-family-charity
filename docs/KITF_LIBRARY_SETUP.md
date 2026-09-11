@@ -87,7 +87,7 @@ Only rows with **`show_on_site = Y`** appear on the public page.
 | Tab name | Columns (A → D) | Default `type` on Website |
 |----------|-------------------|---------------------------|
 | Podcast, Netflix, LinkedIn_Articles, IG_FB | **A = title, B = link** (optional header row `ITEM` / `LINK`) | Per tab (e.g. Podcast) |
-| **FitnessTrain** | Header row: `ITEM` / `LINK` / `DESCRIPTION` / `AUTHOR` (description + author optional) | **Fitness Training** |
+| **FitnessTrain** | Header row: `Item` / `Author` / `Description` / `Link` (author optional; link in column D) | **Fitness Training** |
 | You Tube, Ted Talks | title, author, link | YouTube / Ted Talk |
 | Wildlife, Motivation, Health | title, author, type, link | Wildlife / Motivation / Health |
 | Books | title, author, type, link | Book |
@@ -98,7 +98,8 @@ Each row needs a **title** and valid **`https://` link** to get `show_on_site = 
 ## Troubleshooting
 
 - **Empty library on site** — Check sheet sharing (Viewer). Test opensheet URL in browser.
-- **New item missing on Website tab** — Run **KITF Library → Sync Website tab now** (fast). Confirm the source row has a **title** and a valid **`https://` link** (`show_on_site` is set automatically when both are present).
+- **FitnessTrain rows on Website but not on site** — Links must be in column D (`Link`). If column D header is wrong (e.g. a name instead of `Link`), fix the header and re-sync, or update Apps Script from `scripts/kitf-library-sync.gs` (infers the link column). Rows with empty `link` get `show_on_site = N` and are hidden on the library page.
+- **New item missing on Website tab** — Run **KITF Library → Sync Website tab now** (fast). Confirm the source row has a **title** and a valid **`https://` link** (`show_on_site` is set automatically when both are present). If the tab name has a trailing space (e.g. `FitnessTrain `), rename it or update Apps Script (loose tab-name matching).
 - **Sync button timed out** — Update Apps Script from `scripts/kitf-library-sync.gs` (write-first fix). Use **Sync Website tab now** (fast), not **Sync + fill descriptions (slow)**. Run **Fill missing descriptions (batch)** separately if needed.
 - **New item missing on live website** — Confirm `show_on_site = Y` on `Website` tab; hard refresh the library page (opensheet may cache briefly).
 - **Stale data** — Hard refresh; opensheet may cache briefly.
