@@ -1,52 +1,69 @@
 /**
- * Landscape photos for the Home “About the Charity” carousel (Oliver's Village).
+ * Home “About the Charity” carousel — landscape Oliver's Village photos only.
+ * Add files to `src/assets/OV photo_s for Website/` using the exact names below.
  */
 
-import aerialVillage from "@/assets/OV photo_s for Website/Aerial (1).jpg";
-import aerialEcd from "@/assets/OV photo_s for Website/Aerial ECD.jpg";
-import soupKitchenWide from "@/assets/OV photo_s for Website/Extra photo 4 (Soup Kitchen).jpg";
-import soupKitchen from "@/assets/OV photo_s for Website/Soup Kitchen 5.jpg";
-import foodGardens from "@/assets/OV photo_s for Website/Extra photo 1 (Food Gardens).jpg";
-import agriTraining from "@/assets/OV photo_s for Website/Extra photo 2 (Agri Training Centre).jpeg";
-import waterHarvesting from "@/assets/OV photo_s for Website/Water Harvesting.jpeg";
-import agriculture from "@/assets/OV photo_s for Website/Agricultural 2.png";
+import soupKitchenFallback from "@/assets/OV photo_s for Website/Extra photo 4 (Soup Kitchen).jpg";
 
 export interface HomeGallerySlide {
   src: string;
   alt: string;
 }
 
-export const homeOliversVillageGallery: HomeGallerySlide[] = [
+/** Landscape set from OV / soup kitchen batch (portraits OV-123, OV-129, OVMD-193 excluded). */
+const HOME_CAROUSEL_FILES: { name: string; alt: string }[] = [
   {
-    src: aerialVillage,
-    alt: "Aerial view of Oliver's Village, Putfontein Benoni",
+    name: "OV-122.jpg",
+    alt: "Volunteer serving children at Oliver's Village soup kitchen",
   },
   {
-    src: aerialEcd,
-    alt: "Oliver's Village early childhood development centre from the air",
+    name: "OV-144.jpg",
+    alt: "Community members walking together at Oliver's Village",
   },
   {
-    src: soupKitchenWide,
-    alt: "Soup kitchen and feeding programme at Oliver's Village",
+    name: "OV-145.jpg",
+    alt: "Conversation at Oliver's Village soup kitchen",
   },
   {
-    src: soupKitchen,
-    alt: "Community meals at Oliver's Village soup kitchen",
+    name: "OVMD-182.jpg",
+    alt: "Women receiving meals at Oliver's Village",
   },
   {
-    src: foodGardens,
-    alt: "Food gardens at Oliver's Village",
+    name: "Soup Kitchen 3.jpg",
+    alt: "Children dining at Oliver's Village soup kitchen",
   },
   {
-    src: agriTraining,
-    alt: "Agricultural training centre at Oliver's Village",
-  },
-  {
-    src: waterHarvesting,
-    alt: "Water harvesting project at Oliver's Village",
-  },
-  {
-    src: agriculture,
-    alt: "Agricultural programme at Oliver's Village",
+    name: "Soup Kitchen 4.jpg",
+    alt: "Community queue at Oliver's Village soup kitchen",
   },
 ];
+
+const assetUrls = import.meta.glob<string>("@/assets/OV photo_s for Website/*", {
+  eager: true,
+  import: "default",
+}) as Record<string, string>;
+
+function fileNameFromPath(importPath: string): string {
+  const parts = importPath.split("/");
+  return parts[parts.length - 1] ?? importPath;
+}
+
+function resolveHomeCarouselSlides(): HomeGallerySlide[] {
+  return HOME_CAROUSEL_FILES.flatMap(({ name, alt }) => {
+    const entry = Object.entries(assetUrls).find(([path]) => fileNameFromPath(path) === name);
+    if (!entry) return [];
+    return [{ src: entry[1], alt }];
+  });
+}
+
+const resolved = resolveHomeCarouselSlides();
+
+export const homeOliversVillageGallery: HomeGallerySlide[] =
+  resolved.length > 0
+    ? resolved
+    : [
+        {
+          src: soupKitchenFallback,
+          alt: "Soup kitchen and feeding programme at Oliver's Village",
+        },
+      ];
