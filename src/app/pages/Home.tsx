@@ -21,8 +21,9 @@ import { INSTAGRAM_ELFSIGHT_APP_ID, INSTAGRAM_WIDGET_URL } from "@/config";
 import { InstagramEmbed } from "@/app/components/InstagramEmbed";
 import logo from "@/assets/4920ca320ce31a579ec4c3d0fcc360b4528a2024.png";
 import tuckerFamily from "@/assets/708f3b7edb5dbc413e39e442a736f205e2c35b56.png";
-import computerLab from "@/assets/d5c30ac405997a9f47bb022e66f8a25896a2b859.png";
 import gardenArea from "@/assets/f0dd27edb7bda065be4dd5f0f576138f64514baf.png";
+import { HomeAboutPhotoCarousel } from "../components/home/HomeAboutPhotoCarousel";
+import { homeOliversVillageGallery } from "@/data/homeOliversVillageGallery";
 import { shopCatalog } from "@/data/shopCatalog";
 import { auctionItems } from "@/data/shopProducts";
 import { getActiveUpcomingEvents } from "@/data/events";
@@ -108,14 +109,7 @@ export function Home() {
                 Read our full story →
               </Link>
             </div>
-            <div className="relative h-[280px] sm:h-[350px] md:h-[400px] rounded-lg overflow-hidden shadow-xl group">
-              <img
-                src={computerLab}
-                alt="Computer lab at Oliver's Village"
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                loading="lazy"
-              />
-            </div>
+            <HomeAboutPhotoCarousel slides={homeOliversVillageGallery} />
           </div>
         </div>
       </section>
