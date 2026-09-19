@@ -1,15 +1,15 @@
 # Wine shop order email setup
 
-Wine orders on `/shop/wine` use **two paths in parallel** — one for email, one for the Sheet backup. **Only one email** is sent per order.
+Wine orders on `/shop/wine` post to **Google Apps Script** first: **Sheet row + staff email** (MailApp). **FormSubmit** is only used if the script POST fails.
 
 ## How it works
 
 | Path | Service | What it does |
 |------|---------|----------------|
-| **Email** | FormSubmit.co | One email to **brett@tuckerfamilycharity.co.za**, CC **samuel.polley1@gmail.com** and **tuckerfamilycharity@gmail.com** |
-| **Sheet backup** | Google Apps Script | Appends a row to the Sheet — **no email** from the script |
+| **Primary** | Google Apps Script | Appends a row to the Sheet and emails **brett@tuckerfamilycharity.co.za** plus CC addresses in the script |
+| **Fallback** | FormSubmit.co | Same staff inboxes if the script is unreachable |
 
-The customer sees success when FormSubmit accepts the order (or if the Sheet save succeeds when email fails).
+Redeploy `scripts/wine-order-submit.gs` after changes (`WINE_ORDER_SEND_EMAIL = true`, CC list, catalog prices).
 
 **First time only:** FormSubmit sends an activation link to **brett@tuckerfamilycharity.co.za** — click it once.
 
@@ -18,7 +18,7 @@ The customer sees success when FormSubmit accepts the order (or if the Sheet sav
 **Sheet:** https://docs.google.com/spreadsheets/d/1jVOruSkASiklk9Gktl3W8qy1tQwBLvm5AXgUs67tNBQ/edit  
 **Setup checklist:** [WINE_ORDER_SHEET_SETUP.md](./WINE_ORDER_SHEET_SETUP.md)
 
-In `scripts/wine-order-submit.gs`, keep **`WINE_ORDER_SEND_EMAIL = false`** so the script only logs to the Sheet.
+In `scripts/wine-order-submit.gs`, keep **`WINE_ORDER_SEND_EMAIL = true`** so each order emails staff after the Sheet row is saved.
 
 Add GitHub secret **`VITE_WINE_ORDER_SUBMIT_URL`** with your Apps Script `/exec` URL after deploying the web app.
 
