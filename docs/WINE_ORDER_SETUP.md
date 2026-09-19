@@ -1,6 +1,6 @@
 # Wine shop order email setup
 
-Wine orders on `/shop/wine` post to **Google Apps Script** first: **Sheet row + staff email** (MailApp). **FormSubmit** is only used if the script POST fails.
+Wine orders on `/shop/wine` post to **Google Apps Script** first: **Sheet row + staff email** (MailApp). **FormSubmit** runs as a fallback if the script POST fails, if MailApp did not send (`emailSent: false`), or if the browser cannot read the script response (common with Apps Script CORS).
 
 ## How it works
 
@@ -44,5 +44,6 @@ No second email from Google.
 
 - **Duplicate emails** — Redeploy Apps Script with `WINE_ORDER_SEND_EMAIL = false` and run **testSheetAppend** (not testWineOrderNotify).
 - **No Sheet rows** — Confirm `WINE_ORDER_SPREADSHEET_ID` and redeploy; check `VITE_WINE_ORDER_SUBMIT_URL` in GitHub Actions.
-- **No email** — FormSubmit activation for brett@; check spam.
+- **No email (Sheet row OK)** — In Apps Script, run **`testSendStaffOrderEmail`** once and approve Gmail access; redeploy. Check **Executions** for MailApp errors. FormSubmit should still email staff when MailApp fails (after site redeploy).
+- **No email at all** — FormSubmit activation for brett@; check spam.
 - **Form error but Sheet has row** — FormSubmit failed; order is still in the Sheet.
