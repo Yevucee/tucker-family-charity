@@ -297,8 +297,8 @@ export function buildWineOrderFormSubmitBody(input: {
     delivery_area: zoneLabel,
     delivery_fee: formatWinePriceZar(deliveryFee),
     delivery_address: input.deliveryAddress.trim(),
-    total_cases: input.orderSummary.totalCases,
-    total_bottles: input.orderSummary.totalBottles,
+    total_cases: String(input.orderSummary.totalCases),
+    total_bottles: String(input.orderSummary.totalBottles),
     wine_subtotal: formatWinePriceZar(input.orderSummary.wineSubtotalZar),
     delivery: formatWinePriceZar(deliveryFee),
     order_total: formatWinePriceZar(

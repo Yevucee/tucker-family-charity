@@ -1,9 +1,9 @@
 /**
  * Google Apps Script: wine shop order enquiries → Google Sheet log only.
  *
- * Email is sent by FormSubmit on the website (brett@ + CC samuel@). This script
- * only appends a backup row to the Sheet — no MailApp emails unless you set
- * WINE_ORDER_SEND_EMAIL = true.
+ * Email: by default this script sends staff notification emails (MailApp) after
+ * each row is saved. The website may also use FormSubmit as a fallback if the
+ * script POST fails.
  *
  * SETUP
  * 1. Sheet tab "Wine orders" in your spreadsheet.
@@ -20,8 +20,8 @@ var WINE_ORDER_SPREADSHEET_ID = "1jVOruSkASiklk9Gktl3W8qy1tQwBLvm5AXgUs67tNBQ";
 var SHEET_NAME = "Wine orders";
 var SCRIPT_SECRET = "";
 
-/** Leave false — the website sends email via FormSubmit; this script only logs to the Sheet. */
-var WINE_ORDER_SEND_EMAIL = false;
+/** Send staff email (To + CC list below) after each order is logged to the Sheet. */
+var WINE_ORDER_SEND_EMAIL = true;
 
 /** Only used if WINE_ORDER_SEND_EMAIL is true. */
 var WINE_ORDER_RECIPIENT_EMAIL = "brett@tuckerfamilycharity.co.za";

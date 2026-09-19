@@ -180,13 +180,18 @@ export function CharityWine() {
     });
     payload.website = honeypot;
 
-    // FormSubmit = email (Brett + CC Samuel). Apps Script = Sheet log only (no email).
-    const [emailOk, gasResult] = await Promise.all([
-      submitViaFormSubmit(),
-      WINE_ORDER_SUBMIT_URL ? submitViaAppsScript(payload) : Promise.resolve({ ok: false }),
-    ]);
+    // Apps Script = Sheet log + staff email. FormSubmit = fallback if script POST fails.
+    const gasResult = WINE_ORDER_SUBMIT_URL
+      ? await submitViaAppsScript(payload)
+      : { ok: false as const };
 
-    if (emailOk || gasResult.ok) {
+    if (gasResult.ok) {
+      setSubmitState("success");
+      return;
+    }
+
+    const emailOk = await submitViaFormSubmit();
+    if (emailOk) {
       setSubmitState("success");
       return;
     }
