@@ -11,7 +11,8 @@ import { winePageCopy as winePageCopyBase } from "./copy/winePageCopy.ts";
 export const ORDER_EMAIL = "brett@tuckerfamilycharity.co.za";
 
 /** CC copy on every order email (FormSubmit + Apps Script). */
-export const ORDER_CC_EMAILS = "samuel.polley1@gmail.com";
+export const ORDER_CC_EMAILS =
+  "samuel.polley1@gmail.com, tuckerfamilycharity@gmail.com";
 
 export const WINE_ORDER_FORMSUBMIT_URL = `https://formsubmit.co/ajax/${encodeURIComponent(ORDER_EMAIL)}`;
 

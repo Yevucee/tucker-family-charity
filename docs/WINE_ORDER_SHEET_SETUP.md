@@ -1,6 +1,6 @@
 # Wine shop orders → Google Sheet log
 
-The Apps Script **only logs orders to a Google Sheet**. Email is handled separately by **FormSubmit** on the website (one email to Brett, CC Samuel — no duplicates from Google).
+The Apps Script **only logs orders to a Google Sheet**. Email is handled separately by **FormSubmit** on the website (one email to Brett, CC Samuel and tuckerfamilycharity@gmail.com — no duplicates from Google).
 
 ## Sheet
 
@@ -29,7 +29,7 @@ Each order adds one row: timestamp, customer details, delivery zone/address, win
 
 1. Incognito GET on `/exec` → `{"ok":true,"live":true}`
 2. Submit test order on `/shop/wine`
-3. **One** email to Brett (+ CC Samuel) from FormSubmit
+3. **One** email to Brett (+ CC Samuel and tuckerfamilycharity@gmail.com) from FormSubmit
 4. **One** new row in the Sheet
 5. **No** email from the Google account that owns the script
 
