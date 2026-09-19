@@ -76,7 +76,7 @@ export function CharityWine() {
 
   const submitViaAppsScript = async (
     payload: ReturnType<typeof buildWineOrderPayload>,
-  ): Promise<{ ok: boolean; error?: string }> => {
+  ): Promise<{ ok: boolean; emailSent?: boolean; sheetUncertain?: boolean; error?: string }> => {
     if (!WINE_ORDER_SUBMIT_URL) return { ok: false };
 
     const formBody = new URLSearchParams({ json: JSON.stringify(payload) }).toString();
@@ -89,20 +89,23 @@ export function CharityWine() {
 
     try {
       const res = await fetch(WINE_ORDER_SUBMIT_URL, { ...postInit, mode: "cors" });
-      let data: { ok?: boolean; saved?: boolean; error?: string } = {};
+      let data: { ok?: boolean; saved?: boolean; emailSent?: boolean; error?: string } = {};
       try {
         data = (await res.json()) as typeof data;
       } catch {
         /* non-JSON */
       }
 
-      if (data.ok === true && data.saved === true) return { ok: true };
+      if (data.ok === true && data.saved === true) {
+        return { ok: true, emailSent: data.emailSent === true };
+      }
 
       return { ok: false, error: data.error || winePageCopy.submitErrorGeneric };
     } catch {
       try {
         await fetch(WINE_ORDER_SUBMIT_URL, { ...postInit, mode: "no-cors" });
-        return { ok: true };
+        // Sheet row may have been saved but we cannot read emailSent from the response.
+        return { ok: true, sheetUncertain: true };
       } catch {
         return { ok: false };
       }
@@ -180,18 +183,22 @@ export function CharityWine() {
     });
     payload.website = honeypot;
 
-    // Apps Script = Sheet log + staff email. FormSubmit = fallback if script POST fails.
+    // Apps Script = Sheet log + staff email (MailApp). FormSubmit = fallback if script fails or email not sent.
     const gasResult = WINE_ORDER_SUBMIT_URL
       ? await submitViaAppsScript(payload)
       : { ok: false as const };
 
-    if (gasResult.ok) {
+    const needsFormSubmitEmail =
+      !gasResult.ok || gasResult.sheetUncertain || gasResult.emailSent !== true;
+
+    if (gasResult.ok && !needsFormSubmitEmail) {
       setSubmitState("success");
       return;
     }
 
-    const emailOk = await submitViaFormSubmit();
-    if (emailOk) {
+    const emailOk = needsFormSubmitEmail ? await submitViaFormSubmit() : false;
+
+    if (gasResult.ok || emailOk) {
       setSubmitState("success");
       return;
     }

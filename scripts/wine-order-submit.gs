@@ -96,11 +96,12 @@ function doPost(e) {
     }
 
     appendSheetRow_(ts, submissionMode, customerName, customerEmail, customerPhone, deliveryMeta, deliveryAddress, order, notes);
+    var emailSent = false;
     if (WINE_ORDER_SEND_EMAIL) {
-      sendOrderEmails_(ts, submissionMode, customerName, customerEmail, customerPhone, deliveryMeta, deliveryAddress, order, notes);
+      emailSent = sendOrderEmails_(ts, submissionMode, customerName, customerEmail, customerPhone, deliveryMeta, deliveryAddress, order, notes);
     }
 
-    return jsonResponse({ ok: true, saved: true });
+    return jsonResponse({ ok: true, saved: true, emailSent: emailSent });
   } catch (err) {
     return jsonResponse({ ok: false, error: String(err) });
   }
@@ -218,7 +219,7 @@ function sendOrderEmails_(ts, mode, name, email, phone, deliveryMeta, deliveryAd
   var recipient = readRecipientEmail_();
   if (!recipient) {
     Logger.log("sendOrderEmails_: no WINE_ORDER_RECIPIENT_EMAIL configured");
-    return;
+    return false;
   }
 
   var subject = "New wine order enquiry — " + name;
@@ -233,23 +234,24 @@ function sendOrderEmails_(ts, mode, name, email, phone, deliveryMeta, deliveryAd
       return addr && addr !== recipient;
     });
 
-  var staffRecipients = [recipient].concat(ccList).filter(function (addr, index, list) {
+  var ccJoined = ccList.filter(function (addr, index, list) {
     return list.indexOf(addr) === index;
-  });
+  }).join(",");
 
-  staffRecipients.forEach(function (staffEmail) {
-    try {
-      MailApp.sendEmail({
-        to: staffEmail,
-        subject: subject,
-        body: bodyText,
-        name: "Tucker Family Charity — wine shop",
-        replyTo: email,
-      });
-    } catch (err) {
-      Logger.log("sendOrderEmails_ failed for " + staffEmail + ": " + String(err));
-    }
-  });
+  var staffSent = false;
+  try {
+    MailApp.sendEmail({
+      to: recipient,
+      cc: ccJoined || undefined,
+      subject: subject,
+      body: bodyText,
+      name: "Tucker Family Charity — wine shop",
+      replyTo: email,
+    });
+    staffSent = true;
+  } catch (err) {
+    Logger.log("sendOrderEmails_ staff mail failed: " + String(err));
+  }
 
   if (WINE_ORDER_SEND_CUSTOMER_COPY) {
     try {
@@ -263,6 +265,8 @@ function sendOrderEmails_(ts, mode, name, email, phone, deliveryMeta, deliveryAd
       Logger.log("sendOrderEmails_ customer copy failed: " + String(custErr));
     }
   }
+
+  return staffSent;
 }
 
 function formatOrderEmailBody_(ts, mode, name, email, phone, deliveryMeta, deliveryAddress, order, notes, forCustomer) {
@@ -393,6 +397,27 @@ function readScriptSecret_() {
   } catch (e) {
     return "";
   }
+}
+
+/**
+ * Run once from the editor (Run ▶) to authorize Gmail/MailApp and confirm staff email works.
+ * Check Brett + CC inboxes for the test message.
+ */
+function testSendStaffOrderEmail() {
+  var deliveryMeta = deliveryMetaForZone_("johannesburg");
+  var order = buildTrustedOrder_([{ wineSlug: "chloe", caseQuantity: 1 }], deliveryMeta);
+  var sent = sendOrderEmails_(
+    new Date().toISOString(),
+    "test",
+    "MailApp test",
+    "test@example.com",
+    "+27 82 000 0000",
+    deliveryMeta,
+    "Apps Script editor — please ignore",
+    order,
+    "If you receive this, MailApp is authorized and working."
+  );
+  Logger.log("testSendStaffOrderEmail: emailSent=" + sent);
 }
 
 /** Run once from the editor to confirm Sheet append works. */
