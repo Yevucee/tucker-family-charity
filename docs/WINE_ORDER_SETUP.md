@@ -6,7 +6,7 @@ Wine orders on `/shop/wine` use **two paths in parallel** — one for email, one
 
 | Path | Service | What it does |
 |------|---------|----------------|
-| **Email** | FormSubmit.co | One email to **brett@tuckerfamilycharity.co.za**, CC **samuel.polley1@gmail.com** |
+| **Email** | FormSubmit.co | One email to **brett@tuckerfamilycharity.co.za**, CC **samuel.polley1@gmail.com** and **tuckerfamilycharity@gmail.com** |
 | **Sheet backup** | Google Apps Script | Appends a row to the Sheet — **no email** from the script |
 
 The customer sees success when FormSubmit accepts the order (or if the Sheet save succeeds when email fails).
@@ -25,7 +25,7 @@ Add GitHub secret **`VITE_WINE_ORDER_SUBMIT_URL`** with your Apps Script `/exec`
 ## What staff receive (one email per order)
 
 - **To:** brett@tuckerfamilycharity.co.za  
-- **CC:** samuel.polley1@gmail.com  
+- **CC:** samuel.polley1@gmail.com, tuckerfamilycharity@gmail.com  
 - **From:** FormSubmit  
 - **Subject:** `New wine order enquiry — [Customer name]`  
 - **Reply-To:** customer’s email  

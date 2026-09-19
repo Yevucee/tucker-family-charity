@@ -25,7 +25,7 @@ var WINE_ORDER_SEND_EMAIL = false;
 
 /** Only used if WINE_ORDER_SEND_EMAIL is true. */
 var WINE_ORDER_RECIPIENT_EMAIL = "brett@tuckerfamilycharity.co.za";
-var WINE_ORDER_CC_EMAILS = "samuel.polley1@gmail.com";
+var WINE_ORDER_CC_EMAILS = "samuel.polley1@gmail.com, tuckerfamilycharity@gmail.com";
 var WINE_ORDER_SEND_CUSTOMER_COPY = false;
 
 /** Max submissions per email address per hour. */
