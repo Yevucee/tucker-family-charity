@@ -54,7 +54,7 @@ export const charityWineVariants: CharityWineVariant[] = [
     vintage: 2021,
     varietal: "Merlot / Shiraz",
     image: wineMadison,
-    pricePerBottleZar: 175,
+    pricePerBottleZar: 179,
   },
 ];
 

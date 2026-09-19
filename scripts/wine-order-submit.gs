@@ -39,7 +39,7 @@ var WINE_BOTTLES_PER_CASE = 6;
 var WINE_CATALOG = {
   chloe: { name: "Chloe", vintage: 2024, varietal: "Sauvignon Blanc", priceZar: 159 },
   ella: { name: "Ella", vintage: 2025, varietal: "Pinot Noir", priceZar: 205 },
-  madison: { name: "Madison", vintage: 2021, varietal: "Merlot / Shiraz", priceZar: 175 },
+  madison: { name: "Madison", vintage: 2021, varietal: "Merlot / Shiraz", priceZar: 179 },
 };
 
 var LAST_COL_WINE_ = 11;
