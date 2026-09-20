@@ -5,12 +5,14 @@ on:
     branches: [main]
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -33,7 +35,6 @@ jobs:
           VITE_DIRECTORY_SHEET_ID: ${{ secrets.VITE_DIRECTORY_SHEET_ID }}
           VITE_SERVICES_SHEET_ID: ${{ secrets.VITE_SERVICES_SHEET_ID }}
           VITE_NETWORKING_SHEET_ID: ${{ secrets.VITE_NETWORKING_SHEET_ID || '1z37lsb3N9VAqIxgRMdPYrqVOm61bt6KltjJpsD_FIrw' }}
-          # URL = Apps Script web app /exec link; secret = optional password — do not use the same value for both
           VITE_KITF_SUBMIT_URL: ${{ secrets.VITE_KITF_SUBMIT_URL }}
           VITE_KITF_SUBMIT_SECRET: ${{ secrets.VITE_KITF_SUBMIT_SECRET }}
           VITE_KITF_LIBRARY_SHEET_ID: ${{ secrets.VITE_KITF_LIBRARY_SHEET_ID }}
@@ -44,16 +45,8 @@ jobs:
           VITE_DONATION_LINK: ${{ secrets.VITE_DONATION_LINK }}
           VITE_VOLUNTEER_SIGNUP_URL: ${{ secrets.VITE_VOLUNTEER_SIGNUP_URL }}
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment: github-pages
-    steps:
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
