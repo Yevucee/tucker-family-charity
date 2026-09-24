@@ -16,6 +16,7 @@ const pastEventT20SaVsWestIndiesCover = `${import.meta.env.BASE_URL}past-events/
 const pastEventLeopardCreek2025Cover = `${import.meta.env.BASE_URL}past-events/leopard-creek-2025-cover.png`;
 const pastEventWatershed2025Cover = `${import.meta.env.BASE_URL}past-events/watershed-2025-cover.png`;
 const pastEventRemyMartinDinnerCover = `${import.meta.env.BASE_URL}past-events/remy-martin-dinner-cover.png`;
+const pastEventLeopardCreek2026Cover = `${import.meta.env.BASE_URL}past-events/leopard-creek-2026-cover.jpg`;
 
 /** Upcoming event hero from `public/upcoming/` (GitHub Pages base path). */
 const upcomingCouplesPadelViiPlaceholder = `${import.meta.env.BASE_URL}upcoming/couples-padel-vii-placeholder.png`;
@@ -128,6 +129,16 @@ export const upcomingEvents: UpcomingEvent[] = [
  * Adjust order if you have exact event dates.
  */
 export const pastEvents: PastEvent[] = [
+  {
+    id: 13,
+    title: "Leopard Creek 2026",
+    slug: "leopard-creek-2026",
+    shortDescription:
+      "Three days at Leopard Creek in September 2026 — iconic golf, safari, and time together as a charity family. Thank you to everyone who hosted us; memories and support for Oliver's Village and the Boucher Legacy.",
+    coverImage: pastEventLeopardCreek2026Cover,
+    albumLink:
+      "https://photos.google.com/share/AF1QipNRQDAR6vI9sojBFCbbVKU8qQeJQu5HxWVwE4guhdVukB_YzeJC3ksBIbqR6oez5w?key=amhjSk5MekhCZHhnUUpBNWlIbkVCXzNqeVZUT1NR",
+  },
   {
     id: 1,
     title: "Rémy Martin Dinner Experience",
