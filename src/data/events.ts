@@ -51,6 +51,8 @@ export interface PastEvent {
   coverImage: string;
   /** Google Photos album or Drive folder share URL for the full gallery */
   albumLink: string;
+  /** ISO date (YYYY-MM-DD) for newest-first sort on the Events page */
+  eventDate: string;
 }
 
 export const upcomingEvents: UpcomingEvent[] = [
@@ -124,10 +126,7 @@ export const upcomingEvents: UpcomingEvent[] = [
   },
 ];
 
-/**
- * Newest first (approximate: dated titles and prior oldest-first sequence reversed).
- * Adjust order if you have exact event dates.
- */
+/** Photo albums — sorted newest-first via `eventDate` in getAllPastEvents(). */
 export const pastEvents: PastEvent[] = [
   {
     id: 13,
@@ -138,6 +137,7 @@ export const pastEvents: PastEvent[] = [
     coverImage: pastEventLeopardCreek2026Cover,
     albumLink:
       "https://photos.google.com/share/AF1QipNRQDAR6vI9sojBFCbbVKU8qQeJQu5HxWVwE4guhdVukB_YzeJC3ksBIbqR6oez5w?key=amhjSk5MekhCZHhnUUpBNWlIbkVCXzNqeVZUT1NR",
+    eventDate: "2026-09-23",
   },
   {
     id: 1,
@@ -149,6 +149,7 @@ export const pastEvents: PastEvent[] = [
     // https://photos.app.goo.gl/kMKhKESpw8edhQYp8
     albumLink:
       "https://photos.google.com/share/AF1QipN7rn_FRfbdbmKcj-Y3PQSV_fXVDt3kaCwZUdueaanquI-HDlafVJM8B-n6BF9ymw?key=by1DUVVycnZQR1dUS2NXcm82WkZ0OVZEaGVJcVZ3",
+    eventDate: "2026-08-01",
   },
   {
     id: 2,
@@ -160,6 +161,7 @@ export const pastEvents: PastEvent[] = [
     // https://photos.app.goo.gl/FyPwYqpdwxJEDmFW9
     albumLink:
       "https://photos.google.com/share/AF1QipNz9c6FqlGq1Q3W_JpMWT_wrnzrOlxaAd75Ttf3GrxVt8M8lUeOQ47nj8x-KVpU8g?key=MFlnSV9Bd3RrbldHMVNXbUdra1kzSjdtb0pBTTN3",
+    eventDate: "2025-09-15",
   },
   {
     id: 3,
@@ -171,6 +173,7 @@ export const pastEvents: PastEvent[] = [
     // https://photos.app.goo.gl/vMYt6QQzYYgf1qYg8
     albumLink:
       "https://photos.google.com/share/AF1QipM1rtvQscLaTpJzDDNeMVVWKJOX56ta170x89ZmMOndyQJiBs2CLfr7Kzu597h3-A?key=WHVYald3c0NqTjlDYmV3NV8teU01MTE5SlU4TTZR",
+    eventDate: "2025-05-01",
   },
   {
     id: 4,
@@ -182,6 +185,7 @@ export const pastEvents: PastEvent[] = [
     // https://photos.app.goo.gl/9hqgVm1EX7aHn3r86
     albumLink:
       "https://photos.google.com/share/AF1QipNkMeDPJRSwdATzxPiDiACLsbFGfsuP-sBn0E4sVD2T8wEDH-3fcFRdI5uHOBrW3Q?key=VlZjeDJrQzNtdy1VTlJvUXR4SkRURjBtcE5HU3l3",
+    eventDate: "2024-11-01",
   },
   {
     id: 5,
@@ -193,6 +197,7 @@ export const pastEvents: PastEvent[] = [
     // https://photos.app.goo.gl/dVbaviioL25wTTCE6
     albumLink:
       "https://photos.google.com/share/AF1QipPcCAQ2KgDjzZAVblyW3tNJXJ-IjsJTqTkYPBVFxNVpbWbtHw8aX1qeQ29avcPPfg?key=U0dEbzh4S2lNWTN6VEFTdVdqRlV1V0JpbW5FYWdR",
+    eventDate: "2024-06-01",
   },
   {
     id: 6,
@@ -204,6 +209,7 @@ export const pastEvents: PastEvent[] = [
     // https://photos.app.goo.gl/eDTwMHRiEvAh5RpM9
     albumLink:
       "https://photos.google.com/share/AF1QipPe_46XZ71hiOp97HX7NAHJuGo8J07Ob0XMZLK3f0t-hPk0gy3x0JKVUXN4bANz3Q?key=b1llRlVTV0EyTFpQYXJ2MC0yN2t3TDhhV3ZEeFlB",
+    eventDate: "2024-03-01",
   },
   {
     id: 7,
@@ -215,6 +221,7 @@ export const pastEvents: PastEvent[] = [
     // https://photos.app.goo.gl/aj67GUQT9AeJhBqG8
     albumLink:
       "https://photos.google.com/share/AF1QipPlFCJ9eX0Wn0gopcbVnhk3cH47ORIzgLb08b4cNil2ZrN7kHGo7qaLWd8z8HzgqA?key=dE80cG9VU1d2STdiNUlaTnVhVVVIWVRrN3JNVm1B",
+    eventDate: "2023-11-01",
   },
   {
     id: 8,
@@ -226,6 +233,7 @@ export const pastEvents: PastEvent[] = [
     // https://photos.app.goo.gl/JD7eSGqbYJvmACbG9
     albumLink:
       "https://photos.google.com/share/AF1QipORLSQwV4sbc6UNTLvpKZT_dbh-baLfW_ws8mGV4f7YNMc8WKk433LpAm00L5qDxA?key=ZGxmVXNWTmxlN3I5bXdEd1ZiczViWUJiLWdXRjFn",
+    eventDate: "2023-09-01",
   },
   {
     id: 9,
@@ -237,6 +245,7 @@ export const pastEvents: PastEvent[] = [
     // https://photos.app.goo.gl/RGfF8Fx2ZfHMB9Wk9
     albumLink:
       "https://photos.google.com/share/AF1QipNiMrl-OtDYFw3s76IPzg5oPWABp-F7EHqITf_LAUohHH3ncFUgDSJM5QaUslBarA?key=V0tSSGJFUGNXTU92VmdOdzZlU2NQcDdLMmtRVHpB",
+    eventDate: "2023-05-01",
   },
   {
     id: 10,
@@ -248,6 +257,7 @@ export const pastEvents: PastEvent[] = [
     // https://photos.app.goo.gl/TY8jbbP1T2SauiyC9
     albumLink:
       "https://photos.google.com/share/AF1QipP70SOGXE6Qg7pfUqp6tz1h3zSWolnDq4ARk9Td1HXOOvCsulhfYmCBGag7XETkqg?key=a1ZNenlHc0hQbGwzUlN2eTR5aDFzQzE1b2tfYjN3",
+    eventDate: "2022-05-01",
   },
   {
     id: 11,
@@ -259,6 +269,7 @@ export const pastEvents: PastEvent[] = [
     // https://photos.app.goo.gl/g5caZiwTWhMfe3s88
     albumLink:
       "https://photos.google.com/share/AF1QipMsek1ptSkW7x14Qs_6VAr1iWRaT2jBYFtzDBHoPfTscd8W_L6WDoY9qJvkuzXZ3g?key=b0NTeldEYzNYZW9VMEZWeG9MbG1pRXJSZzN2RUhB",
+    eventDate: "2022-02-14",
   },
   {
     id: 12,
@@ -270,6 +281,7 @@ export const pastEvents: PastEvent[] = [
     // https://photos.app.goo.gl/cvowNfCUYC4oapQr9
     albumLink:
       "https://photos.google.com/share/AF1QipNkazJvwoPxkYQrOW6hCnUSUZncKi1mQiETMeyd3_AdK4O8RxpVQRR-cuWLdxNipw?key=akRTU1J5ZjBjRUEwcGVFVGtacjBhOEY1Z1BYUmR3",
+    eventDate: "2019-11-01",
   },
 ];
 
@@ -304,6 +316,7 @@ function expiredUpcomingToPast(event: UpcomingEvent): PastEvent {
     shortDescription: firstSentence.length > 280 ? `${firstSentence.slice(0, 277)}…` : firstSentence,
     coverImage: event.image,
     albumLink: `mailto:info@tuckerfamilycharity.org?subject=${encodeURIComponent(`${event.title} — follow-up`)}`,
+    eventDate: event.endsOn,
   };
 }
 
@@ -316,7 +329,13 @@ export function getRecentlyPastUpcomingEvents(now = new Date()): PastEvent[] {
     .map(expiredUpcomingToPast);
 }
 
-/** Static past events plus recently ended upcoming listings. */
+function comparePastEventsNewestFirst(a: PastEvent, b: PastEvent): number {
+  const byDate = b.eventDate.localeCompare(a.eventDate);
+  if (byDate !== 0) return byDate;
+  return b.id - a.id;
+}
+
+/** Photo albums and ended upcoming listings, newest first by `eventDate`. */
 export function getAllPastEvents(now = new Date()): PastEvent[] {
-  return [...getRecentlyPastUpcomingEvents(now), ...pastEvents];
+  return [...getRecentlyPastUpcomingEvents(now), ...pastEvents].sort(comparePastEventsNewestFirst);
 }
