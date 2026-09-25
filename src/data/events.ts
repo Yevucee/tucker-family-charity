@@ -133,7 +133,7 @@ export const pastEvents: PastEvent[] = [
     title: "Leopard Creek 2026",
     slug: "leopard-creek-2026",
     shortDescription:
-      "Three days at Leopard Creek in September 2026 — iconic golf, safari, and time together as a charity family. Thank you to everyone who hosted us; memories and support for Oliver's Village and the Boucher Legacy.",
+      "Three days at Leopard Creek in September 2026 — iconic golf, safari, and time together as a charity family. Thank you to everyone who hosted us; memories and support for Oliver's Village and the Tucker Family Charity.",
     coverImage: pastEventLeopardCreek2026Cover,
     albumLink:
       "https://photos.google.com/share/AF1QipNRQDAR6vI9sojBFCbbVKU8qQeJQu5HxWVwE4guhdVukB_YzeJC3ksBIbqR6oez5w?key=amhjSk5MekhCZHhnUUpBNWlIbkVCXzNqeVZUT1NR",
