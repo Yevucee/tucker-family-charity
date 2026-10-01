@@ -17,10 +17,10 @@ const pastEventLeopardCreek2025Cover = `${import.meta.env.BASE_URL}past-events/l
 const pastEventWatershed2025Cover = `${import.meta.env.BASE_URL}past-events/watershed-2025-cover.png`;
 const pastEventRemyMartinDinnerCover = `${import.meta.env.BASE_URL}past-events/remy-martin-dinner-cover.png`;
 const pastEventLeopardCreek2026Cover = `${import.meta.env.BASE_URL}past-events/leopard-creek-2026-cover.jpg`;
+const pastEventSaVsAustraliaOdi2026Cover = `${import.meta.env.BASE_URL}past-events/sa-vs-australia-odi-2026-cover.jpg`;
 
 /** Upcoming event hero from `public/upcoming/` (GitHub Pages base path). */
 const upcomingCouplesPadelViiPlaceholder = `${import.meta.env.BASE_URL}upcoming/couples-padel-vii-placeholder.png`;
-const upcomingAustraliaVsSaCricketPlaceholder = `${import.meta.env.BASE_URL}upcoming/australia-vs-sa-cricket-placeholder.png`;
 const upcomingSaVsBangladeshTestPlaceholder = `${import.meta.env.BASE_URL}upcoming/sa-vs-bangladesh-test-placeholder.png`;
 const upcomingSaVsEnglandTestPlaceholder = `${import.meta.env.BASE_URL}upcoming/sa-vs-england-test-placeholder.png`;
 
@@ -74,23 +74,6 @@ export const upcomingEvents: UpcomingEvent[] = [
     endsOn: "2026-05-31",
   },
   {
-    id: 2,
-    title: "Australia vs South Africa",
-    date: "Saturday, 27 September 2026",
-    time: "Session TBC",
-    location: "Venue TBC (South Africa series)",
-    address: "Check CSA fixtures when released",
-    image: upcomingAustraliaVsSaCricketPlaceholder,
-    description:
-      "Join fellow supporters to watch Australia take on the Proteas. A Tucker Family Charity day out for cricket and community. Final venue and format will be confirmed with the season schedule.",
-    attendees: "Open to all supporters",
-    category: "Cricket",
-    ctaLabel: "Register interest",
-    ctaLink: "mailto:info@tuckerfamilycharity.org?subject=Australia%20vs%20SA%20%28Sept%202026%20%E2%80%94%20interest",
-    ctaType: "mailto",
-    endsOn: "2026-09-27",
-  },
-  {
     id: 3,
     title: "South Africa vs Bangladesh (Test)",
     date: "15-19 November 2026",
@@ -128,6 +111,18 @@ export const upcomingEvents: UpcomingEvent[] = [
 
 /** Photo albums — sorted newest-first via `eventDate` in getAllPastEvents(). */
 export const pastEvents: PastEvent[] = [
+  {
+    id: 14,
+    title: "South Africa vs Australia (ODI)",
+    slug: "sa-vs-australia-odi-2026",
+    shortDescription:
+      "ODI cricket with the Proteas and Australia — a Tucker Family Charity day out at the ground with friends and supporters. Thank you to everyone who joined us; memories and support for Oliver's Village and the Tucker Family Charity.",
+    coverImage: pastEventSaVsAustraliaOdi2026Cover,
+    // https://photos.app.goo.gl/Dc5MLx9wsDtF4Xm9A
+    albumLink:
+      "https://photos.google.com/share/AF1QipMX6PcNCEsPpIMVxk3-sWc3n6mnM04pu9u-f907_TUoov0DHqtECXvB4a7sI3zf1g?key=YjJ2Uk9CRFlkSHRQTGNmM3cxVTh1Q0pRcFljZGFR",
+    eventDate: "2026-09-30",
+  },
   {
     id: 13,
     title: "Leopard Creek 2026",
