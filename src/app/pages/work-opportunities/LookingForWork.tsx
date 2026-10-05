@@ -1,9 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Mail } from "lucide-react";
 import { useLocation } from "react-router";
 import { ProfileCard } from "../../components/work-opportunities/ProfileCard";
+import { ProfileSearchFilters } from "../../components/work-opportunities/ProfileSearchFilters";
 import { useOpportunitiesData } from "../../components/work-opportunities/useOpportunitiesData";
-import { submitCandidateMailto } from "@/data/opportunities";
+import {
+  DEFAULT_PROFILE_LIST_FILTERS,
+  filterProfiles,
+  submitCandidateMailto,
+} from "@/data/opportunities";
 
 function scrollToHashFragment(hash: string): boolean {
   const id = decodeURIComponent(hash.replace(/^#/, "").trim());
@@ -17,6 +22,12 @@ function scrollToHashFragment(hash: string): boolean {
 export function LookingForWork() {
   const location = useLocation();
   const { profiles, loading, loadError } = useOpportunitiesData();
+  const [filters, setFilters] = useState(DEFAULT_PROFILE_LIST_FILTERS);
+
+  const filteredProfiles = useMemo(
+    () => filterProfiles(profiles, filters),
+    [profiles, filters],
+  );
 
   useEffect(() => {
     if (!location.hash || loading) return;
@@ -58,11 +69,34 @@ export function LookingForWork() {
             </a>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 items-stretch">
-            {profiles.map((p) => (
-              <ProfileCard key={p.id} profile={p} />
-            ))}
-          </div>
+          <>
+            <ProfileSearchFilters
+              filters={filters}
+              onChange={setFilters}
+              totalCount={profiles.length}
+              filteredCount={filteredProfiles.length}
+            />
+            {filteredProfiles.length === 0 ? (
+              <div className="text-center py-12 max-w-md mx-auto">
+                <p className="text-neutral-600 leading-relaxed mb-6">
+                  No profiles match your search. Try different keywords, a broader role type, or clear filters.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setFilters(DEFAULT_PROFILE_LIST_FILTERS)}
+                  className="inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl bg-orange-600 text-white font-semibold text-[15px] hover:bg-orange-700 transition-colors shadow-sm"
+                >
+                  Clear filters
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 items-stretch">
+                {filteredProfiles.map((p) => (
+                  <ProfileCard key={p.id} profile={p} />
+                ))}
+              </div>
+            )}
+          </>
         )}
       </div>
     </section>
