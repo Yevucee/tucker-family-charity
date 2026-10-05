@@ -1,9 +1,12 @@
 import { Mail, MapPin, User } from "lucide-react";
-import { profileInterestMailto, type JobSeekerProfile } from "@/data/opportunities";
+import { profileAnchorId, profileInterestMailto, type JobSeekerProfile } from "@/data/opportunities";
 
 export function ProfileCard({ profile }: { profile: JobSeekerProfile }) {
   return (
-    <article className="flex flex-col h-full rounded-2xl border border-amber-100/90 bg-white shadow-md hover:shadow-lg transition-shadow p-6 sm:p-7">
+    <article
+      id={profileAnchorId(profile.id)}
+      className="flex flex-col h-full rounded-2xl border border-amber-100/90 bg-white shadow-md hover:shadow-lg transition-shadow p-6 sm:p-7 scroll-mt-24 target:ring-2 target:ring-orange-500/50 target:ring-offset-2"
+    >
       <div className="flex items-start gap-3 mb-4">
         <div className="shrink-0 w-11 h-11 rounded-full bg-orange-100 flex items-center justify-center text-orange-600">
           <User className="w-5 h-5" aria-hidden />

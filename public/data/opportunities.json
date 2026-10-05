@@ -1,6 +1,26 @@
 {
   "profiles": [
     {
+      "id": "profile-ilze-nortman-001",
+      "displayName": "Ilze N.",
+      "location": "South Africa",
+      "workType": "Business Analyst & Project Manager (PMP)",
+      "skills": "Enterprise product delivery, business analysis and project management for complex, high-volume environments, including technology solutions for global financial institutions. Experienced gathering and translating requirements into specifications, managing full delivery lifecycles, prioritising work, coordinating cross-functional teams, and leading releases through go-live. Strong stakeholder engagement from end users and engineering teams to senior executives; product roadmaps, user stories, testing, implementation support and client training. Supported a global deployment for 400+ users across international locations in an environment processing 1m+ emails per month. LLB, PGCE, PMP (PMI).",
+      "availability": "Open to business analysis and project management roles where she can apply analytical thinking, delivery discipline and client-facing experience",
+      "summary": "Experienced BA and PMP who bridges business needs, client requirements and technical delivery — trusted with enterprise programmes and global rollouts.",
+      "cvUrl": "https://drive.google.com/file/d/1hFx-C27QX6CJSwqz_UrG0GkLUFa7pziI/view?usp=drivesdk"
+    },
+    {
+      "id": "profile-joanna-elliot-001",
+      "displayName": "Joanna E.",
+      "location": "Johannesburg, Gauteng",
+      "workType": "Clinical Research Associate",
+      "skills": "14+ years of clinical trial monitoring with Pfizer and Quintiles: site initiation, monitoring and close-out visits (PSV, SIV, IMV, COV), ICH-GCP compliance, SDV, protocol deviation management, monitoring reports, and audit readiness. Additional decade-plus of business ownership (operational leadership, compliance, stakeholder management). Updated ICH & GCP training (2026). Bachelor of Social Science (University of Natal).",
+      "availability": "Seeking contract or permanent CRA roles; full travel flexibility and remote monitoring capability, including short-term cover for maternity leave",
+      "summary": "Senior CRA returning to clinical research with deep monitoring experience, regulatory discipline and the operational maturity of a business owner.",
+      "cvUrl": "/opportunities/profiles/joanna-elliot-2026.pdf"
+    },
+    {
       "id": "profile-john-fry-001",
       "displayName": "John F.",
       "location": "Johannesburg, Gauteng",
@@ -31,10 +51,11 @@
       "id": "profile-shelley-ric-hansen-001",
       "displayName": "Shelley R.",
       "location": "Cape Town, Western Cape",
-      "workType": "Open to opportunities",
-      "skills": "Details available on request via Tucker Family Charity.",
-      "availability": "Open to discussion",
-      "summary": ""
+      "workType": "Senior Marketing & Business Leader",
+      "skills": "Extensive leadership across financial services, FMCG, beverages, hospitality, digital and innovation — brand strategy, P&L and portfolio management, transformation, investor relations, and cross-functional teams. Recent roles include CEO Business Unit Director (Engage Video Group), Head of Marketing (Handicaps Network Africa), and senior marketing leadership at Momentum Group and Metropolitan Holdings. Earlier: CMO Graham Beck Enterprise; portfolio marketing (Pernod Ricard — The Glenlivet, Chivas Regal); Distell, SABMiller, Douwe Egberts UK. BCom (Stellenbosch); Honours Diploma in Marketing & Digital Marketing (Red & Yellow).",
+      "availability": "Open to senior marketing, brand, strategy and transformation leadership roles",
+      "summary": "Commercially minded executive who turns business priorities into market impact — equally comfortable with strategy, brand stewardship and disciplined execution.",
+      "cvUrl": "/opportunities/profiles/shelley-ric-hansen-2026.pdf"
     },
     {
       "id": "profile-diane-carlisle-001",
