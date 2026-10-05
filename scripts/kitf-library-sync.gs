@@ -236,47 +236,136 @@ function readPreservedWebsiteFields_(ss) {
   return map;
 }
 
+function getSheetByNameLoose_(ss, name) {
+  var sh = ss.getSheetByName(name);
+  if (sh) return sh;
+  var target = String(name || "").trim().toLowerCase();
+  if (!target) return null;
+  var sheets = ss.getSheets();
+  for (var i = 0; i < sheets.length; i++) {
+    if (String(sheets[i].getName() || "").trim().toLowerCase() === target) return sheets[i];
+  }
+  return null;
+}
+
+function sourceTabLabel_(configuredName, sheet) {
+  var trimmed = String(configuredName || "").trim();
+  if (trimmed) return trimmed;
+  return String(sheet.getName() || "").trim();
+}
+
 function collectAllSourceRows_(ss) {
   var out = [];
   Object.keys(SIMPLE_ITEM_LINK_TABS).forEach(function (tab) {
-    if (ss.getSheetByName(tab)) out = out.concat(readSimpleItemLinkTab_(ss.getSheetByName(tab), tab, SIMPLE_ITEM_LINK_TABS[tab]));
+    var sh = getSheetByNameLoose_(ss, tab);
+    if (sh) out = out.concat(readSimpleItemLinkTab_(sh, sourceTabLabel_(tab, sh), SIMPLE_ITEM_LINK_TABS[tab]));
   });
   Object.keys(ARTICLE_AUTHOR_LINK_TABS).forEach(function (tab) {
-    if (ss.getSheetByName(tab)) out = out.concat(readArticleAuthorLinkTab_(ss.getSheetByName(tab), tab, ARTICLE_AUTHOR_LINK_TABS[tab]));
+    var sh = getSheetByNameLoose_(ss, tab);
+    if (sh) out = out.concat(readArticleAuthorLinkTab_(sh, sourceTabLabel_(tab, sh), ARTICLE_AUTHOR_LINK_TABS[tab]));
   });
   Object.keys(ARTICLE_AUTHOR_TYPE_LINK_TABS).forEach(function (tab) {
-    if (ss.getSheetByName(tab)) out = out.concat(readArticleAuthorTypeLinkTab_(ss.getSheetByName(tab), tab, ARTICLE_AUTHOR_TYPE_LINK_TABS[tab]));
+    var sh = getSheetByNameLoose_(ss, tab);
+    if (sh) out = out.concat(readArticleAuthorTypeLinkTab_(sh, sourceTabLabel_(tab, sh), ARTICLE_AUTHOR_TYPE_LINK_TABS[tab]));
   });
-  if (ss.getSheetByName("Books")) out = out.concat(readBooksTab_(ss.getSheetByName("Books")));
-  if (ss.getSheetByName("Articles")) out = out.concat(readArticlesUrlOnlyTab_(ss.getSheetByName("Articles")));
-  if (ss.getSheetByName("Various")) out = out.concat(readVariousTab_(ss.getSheetByName("Various")));
-  if (ss.getSheetByName("To be sorted")) out = out.concat(readToBeSortedTab_(ss.getSheetByName("To be sorted")));
+  var books = getSheetByNameLoose_(ss, "Books");
+  if (books) out = out.concat(readBooksTab_(books));
+  var articles = getSheetByNameLoose_(ss, "Articles");
+  if (articles) out = out.concat(readArticlesUrlOnlyTab_(articles));
+  var various = getSheetByNameLoose_(ss, "Various");
+  if (various) out = out.concat(readVariousTab_(various));
+  var toBeSorted = getSheetByNameLoose_(ss, "To be sorted");
+  if (toBeSorted) out = out.concat(readToBeSortedTab_(toBeSorted));
   return out;
 }
 
 function simpleItemLinkStartRow_(data) {
   if (!data.length) return 0;
-  var h0 = String(data[0][0] || "").trim().toLowerCase();
-  var h1 = String(data[0][1] || "").trim().toLowerCase();
-  if (h0 === "item" && h1 === "link") return 1;
+  var labels = data[0].map(function (cell) {
+    return String(cell || "").trim().toLowerCase();
+  });
+  if (labels.indexOf("item") >= 0 && labels.indexOf("link") >= 0) return 1;
+  // Item | Author | Description | Link — even when the Link header cell is wrong or missing
+  if (labels.indexOf("item") >= 0 && (labels.indexOf("author") >= 0 || labels.indexOf("description") >= 0)) return 1;
+  if (String(data[0][0] || "").trim().toLowerCase() === "item" &&
+      String(data[0][1] || "").trim().toLowerCase() === "link") return 1;
   return 0;
+}
+
+function inferLinkColumnIndex_(data, startRow) {
+  var counts = {};
+  var end = Math.min(data.length, startRow + 40);
+  for (var r = startRow; r < end; r++) {
+    for (var c = 0; c < data[r].length; c++) {
+      var cell = String(data[r][c] || "").trim();
+      if (isPublicHttpLink_(cell) || extractUrl_(cell)) counts[c] = (counts[c] || 0) + 1;
+    }
+  }
+  var bestCol = 1;
+  var bestCount = 0;
+  for (var col in counts) {
+    if (counts[col] > bestCount) {
+      bestCount = counts[col];
+      bestCol = parseInt(col, 10);
+    }
+  }
+  return bestCol;
+}
+
+function simpleItemLinkColumnMap_(headerRow, data, startRow) {
+  var map = { title: 0, link: 1, description: 2, author: 3 };
+  var foundLink = false;
+  var foundAuthor = false;
+  var foundDescription = false;
+  for (var c = 0; c < headerRow.length; c++) {
+    var h = String(headerRow[c] || "").trim().toLowerCase();
+    if (h === "item" || h === "title") map.title = c;
+    else if (h === "link" || h === "url") { map.link = c; foundLink = true; }
+    else if (h === "description" || h === "desc") { map.description = c; foundDescription = true; }
+    else if (h === "author") { map.author = c; foundAuthor = true; }
+  }
+  if (startRow === 1 && !foundLink && (foundAuthor || foundDescription)) {
+    map = { title: 0, author: 1, description: 2, link: inferLinkColumnIndex_(data, startRow) };
+  } else if (startRow === 0) {
+    var linkCol = inferLinkColumnIndex_(data, 0);
+    var urlCountCol1 = 0;
+    var urlCountCol3 = 0;
+    var end = Math.min(data.length, 40);
+    for (var r = 0; r < end; r++) {
+      if (isPublicHttpLink_(String(data[r][1] || "")) || extractUrl_(String(data[r][1] || ""))) urlCountCol1++;
+      if (data[r].length > 3 && (isPublicHttpLink_(String(data[r][3] || "")) || extractUrl_(String(data[r][3] || "")))) urlCountCol3++;
+    }
+    if (urlCountCol3 > urlCountCol1) {
+      map = { title: 0, author: 1, description: 2, link: linkCol };
+    } else {
+      map = { title: 0, link: linkCol, description: 2, author: 3 };
+    }
+  }
+  return map;
 }
 
 function readSimpleItemLinkTab_(sh, sourceTab, typeLabel) {
   var rows = [];
   var data = sh.getDataRange().getValues();
   var startRow = simpleItemLinkStartRow_(data);
+  var cols = simpleItemLinkColumnMap_(startRow === 1 ? data[0] : [], data, startRow);
   for (var r = startRow; r < data.length; r++) {
-    var title = String(data[r][0] || "").trim();
-    var rawLink = String(data[r][1] || "").trim();
+    var title = String(data[r][cols.title] || "").trim();
+    var rawLink = String(data[r][cols.link] || "").trim();
     var link = extractUrl_(rawLink) || rawLink;
     if (!title && rawLink) {
       var split = splitTitleFromMixedLinkCell_(rawLink);
       title = split.title;
       link = split.link;
     }
-    var description = String(data[r][2] || "").trim();
-    rows.push(buildRow_(title, typeLabel, "", link, sourceTab, description));
+    var description = cols.description != null ? String(data[r][cols.description] || "").trim() : "";
+    var author = cols.author != null ? String(data[r][cols.author] || "").trim() : "";
+    if (!link && isPublicHttpLink_(author)) {
+      link = extractUrl_(author) || author;
+      author = "";
+    }
+    if (title.toLowerCase() === "item" && !link) continue;
+    rows.push(buildRow_(title, typeLabel, author, link, sourceTab, description));
   }
   return rows;
 }
