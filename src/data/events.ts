@@ -296,6 +296,28 @@ function slugFromTitle(title: string): string {
     .replace(/^-|-$/g, "");
 }
 
+/** Events page path (trailing slash matches GitHub Pages / router). */
+export const EVENTS_PAGE_PATH = "/events/";
+
+/** HTML `id` for a past-event card — same as `PastEvent.slug`. */
+export function pastEventAnchorId(slug: string): string {
+  return slug;
+}
+
+/** HTML `id` for an upcoming-event card derived from its title. */
+export function upcomingEventAnchorId(title: string): string {
+  return slugFromTitle(title);
+}
+
+/** Shareable link that opens the Events page scrolled to one past event. */
+export function pastEventShareUrl(
+  slug: string,
+  origin = "https://www.tuckerfamilycharity.co.za",
+): string {
+  const base = origin.replace(/\/$/, "");
+  return `${base}${EVENTS_PAGE_PATH}#${pastEventAnchorId(slug)}`;
+}
+
 /** Upcoming events whose end date is today or later. */
 export function getActiveUpcomingEvents(now = new Date()): UpcomingEvent[] {
   const today = startOfDay(now);
