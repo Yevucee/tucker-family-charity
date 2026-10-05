@@ -1,13 +1,46 @@
+import { useEffect } from "react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { Calendar, ExternalLink } from "lucide-react";
-import { getActiveUpcomingEvents, getAllPastEvents } from "@/data/events";
+import {
+  getActiveUpcomingEvents,
+  getAllPastEvents,
+  pastEventAnchorId,
+  upcomingEventAnchorId,
+} from "@/data/events";
+
+function scrollToHashFragment(hash: string): boolean {
+  const id = decodeURIComponent(hash.replace(/^#/, "").trim());
+  if (!id) return false;
+  const el = document.getElementById(id);
+  if (!el) return false;
+  el.scrollIntoView({ behavior: "smooth", block: "start" });
+  return true;
+}
 
 export function Events() {
+  const location = useLocation();
   const activeUpcomingEvents = getActiveUpcomingEvents();
   const allPastEvents = getAllPastEvents();
+
+  useEffect(() => {
+    if (!location.hash) return;
+
+    const scroll = () => {
+      scrollToHashFragment(location.hash);
+    };
+
+    scroll();
+    const t1 = window.setTimeout(scroll, 150);
+    const t2 = window.setTimeout(scroll, 600);
+    return () => {
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+    };
+  }, [location.hash, allPastEvents.length]);
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -50,7 +83,8 @@ export function Events() {
             {activeUpcomingEvents.map((event) => (
               <div
                 key={event.id}
-                className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col"
+                id={upcomingEventAnchorId(event.title)}
+                className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col scroll-mt-24 target:ring-2 target:ring-orange-500/50 target:ring-offset-2"
               >
                 <div className="relative h-48 flex-shrink-0">
                   <ImageWithFallback
@@ -95,7 +129,8 @@ export function Events() {
             {allPastEvents.map((event) => (
               <article
                 key={event.id}
-                className="bg-white rounded-xl overflow-hidden shadow-lg border border-amber-100/80"
+                id={pastEventAnchorId(event.slug)}
+                className="bg-white rounded-xl overflow-hidden shadow-lg border border-amber-100/80 scroll-mt-24 target:ring-2 target:ring-orange-500/50 target:ring-offset-2"
               >
                 <div className="px-6 pt-8 pb-6 md:px-10 md:pt-10 md:pb-8 text-center">
                   <h3 className="text-2xl font-bold mb-4 text-neutral-900">{event.title}</h3>
