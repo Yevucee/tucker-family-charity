@@ -1,10 +1,38 @@
+import { useEffect } from "react";
 import { Mail } from "lucide-react";
+import { useLocation } from "react-router";
 import { ProfileCard } from "../../components/work-opportunities/ProfileCard";
 import { useOpportunitiesData } from "../../components/work-opportunities/useOpportunitiesData";
 import { submitCandidateMailto } from "@/data/opportunities";
 
+function scrollToHashFragment(hash: string): boolean {
+  const id = decodeURIComponent(hash.replace(/^#/, "").trim());
+  if (!id) return false;
+  const el = document.getElementById(id);
+  if (!el) return false;
+  el.scrollIntoView({ behavior: "smooth", block: "start" });
+  return true;
+}
+
 export function LookingForWork() {
+  const location = useLocation();
   const { profiles, loading, loadError } = useOpportunitiesData();
+
+  useEffect(() => {
+    if (!location.hash || loading) return;
+
+    const scroll = () => {
+      scrollToHashFragment(location.hash);
+    };
+
+    scroll();
+    const t1 = window.setTimeout(scroll, 150);
+    const t2 = window.setTimeout(scroll, 600);
+    return () => {
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+    };
+  }, [location.hash, loading, profiles.length]);
 
   return (
     <section className="py-10 md:py-14 bg-amber-50">

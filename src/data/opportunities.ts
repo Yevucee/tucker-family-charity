@@ -88,6 +88,23 @@ export function parseOpportunitiesData(raw: unknown): OpportunitiesData {
 
 export const OPPORTUNITIES_CONTACT_EMAIL = "info@tuckerfamilycharity.org";
 
+/** Looking for work tab (trailing slash matches site routing). */
+export const LOOKING_FOR_WORK_PATH = "/work-opportunities/looking-for-work/";
+
+/** HTML `id` on a profile card — same as `JobSeekerProfile.id`. */
+export function profileAnchorId(profileId: string): string {
+  return profileId;
+}
+
+/** Shareable URL that opens Looking for work scrolled to one profile. */
+export function profileShareUrl(
+  profileId: string,
+  origin = "https://www.tuckerfamilycharity.co.za",
+): string {
+  const base = origin.replace(/\/$/, "");
+  return `${base}${LOOKING_FOR_WORK_PATH}#${profileAnchorId(profileId)}`;
+}
+
 export function profileInterestMailto(profile: JobSeekerProfile): string {
   const subject = `Work Opportunities, interest in candidate: ${profile.displayName}`;
   const body = [
