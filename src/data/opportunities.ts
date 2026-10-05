@@ -15,7 +15,43 @@ export interface JobSeekerProfile {
   summary: string;
   /** Optional link to full CV (Google Drive, PDF, etc.) */
   cvUrl?: string;
+  /** Filter chips on Looking for work — use ids from PROFILE_FILTER_CATEGORIES */
+  categories?: ProfileFilterCategoryId[];
 }
+
+/** Employer-friendly groupings for the profile filter bar */
+export const PROFILE_FILTER_CATEGORIES = [
+  { id: "leadership", label: "Leadership & executive" },
+  { id: "operations-events", label: "Operations & events" },
+  { id: "marketing-creative", label: "Marketing & creative" },
+  { id: "admin-pa", label: "Admin & PA" },
+  { id: "project-tech", label: "Projects, tech & supply chain" },
+  { id: "people-od", label: "People & OD" },
+  { id: "clinical", label: "Clinical & healthcare" },
+] as const;
+
+export type ProfileFilterCategoryId = (typeof PROFILE_FILTER_CATEGORIES)[number]["id"];
+
+export const PROFILE_FILTER_AREAS = [
+  { id: "all", label: "Any area" },
+  { id: "johannesburg", label: "Johannesburg" },
+  { id: "cape-town", label: "Cape Town" },
+  { id: "national", label: "National / flexible" },
+] as const;
+
+export type ProfileFilterAreaId = (typeof PROFILE_FILTER_AREAS)[number]["id"];
+
+export interface ProfileListFilters {
+  query: string;
+  category: ProfileFilterCategoryId | "all";
+  area: ProfileFilterAreaId;
+}
+
+export const DEFAULT_PROFILE_LIST_FILTERS: ProfileListFilters = {
+  query: "",
+  category: "all",
+  area: "all",
+};
 
 export interface JobOpportunity {
   id: string;
@@ -57,9 +93,14 @@ function isValidProfile(x: unknown): x is JobSeekerProfile {
     typeof x.skills === "string" &&
     typeof x.availability === "string" &&
     typeof x.summary === "string" &&
-    (x.cvUrl === undefined || typeof x.cvUrl === "string")
+    (x.cvUrl === undefined || typeof x.cvUrl === "string") &&
+    (x.categories === undefined ||
+      (Array.isArray(x.categories) &&
+        x.categories.every((c) => typeof c === "string" && PROFILE_CATEGORY_IDS.has(c))))
   );
 }
+
+const PROFILE_CATEGORY_IDS = new Set<string>(PROFILE_FILTER_CATEGORIES.map((c) => c.id));
 
 function isValidOpportunity(x: unknown): x is JobOpportunity {
   if (!isRecord(x)) return false;
@@ -103,6 +144,53 @@ export function profileShareUrl(
 ): string {
   const base = origin.replace(/\/$/, "");
   return `${base}${LOOKING_FOR_WORK_PATH}#${profileAnchorId(profileId)}`;
+}
+
+function profileSearchHaystack(profile: JobSeekerProfile): string {
+  return [
+    profile.displayName,
+    profile.workType,
+    profile.skills,
+    profile.summary,
+    profile.availability,
+    profile.location,
+    ...(profile.categories ?? []),
+  ]
+    .join(" ")
+    .toLowerCase();
+}
+
+function profileMatchesArea(profile: JobSeekerProfile, area: ProfileFilterAreaId): boolean {
+  if (area === "all") return true;
+  const loc = profile.location.toLowerCase();
+  if (area === "johannesburg") return loc.includes("johannesburg");
+  if (area === "cape-town") return loc.includes("cape town");
+  if (area === "national") {
+    return loc === "south africa" || (!loc.includes("johannesburg") && !loc.includes("cape town"));
+  }
+  return true;
+}
+
+export function filterProfiles(
+  profiles: JobSeekerProfile[],
+  filters: ProfileListFilters,
+): JobSeekerProfile[] {
+  const q = filters.query.trim().toLowerCase();
+  return profiles.filter((profile) => {
+    if (filters.category !== "all") {
+      const cats = profile.categories ?? [];
+      if (!cats.includes(filters.category)) return false;
+    }
+    if (!profileMatchesArea(profile, filters.area)) return false;
+    if (q && !profileSearchHaystack(profile).includes(q)) return false;
+    return true;
+  });
+}
+
+export function profileListFiltersActive(filters: ProfileListFilters): boolean {
+  return (
+    filters.query.trim() !== "" || filters.category !== "all" || filters.area !== "all"
+  );
 }
 
 export function profileInterestMailto(profile: JobSeekerProfile): string {
