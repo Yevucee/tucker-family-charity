@@ -10,6 +10,9 @@ import { PartnerExitModal } from "../components/shop/PartnerExitModal";
 import { FeaturedMonthCarousel } from "../components/shop/FeaturedMonthCarousel";
 import { buildFeaturedMonthSlides } from "../components/shop/featuredMonthSlides";
 import type { TuckerCatalogProduct, PartnerCatalogOffer } from "@/data/shopCatalog";
+import { YOCO_CHECKOUT_ENABLED } from "@/config";
+import { usePaymentCatalog } from "@/hooks/usePaymentCatalog";
+import { YocoPayButton } from "../components/shop/YocoPayButton";
 
 type PartnerModalState = { url: string; code?: string; extraNote?: string } | null;
 
@@ -31,6 +34,8 @@ export function Shop() {
   const { featuredThisMonth, tuckerProducts, partnerOffers } = shopCatalog;
   const featuredAuction = auctionItems.find((a) => a.featured) ?? auctionItems[0];
   const [partnerModal, setPartnerModal] = useState<PartnerModalState>(null);
+  const usesYoco = YOCO_CHECKOUT_ENABLED && tuckerProducts.some((p) => p.yocoCatalogItemId);
+  const { catalog: paymentCatalog } = usePaymentCatalog(usesYoco);
 
   const openPartnerModal = (offer: PartnerCatalogOffer) => {
     setPartnerModal({
@@ -204,7 +209,10 @@ export function Shop() {
                       <p className="text-sm font-semibold text-amber-800 mb-2">{product.priceLabel}</p>
                     )}
                     <p className="text-neutral-600 mb-6 flex-1 leading-relaxed">{product.shortDescription}</p>
-                    {product.productDetailPath ? (
+                    {usesYoco && product.yocoCatalogItemId &&
+                    paymentCatalog?.products.some((p) => p.id === product.yocoCatalogItemId) ? (
+                      <YocoPayButton catalogItemId={product.yocoCatalogItemId} products={paymentCatalog.products} />
+                    ) : product.productDetailPath ? (
                       <Link
                         to={product.productDetailPath}
                         className="mt-auto block w-full text-center py-3.5 px-4 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-colors"

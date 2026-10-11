@@ -2,7 +2,8 @@ import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { Link } from "react-router";
 import { DollarSign, Clock, Package, ShoppingBag, Heart } from "lucide-react";
-import { DONATION_LINK, VOLUNTEER_SIGNUP_URL } from "@/config";
+import { DONATION_LINK, VOLUNTEER_SIGNUP_URL, YOCO_CHECKOUT_ENABLED } from "@/config";
+import { YocoDonationPanel } from "../components/donate/YocoDonationPanel";
 import { currentNeeds } from "@/data/currentNeeds";
 
 const CONTACT_EMAIL = "info@tuckerfamilycharity.org";
@@ -50,37 +51,46 @@ export function Donate() {
                 partnerships and wider impact. Every donation helps us direct support where it is needed most.
               </p>
 
-              {/* TODO: Replace placeholder copy with real banking details when ready (account name, bank, branch, reference). */}
-              <div className="rounded-xl border-2 border-dashed border-amber-300/90 bg-amber-50/50 px-5 py-6 mb-8">
-                <p className="text-sm font-semibold text-neutral-800 mb-2">Bank transfer</p>
-                <p className="text-neutral-600 text-sm leading-relaxed">
-                  Banking details will be added here for direct transfers. Until then, please use the donation link
-                  below if available.
-                </p>
-              </div>
+              {YOCO_CHECKOUT_ENABLED ? (
+                /* Card donations via Yoco — preset amounts from the TFC Payment Catalog Google Sheet. */
+                <div className="rounded-xl border border-amber-200 bg-amber-50/40 px-5 py-6">
+                  <YocoDonationPanel />
+                </div>
+              ) : (
+                <>
+                  {/* TODO: Replace placeholder copy with real banking details when ready (account name, bank, branch, reference). */}
+                  <div className="rounded-xl border-2 border-dashed border-amber-300/90 bg-amber-50/50 px-5 py-6 mb-8">
+                    <p className="text-sm font-semibold text-neutral-800 mb-2">Bank transfer</p>
+                    <p className="text-neutral-600 text-sm leading-relaxed">
+                      Banking details will be added here for direct transfers. Until then, please use the donation link
+                      below if available.
+                    </p>
+                  </div>
 
-              <div className="flex flex-wrap gap-4">
-                {/* Primary payment: set VITE_DONATION_LINK (Yoco / PayFast / hosted page). */}
-                {donationDisabled ? (
-                  <span className="inline-flex items-center justify-center bg-orange-600/50 text-white px-8 py-3 rounded-full font-semibold cursor-not-allowed">
-                    Donate Now
-                  </span>
-                ) : (
-                  <a
-                    href={DONATION_LINK}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center bg-orange-600 text-white px-8 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold"
-                  >
-                    Donate Now
-                  </a>
-                )}
-              </div>
-              {donationDisabled ? (
-                <p className="text-sm text-amber-900/60 mt-3">
-                  Online donation link coming soon — check back or contact us below.
-                </p>
-              ) : null}
+                  <div className="flex flex-wrap gap-4">
+                    {/* Primary payment: set VITE_DONATION_LINK (Yoco / PayFast / hosted page). */}
+                    {donationDisabled ? (
+                      <span className="inline-flex items-center justify-center bg-orange-600/50 text-white px-8 py-3 rounded-full font-semibold cursor-not-allowed">
+                        Donate Now
+                      </span>
+                    ) : (
+                      <a
+                        href={DONATION_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center bg-orange-600 text-white px-8 py-3 rounded-full hover:bg-orange-700 transition-colors font-semibold"
+                      >
+                        Donate Now
+                      </a>
+                    )}
+                  </div>
+                  {donationDisabled ? (
+                    <p className="text-sm text-amber-900/60 mt-3">
+                      Online donation link coming soon — check back or contact us below.
+                    </p>
+                  ) : null}
+                </>
+              )}
             </div>
           </div>
         </div>

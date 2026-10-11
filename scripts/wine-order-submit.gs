@@ -35,7 +35,7 @@ var DELIVERY_FEE_JOHANNESBURG_ZAR = 50;
 var DELIVERY_FEE_ELSEWHERE_SA_ZAR = 200;
 var WINE_BOTTLES_PER_CASE = 6;
 
-/** Trusted catalog — slugs must match src/data/charityWine.ts. priceZar = per bottle. */
+/** Trusted catalog — must match src/data/winePricing.ts (checked by `npm run test:yoco`). priceZar = per bottle. */
 var WINE_CATALOG = {
   chloe: { name: "Chloe", vintage: 2024, varietal: "Sauvignon Blanc", priceZar: 159 },
   ella: { name: "Ella", vintage: 2025, varietal: "Pinot Noir", priceZar: 205 },

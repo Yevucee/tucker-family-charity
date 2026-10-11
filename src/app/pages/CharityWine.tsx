@@ -1,13 +1,15 @@
-import { useCallback, useMemo, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import { Link } from "react-router";
-import { ArrowLeft, CheckCircle2, Loader2, Send, Wine } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Loader2, Lock, Send, Wine } from "lucide-react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import {
   WINE_ORDER_SECRET,
   WINE_ORDER_SUBMIT_URL,
+  YOCO_CHECKOUT_ENABLED,
 } from "@/config";
+import { CheckoutError, startCheckout } from "@/lib/yocoCheckout";
 import {
   buildWineOrderFormSubmitBody,
   buildWineOrderPayload,
@@ -45,6 +47,15 @@ export function CharityWine() {
 
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [submitError, setSubmitError] = useState("");
+
+  // Returning from Yoco with the browser Back button restores this page from cache — re-enable the form.
+  useEffect(() => {
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) setSubmitState((state) => (state === "loading" ? "idle" : state));
+    };
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
+  }, []);
 
   const previewWine = useMemo(
     () => charityWineVariants.find((w) => w.slug === previewSlug) ?? charityWineVariants[0],
@@ -170,6 +181,25 @@ export function CharityWine() {
     }
 
     setSubmitState("loading");
+
+    if (YOCO_CHECKOUT_ENABLED) {
+      // Card payment via Yoco (Railway API recalculates prices + delivery server-side).
+      // Staff are notified from the payment webhook, not from this page.
+      try {
+        await startCheckout({
+          type: "wine",
+          lines: orderSummary.rows.map((row) => ({ wineSlug: row.wine.slug, caseQuantity: row.caseQuantity })),
+          deliveryZone: deliveryZone as WineDeliveryZone,
+          deliveryAddress: deliveryAddress.trim(),
+          notes: notes.trim() || undefined,
+          customer: { name: customerName.trim(), email: customerEmail.trim(), phone: customerPhone.trim() },
+        });
+      } catch (err) {
+        setSubmitState("error");
+        setSubmitError(err instanceof CheckoutError ? err.message : winePageCopy.payErrorGeneric);
+      }
+      return;
+    }
 
     const payload = buildWineOrderPayload({
       customerName,
@@ -524,7 +554,12 @@ export function CharityWine() {
                   {submitState === "loading" ? (
                     <>
                       <Loader2 className="w-5 h-5 animate-spin shrink-0" aria-hidden />
-                      {winePageCopy.orderCtaSending}
+                      {YOCO_CHECKOUT_ENABLED ? winePageCopy.payCtaSending : winePageCopy.orderCtaSending}
+                    </>
+                  ) : YOCO_CHECKOUT_ENABLED ? (
+                    <>
+                      <Lock className="w-5 h-5 shrink-0" aria-hidden />
+                      {winePageCopy.payCta}
                     </>
                   ) : (
                     <>
@@ -533,6 +568,9 @@ export function CharityWine() {
                     </>
                   )}
                 </button>
+                {YOCO_CHECKOUT_ENABLED ? (
+                  <p className="text-xs text-neutral-500 -mt-4">{winePageCopy.payNote}</p>
+                ) : null}
               </div>
 
               <div className="order-1 lg:order-2 lg:sticky lg:top-24">

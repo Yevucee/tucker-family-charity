@@ -18,6 +18,13 @@ export default defineConfig({
     },
   },
 
+  // Local Yoco checkout: `npm run dev:yoco` (port 8787) + `npm run dev` → /api is proxied.
+  server: {
+    proxy: {
+      '/api': 'http://localhost:8787',
+    },
+  },
+
   // File types to support raw imports. Never add .css, .tsx, or .ts files to this.
   assetsInclude: ['**/*.svg', '**/*.csv'],
 })

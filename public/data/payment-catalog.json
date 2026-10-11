@@ -1,0 +1,15 @@
+{
+  "_comment": "Fallback only. Live prices come from the Google Sheet 'TFC Payment Catalog' (see docs/PAYMENT_CATALOG.md). Same columns as the Sheet's Catalog / DonationSettings tabs.",
+  "catalog": [
+    { "id": "donation-100", "kind": "donation", "name": "Donation — R100", "price_zar": "100", "active": "Y", "description": "General support for Tucker Family Charity programmes" },
+    { "id": "donation-250", "kind": "donation", "name": "Donation — R250", "price_zar": "250", "active": "Y", "description": "" },
+    { "id": "donation-500", "kind": "donation", "name": "Donation — R500", "price_zar": "500", "active": "Y", "description": "" },
+    { "id": "donation-1000", "kind": "donation", "name": "Donation — R1,000", "price_zar": "1000", "active": "Y", "description": "" },
+    { "id": "example-hoodie", "kind": "product", "name": "Charity hoodie (example)", "price_zar": "450", "active": "N", "description": "Set active to Y when ready to sell; link shop card in code" }
+  ],
+  "settings": [
+    { "setting": "allow_custom_amount", "value": "TRUE" },
+    { "setting": "min_amount_zar", "value": "50" },
+    { "setting": "max_amount_zar", "value": "500000" }
+  ]
+}
