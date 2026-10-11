@@ -71,6 +71,13 @@ export interface TuckerCatalogProduct {
   ctaOpensNewTab?: boolean;
   /** When set, the product card CTA uses in-app navigation (e.g. PDP). */
   productDetailPath?: string;
+  /**
+   * YOCO: id of a `kind = product` row in the "TFC Payment Catalog" Google Sheet.
+   * When set (and VITE_YOCO_CHECKOUT_ENABLED=true), the card shows "Pay now — R…" using the
+   * Sheet price; the button only appears while that row has active = Y.
+   * Never set this on caps (Cheyna Dot only) or wine (has its own /shop/wine checkout).
+   */
+  yocoCatalogItemId?: string;
 }
 
 export interface PartnerCatalogOffer {

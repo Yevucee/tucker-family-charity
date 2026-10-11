@@ -18,8 +18,24 @@ export const WINE_ORDER_FORMSUBMIT_URL = `https://formsubmit.co/ajax/${encodeURI
 
 export const CHARITY_WINE_PATH = "/shop/wine";
 
-/** All wines are sold in cases of this many bottles. */
-export const WINE_BOTTLES_PER_CASE = 6;
+import {
+  WINE_BOTTLES_PER_CASE,
+  WINE_DELIVERY_FEE_ELSEWHERE_SA_ZAR,
+  WINE_DELIVERY_FEE_JOHANNESBURG_ZAR,
+  getWinePriceBySlug,
+  wineDeliveryFeeZar,
+  wineDeliveryZoneLabel,
+  type WineDeliveryZone,
+} from "./winePricing.ts";
+
+export {
+  WINE_BOTTLES_PER_CASE,
+  WINE_DELIVERY_FEE_ELSEWHERE_SA_ZAR,
+  WINE_DELIVERY_FEE_JOHANNESBURG_ZAR,
+  wineDeliveryFeeZar,
+  wineDeliveryZoneLabel,
+};
+export type { WineDeliveryZone };
 
 export interface CharityWineVariant {
   slug: string;
@@ -27,45 +43,26 @@ export interface CharityWineVariant {
   vintage: number;
   varietal: string;
   image: string;
-  /** ZAR per bottle — case price is derived (× bottles per case). */
+  /** ZAR per bottle — case price is derived (× bottles per case). Source: src/data/winePricing.ts */
   pricePerBottleZar: number;
 }
 
-export const charityWineVariants: CharityWineVariant[] = [
-  {
-    slug: "chloe",
-    name: "Chloe",
-    vintage: 2024,
-    varietal: "Sauvignon Blanc",
-    image: wineChloe,
-    pricePerBottleZar: 159,
-  },
-  {
-    slug: "ella",
-    name: "Ella",
-    vintage: 2025,
-    varietal: "Pinot Noir",
-    image: wineElla,
-    pricePerBottleZar: 205,
-  },
-  {
-    slug: "madison",
-    name: "Madison",
-    vintage: 2021,
-    varietal: "Merlot / Shiraz",
-    image: wineMadison,
-    pricePerBottleZar: 179,
-  },
-];
+const wineImages: Record<string, string> = {
+  chloe: wineChloe,
+  ella: wineElla,
+  madison: wineMadison,
+};
 
-/** Future checkout modes — website currently submits `enquiry` only. */
+function variantFromPriceList(slug: string): CharityWineVariant {
+  const entry = getWinePriceBySlug(slug);
+  if (!entry) throw new Error(`Unknown wine slug in price list: ${slug}`);
+  return { ...entry, image: wineImages[slug] };
+}
+
+export const charityWineVariants: CharityWineVariant[] = ["chloe", "ella", "madison"].map(variantFromPriceList);
+
+/** `enquiry` = email/Sheet order form; `yoco` = paid via Yoco card checkout (Railway API). */
 export type WineOrderSubmissionMode = "enquiry" | "yoco";
-
-/** Trusted delivery zones — fees recalculated server-side from these values only. */
-export type WineDeliveryZone = "johannesburg" | "elsewhere_sa";
-
-export const WINE_DELIVERY_FEE_JOHANNESBURG_ZAR = 50;
-export const WINE_DELIVERY_FEE_ELSEWHERE_SA_ZAR = 200;
 
 export const wineDeliveryZoneOptions: ReadonlyArray<{
   value: WineDeliveryZone;
@@ -75,25 +72,17 @@ export const wineDeliveryZoneOptions: ReadonlyArray<{
 }> = [
   {
     value: "johannesburg",
-    label: "Johannesburg",
+    label: wineDeliveryZoneLabel("johannesburg"),
     feeZar: WINE_DELIVERY_FEE_JOHANNESBURG_ZAR,
     description: `R${WINE_DELIVERY_FEE_JOHANNESBURG_ZAR} delivery`,
   },
   {
     value: "elsewhere_sa",
-    label: "Elsewhere in South Africa",
+    label: wineDeliveryZoneLabel("elsewhere_sa"),
     feeZar: WINE_DELIVERY_FEE_ELSEWHERE_SA_ZAR,
     description: `R${WINE_DELIVERY_FEE_ELSEWHERE_SA_ZAR} delivery`,
   },
 ];
-
-export function wineDeliveryFeeZar(zone: WineDeliveryZone): number {
-  return zone === "johannesburg" ? WINE_DELIVERY_FEE_JOHANNESBURG_ZAR : WINE_DELIVERY_FEE_ELSEWHERE_SA_ZAR;
-}
-
-export function wineDeliveryZoneLabel(zone: WineDeliveryZone): string {
-  return wineDeliveryZoneOptions.find((o) => o.value === zone)?.label ?? zone;
-}
 
 export interface WineOrderLineInput {
   wineSlug: string;
@@ -322,6 +311,12 @@ export const winePageCopy = {
   caseNotice: "We sell by the case only (6 bottles per case).",
   orderCta: "Send order enquiry",
   orderCtaSending: "Sending…",
+  /** Yoco card checkout (VITE_YOCO_CHECKOUT_ENABLED=true) */
+  payCta: "Pay securely by card",
+  payCtaSending: "Opening secure payment…",
+  payNote:
+    "You will be taken to Yoco's secure payment page. Your total includes delivery. We will contact you to arrange delivery once payment is confirmed.",
+  payErrorGeneric: "We could not start the payment. Please try again, or email us your order.",
   featuresHeading: "About the range",
   features: charityWineVariants.map(
     (w) => `${w.name} ${w.varietal} ${w.vintage} — ${formatWinePriceZar(w.pricePerBottleZar)}/bottle (${formatWinePriceZar(winePricePerCaseZar(w))}/case)`,

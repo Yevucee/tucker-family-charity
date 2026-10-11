@@ -124,3 +124,24 @@ export const WINE_ORDER_SUBMIT_URL_REJECTED =
   RAW_WINE_ORDER_SUBMIT_URL.length > 0 && WINE_ORDER_SUBMIT_URL.length === 0;
 
 export const WINE_ORDER_SECRET = import.meta.env.VITE_WINE_ORDER_SECRET ?? "";
+
+/**
+ * YOCO CARD CHECKOUT — Railway API (yoco-api/server.ts). Site stays on GitHub Pages.
+ *
+ * VITE_YOCO_CHECKOUT_ENABLED=true          → donate page, wine page and shop "Pay now" use Yoco
+ * VITE_YOCO_CHECKOUT_API_URL=https://<railway-host>/api   (no trailing slash)
+ *
+ * Both are public (bundled into JS) — they are NOT secrets. The Yoco secret key lives only in Railway.
+ * When disabled or the URL is missing, the site keeps the enquiry/email wine flow and VITE_DONATION_LINK.
+ * Local dev: leave the URL empty → defaults to "/api", proxied by Vite to `npm run dev:yoco` (:8787).
+ */
+const RAW_YOCO_CHECKOUT_API_URL = String(import.meta.env.VITE_YOCO_CHECKOUT_API_URL ?? "")
+  .trim()
+  .replace(/\/+$/, "");
+
+export const YOCO_CHECKOUT_API_URL =
+  RAW_YOCO_CHECKOUT_API_URL || (import.meta.env.DEV ? "/api" : "");
+
+export const YOCO_CHECKOUT_ENABLED =
+  String(import.meta.env.VITE_YOCO_CHECKOUT_ENABLED ?? "").trim().toLowerCase() === "true" &&
+  YOCO_CHECKOUT_API_URL.length > 0;

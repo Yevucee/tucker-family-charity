@@ -46,6 +46,10 @@ jobs:
           VITE_WINE_ORDER_SECRET: ${{ secrets.VITE_WINE_ORDER_SECRET }}
           VITE_DONATION_LINK: ${{ secrets.VITE_DONATION_LINK }}
           VITE_VOLUNTEER_SIGNUP_URL: ${{ secrets.VITE_VOLUNTEER_SIGNUP_URL }}
+          # Yoco card checkout via Railway API — leave unset to keep the enquiry/email flows.
+          # Public values (not secret keys): "true" and https://<railway-host>/api
+          VITE_YOCO_CHECKOUT_ENABLED: ${{ secrets.VITE_YOCO_CHECKOUT_ENABLED }}
+          VITE_YOCO_CHECKOUT_API_URL: ${{ secrets.VITE_YOCO_CHECKOUT_API_URL }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

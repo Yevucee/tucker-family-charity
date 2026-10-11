@@ -8,7 +8,13 @@
     "build": "vite build && node --experimental-strip-types scripts/prerender-routes.mjs && node scripts/verify-seo-build.mjs",
     "dev": "vite",
     "sync:pamgolding-images": "node scripts/sync-pamgolding-listing-images.mjs",
-    "sync:btp-properties": "node scripts/sync-byron-thomas-properties.mjs"
+    "sync:btp-properties": "node scripts/sync-byron-thomas-properties.mjs",
+    "dev:yoco": "node --env-file-if-exists=.env --experimental-strip-types --no-warnings=ExperimentalWarning --watch yoco-api/server.ts",
+    "start:yoco": "node --experimental-strip-types --no-warnings=ExperimentalWarning yoco-api/server.ts",
+    "test:yoco": "node --experimental-strip-types --no-warnings=ExperimentalWarning --test scripts/verify-yoco-pricing.test.mjs"
+  },
+  "engines": {
+    "node": ">=22.6.0"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
@@ -47,6 +53,7 @@
     "cmdk": "1.1.1",
     "date-fns": "3.6.0",
     "embla-carousel-react": "8.6.0",
+    "express": "4.21.2",
     "input-otp": "1.4.2",
     "libphonenumber-js": "^1.13.8",
     "lucide-react": "0.487.0",

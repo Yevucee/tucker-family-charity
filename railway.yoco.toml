@@ -1,0 +1,16 @@
+# Railway config for the Yoco checkout API service.
+# In Railway: Service → Settings → Config-as-code → path: railway.yoco.toml
+# The website itself stays on GitHub Pages — this service only serves /health and /api/*.
+
+[build]
+builder = "RAILPACK"
+# API runs TypeScript directly with Node's type stripping — no Vite build needed here.
+buildCommand = "echo 'tucker-yoco-checkout: no build step'"
+watchPatterns = ["yoco-api/**", "api/**", "src/data/winePricing.ts", "public/data/payment-catalog.json", "package.json", "package-lock.json", "railway.yoco.toml"]
+
+[deploy]
+startCommand = "npm run start:yoco"
+healthcheckPath = "/health"
+healthcheckTimeout = 60
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 5
