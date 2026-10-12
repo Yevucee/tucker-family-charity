@@ -1,7 +1,6 @@
 import type { ReactElement, ReactNode } from "react";
 import { Link } from "react-router";
 import { ExternalLink } from "lucide-react";
-import auctionArtwork from "@/assets/shop/auction-dominic-tshabangu-behind-table-mountain.png";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
 import type { AuctionItem } from "@/data/shopProducts";
 import type { FeaturedThisMonth } from "@/data/shopCatalog";
@@ -107,7 +106,7 @@ export function buildFeaturedMonthSlides(
             <>
               <div className={SPLIT_IMAGE_CELL}>
                 <img
-                  src={auctionArtwork}
+                  src={featuredAuction.image}
                   alt={`${featuredAuction.title} — silent auction`}
                   className={`${SPLIT_IMG_COVER} object-contain bg-white`}
                 />
@@ -146,7 +145,7 @@ export function buildFeaturedMonthSlides(
             <div className={rowCompact}>
               <div className={imgColCompact}>
                 <img
-                  src={auctionArtwork}
+                  src={featuredAuction.image}
                   alt={`${featuredAuction.title} — silent auction`}
                   className="absolute inset-0 w-full h-full object-contain bg-white"
                 />
