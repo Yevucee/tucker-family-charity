@@ -14,6 +14,11 @@
  *    → copy /exec URL → GitHub secret VITE_WINE_ORDER_SUBMIT_URL.
  *
  * The charity website POSTs application/x-www-form-urlencoded with field `json`.
+ *
+ * Paid orders: the Railway Yoco webhook POSTs the same shape with submissionMode "yoco".
+ * Those skip the per-email rate limit, email staff with a "PAID" subject, and automatically
+ * email the customer a "Payment received" confirmation (independent of
+ * WINE_ORDER_SEND_CUSTOMER_COPY, which only applies to unpaid enquiries).
  */
 
 var WINE_ORDER_SPREADSHEET_ID = "1jVOruSkASiklk9Gktl3W8qy1tQwBLvm5AXgUs67tNBQ";
@@ -86,13 +91,22 @@ function doPost(e) {
       return jsonResponse({ ok: false, error: "Invalid email address" });
     }
 
-    if (!checkRateLimit_("wine-email-" + customerEmail)) {
+    var isPaid = isPaidMode_(submissionMode);
+
+    // Paid (Yoco webhook) orders are already verified payments — never rate-limit them, or a
+    // repeat customer's second order would be silently dropped.
+    if (!isPaid && !checkRateLimit_("wine-email-" + customerEmail)) {
       return jsonResponse({ ok: false, error: "Too many submissions — please try again later or email us directly." });
     }
 
     var order = buildTrustedOrder_(body.lines || [], deliveryMeta);
     if (!order.lines.length) {
       return jsonResponse({ ok: false, error: "Select at least one case" });
+    }
+
+    // Yoco retries webhooks on non-2xx/timeouts: don't log or email the same payment twice.
+    if (isPaid && seenPaymentBefore_(notes)) {
+      return jsonResponse({ ok: true, saved: true, duplicate: true });
     }
 
     appendSheetRow_(ts, submissionMode, customerName, customerEmail, customerPhone, deliveryMeta, deliveryAddress, order, notes);
@@ -105,6 +119,23 @@ function doPost(e) {
   } catch (err) {
     return jsonResponse({ ok: false, error: String(err) });
   }
+}
+
+function isPaidMode_(mode) {
+  return String(mode || "").toLowerCase() === "yoco";
+}
+
+/** Returns true if this Yoco payment id (from the "payment …" part of the PAID note) was already processed. */
+function seenPaymentBefore_(notes) {
+  var match = /payment\s+(\S+)/.exec(String(notes || ""));
+  if (!match) return false;
+  try {
+    var cache = CacheService.getScriptCache();
+    var key = "wine-paid-" + match[1];
+    if (cache.get(key)) return true;
+    cache.put(key, "1", 6 * 3600);
+  } catch (e) {}
+  return false;
 }
 
 function deliveryMetaForZone_(zone) {
@@ -222,7 +253,8 @@ function sendOrderEmails_(ts, mode, name, email, phone, deliveryMeta, deliveryAd
     return false;
   }
 
-  var subject = "New wine order enquiry — " + name;
+  var isPaid = isPaidMode_(mode);
+  var subject = isPaid ? "PAID wine order (Yoco) — " + name : "New wine order enquiry — " + name;
   var bodyText = formatOrderEmailBody_(ts, mode, name, email, phone, deliveryMeta, deliveryAddress, order, notes, false);
 
   var ccList = String(WINE_ORDER_CC_EMAILS || "")
@@ -253,13 +285,16 @@ function sendOrderEmails_(ts, mode, name, email, phone, deliveryMeta, deliveryAd
     Logger.log("sendOrderEmails_ staff mail failed: " + String(err));
   }
 
-  if (WINE_ORDER_SEND_CUSTOMER_COPY) {
+  if (isPaid || WINE_ORDER_SEND_CUSTOMER_COPY) {
     try {
       MailApp.sendEmail({
         to: email,
-        subject: "We received your Tucker Family Charity wine enquiry",
+        subject: isPaid
+          ? "Payment received — your Tucker Family Charity wine order"
+          : "We received your Tucker Family Charity wine enquiry",
         body: formatOrderEmailBody_(ts, mode, name, email, phone, deliveryMeta, deliveryAddress, order, notes, true),
         name: "Tucker Family Charity",
+        replyTo: recipient,
       });
     } catch (custErr) {
       Logger.log("sendOrderEmails_ customer copy failed: " + String(custErr));
@@ -271,18 +306,28 @@ function sendOrderEmails_(ts, mode, name, email, phone, deliveryMeta, deliveryAd
 
 function formatOrderEmailBody_(ts, mode, name, email, phone, deliveryMeta, deliveryAddress, order, notes, forCustomer) {
   var lines = [];
-  if (forCustomer) {
+  var isPaid = isPaidMode_(mode);
+  if (forCustomer && isPaid) {
+    lines.push("Hi " + name + ",", "");
+    lines.push(
+      "Thank you — your payment was received and your Tucker Family Charity wine order is confirmed. We will be in touch to arrange delivery.",
+      ""
+    );
+  } else if (forCustomer) {
     lines.push("Hi " + name + ",", "");
     lines.push(
       "Thank you — we received your wine order enquiry. We will contact you to confirm delivery and payment.",
       ""
     );
+  } else if (isPaid) {
+    lines.push("PAID wine order from the Tucker Family Charity website (card payment via Yoco).", "");
+    lines.push("Payment details are in the notes below (Yoco payment id).", "");
   } else {
     lines.push("New wine order enquiry from the Tucker Family Charity website.", "");
   }
 
   lines.push("Submitted: " + formatTimestampLocal_(ts));
-  lines.push("Submission mode: " + mode);
+  if (!forCustomer) lines.push("Submission mode: " + mode);
   lines.push("");
   lines.push("Customer");
   lines.push("  Name: " + name);
@@ -321,7 +366,8 @@ function formatOrderEmailBody_(ts, mode, name, email, phone, deliveryMeta, deliv
       (order.estimatedGrandTotalZar != null ? formatZar_(order.estimatedGrandTotalZar) : formatZar_(order.wineSubtotalZar + order.deliveryFeeZar))
   );
 
-  if (notes) {
+  if (notes && !(forCustomer && isPaid)) {
+    // Customer copy of a paid order omits the internal "PAID via Yoco … payment … checkout …" note.
     lines.push("");
     lines.push("Notes / gift message:");
     lines.push(notes);
