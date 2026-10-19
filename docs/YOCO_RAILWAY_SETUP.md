@@ -82,6 +82,21 @@ Test card: `4111 1111 1111 1111`, expiry `09/27`, CVV `123`.
 
 Test payments do not appear in Yoco Sales History — that's expected.
 
+### Return pages and customer email
+
+- The Yoco return URLs (`/shop/payment/success|cancelled|failed/`, `/donate/thank-you|cancelled|failed/`)
+  are **prerendered** at build time (`src/seo/checkoutLandingPages.ts`, `scripts/prerender-routes.mjs`).
+  GitHub Pages has no SPA fallback, so without a real file the customer would see an HTTP 404 after paying.
+  They are `noindex` and deliberately not in `sitemap.xml`; `npm run build` verifies this.
+  Smoke test: `GET https://www.tuckerfamilycharity.co.za/shop/payment/success/` must return HTTP 200.
+- Paid wine orders (`submissionMode: "yoco"`) skip the Apps Script rate limit, email staff with a
+  `PAID wine order (Yoco) — <name>` subject, and automatically email the customer
+  **"Payment received — your Tucker Family Charity wine order"**. After changing
+  `scripts/wine-order-submit.gs`, paste it into Apps Script → Deploy → Manage deployments → edit the
+  **existing** deployment → New version → Deploy, so the `/exec` URL stays the same.
+- The customer email only goes out if `WINE_ORDER_NOTIFY_URL` is set on Railway (same `/exec` URL as
+  `VITE_WINE_ORDER_SUBMIT_URL`).
+
 ## 5. Switch the website on (GitHub Pages)
 
 Only after steps 1–4 pass. Repo → Settings → Secrets and variables → Actions → **New repository secret**:
