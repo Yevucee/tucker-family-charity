@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Link } from "react-router";
 import { CheckCircle2, CircleSlash, AlertTriangle } from "lucide-react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
+import { clearRememberedCheckout, readRememberedCheckout } from "@/lib/yocoCheckoutReturn";
 
 type Outcome = "success" | "cancelled" | "failed";
 type Flow = "shop" | "donate";
@@ -13,7 +14,7 @@ const copy: Record<Flow, Record<Outcome, { title: string; body: string }>> = {
   shop: {
     success: {
       title: "Thank you for your order",
-      body: "Your payment was received by Yoco. We will be in touch by email to confirm your order and arrange delivery.",
+      body: "Your payment was received. We will email you to confirm your order and arrange delivery. If you do not see our email within a few minutes, please check your spam folder.",
     },
     cancelled: {
       title: "Payment cancelled",
@@ -45,7 +46,12 @@ const copy: Record<Flow, Record<Outcome, { title: string; body: string }>> = {
  * proof of payment, never this page.
  */
 export function PaymentResult({ flow, outcome }: { flow: Flow; outcome: Outcome }) {
-  const { title, body } = copy[flow][outcome];
+  const { title, body: baseBody } = copy[flow][outcome];
+  const remembered = useMemo(() => readRememberedCheckout(flow), [flow]);
+  const body =
+    flow === "shop" && outcome === "success" && remembered?.kind === "wine" && remembered.email
+      ? `Your payment was received. We have emailed a confirmation to ${remembered.email} — if you do not see it within a few minutes, please check your spam folder. We will be in touch to arrange delivery.`
+      : baseBody;
   const Icon = outcome === "success" ? CheckCircle2 : outcome === "cancelled" ? CircleSlash : AlertTriangle;
   const retryPath = flow === "donate" ? "/donate/" : "/shop/";
 
@@ -61,6 +67,11 @@ export function PaymentResult({ flow, outcome }: { flow: Flow; outcome: Outcome 
       robots.remove();
     };
   }, [title]);
+
+  // The remembered checkout has served its purpose once the customer has seen the result.
+  useEffect(() => {
+    clearRememberedCheckout();
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">

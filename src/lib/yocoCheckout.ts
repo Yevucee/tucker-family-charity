@@ -6,6 +6,7 @@
 
 import { YOCO_CHECKOUT_API_URL } from "@/config";
 import type { WineDeliveryZone } from "@/data/winePricing";
+import { rememberCheckout } from "@/lib/yocoCheckoutReturn";
 
 export type CheckoutRequest =
   | { type: "donation"; itemId: string }
@@ -48,8 +49,19 @@ export async function createCheckout(request: CheckoutRequest): Promise<string> 
   return data.redirectUrl;
 }
 
-/** Creates the checkout and sends the browser to Yoco. Resolves only on error. */
+/**
+ * Creates the checkout and sends the browser to Yoco. Resolves only on error.
+ * `location.replace` keeps the pre-payment page out of history, so Back from the
+ * return page does not resurrect a stale form.
+ */
 export async function startCheckout(request: CheckoutRequest): Promise<void> {
   const redirectUrl = await createCheckout(request);
-  window.location.assign(redirectUrl);
+  rememberCheckout(
+    request.type === "wine"
+      ? { flow: "shop", kind: "wine", email: request.customer.email }
+      : request.type === "product"
+        ? { flow: "shop", kind: "product" }
+        : { flow: "donate", kind: "donation" },
+  );
+  window.location.replace(redirectUrl);
 }

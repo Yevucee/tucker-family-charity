@@ -221,6 +221,29 @@ if (sitemap) {
   }
 }
 
+// --- Yoco return pages: must be real prerendered files (HTTP 200 on GitHub Pages), noindex, not in sitemap ---
+const checkoutReturnPaths = [
+  "/shop/payment/success",
+  "/shop/payment/cancelled",
+  "/shop/payment/failed",
+  "/donate/thank-you",
+  "/donate/cancelled",
+  "/donate/failed",
+];
+const sitemapPathnames = new Set(parseSitemapLocs(sitemap || "").map((loc) => new URL(loc).pathname));
+for (const route of checkoutReturnPaths) {
+  const relative = pathnameToDistRelative(`${route}/`);
+  const html = readDist(relative);
+  if (!html) continue;
+  const robotsMeta = extractTag(html, /<meta name="robots" content="([^"]*)"/);
+  if (!robotsMeta?.includes("noindex")) errors.push(`${relative}: Yoco return page must be noindex`);
+  if (!extractTag(html, /<title>([^<]*)<\/title>/)) errors.push(`${relative}: missing <title>`);
+  if (!rootHasStaticContent(html)) errors.push(`${relative}: #root lacks meaningful prerendered static content`);
+  if (sitemapPathnames.has(`${route}/`) || sitemapPathnames.has(route)) {
+    errors.push(`${relative}: Yoco return page must not be listed in sitemap.xml`);
+  }
+}
+
 if (warnings.length) {
   console.warn("SEO build warnings:");
   for (const warning of warnings) console.warn(`  - ${warning}`);
@@ -235,3 +258,4 @@ if (errors.length) {
 console.log("SEO build verification passed.");
 console.log(`  Site URL: ${siteUrl}`);
 console.log(`  Verified ${parseSitemapLocs(sitemap || "").length} prerendered routes`);
+console.log(`  Verified ${checkoutReturnPaths.length} noindex Yoco return pages`);

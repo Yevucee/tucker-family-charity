@@ -21,6 +21,8 @@ export type PageMeta = {
 
 export type PageDef = PageMeta & {
   staticHtml: string;
+  /** Prerendered but kept out of the sitemap and search results (e.g. Yoco return pages). */
+  noindex?: boolean;
 };
 
 export const PAGE_DEFINITIONS: PageDef[] = pagesManifest.routes.map((route) => ({
@@ -130,7 +132,7 @@ export function buildHeadBlock(page: PageDef): string {
   return [
     `<title>${escapeHtml(page.title)}</title>`,
     `<meta name="description" content="${escapeHtml(page.description)}" />`,
-    `<meta name="robots" content="${ROBOTS_META}" />`,
+    `<meta name="robots" content="${page.noindex ? "noindex, nofollow" : ROBOTS_META}" />`,
     `<meta name="theme-color" content="${THEME_COLOR}" />`,
     `<link rel="canonical" href="${url}" />`,
     `<meta property="og:title" content="${escapeHtml(page.title)}" />`,
