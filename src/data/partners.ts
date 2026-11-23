@@ -51,7 +51,7 @@ export const partners: Partner[] = [
     id: "dale-sargent-fine-arts",
     name: "Dale Sargent Fine Arts",
     logo: null,
-    description: "Fine art and silent auction partner supporting Tucker Family Charity fundraising.",
+    description: "Fine art partner supporting Tucker Family Charity initiatives.",
     websiteUrl: "https://dalesargentart.com/",
   },
   {

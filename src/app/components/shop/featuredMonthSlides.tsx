@@ -1,7 +1,6 @@
 import type { ReactElement, ReactNode } from "react";
 import { Link } from "react-router";
 import { ExternalLink } from "lucide-react";
-import auctionArtwork from "@/assets/shop/auction-dominic-tshabangu-behind-table-mountain.png";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
 import type { AuctionItem } from "@/data/shopProducts";
 import type { FeaturedThisMonth } from "@/data/shopCatalog";
@@ -107,7 +106,7 @@ export function buildFeaturedMonthSlides(
             <>
               <div className={SPLIT_IMAGE_CELL}>
                 <img
-                  src={auctionArtwork}
+                  src={featuredAuction.image}
                   alt={`${featuredAuction.title} — silent auction`}
                   className={`${SPLIT_IMG_COVER} object-contain bg-white`}
                 />
@@ -117,14 +116,14 @@ export function buildFeaturedMonthSlides(
                   Special · Silent auction
                 </p>
                 <p className="text-base md:text-lg font-bold text-neutral-900 max-w-lg">
-                  Dale Sargent Art Gallery
+                  {featuredAuction.donor}
                 </p>
                 <p className="text-sm text-neutral-600 max-w-lg">
                   <strong>{featuredAuction.title}</strong>
                   {featuredAuction.reserve ? ` · ${featuredAuction.reserve}` : ""}
                 </p>
                 <p className="text-sm text-neutral-700 leading-relaxed max-w-lg">
-                  In partnership with {featuredAuction.donor}. {featuredAuction.description}
+                  {featuredAuction.description}
                 </p>
                 <a
                   href={featuredAuction.bidLink}
@@ -146,7 +145,7 @@ export function buildFeaturedMonthSlides(
             <div className={rowCompact}>
               <div className={imgColCompact}>
                 <img
-                  src={auctionArtwork}
+                  src={featuredAuction.image}
                   alt={`${featuredAuction.title} — silent auction`}
                   className="absolute inset-0 w-full h-full object-contain bg-white"
                 />
@@ -174,7 +173,7 @@ export function buildFeaturedMonthSlides(
                       : "text-lg font-bold text-neutral-900 mb-1"
                   }
                 >
-                  Dale Sargent Art Gallery
+                  {featuredAuction.donor}
                 </p>
                 <p
                   className={
@@ -193,7 +192,7 @@ export function buildFeaturedMonthSlides(
                       : "text-sm text-neutral-700 mb-5 line-clamp-3 leading-relaxed"
                   }
                 >
-                  In partnership with {featuredAuction.donor}. {featuredAuction.description}
+                  {featuredAuction.description}
                 </p>
                 <a
                   href={featuredAuction.bidLink}
