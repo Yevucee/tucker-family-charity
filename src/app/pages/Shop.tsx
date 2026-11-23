@@ -110,7 +110,7 @@ export function Shop() {
         </div>
       </section>
 
-      {/* A. Featured This Month — specials (auction + catalog spotlight) */}
+      {/* A. Featured This Month — catalog spotlight (+ silent auction when live) */}
       <section
         id="featured-this-month"
         className="relative py-8 md:py-12 bg-gradient-to-b from-amber-50 via-white to-white overflow-hidden scroll-mt-20 border-t border-amber-100/80"

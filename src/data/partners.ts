@@ -48,13 +48,6 @@ export const partners: Partner[] = [
     websiteUrl: "https://www.boucherlegacy.co.za/",
   },
   {
-    id: "dale-sargent-fine-arts",
-    name: "Dale Sargent Fine Arts",
-    logo: null,
-    description: "Fine art and silent auction partner supporting Tucker Family Charity fundraising.",
-    websiteUrl: "https://dalesargentart.com/",
-  },
-  {
     id: "elgin-wines",
     name: "Elgin Wines",
     logo: null,
